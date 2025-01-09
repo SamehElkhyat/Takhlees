@@ -5,8 +5,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './Component/Layout/Layout';
 import LandingPage from './Component/LandingPage/LandingPage';
