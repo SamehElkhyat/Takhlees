@@ -43,7 +43,7 @@ const SignIn = () => {
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               placeholder="رقم الهاتف"
-              type="number"
+              type="phone"
               id="phoneNumber"
               name="phoneNumber"
               required
