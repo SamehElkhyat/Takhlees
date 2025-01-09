@@ -1,0 +1,44 @@
+.landing-header{
+    background-color: #E9FAFE;
+    display: flex;
+    justify-content: end;
+}
+.landing-page-ul{
+    text-decoration: none;
+    list-style: none;
+    color: #13B19B;
+}
+.landing-page-ul button{
+    text-decoration: none;
+    list-style: none;
+    background-color: #006666;
+}
+
+.landing-page-left-section{
+    width: 50%;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    margin-top: 70px;
+}
+
+.landing-page-right-section{
+    display: flex;
+    justify-content:end;
+    width: 50%;
+    height: 100%;
+}
+
+.landing-page-right-section img{
+    width: 100%;
+    image-resolution: from-image 300dpi;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.landing-header{
+    width: 100%;
+    height: 100vh;
+}
