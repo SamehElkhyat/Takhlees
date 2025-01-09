@@ -9,32 +9,29 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './Component/Layout/Layout';
 import LandingPage from './Component/LandingPage/LandingPage';
 import SignIn from './Component/SignIn/SignIn';
-import SignUp from './Component/SignUp/SignUp';
+import SignUpForCompany from './Component/SignUpForCompany/SignUpForCompany';
 import SignInForCompany from './Component/SignInForCompany/SignInForCompany';
 import IntorSignUp from './Component/IntorSignUp/IntorSignUp';
 import IntorSignIn from './Component/IntorSignIn/IntorSignIn';
-
-
+import SignUp from './Component/SignUpForCompany/SignUpForCompany';
 
 const router = createBrowserRouter([
 
   {path:'',element:<Layout/>,children:[
     {path:'',element:<LandingPage/>},
-    {path:'SignIn',element:<SignIn/>},
     {path:'IntorSignUp',element:<IntorSignUp/>},
     {path:'IntorSignIn',element:<IntorSignIn/>},
     {path:'SignIn',element:<SignIn/>},
     {path:'SignUp',element:<SignUp/>},
+    {path:'SignUpForCompany',element:<SignUpForCompany/>},
     {path:'SignInForCompany',element:<SignInForCompany/>},
 
 ]}
 ]);
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-
 
   <RouterProvider router={router} />
 

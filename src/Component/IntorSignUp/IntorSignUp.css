@@ -66,9 +66,17 @@
   width: 100%;
   margin-right: 50px;
   z-index: 55555555;
+  transition: all 0.2s ease-in-out;
 }
+
+.Comapnies:hover{
+  transform: translateY(-21px);
+
+}
+
 .Personal {
-border-radius: 50px;
+  transition: all 0.2s ease-in-out;
+  border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,3 +85,7 @@ border-radius: 50px;
   color: black;
   height: 100%;
 }
+.Personal:hover {
+  transform: translateY(-21px);
+
+  }

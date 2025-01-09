@@ -1,6 +1,7 @@
 import React from 'react';
 import './IntorSignUp.css';
 import SignInBackground from '../SignIn/ships.png'
+import { Link } from 'react-router-dom';
 
 const IntorSignUp = () => {
 
@@ -12,18 +13,22 @@ const IntorSignUp = () => {
 
     <div className="Intro-sign-in-container">
 
-    <h2 >تسجيل الدخول </h2>
-      
-      <div className="Tow-card">
-
-      <div className="Comapnies">
-        <h4>شركات</h4>
-      </div>
-      <div className="Personal">
-        <h4>شركات</h4>
+    <h2 > انشاء حساب</h2>
+    <div className="Tow-card">
+      <Link className="Comapnies" to='/SignUpForCompany'>
+      <div className="">
+             <h4>أعمال</h4>
 
       </div>
-      
+      </Link>
+      <Link className="Personal" to='/SignUp'>
+
+      <div className="">
+        <h4>أفراد</h4>
+
+      </div>
+      </Link>
+
       </div>
 
     </div>
