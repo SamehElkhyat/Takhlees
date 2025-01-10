@@ -1,97 +1,169 @@
 import React from "react";
 import "./SignUpForCompany.css";
 import SignUpBackground from "../SignIn/ships.png"; // You might want to use a different image or path
+import axios from "axios";
+import { useFormik } from "formik";
+import toast, { Toaster } from "react-hot-toast";
 
-const SignUp = () => {
+const SignUpForCompany = () => {
+  const handelSignUpForCompany = async (values) => {
+    try {
+      console.log(values);
+
+      const data = await axios.post(
+        `https://takhleesak.runasp.net/api/Register-company`,
+        values
+      );
+
+      if (data.data.message === 'تم تسجيل الدخول بنجاح') {
+        toast('sucsses');
+        window.location.href='/WaitingForData'
+      }else{
+        toast(data.data.message)
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      Email: "",
+      Password: "",
+      fullName: "",
+      Confirm: "",
+      Identity: "",
+      phoneNumber: "",
+      InsuranceNumber: "",
+      taxRecord: "",
+    },
+    onSubmit: handelSignUpForCompany,
+  });
+
   return (
     <>
-      <div className="signup-background-img-frame"></div>
-      <img className="signup-Background" src={SignUpBackground} alt="" />
-      <div className="dad-signup-Frame w-100 h-100">
-        <div className="signup-Frame"></div>
+      <div className="SignUpCompany-background-img-frame"></div>
+      <img className="SignUpCompany-Background" src={SignUpBackground} alt="" />
+      <div className="dad-SignUpCompany-Frame w-100 h-100">
+        <div className="SignUpCompany-Frame"></div>
       </div>
 
-      <div className="sign-Up-container">
+      <div className="sign-Up-ForCompany-container">
         <h2>انشاء حساب للأعمال</h2>
-        <form>
-          <div className="SignUp-form-group col-md-6">
-            <label htmlFor="name">الاسم:</label>
-            <input
-              placeholder="الاسم كامل"
-              type="name"
-              id="name"
-              name="name"
-              required
-            />
+        <form id="form" onSubmit={formik.handleSubmit} noValidate>
+          <div className="Big-Form">
+          <div className="SignUpCompany-form-group1 col-md-6">
+              <hr />
+              <input
+                
+                onChange={formik.handleChange}
+                value={formik.values.fullName}
+                placeholder="الاسم كامل"
+                type="name"
+                id="fullName"
+                name="fullName"
+                required
+              />
+              <hr />
 
-            <label htmlFor="email">البريد الالكتروني:</label>
-            <input
-              placeholder="البريد الالكتروني"
-              type="ُemail"
-              id="ُemail"
-              name="ُemail"
-              required
-            />
+              <input
+                onChange={formik.handleChange}
+                value={formik.values.Email}
+                placeholder="البريد الالكتروني"
+                type="ُemail"
+                id="Email"
+                name="Email"
+                required
+              />
+              <hr />
 
-            <label htmlFor="phone">رقم الهاتف:</label>
-            <input
-              placeholder="رقم الهاتف"
-              type="phone"
-              id="phone"
-              name="phone"
-              required
-            />
+              <input
+                onChange={formik.handleChange}
+                value={formik.values.Password}
+                placeholder=" كلمه السر"
+                type="password"
+                id="Password"
+                name="Password"
+                required
+              />
+
+               <hr />
+
+              <input
+                onChange={formik.handleChange}
+                value={formik.values.InsuranceNumber}
+                placeholder="رقم الضريبي"
+                type="text"
+                id="InsuranceNumber"
+                name="InsuranceNumber"
+                required
+              />
+            </div>
+
+            <div className="SignUpCompany-form-group2 col-md-6">
+            <hr />
+
+              <input
+                onChange={formik.handleChange}
+                value={formik.values.phoneNumber}
+                placeholder="رقم الهاتف"
+                type="phone"
+                id="phoneNumber"
+                name="phoneNumber"
+                required
+              />
+                            <hr />
+
+              <input
+                value={formik.values.Confirm}
+                onChange={formik.handleChange}
+                placeholder="تاكيد كلمه السر:"
+                type="password"
+                id="Confirm"
+                name="Confirm"
+                required
+              />
+                            <hr />
+
+
+              <input
+                value={formik.values.Identity}
+                onChange={formik.handleChange}
+                placeholder="رقم الهويه"
+                type="text"
+                id="Identity"
+                name="Identity"
+                required
+              />
+                            <hr />
+
+
+              <input
+                value={formik.values.taxRecord}
+                onChange={formik.handleChange}
+                placeholder="السجل التجاري"
+                type="text"
+                id="taxRecord"
+                name="taxRecord"
+                required
+              />
+            </div>
           </div>
+       
+<div className="signupForCompany-button-group">
+<button className="register-button-ForComponent" type="submit">
+انشاء حساب
 
-          <div className="SignUp-form-group col-md-6">
-            <label htmlFor="password">كلمه السر:</label>
-            <input
-              placeholder=" كلمه السر"
-              type="password"
-              id="password"
-              name="password"
-              required
-            />
-
-            <label htmlFor="email"> تاكيد كلمه السر:</label>
-            <input
-              placeholder="تاكيد كلمه السر:"
-              type="password"
-              id="password"
-              name="password"
-              required
-            />
-
-            <label htmlFor="number">الرقم الضريبي:</label>
-            <input
-              placeholder="رقم الضريبي"
-              type="number"
-              id="number"
-              name="number"
-              required
-            />
-
-<label htmlFor="number">السجل التجاري:</label>
-            <input
-              placeholder="السجل التجاري"
-              type="number"
-              id="number"
-              name="number"
-              required
-            />
-            
-          </div>
+</button>
+  
+  </div>      
         </form>
-      
-
-        <div className="signup-button-group">
-          <button className="register-button" type="submit">
-            انشاء الحساب
-          </button>
-        </div>
       </div>
+
+      <Toaster />
     </>
   );
 };
 
-export default SignUp;
+export default SignUpForCompany;

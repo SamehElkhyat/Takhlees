@@ -13,7 +13,8 @@ import SignUpForCompany from './Component/SignUpForCompany/SignUpForCompany';
 import SignInForCompany from './Component/SignInForCompany/SignInForCompany';
 import IntorSignUp from './Component/IntorSignUp/IntorSignUp';
 import IntorSignIn from './Component/IntorSignIn/IntorSignIn';
-import SignUp from './Component/SignUpForCompany/SignUpForCompany';
+import SignUp from './Component/SignUp/SignUp';
+import WaitingForData from './Component/WaitingForData/WaitingForData';
 
 const router = createBrowserRouter([
 
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
     {path:'',element:<LandingPage/>},
     {path:'IntorSignUp',element:<IntorSignUp/>},
     {path:'IntorSignIn',element:<IntorSignIn/>},
+    {path:'WaitingForData',element:<WaitingForData/>},
     {path:'SignIn',element:<SignIn/>},
     {path:'SignUp',element:<SignUp/>},
     {path:'SignUpForCompany',element:<SignUpForCompany/>},

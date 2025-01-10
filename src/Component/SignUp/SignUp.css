@@ -35,7 +35,7 @@
   border-radius: 50px;
 }
 
-.sign-Up-container {
+.sign-Up-container   {
   position: absolute;
   width: 100%;
   height: 100vh;
@@ -45,7 +45,12 @@
   align-items: center;
   z-index: 411313132;
 }
+.Big-Form-SignUp{
 
+display: flex;
+flex-direction: row;
+
+}
 .sign-Up-container h2{
     color: #020346 !important;
     font-weight: 900 !important;
@@ -54,7 +59,7 @@
 
 .sign-Up-container form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -81,13 +86,6 @@
   margin-bottom: 1.5rem;
 }
 
-.SignUp-form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: rgb(255, 255, 255);
-}
-
-
 .SignUp-form-group input {
   width: 100%;
   color: rgb(255, 255, 255);
@@ -104,27 +102,39 @@
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 /*Buttons*^*^*^*^**^*******Buttons**************/
-.register-button:hover {
+.signup-button-group{
+display: flex !important;
+justify-content: center !important;
+width: 100% !important;
+align-items: center !important;
+
+  
+}
+
+.register-button-SignUp:hover {
   color: rgb(0, 0, 0);
   background-color: #ffffff;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
 }
 
-.register-button:active {
+.register-button-SignUp:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
 
-.register-button:disabled {
+.register-button-SignUp:disabled {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-.register-button {
-  width: 100%;
-  padding: 1rem;
+.register-button-SignUp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 70%;
   color: white;
   border: none;
   border-radius: 6px;

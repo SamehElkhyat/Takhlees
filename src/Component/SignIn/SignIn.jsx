@@ -3,26 +3,40 @@ import "./SignIn.css";
 import SignInBackground from "../SignIn/ships.png";
 import axios from "axios";
 import { useFormik } from "formik";
+import toast, { Toaster } from "react-hot-toast";
+import { Link} from "react-router-dom";
 
 const SignIn = () => {
   async function handelesignin(values) {
     try {
-      console.log(values);
+      const data = await axios.post("https://takhleesak.runasp.net/api/Login", {
+        phoneNumber: values.phoneNumber,
+        Password: values.Password,
+      });
+      console.log((data.data.message));
+      
 
-      const users = await axios.post(
-        `https://takhleesak.runasp.net/api/Login`,
-        values
-      );
-      console.log(users);
+      if (data.data.message === 'تم تسجيل الدخول بنجاح') {
+        toast('sucsses');
+        window.location.href='/WaitingForData'
+      }else{
+        toast(data.data.message)
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response) {
+        console.error("Response error:", error.response.data); // رسالة الخطأ من الخادم
+      } else if (error.request) {
+        console.error("Request error:", error.request); // مشكلة في الطلب
+      } else {
+        console.error("Axios error:", error.message); // خطأ عام
+      }
     }
   }
 
   let formik = useFormik({
     initialValues: {
       phoneNumber: "",
-      Password:"",
+      Password: "",
     },
     onSubmit: handelesignin,
   });
@@ -38,19 +52,19 @@ const SignIn = () => {
         <h2>تسجيل الدخول للأفراد</h2>
         <form onSubmit={formik.handleSubmit} noValidate>
           <div className="form-group">
-            <label htmlFor="phoneNumber">رقم الهاتف:</label>
+            <hr />
             <input
               value={formik.values.phoneNumber}
               onChange={formik.handleChange}
               placeholder="رقم الهاتف"
-              type="phone"
+              type="text"
               id="phoneNumber"
               name="phoneNumber"
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="Password">Password:</label>
+            <hr />
             <input
               value={formik.values.Password}
               onChange={formik.handleChange}
@@ -64,14 +78,21 @@ const SignIn = () => {
 
           <div className="button-group">
             <button className="signin-button" type="submit">
-              تسجيل الدخول
+           
+                تسجيل الدخول
             </button>
-            <button className="register-button" type="submit">
-              انشاء حساب
+            <button className="register-button">
+              <Link
+                className="text-white text-decoration-none"
+                to="/SignUp"
+              >
+                انشاء حساب
+              </Link>
             </button>
           </div>
         </form>
       </div>
+      <Toaster />
     </>
   );
 };
