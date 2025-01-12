@@ -30,8 +30,6 @@ const ClientsSection = () => {
           <div className="over-inside-card"></div>
         </section>
       </main>
-
-      <img className="Rating-Clients" src={RatingClient} alt="" />
     </>
   );
 };

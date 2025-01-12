@@ -121,9 +121,8 @@ const SignUp = () => {
 
           <div className="signup-button-group">
             <button className="register-button-SignUp" type="submit">
-            <Link className="text-white text-decoration-none" to='/WaitingForData'>              انشاء حساب
+                          انشاء حساب
 
-</Link>
             </button>
           </div>
         </form>

@@ -6,7 +6,7 @@ const MainSection = () => {
   return (
     <main className="main-section">
       <section className="main-section-right">
-        <h1>حول شركه تخليص</h1>
+        <h1>حول منصه تخليصك</h1>
         <p>
           تخليص منصة مبتكرة تسهل عمليات التخليص الجمركي يربط التطبيق العملاء
           بمخلصين ووكلاء خدمات معتمدين تحت سقف واحد. باستخدام تقنيات الذكاء

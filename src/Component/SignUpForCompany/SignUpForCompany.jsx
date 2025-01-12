@@ -59,7 +59,7 @@ const SignUpForCompany = () => {
                 
                 onChange={formik.handleChange}
                 value={formik.values.fullName}
-                placeholder="الاسم كامل"
+                placeholder="اسم الشركه"
                 type="name"
                 id="fullName"
                 name="fullName"

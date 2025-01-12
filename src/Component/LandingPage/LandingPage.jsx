@@ -13,7 +13,7 @@ const LandingPage = () => {
 
 <section className="landing-page-left-section">
  <ul className="landing-page-ul">
- <h1>شركه التخليص للخدمات اللوجوستيه</h1>
+ <h1>منصه تخليصك للخدمات اللوجوستيه</h1>
 
    <li>
      <i class="fa-solid fa-check"></i> حل شامل للاستيراد والتصدير
