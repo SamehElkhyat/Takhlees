@@ -10,7 +10,7 @@ const SignInForCompany = () => {
   async function handelesignin(values) {
     try {
       const data = await axios.post("https://takhleesak.runasp.net/api/Login", {
-        phoneNumber: values.phoneNumber,
+        Email: values.Email,
         Password: values.Password,
       });
 
@@ -33,7 +33,7 @@ const SignInForCompany = () => {
 
   let formik = useFormik({
     initialValues: {
-      phoneNumber: "",
+      Email: "",
       Password: "",
     },
     onSubmit: handelesignin,
@@ -50,19 +50,19 @@ const SignInForCompany = () => {
       <div className="sign-in-container">
         <h2> تسجيل الدخول للأعمال</h2>
         <form onSubmit={formik.handleSubmit} noValidate>
-          <div className="form-group">
+          <div className="form-group-company">
             <hr />
             <input
               onChange={formik.handleChange}
-              value={formik.values.phoneNumber}
-              placeholder="رقم الهاتف"
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
+              value={formik.values.Email}
+              placeholder=" البريد الالكتروني"
+              type="email"
+              id="Email"
+              name="Email"
               required
             />
           </div>
-          <div className="form-group">
+          <div className="form-group-company">
             <hr />
             <input
               onChange={formik.handleChange}
@@ -79,14 +79,13 @@ const SignInForCompany = () => {
             <button className="signin-button" type="submit">
               تسجيل الدخول
             </button>
-            <button className="register-button">
+            <p >
               <Link
-                className="text-white text-decoration-none"
+              className="to-SignUp"
                 to="/SignUpForCompany"
               >
-                انشاء حساب
-              </Link>
-            </button>
+              انشاء حساب جديد 
+              </Link></p>
           </div>
         </form>
       </div>

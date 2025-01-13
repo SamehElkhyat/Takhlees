@@ -4,6 +4,7 @@
     justify-content: end;
 }
 .landing-page-ul{
+    margin-left: 30px;
     text-decoration: none;
     list-style: none;
     color: #13B19B;

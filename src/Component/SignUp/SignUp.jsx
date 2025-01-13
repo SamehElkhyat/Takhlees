@@ -13,11 +13,11 @@ const SignUp = () => {
         `https://takhleesak.runasp.net/api/Register-user`,
         values
       );
-      if (data.data.message === 'تم تسجيل الدخول بنجاح') {
-        toast('sucsses');
-        window.location.href='/WaitingForData'
-      }else{
-        toast(data.data.message)
+      if (data.data.message === "تم تسجيل الدخول بنجاح") {
+        toast("sucsses");
+        window.location.href = "/WaitingForData";
+      } else {
+        toast(data.data.message);
       }
     } catch (error) {
       alert(error);
@@ -121,14 +121,19 @@ const SignUp = () => {
 
           <div className="signup-button-group">
             <button className="register-button-SignUp" type="submit">
-                          انشاء حساب
-
+              انشاء حساب
             </button>
+
+            <p>
+              <Link className="to-SignUp" to="/SignIn">
+                هل لديك حساب بالفعل
+              </Link>
+            </p>
           </div>
         </form>
       </div>
 
-      <Toaster/>
+      <Toaster />
     </>
   );
 };

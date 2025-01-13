@@ -68,11 +68,28 @@
   max-width: 400px;
 }
 
+
 .button-group {
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 3px;
+}
+
+.to-SignUp{
+  color: #030000 !important;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  transition: all 300ms ease-in-out;
+  
+}
+ .to-SignUp:hover{
+  color: #109fff !important;
+ 
 }
 
 .button-group .signin-button {
@@ -112,26 +129,33 @@
   font-size: 6.8rem;
 }
 
-.form-group {
+.form-group-company {
   margin-bottom: 1.5rem;
 }
 
-.form-group label {
+.form-group-company label {
   display: block;
   margin-bottom: 0.5rem;
   color: black;
 }
 
-.form-group input {
+.form-group-company input {
+  direction: rtl;
   width: 100%;
   padding: 0.8rem;
   border-radius: 4px;
   border: none;
   font-size: 1rem;
-  background-color: #000000 !important;
+  background-color: #ffffffb1 !important;
+}
+::placeholder{
+position: absolute;
+right: 10;
+  color: black;
+
 }
 
-.form-group input:focus {
+.form-group-company input:focus {
   outline: none;
   border-color: #4a90e2;
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
@@ -142,13 +166,6 @@
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
 }
-.register-button:hover {
-  color: rgb(0, 0, 0);
-  background-color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
-}
-
 .signin-button:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
@@ -167,7 +184,8 @@
 }
 
 .signin-button {
-  width: 100%;
+  width: 30% !important;
+  height: 50px;
   padding: 1rem;
   color: white;
   border: none;

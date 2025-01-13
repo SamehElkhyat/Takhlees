@@ -10,7 +10,7 @@ const SignIn = () => {
   async function handelesignin(values) {
     try {
       const data = await axios.post("https://takhleesak.runasp.net/api/Login", {
-        phoneNumber: values.phoneNumber,
+        Email: values.Email,
         Password: values.Password,
       });
       console.log((data.data.message));
@@ -35,7 +35,7 @@ const SignIn = () => {
 
   let formik = useFormik({
     initialValues: {
-      phoneNumber: "",
+      Email: "",
       Password: "",
     },
     onSubmit: handelesignin,
@@ -51,19 +51,19 @@ const SignIn = () => {
       <div className="sign-in-container">
         <h2>تسجيل الدخول للأفراد</h2>
         <form onSubmit={formik.handleSubmit} noValidate>
-          <div className="form-group">
+          <div className="form-group-company">
             <hr />
             <input
-              value={formik.values.phoneNumber}
+              value={formik.values.Email}
               onChange={formik.handleChange}
-              placeholder="رقم الهاتف"
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
+              placeholder="البريد الالكتروني"
+              type="email"
+              id="Email"
+              name="Email"
               required
             />
           </div>
-          <div className="form-group">
+          <div className="form-group-company">
             <hr />
             <input
               value={formik.values.Password}
@@ -81,14 +81,13 @@ const SignIn = () => {
            
                 تسجيل الدخول
             </button>
-            <button className="register-button">
+            <p >
               <Link
-                className="text-white text-decoration-none"
-                to="/SignUp"
+              className="to-SignUp"
+                to="/SignUpForCompany"
               >
-                انشاء حساب
-              </Link>
-            </button>
+              انشاء حساب جديد 
+              </Link></p>
           </div>
         </form>
       </div>

@@ -4,6 +4,7 @@ import SignUpBackground from "../SignIn/ships.png"; // You might want to use a d
 import axios from "axios";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const SignUpForCompany = () => {
   const handelSignUpForCompany = async (values) => {
@@ -15,13 +16,12 @@ const SignUpForCompany = () => {
         values
       );
 
-      if (data.data.message === 'تم تسجيل الدخول بنجاح') {
-        toast('sucsses');
-        window.location.href='/WaitingForData'
-      }else{
-        toast(data.data.message)
+      if (data.data.message === "تم تسجيل الدخول بنجاح") {
+        toast("sucsses");
+        window.location.href = "/WaitingForData";
+      } else {
+        toast(data.data.message);
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -53,10 +53,10 @@ const SignUpForCompany = () => {
         <h2>انشاء حساب للأعمال</h2>
         <form id="form" onSubmit={formik.handleSubmit} noValidate>
           <div className="Big-Form">
-          <div className="SignUpCompany-form-group1 col-md-6">
+            <div className="SignUpCompany-form-group1 col-md-6">
               <hr />
               <input
-                
+                className="col-md-12"
                 onChange={formik.handleChange}
                 value={formik.values.fullName}
                 placeholder="اسم الشركه"
@@ -77,18 +77,16 @@ const SignUpForCompany = () => {
                 required
               />
               <hr />
-
               <input
+                value={formik.values.taxRecord}
                 onChange={formik.handleChange}
-                value={formik.values.Password}
-                placeholder=" كلمه السر"
-                type="password"
-                id="Password"
-                name="Password"
+                placeholder="السجل التجاري"
+                type="text"
+                id="taxRecord"
+                name="taxRecord"
                 required
               />
-
-               <hr />
+              <hr />
 
               <input
                 onChange={formik.handleChange}
@@ -102,7 +100,7 @@ const SignUpForCompany = () => {
             </div>
 
             <div className="SignUpCompany-form-group2 col-md-6">
-            <hr />
+              <hr />
 
               <input
                 onChange={formik.handleChange}
@@ -113,7 +111,18 @@ const SignUpForCompany = () => {
                 name="phoneNumber"
                 required
               />
-                            <hr />
+              <hr />
+
+              <input
+                onChange={formik.handleChange}
+                value={formik.values.Password}
+                placeholder=" كلمه السر"
+                type="password"
+                id="Password"
+                name="Password"
+                required
+              />
+              <hr />
 
               <input
                 value={formik.values.Confirm}
@@ -124,8 +133,7 @@ const SignUpForCompany = () => {
                 name="Confirm"
                 required
               />
-                            <hr />
-
+              <hr />
 
               <input
                 value={formik.values.Identity}
@@ -136,28 +144,22 @@ const SignUpForCompany = () => {
                 name="Identity"
                 required
               />
-                            <hr />
-
-
-              <input
-                value={formik.values.taxRecord}
-                onChange={formik.handleChange}
-                placeholder="السجل التجاري"
-                type="text"
-                id="taxRecord"
-                name="taxRecord"
-                required
-              />
             </div>
-          </div>
-       
-<div className="signupForCompany-button-group">
-<button className="register-button-ForComponent" type="submit">
-انشاء حساب
 
-</button>
-  
-  </div>      
+          
+          </div>
+
+          <div className="signupForCompany-button-group">
+            <button className="register-button-ForComponent" type="submit">
+              انشاء حساب
+            </button>
+
+            <p>
+              <Link className="to-SignUp" to="/SignIn">
+                هل لديك حساب بالفعل
+              </Link>
+            </p>
+          </div>
         </form>
       </div>
 
