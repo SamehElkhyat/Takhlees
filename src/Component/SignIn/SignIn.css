@@ -59,7 +59,17 @@
   justify-content: center;
   align-items: center;
 }
+.to-ResetPassword{
+  text-decoration: underline !important;
+  color: #000000;
+font-size: 20px !important; 
+transition: all 0.2s ease-in-out;
+}
 
+.to-ResetPassword:hover{
+  color: #007bff;
+  text-decoration: underline;
+  }
 .signin-form {
   padding: 2rem;
   border-radius: 8px;
@@ -122,6 +132,10 @@
   color: black;
 }
 
+
+.to-ResetPassword{
+  text-decoration: none;
+}               
 .form-group input {
   color: rgb(0, 0, 0);
   width: 100%;

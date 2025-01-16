@@ -22,11 +22,11 @@ const SignInForCompany = () => {
       }
     } catch (error) {
       if (error.response) {
-        console.error("Response error:", error.response.data); // رسالة الخطأ من الخادم
+        console.error("Response error:", error.response.data); 
       } else if (error.request) {
-        console.error("Request error:", error.request); // مشكلة في الطلب
+        console.error("Request error:", error.request); 
       } else {
-        console.error("Axios error:", error.message); // خطأ عام
+        console.error("Axios error:", error.message); 
       }
     }
   }
@@ -74,6 +74,11 @@ const SignInForCompany = () => {
               required
             />
           </div>
+          <p>
+              <Link className="to-ResetPassword" to="/ResetPassword">
+                هل نسيت كلمة السر؟
+              </Link>
+            </p>
 
           <div className="button-group">
             <button className="signin-button" type="submit">

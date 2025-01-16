@@ -15,6 +15,9 @@ import IntorSignUp from './Component/IntorSignUp/IntorSignUp';
 import IntorSignIn from './Component/IntorSignIn/IntorSignIn';
 import SignUp from './Component/SignUp/SignUp';
 import WaitingForData from './Component/WaitingForData/WaitingForData';
+import ResetPassword from './Component/ResetPassword/ResetPassword';
+import ConfirmPassword from './Component/ResetPassword/ConfirmPassowrd/ConfirmPassword';
+import ResetThePassword from './Component/ResetPassword/ResetThePassword/ResetThePassword';
 
 const router = createBrowserRouter([
 
@@ -27,6 +30,9 @@ const router = createBrowserRouter([
     {path:'SignUp',element:<SignUp/>},
     {path:'SignUpForCompany',element:<SignUpForCompany/>},
     {path:'SignInForCompany',element:<SignInForCompany/>},
+    {path:'ResetPassword',element:<ResetPassword/>},
+    {path:'ConfirmPassword',element:<ConfirmPassword/>},
+    {path:'ResetThePassword',element:<ResetThePassword/>},
 
 ]}
 ]);

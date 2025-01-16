@@ -2,11 +2,31 @@ import React from "react";
 import "./SignUp.css";
 import SignUpBackground from "../SignIn/ships.png"; // You might want to use a different image or path
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  const validationSchema = Yup.object({
+    Email: Yup.string()
+      .email("بريد إلكتروني غير صالح")
+      .required("البريد الإلكتروني مطلوب"),
+    Password: Yup.string()
+      .required("تأكيد كلمة المرور مطلوب")
+      .min(8, "و تحتوي علي حروف و ارقام و حروف كبيره و صغيره")
+      .oneOf([Yup.ref("Confirm")], "كلمات المرور غير متطابقة"),
+    fullName: Yup.string()
+      .required(" الاسم الكامل مطلوب"),
+    Confirm: Yup.string()
+      .required("تأكيد كلمة المرور مطلوب")
+      .oneOf([Yup.ref("Password")], "كلمات المرور غير متطابقة"),
+    Identity: Yup.string()
+      .required("رقم الهويه مطلوب"),
+    phoneNumber: Yup.string()
+      .required("رقم الهاتف مطلوب"),
+  });
+
   const handelSignUp = async (values) => {
     try {
       const data = await axios.post(
@@ -33,6 +53,7 @@ const SignUp = () => {
       Identity: "",
       phoneNumber: "",
     },
+    validationSchema,
     onSubmit: handelSignUp,
   });
 
@@ -59,6 +80,9 @@ const SignUp = () => {
                 name="fullName"
                 required
               />
+                 {formik.touched.fullName && formik.errors.fullName && (
+              <div className="error-message">{formik.errors.fullName}</div>
+            )}
 
               <hr />
               <input
@@ -70,6 +94,9 @@ const SignUp = () => {
                 name="Email"
                 required
               />
+                 {formik.touched.Email && formik.errors.Email && (
+              <div className="error-message">{formik.errors.Email}</div>
+            )}
 
               <hr />
               <input
@@ -81,6 +108,9 @@ const SignUp = () => {
                 name="phoneNumber"
                 required
               />
+              {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+              <div className="error-message">{formik.errors.phoneNumber}</div>
+            )}
             </div>
 
             <div className="SignUp-form-group col-md-6">
@@ -94,6 +124,9 @@ const SignUp = () => {
                 name="Password"
                 required
               />
+              {formik.touched.Password && formik.errors.Password && (
+              <div className="error-message">{formik.errors.Password}</div>
+            )}
 
               <hr />
               <input
@@ -105,6 +138,9 @@ const SignUp = () => {
                 name="Confirm"
                 required
               />
+              {formik.touched.Confirm && formik.errors.Confirm && (
+              <div className="error-message">{formik.errors.Confirm}</div>
+            )}
 
               <hr />
               <input
@@ -116,6 +152,9 @@ const SignUp = () => {
                 name="Identity"
                 required
               />
+              {formik.touched.Identity && formik.errors.Identity && (
+              <div className="error-message">{formik.errors.Identity}</div>
+            )}
             </div>
           </div>
 
