@@ -2,7 +2,7 @@
   position: absolute;
   width: 100%;
   height: 100vh;
-  z-index: 3333;
+  z-index: var(--DrawerList);
 }
 
 .signup-Background {
@@ -20,7 +20,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 999999;
+  z-index: var(--DrawerList);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,7 +42,7 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  z-index: 411313132;
+  z-index: var(--DrawerList);
 }
 .Big-Form-SignUp{
 

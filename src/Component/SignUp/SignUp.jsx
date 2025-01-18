@@ -33,9 +33,9 @@ const SignUp = () => {
         `https://takhleesak.runasp.net/api/Register-user`,
         values
       );
-      if (data.data.message === "تم تسجيل الدخول بنجاح") {
-        toast("sucsses");
-        window.location.href = "/WaitingForData";
+      if (data.data.message === "تم تسجيل حساب الافراد بنجاح") {
+        toast(data.data.message);
+        window.location.href = "/SignIn";
       } else {
         toast(data.data.message);
       }

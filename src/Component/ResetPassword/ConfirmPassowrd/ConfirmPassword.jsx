@@ -1,88 +1,104 @@
-import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import ships from '../ships.png'
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { toast } from "react-toastify";
+import ships from "../ships.png";
 
 const ConfirmPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = Yup.object({
     code: Yup.string()
-      .required('الرمز مطلوب')
-      .min(6, 'يجب أن يكون الرمز 6 أرقام على الأقل'),
+      .required("الرمز مطلوب")
+      .min(6, "يجب أن يكون الرمز 6 أرقام على الأقل"),
   });
+
+  const [Token, setToken] = useState(null);
+  const [Code, setCode] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("Tokken");
+    setToken(token);
+    const code = localStorage.getItem("Code");
+    setCode(code);
+    console.log(code);
+    
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      code: '',
+      code: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        const response = await axios.post('YOUR_API_ENDPOINT/reset-password', {
-          email: values.email,
-          code: values.code,
-          newPassword: values.newPassword
-        });
+        console.log(Token);
+        console.log(Code);
 
-        if (response.data.success) {
-          toast.success('تم تغيير كلمة المرور بنجاح');
-          // Redirect to login page or handle success
+        const response = await axios.post(
+          "https://takhleesak.runasp.net/api/VerifyCode",
+          {
+            code: values.code,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+            },
+          }
+        );
+        console.log(response.data.message);
+
+        if (response.data.message === "تم تأكيد الكود بنجاح") {
+          toast(response.data.message);
+        
+          window.location.href = "/WaitingForData";
         } else {
-          toast.error(response.data.message || 'حدث خطأ ما');
+          toast(response.data.message);
         }
       } catch (error) {
-        toast.error('حدث خطأ في إعادة تعيين كلمة المرور');
-      } finally {
+        toast("حدث خطأ في إعادة تعيين كلمة المرور");
+      } finally{
+
         setIsLoading(false);
+        console.log('error');
+        
       }
-    }
+    },
   });
 
-  return <>
-          <img className="Signin-Background" src={ships} alt="" />
+  return (
+    <>
+      <img className="Signin-Background" src={ships} alt="" />
 
       <div className="reset-password-container">
-      <div className="reset-password-form">
-        <h2>إعادة تعيين كلمة المرور</h2>
-        
-        <form onSubmit={formik.handleSubmit}>
- 
+        <div className="reset-password-form">
+          <h2>رمز التحقق</h2>
 
-          <div className="form-group">
-            <input
-            className='form-control'
-              type="text"
-              name="code"
-              placeholder="رمز التحقق"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.code}
-            />
-            {formik.touched.code && formik.errors.code && (
-              <div className="error-message">{formik.errors.code}</div>
-            )}
-          </div>
+          <form onSubmit={formik.handleSubmit} noValidate>
+            <div className="form-group">
+              <input
+                className="form-control"
+                type="text"
+                name="code"
+                placeholder="رمز التحقق"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.Code}
+              />
+              {formik.touched.code && formik.errors.code && (
+                <div className="text-danger">{formik.errors.code}</div>
+              )}
+            </div>
 
-       
-          <button 
-            type="submit" 
-            className="reset-btn"
-            disabled={isLoading}
-          >
-            {isLoading ? 'جاري المعالجة...' : 'إعادة تعيين كلمة المرور'}
-          </button>
-        </form>
+            <button type="submit" className="reset-btn" disabled={isLoading}>
+              {isLoading ? "جاري المعالجة..." : "تأكيد الكود"}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
-  
-  </>
-    
-
-
+    </>
+  );
 };
 
-export default ConfirmPassword; 
+export default ConfirmPassword;

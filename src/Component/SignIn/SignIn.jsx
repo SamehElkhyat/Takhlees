@@ -14,7 +14,6 @@ const SignIn = () => {
       .required("البريد الإلكتروني مطلوب"),
     Password: Yup.string()
       .required("تأكيد كلمة المرور مطلوب")
-      .oneOf([Yup.ref("newPassword")], "كلمات المرور غير متطابقة"),
   });
 
   async function handelesignin(values) {
@@ -26,8 +25,12 @@ const SignIn = () => {
       console.log(data.data.message);
 
       if (data.data.message === "تم تسجيل الدخول بنجاح") {
-        toast("sucsses");
-        window.location.href = "/WaitingForData";
+        toast(data.data.message);
+        localStorage.setItem("Tokken", data.data.data);
+        localStorage.setItem("Code", data.data.state);
+        
+
+         window.location.href = "/ConfirmPassword";
       } else {
         toast(data.data.message);
       }

@@ -10,45 +10,31 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = Yup.object({
-    email: Yup.string()
+    Email: Yup.string()
       .email('بريد إلكتروني غير صالح')
       .required('البريد الإلكتروني مطلوب'),
-    code: Yup.string()
-      .required('الرمز مطلوب')
-      .min(6, 'يجب أن يكون الرمز 6 أرقام على الأقل'),
-    newPassword: Yup.string()
-      .required('كلمة المرور الجديدة مطلوبة')
-      .min(8, 'يجب أن تكون كلمة المرور 8 أحرف على الأقل'),
-    confirmPassword: Yup.string()
-      .required('تأكيد كلمة المرور مطلوب')
-      .oneOf([Yup.ref('newPassword')], 'كلمات المرور غير متطابقة')
+    
   });
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      code: '',
-      newPassword: '',
-      confirmPassword: ''
+      Email: '',
     },
     validationSchema,
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        const response = await axios.post('YOUR_API_ENDPOINT/reset-password', {
-          email: values.email,
-          code: values.code,
-          newPassword: values.newPassword
+        const response = await axios.post('https://takhleesak.runasp.net/api/Forget-Password', {
+          Email: values.Email,
         });
 
-        if (response.data.success) {
-          toast.success('تم تغيير كلمة المرور بنجاح');
-          // Redirect to login page or handle success
+        if (response.data.state) {
+          toast('تم ارسال الرمز المرور الخاص بك');
         } else {
           toast.error(response.data.message || 'حدث خطأ ما');
         }
       } catch (error) {
-        toast.error('حدث خطأ في إعادة تعيين كلمة المرور');
+        toast.error('حدث خطأ في ارسال الرمز المرور الخاص بك');
       } finally {
         setIsLoading(false);
       }
@@ -66,14 +52,14 @@ const ResetPassword = () => {
           <div className="form-group">
             <input
               type="email"
-              name="email"
+              name="Email"
               placeholder="البريد الإلكتروني"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.email}
+              value={formik.values.Email}
             />
-            {formik.touched.email && formik.errors.email && (
-              <div className="error-message">{formik.errors.email}</div>
+            {formik.touched.Email && formik.errors.Email && (
+              <div className="error-message">{formik.errors.Email}</div>
             )}
           </div>
 
