@@ -21,10 +21,12 @@ const NavBar = () => {
   };
 
   let DrawerListEdit = () => {
+
     let Icon = document.getElementById("icon");
 
       Icon.onclick = () => {
         document.body.classList.toggle("DrawerList");
+
       };
   
     
@@ -95,11 +97,7 @@ const NavBar = () => {
                 <ListItemText primary={"أدوات العملاء"} />
               </ListItemButton>
             </ListItem>
-            <ListItem key={"text4"} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"تسجيل الخروج"} />
-              </ListItemButton>
-            </ListItem>
+
             <ListItem key={"text5"} disablePadding>
               <ListItemButton>
                 <ListItemText onClick={() => {
@@ -115,11 +113,6 @@ const NavBar = () => {
   useEffect(() => {
     console.log(localStorage.getItem("Tokken"));
 
-    if(Token === null){
-       document.body.classList.add("DrawerList-fix");
-    }else{
-      document.body.classList.remove("DrawerList-fix");
-    }
 
     let ApiToken = localStorage.getItem("Tokken")
     console.log(ApiToken);

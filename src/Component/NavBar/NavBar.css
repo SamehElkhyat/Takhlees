@@ -142,13 +142,10 @@
 
 :root{
   --DrawerList:9999999999;
-}
+  }
+  
+  .DrawerList{
 
-.DrawerList-fix{
-  --DrawerList:9999999999;
-}
-.DrawerList{
-
---DrawerList:0;
-
-}    
+  --DrawerList:0 !important;
+  
+  }    
