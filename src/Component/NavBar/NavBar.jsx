@@ -33,82 +33,10 @@ const NavBar = () => {
 
   };
 
-  const DrawerList = (
-    <>
-      <Box
-        id="DrawerList"
-        className="drawer-list"
-        sx={{
-          width: 300,
-          backgroundColor: "#f8f9fa",
-          height: "100%",
-          "& .MuiListItemButton-root": {
-            padding: "12px 24px",
-            "&:hover": {
-              backgroundColor: "#e9ecef",
-              borderRadius: "8px",
-              margin: "0 8px",
-              transition: "all 0.2s ease-in-out",
-            },
-          },
-          "& .MuiListItemText-primary": {
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            color: "#343a40",
-          },
-          "& .MuiDivider-root": {
-            margin: "16px 0",
-            backgroundColor: "#dee2e6",
-          },
-        }}
-        role="presentation"
-        onClick={toggleDrawer(false)}
-      >
-        <List>
-          {[
-            "الصفحه الرئيسيه",
-            "الخدمات الجمركيه",
-            "التعليمات والإرشادات",
-            "حول الشركة",
-          ].map((text) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <hr />
-                <ListItemText primary={text} />
-                <hr />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-            <ListItem key={"text1"} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"الاعدادات"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key={"text2"} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"التواصل معنا"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key={"text3"} disablePadding>
-              <ListItemButton>
-                <ListItemText primary={"أدوات العملاء"} />
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem key={"text5"} disablePadding>
-              <ListItemButton>
-                <ListItemText onClick={() => {
-                  localStorage.removeItem("Tokken");
-                }} primary={"تسجيل الخروج"} />
-              </ListItemButton>
-              </ListItem>
-        </List>
-      </Box>
-    </>
-  );
+ 
+    
+  
+  
 
   useEffect(() => {
     console.log(localStorage.getItem("Tokken"));
@@ -141,7 +69,66 @@ console.log(path);
       >
         <img className="Drawer-Logo" src={Logo} alt="Company Logo" />
 
-        {DrawerList}
+        <Box
+      id="DrawerList"
+      className="drawer-list"
+    sx={{
+      width: 300,
+      backgroundColor: "#f8f9fa",
+      height: "100%",
+      "& .MuiListItemButton-root": {
+        padding: "12px 24px",
+        "&:hover": {
+          backgroundColor: "#e9ecef",
+          borderRadius: "8px",
+          margin: "0 8px",
+          transition: "all 0.2s ease-in-out",
+        },
+      },
+      "& .MuiListItemText-primary": {
+        fontSize: "0.95rem",
+        fontWeight: 500,
+        color: "#343a40",
+      },
+      "& .MuiDivider-root": {
+        margin: "16px 0",
+        backgroundColor: "#dee2e6",
+      },
+    }}
+    role="presentation"
+    onClick={toggleDrawer(false)}
+  >
+
+{console.log(Token.role)
+}
+    <Divider />
+    <List>
+        <ListItem key={"text1"} disablePadding>
+          <ListItemButton>
+            <ListItemText primary={"الاعدادات"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key={"text2"} disablePadding>
+          <ListItemButton>
+            <ListItemText primary={"التواصل معنا"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key={"text3"} disablePadding>
+          <ListItemButton>
+            <ListItemText primary={"أدوات العملاء"} />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem key={"text5"} disablePadding>
+          <ListItemButton>
+            <ListItemText onClick={() => {
+              localStorage.removeItem("Tokken");
+            }} primary={"تسجيل الخروج"} />
+          </ListItemButton>
+          </ListItem>
+    </List>
+  </Box>
+
       </Drawer>
       <nav className="navbar">
         <div className="navbar-container">
