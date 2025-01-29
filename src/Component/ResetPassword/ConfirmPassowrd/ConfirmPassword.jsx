@@ -7,6 +7,8 @@ import ships from "../ships.png";
 
 const ConfirmPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [Token, setToken] = useState(null);
+  const [Code, setCode] = useState(null);
 
   const validationSchema = Yup.object({
     code: Yup.string()
@@ -14,8 +16,7 @@ const ConfirmPassword = () => {
       .min(6, "يجب أن يكون الرمز 6 أرقام على الأقل"),
   });
 
-  const [Token, setToken] = useState(null);
-  const [Code, setCode] = useState(null);
+
   useEffect(() => {
     const token = localStorage.getItem("Tokken");
     setToken(token);
@@ -48,6 +49,8 @@ const ConfirmPassword = () => {
           }
         );
         console.log(response.data.message);
+        console.log(Token);
+        
 
         if (response.data.message === "تم تأكيد الكود بنجاح") {
           toast(response.data.message);

@@ -17,6 +17,7 @@ function WaitingForData() {
       className="container d-flex justify-content-center align-items-center"
       style={{ minHeight: "100vh" }}
     >
+      {console.log(Token)}
       <div className="text-center">
       {Token!==null ? <><h1>اهلا وسهلا {Token.fullName}</h1>
       <h1>انت بالفعل {Token.Role} معنا    </h1></>:<></>}
