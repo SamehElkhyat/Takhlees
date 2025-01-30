@@ -14,7 +14,6 @@ import {
   ListItemText,
 } from "@mui/material";
 import toast from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 const NavBar = () => {
   const [Token, setToken] = useState(null);
   const [open, setOpen] = useState(false);
@@ -22,11 +21,8 @@ const NavBar = () => {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-  const { t, i18n } = useTranslation();
 
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(lang); // تغيير اللغة
-  };
+
 
   let DrawerListEdit = () => {
     let Icon = document.getElementById("icon");
@@ -197,18 +193,17 @@ const NavBar = () => {
           {Token == null ? (
             <>
               {" "}
-              <Button onClick={() => changeLanguage('en')}>English</Button>
-            <Button onClick={() => changeLanguage('ar')}>العربية</Button>
+
               <div className="Items-NavBar">
                 <ul className="nav-menu">
                   <li className="nav-item">
-                    <Link to="/IntorSignUp" className="nav-link">
-                    {t('انشاء حساب')}
+                    <Link to="/IntorSignUp" className="nav-link">                
+                    انشاء حساب
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/IntorSignIn" className="nav-link">
-                    {t('تسجيل دخول')}
+                    تسجيل دخول
                     </Link>
                   </li>
                 </ul>
@@ -217,8 +212,6 @@ const NavBar = () => {
           ) : (
             <>
 
-            <Button onClick={() => changeLanguage('en')}>English</Button>
-            <Button onClick={() => changeLanguage('ar')}>العربية</Button>
               <Button
                 id="icon"
                 onClick={toggleDrawer(true)}
