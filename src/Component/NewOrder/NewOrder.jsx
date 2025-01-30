@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import React from 'react';
 import { Button, Form, InputGroup, FormControl } from 'react-bootstrap';
+import toast from 'react-hot-toast';
 
 const NewOrderForm = () => {
   // إرسال البيانات إلى الـ API
@@ -9,29 +10,34 @@ const NewOrderForm = () => {
     const formData = new FormData();
 
     // أضف الحقول النصية إلى FormData
-    formData.append('Location', values.location);
-    values.orderType.forEach((order, index) => {
-      formData.append(`orderType[${index}][Number]`, order.Number);
-      formData.append(`orderType[${index}][typeOrder]`, order.typeOrder);
-      formData.append(`orderType[${index}][Size]`, order.Size);
+    formData.append('Location', values.location);    
+    formData.append('numberOfLicense', values.numberOfLicense);
+
+    values.numberOfTypeOrders.forEach((order, index) => {
+      formData.append(`numberOfTypeOrders[${index}][Number]`, order.Number);
+      formData.append(`numberOfTypeOrders[${index}][typeOrder]`, order.typeOrder);
+      formData.append(`numberOfTypeOrders[${index}][Size]`, order.Size);
       if (order.typeOrder !== 'حاويه') {
-        formData.append(`orderType[${index}][Weight]`, order.Weight);
+        formData.append(`numberOfTypeOrders[${index}][Weight]`, order.Weight);
       }
     });
 
-    // أضف الملفات إلى FormData
     values.uploadFile.forEach((file) => {
       formData.append('uploadFile', file);
     });
 
     try {
+      const Tokken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6ImFhMzA3YjJhLTkwYjgtNGU0Ny05MjViLTUxNDIwYTQ4OTUwZSIsIkVtYWlsIjoiVXNlcjEwQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiYWJkdWxsYWggbWFobW91ZCBhYmRlbG1vaHNlbiIsInBob25lTnVtYmVyIjoiKzIwMTExNDUxNDMzNyIsIklkZW50aXR5IjoiNjczMzcwOTg0OCIsInNlY3VyaXR5U3RhbXAiOiIzVlFaT0NHM1VLSjdXU0RSR0oySzJZVTdTNlI3T1BPMyIsImp0aSI6IjU1MzVmODliLWMwZDUtNGIxNi1iOTI5LWJiMDVhMGZhYjljYSIsIlJvbGUiOiJVc2VyIiwiZXhwIjoxNzM5NDUyMjYzLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.-6fLh1uXRsB3wutCYj06ztr5Ys3Tq-VRMkne2Et9RlA";
+
       const response = await axios.post('https://user.runasp.net/api/New-Order', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('Tokken')}`,
+          Authorization: `Bearer ${Tokken}`,
         },
       });
-      console.log('Response:', response.data);
+      toast.success('Successfully created!');
+      console.log('Response:', response.data.message);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -42,7 +48,8 @@ const NewOrderForm = () => {
   let formik = useFormik({
     initialValues: {
       location: '',
-      orderType: [{ Number: '', typeOrder: '', Weight: '', Size: '' }],
+      numberOfLicense: '',
+      numberOfTypeOrders: [{ Number: '', typeOrder: '', Weight: '', Size: '' }],
       uploadFile: [], // ملفات مرفقة
     },
     onSubmit: handleOrder,
@@ -50,16 +57,16 @@ const NewOrderForm = () => {
 
   // إضافة طلب جديد
   const addOrder = () => {
-    formik.setFieldValue('orderType', [
-      ...formik.values.orderType,
+    formik.setFieldValue('numberOfTypeOrders', [
+      ...formik.values.numberOfTypeOrders,
       { Number: '', typeOrder: '', Weight: '', Size: '' },
     ]);
   };
 
   // إزالة طلب
   const removeOrder = (index) => {
-    const updatedOrderType = formik.values.orderType.filter((_, i) => i !== index);
-    formik.setFieldValue('orderType', updatedOrderType);
+    const updatednumberOfTypeOrders = formik.values.numberOfTypeOrders.filter((_, i) => i !== index);
+    formik.setFieldValue('numberOfTypeOrders', updatednumberOfTypeOrders);
   };
 
   // تحديث الملفات
@@ -72,7 +79,7 @@ const NewOrderForm = () => {
       <h3>طلب جديد</h3>
       <Form onSubmit={formik.handleSubmit}>
         {/* موقع الطلب */}
-        <Form.Group controlId="orderLocation">
+        <Form.Group controlId="location">
           <Form.Label>موقع الطلب</Form.Label>
           <Form.Control
             type="text"
@@ -83,28 +90,28 @@ const NewOrderForm = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="orderLocation">
+        <Form.Group controlId="numberOfLicense">
           <Form.Label>رقم البوليصه</Form.Label>
           <Form.Control
             type="text"
-            placeholder="أدخل موقع الطلب"
-            name="location"
-            value={formik.values.location}
+            placeholder="رقم الوليصه"
+            name="numberOfLicense"
+            value={formik.values.numberOfLicense}
             onChange={formik.handleChange}
           />
         </Form.Group>
 
         {/* الحقول الديناميكية */}
         <h5>تفاصيل الطلبات</h5>
-        {formik.values.orderType.map((order, index) => (
+        {formik.values.numberOfTypeOrders.map((order, index) => (
           <div key={index} className="border p-3 mb-3">
-            <Form.Group controlId={`orderType[${index}][typeOrder]`}>
+            <Form.Group controlId={`numberOfTypeOrders[${index}][typeOrder]`}>
               <Form.Label>نوع الطلب</Form.Label>
               <Form.Control
                 as="select"
                 value={order.typeOrder}
                 onChange={(e) => {
-                  const updatedOrders = [...formik.values.orderType];
+                  const updatedOrders = [...formik.values.numberOfTypeOrders];
                   updatedOrders[index].typeOrder = e.target.value;
 
                   // إزالة قيمة الوزن إذا كان نوع الطلب "حاوية"
@@ -112,7 +119,7 @@ const NewOrderForm = () => {
                     updatedOrders[index].Weight = '';
                   }
 
-                  formik.setFieldValue('orderType', updatedOrders);
+                  formik.setFieldValue('numberOfTypeOrders', updatedOrders);
                 }}
               >
                 <option value="">اختر نوع الطلب</option>
@@ -122,46 +129,46 @@ const NewOrderForm = () => {
               </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId={`orderType[${index}][Number]`}>
+            <Form.Group controlId={`numberOfTypeOrders[${index}][Number]`}>
               <Form.Label>عدد</Form.Label>
               <Form.Control
                 type="number"
                 value={order.Number}
                 onChange={(e) => {
-                  const updatedOrders = [...formik.values.orderType];
+                  const updatedOrders = [...formik.values.numberOfTypeOrders];
                   updatedOrders[index].Number = e.target.value;
-                  formik.setFieldValue('orderType', updatedOrders);
+                  formik.setFieldValue('numberOfTypeOrders', updatedOrders);
                 }}
               />
             </Form.Group>
 
             {/* حقل الوزن يظهر فقط إذا لم يكن نوع الطلب "حاوية" */}
             {order.typeOrder !== 'حاويه' && (
-              <Form.Group controlId={`orderType[${index}][Weight]`}>
+              <Form.Group controlId={`numberOfTypeOrders[${index}][Weight]`}>
                 <Form.Label>الوزن</Form.Label>
                 <Form.Control
                   type="number"
                   value={order.Weight}
                   onChange={(e) => {
-                    const updatedOrders = [...formik.values.orderType];
+                    const updatedOrders = [...formik.values.numberOfTypeOrders];
                     updatedOrders[index].Weight = e.target.value;
-                    formik.setFieldValue('orderType', updatedOrders);
+                    formik.setFieldValue('numberOfTypeOrders', updatedOrders);
                   }}
                 />
               </Form.Group>
             )}
 
             {order.typeOrder === 'حاويه' && (
-              <Form.Group controlId={`orderType[${index}][Size]`}>
+              <Form.Group controlId={`numberOfTypeOrders[${index}][Size]`}>
                 <Form.Label>الحجم</Form.Label>
                 <Form.Control
 
                 type="text"
                 value={order.Size}
                 onChange={(e) => {
-                  const updatedOrders = [...formik.values.orderType];
+                  const updatedOrders = [...formik.values.numberOfTypeOrders];
                   updatedOrders[index].Size = e.target.value;
-                  formik.setFieldValue('orderType', updatedOrders);
+                  formik.setFieldValue('numberOfTypeOrders', updatedOrders);
                 }}
               />
             </Form.Group>

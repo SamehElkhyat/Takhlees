@@ -14,11 +14,12 @@ export default function BrookersLandingPage() {
               style={{ width: "18rem" }}
             >
               <div className="card-body">
+              <i class="fa-solid fa-code-pull-request" style={{fontSize:"40px", padding:"20px"}}></i>
                 <h5 className="card-title">العروض المتاحة</h5>
                 <p className="card-text">
                   استعرض العروض المتاحة وقم بتقديم عروضك للعملاء بكل سهولة
                 </p>
-                <Link to="/brookersLandingPage" className="btn btn-primary">
+                <Link  to="/availableOrders" className="btn btn-primary" style={{backgroundColor:"#1ea9e2"}}>
                   استعرض العروض
                 </Link>
               </div>
@@ -26,9 +27,11 @@ export default function BrookersLandingPage() {
 
             <div
               className="card text-center mb-3 mx-3"
-              style={{ width: "18rem" }}
+              style={{ width: "18rem"  }}
             >
               <div className="card-body">
+              <i class="fa-solid fa-envelope-open-text" style={{fontSize:"40px", padding:"20px" ,color:"#71c241"}}></i>
+
                 <h5
                   className="card-title"
                   style={{ width: "18rem", fontSize: "1.5rem" }}
@@ -38,7 +41,7 @@ export default function BrookersLandingPage() {
                 <p className="card-text">
                   قم بإنشاء عروض جديدة ومتابعة حالة العروض الموجودة
                 </p>
-                <Link to="/brookersLandingPage" className="btn btn-primary">
+                <Link style={{backgroundColor:"#1ea9e2"}} to="/currentoffers" className="btn btn-primary">
                   استعرض العروض
                 </Link>
               </div>
@@ -49,6 +52,8 @@ export default function BrookersLandingPage() {
               style={{ width: "18rem" }}
             >
               <div className="card-body">
+              <i class="fa-solid fa-clock-rotate-left" style={{fontSize:"40px", padding:"20px",color:"#1ea9e2"}}></i>
+
                 <h5
                   className="card-title"
                   style={{ width: "18rem", fontSize: "1.5rem" }}
@@ -59,7 +64,7 @@ export default function BrookersLandingPage() {
                 <p className="card-text">
                   استعرض سجل العروض السابقة وتاريخ التعاملات
                 </p>
-                <Link to="/brookersLandingPage" className="btn btn-primary">
+                <Link style={{backgroundColor:"#1ea9e2"}} to="/HistoryOfOrders" className="btn btn-primary">
                   استعرض السجل
                 </Link>
               </div>
@@ -70,6 +75,8 @@ export default function BrookersLandingPage() {
               style={{ width: "18rem" }}
             >
               <div className="card-body">
+              <i class="fa-solid fa-cart-shopping" style={{fontSize:"40px", padding:"20px" ,color:"#1A39A0"}}></i>
+
                 <h5
                   className="card-title"
                   style={{ width: "18rem", fontSize: "1.5rem" }}
@@ -79,11 +86,13 @@ export default function BrookersLandingPage() {
                 <p className="card-text">
                   استعرض محفظتك الرقمية وقم بإدارة المالية
                 </p>
-                <Link to="/brookersLandingPage" className="btn btn-primary">
+                <Link style={{backgroundColor:"#1ea9e2"}} to="/BrookersCart" className="btn btn-primary">
                   استعرض المحفظة
                 </Link>
               </div>
             </div>
+
+
           </div>
         </div>
       </div>

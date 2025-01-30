@@ -4,52 +4,42 @@ import { Button, Table } from "react-bootstrap";
 import { log } from "util";
 
 const PendingOrders = () => {
-  const [orders, setOrders] = useState([
-    { id: 1, location: "الرياض", type: "طبليه", status: "تحت الإجراء" },
-    { id: 2, location: "جدة", type: "حاويه", status: "تم تنفيذ الطلب" },
-    { id: 3, location: "القاهره", type: "حاويه", status: "تم تنفيذ الطلب" },
-    {
-      id: 4,
-      location: "المدينه المنوره",
-      type: "طبليه",
-      status: "تم تنفيذ الطلب",
-    },
-    { id: 5, location: "الجيزه", type: "وزن", status: "تم تنفيذ الطلب" },
-  ]);
 
-  const [order, setOrder] = useState(null);
+  const [orders, setOrder] = useState([]);
 
-  const handleOrderClick = (id) => {
-    setOrder(orders.find((order) => order.id === id));
-  };
 
-  const GetOrder = () => {
-    const res = axios.get(
+  const GetOrder = async () => {
+    try {
+      const Tokken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6ImFhMzA3YjJhLTkwYjgtNGU0Ny05MjViLTUxNDIwYTQ4OTUwZSIsIkVtYWlsIjoiVXNlcjEwQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiYWJkdWxsYWggbWFobW91ZCBhYmRlbG1vaHNlbiIsInBob25lTnVtYmVyIjoiKzIwMTExNDUxNDMzNyIsIklkZW50aXR5IjoiNjczMzcwOTg0OCIsInNlY3VyaXR5U3RhbXAiOiIzVlFaT0NHM1VLSjdXU0RSR0oySzJZVTdTNlI3T1BPMyIsImp0aSI6IjU1MzVmODliLWMwZDUtNGIxNi1iOTI5LWJiMDVhMGZhYjljYSIsIlJvbGUiOiJVc2VyIiwiZXhwIjoxNzM5NDUyMjYzLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.-6fLh1uXRsB3wutCYj06ztr5Ys3Tq-VRMkne2Et9RlA";
+
+    const res = await axios.get(
       `https://user.runasp.net/api/Get-Orders`,
 
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          Authorization: `Bearer ${Tokken}`,
         },
       }
     );
 
-    console.log(res);
+    setOrder
+    (res.data); 
+    } catch (error) {
+      console.log(error);
+      
+    }
+
   };
 
-  const updateStatus = (id, newStatus) => {
-    const updatedOrders = orders.map((order) =>
-      order.id === id ? { ...order, status: newStatus } : order
-    );
-    setOrders(updatedOrders);
-  };
+
 
   useEffect(() => {
     GetOrder();
-  }, []); 
+  }, []);
   return (
     <div className="container mt-5">
-      <h3>الطلبات القائمة</h3>
+      <h3 className="text-center">الطلبات القائمة</h3>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -61,14 +51,13 @@ const PendingOrders = () => {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
+            <tr  >
               <td>{order.location}</td>
-              <td>{order.type}</td>
-              <td>{order.status}</td>
+              <td>{order.typeOrder}</td>
+              <td>{order.statuOrder}</td>
               <td>
                 <Button
                   variant="danger"
-                  onClick={() => updateStatus(order.id, "تم الالغاء")}
                 >
                   الغاء
                 </Button>
