@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 
-const PendingOrders = () => {
+const CurrentOrdersForUsers = () => {
 
   const [orders, setOrder] = useState([]);
   const [id, setid] = useState();
@@ -45,7 +45,7 @@ const PendingOrders = () => {
       const Tokken =
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6ImUzMGU3YWYzLWYxNDktNGQ4ZC1iMDA3LWMxNWY0MmMyZGZhOSIsIkVtYWlsIjoiYWJkZWxtb2hzZW5AZ21haWwuY29tIiwiZnVsbE5hbWUiOiJhYmR1bGxhaCBtYWhtb3VkIGFiZGVsbW9oc2VuIiwicGhvbmVOdW1iZXIiOiIrMDU0ODQyMTU0ODU0IiwiSWRlbnRpdHkiOiI2NzMzNzA5ODQ4Iiwic2VjdXJpdHlTdGFtcCI6IjdCNks3U1RIV0QzNkRRSENXT0RJUVVXS01TVEpGTEk3IiwianRpIjoiMmQwYjZjZGItMDZmNy00ZDY5LTgxZmMtMjg5MzgzMWZjNGZkIiwiUm9sZSI6IlVzZXIiLCJleHAiOjE3Mzk3ODI4MzMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjYiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2In0.bgY_OP6kGdlnXgocunUNQSECx_YwAfHmJWoQq1RPD58"
     const res = await axios.get(
-      `https://user.runasp.net/api/Get-Orders`,
+      `https://user.runasp.net/api/Order-Requests`,
 
       {
         headers: {
@@ -76,7 +76,7 @@ console.log(res);
   }, [id]);
   return (
     <div className="container mt-5">
-      <h3 className="text-center">الطلبات القائمة</h3>
+      <h3 className="text-center">الطلبات الجاريه</h3>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -105,4 +105,4 @@ console.log(res);
   );
 };
 
-export default PendingOrders;
+export default CurrentOrdersForUsers;

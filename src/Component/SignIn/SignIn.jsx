@@ -28,8 +28,6 @@ const SignIn = () => {
         toast(data.data.message);
         localStorage.setItem("Tokken", data.data.data);
         localStorage.setItem("Code", data.data.state);
-        
-
          window.location.href = "/ConfirmPassword";
       } else {
         toast(data.data.message);
@@ -101,7 +99,13 @@ const SignIn = () => {
           </p>
 
           <div className="button-group">
-            <button className="signin-button" type="submit">
+            <button className="signin-button"
+            onClick={() => {
+              toast("hello")
+
+
+             }}
+            type="submit">
               تسجيل الدخول
             </button>
             <p>

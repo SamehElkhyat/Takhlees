@@ -27,8 +27,7 @@ const NewOrderForm = () => {
     });
 
     try {
-      const Tokken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6ImFhMzA3YjJhLTkwYjgtNGU0Ny05MjViLTUxNDIwYTQ4OTUwZSIsIkVtYWlsIjoiVXNlcjEwQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiYWJkdWxsYWggbWFobW91ZCBhYmRlbG1vaHNlbiIsInBob25lTnVtYmVyIjoiKzIwMTExNDUxNDMzNyIsIklkZW50aXR5IjoiNjczMzcwOTg0OCIsInNlY3VyaXR5U3RhbXAiOiIzVlFaT0NHM1VLSjdXU0RSR0oySzJZVTdTNlI3T1BPMyIsImp0aSI6IjU1MzVmODliLWMwZDUtNGIxNi1iOTI5LWJiMDVhMGZhYjljYSIsIlJvbGUiOiJVc2VyIiwiZXhwIjoxNzM5NDUyMjYzLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.-6fLh1uXRsB3wutCYj06ztr5Ys3Tq-VRMkne2Et9RlA";
+      const Tokken ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6ImUzMGU3YWYzLWYxNDktNGQ4ZC1iMDA3LWMxNWY0MmMyZGZhOSIsIkVtYWlsIjoiYWJkZWxtb2hzZW5AZ21haWwuY29tIiwiZnVsbE5hbWUiOiJhYmR1bGxhaCBtYWhtb3VkIGFiZGVsbW9oc2VuIiwicGhvbmVOdW1iZXIiOiIrMDU0ODQyMTU0ODU0IiwiSWRlbnRpdHkiOiI2NzMzNzA5ODQ4Iiwic2VjdXJpdHlTdGFtcCI6IjdCNks3U1RIV0QzNkRRSENXT0RJUVVXS01TVEpGTEk3IiwianRpIjoiMmQwYjZjZGItMDZmNy00ZDY5LTgxZmMtMjg5MzgzMWZjNGZkIiwiUm9sZSI6IlVzZXIiLCJleHAiOjE3Mzk3ODI4MzMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjYiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2In0.bgY_OP6kGdlnXgocunUNQSECx_YwAfHmJWoQq1RPD58"
 
       const response = await axios.post('https://user.runasp.net/api/New-Order', formData, {
         headers: {
@@ -38,6 +37,7 @@ const NewOrderForm = () => {
       });
       toast('Successfully created!');
       console.log('Response:', response.data.message);
+      window.location.href='/Orders'
     } catch (error) {
       console.error('Error:', error);
       toast('Error!');

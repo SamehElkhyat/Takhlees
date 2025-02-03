@@ -103,7 +103,7 @@ export default function AvailableOrders() {
 
             {data!==null && (<>            {data.map((order) => (
               <tr key={order.id} onClick={() => setid(order.id)}>
-                <td>{date}</td>
+                <td>{order.date}</td>
                 <td>{order.location}</td>
                 <td>{order.id}</td>
               </tr>

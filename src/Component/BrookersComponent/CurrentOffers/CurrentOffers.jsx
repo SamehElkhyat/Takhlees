@@ -1,3 +1,4 @@
+import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
@@ -5,104 +6,57 @@ import { Table } from "react-bootstrap";
 export default function CurrentOffers() {
   const [date, setDate] = useState("");
   const [status, setStatus] = useState("");
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "تحت الإجراء",
-    },
-    {
-      id: 2,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "ملغي",
-    },
-    {
-      id: 3,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "تم التنفيذ",
-    },
-    {
-      id: 1,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "تحت الإجراء",
-    },
-    {
-      id: 2,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "تم التنفيذ",
-    },
-    {
-      id: 3,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "تحت الإجراء",
-    },
-  ]);
+  const [orders, setOrders] = useState([]);
 
-  const [orders2, setOrders2] = useState([
-    {
-      id: 1,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "انتظار الرد",
-    },
-    {
-      id: 2,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "مقبول",
-    },
-    {
-      id: 3,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "انتظار الرد",
-    },
-    {
-      id: 1,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "انتظار الرد",
-    },
-    {
-      id: 2,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "مقبول",
-    },
-    {
-      id: 3,
-      location: "جدة",
-      date: "2024/1/15",
-      orderNumber: "123456",
-      status: "انتظار الرد",
-    },
-  ]);
+  const [orders2, setOrders2] = useState([]);
+
+  const GetValueCurrentOffers = async ()=>{
+    try {
+      const Tokken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiVUVPS0VGSFdTVUZFSjZHTldaN0NUNjVHNFU3TkFLU0UiLCJqdGkiOiJkMWEzOGZhYS1lNTkzLTRkZGYtYjE3ZS1iODQxNzY2Zjc0ZGEiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5Nzg2MDE4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.JIXiZiPeqqtdDbvqpYa7enC8mzfZX2_uLymCxcIbN_s";
+      const {data} = await axios.get(`https://user.runasp.net/api/Order-Requests`,{
+        headers: {
+          Authorization: `Bearer ${Tokken}`,
+        },
+
+      })
+      console.log(data);
+      setOrders2(data)
+      
+
+    } catch (error) {
+      
+    }
+  }
+
+  const getValue = async () => {
+    try {
+      const Tokken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiVUVPS0VGSFdTVUZFSjZHTldaN0NUNjVHNFU3TkFLU0UiLCJqdGkiOiJkMWEzOGZhYS1lNTkzLTRkZGYtYjE3ZS1iODQxNzY2Zjc0ZGEiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5Nzg2MDE4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.JIXiZiPeqqtdDbvqpYa7enC8mzfZX2_uLymCxcIbN_s";
+      const {data} = await axios.get(
+        `https://user.runasp.net/api/Current-Offers`,
+        {
+          headers: {
+            Authorization: `Bearer ${Tokken}`,
+          },
+        }
+      );
+      console.log(data);
+      setOrders(data)
+      
+    } catch (error) {}
+  };
 
   const handleOrderClick = (id) => {
     console.log(id);
   };
 
   useEffect(() => {
+    GetValueCurrentOffers();
+    getValue();
     const t = moment();
     setDate(t.format("MMM Do YYYY | h:mm"));
-  }, [orders]);
+  }, []);
 
   return (
     <>
@@ -150,27 +104,50 @@ export default function CurrentOffers() {
             </tr>
           </thead>
           <tbody>
-            {orders2.map((order) => (
+          {orders.map((order) => (
               <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
-                <td>{date}</td>
+                <td>{order.date}</td>
                 <td>{order.location}</td>
                 <td>{order.id}</td>
-                {order.status === "انتظار الرد" && (
-                  <td>
-                    <button className="btn bg-primary w-100">
-                      انتظار الرد
-                    </button>
-                  </td>
+                {order.statuOrder === "تحت الإجراء" && (
+                  <button
+                    onClick={() => setStatus("تحت الإجراء")}
+                    className={`btn bg-primary w-100 ${
+                      status === "تحت الإجراء"
+                        ? "bg-primary"
+                        : "btn-outline-primary"
+                    }`}
+                  >
+                    تحت الإجراء
+                  </button>
                 )}
-                {order.status === "مقبول" && (
-                  <td>
-                    <button className="btn bg-success w-100">
-                      مقبول
-                    </button>
-                  </td>
+
+                {order.statuOrder === "تم التنفيذ" && (
+                  <button
+                    onClick={() => setStatus("تم التنفيذ")}
+                    className={`btn bg-success w-100 ${
+                      status === "تم التنفيذ"
+                        ? "bg-success"
+                        : "btn-outline-success"
+                    }`}
+                  >
+                    تم التنفيذ
+                  </button>
+                )}
+
+                {order.statuOrder === "ملغي" && (
+                  <button
+                    onClick={() => setStatus("ملغي")}
+                    className={`btn bg-danger w-100 ${
+                      status === "ملغي" ? "bg-danger" : "btn-outline-danger"
+                    }`}
+                  >
+                    ملغي
+                  </button>
                 )}
               </tr>
             ))}
+
           </tbody>
         </Table>
 
@@ -223,34 +200,22 @@ export default function CurrentOffers() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+          {orders2.map((order) => (
               <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
-                <td>{date}</td>
+                <td>{order.date}</td>
                 <td>{order.location}</td>
                 <td>{order.id}</td>
-                { order.status === "تحت الإجراء" && (              <button
-          onClick={() => setStatus("تحت الإجراء")}
-          className={`btn bg-primary w-100 ${status === "تحت الإجراء" ? "bg-primary" : "btn-outline-primary"}`}
-        >
-          تحت الإجراء
-        </button>)}
-  
-
-                {order.status === "تم التنفيذ" && (
-                  <button
-                    onClick={() => setStatus("تم التنفيذ")}
-                    className={`btn bg-success w-100 ${status === "تم التنفيذ" ? "bg-success" : "btn-outline-success"}`}
-        >
-            تم التنفيذ  
-        </button>)}
-
-                {order.status === "ملغي" && (
-                  <button
-                    onClick={() => setStatus("ملغي")}
-                    className={`btn bg-danger w-100 ${status === "ملغي" ? "bg-danger" : "btn-outline-danger"}`}
-                  >
-                    ملغي
-                  </button>
+                {order.statuOrder === "قيد الإنتظار" && (
+                  <td>
+                    <button className="btn bg-primary w-100">
+                      انتظار الرد
+                    </button>
+                  </td>
+                )}
+                {order.statuOrder === "مقبول" && (
+                  <td>
+                    <button className="btn bg-success w-100">مقبول</button>
+                  </td>
                 )}
               </tr>
             ))}

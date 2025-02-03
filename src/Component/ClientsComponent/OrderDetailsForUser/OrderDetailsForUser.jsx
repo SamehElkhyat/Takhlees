@@ -1,36 +1,58 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function OrderDetails() {
+export default function OrderDetailsForUser() {
   const [data, setdata] = useState();
   const [cost, setcost] = useState();
-  const [allOrders ,setallOrders]= useState([]);
-  
+  const [allOrders, setallOrders] = useState([]);
 
-  const SendValue = async (cost, orderValue) => {
+  const SendValue = async () => {
     try {
       const Tokken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiVUVPS0VGSFdTVUZFSjZHTldaN0NUNjVHNFU3TkFLU0UiLCJqdGkiOiJkMWEzOGZhYS1lNTkzLTRkZGYtYjE3ZS1iODQxNzY2Zjc0ZGEiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5Nzg2MDE4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.JIXiZiPeqqtdDbvqpYa7enC8mzfZX2_uLymCxcIbN_s";
 
-      const {data} = await axios.post(
-        `https://user.runasp.net/api/Apply-Order`,
-        {
-          value: cost,
-          newOrderId: orderValue,
-        },
+      const { data } = await axios.get(
+        `https://user.runasp.net/api/Get-all-Values`,
 
         {
           headers: {
             Authorization: `Bearer ${Tokken}`,
           },
         }
-        
       );
-      setallOrders(data)
-
+      setallOrders(data);
+      console.log(data);
+      
     } catch (error) {}
+  };
+  const SendId = async (OrderId,BrokerId) => {
+
+    console.log(BrokerId);
+    console.log(OrderId);
+    
+    try {
+      const Tokken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6ImUzMGU3YWYzLWYxNDktNGQ4ZC1iMDA3LWMxNWY0MmMyZGZhOSIsIkVtYWlsIjoiYWJkZWxtb2hzZW5AZ21haWwuY29tIiwiZnVsbE5hbWUiOiJhYmR1bGxhaCBtYWhtb3VkIGFiZGVsbW9oc2VuIiwicGhvbmVOdW1iZXIiOiIrMDU0ODQyMTU0ODU0IiwiSWRlbnRpdHkiOiI2NzMzNzA5ODQ4Iiwic2VjdXJpdHlTdGFtcCI6IjdCNks3U1RIV0QzNkRRSENXT0RJUVVXS01TVEpGTEk3IiwianRpIjoiMmQwYjZjZGItMDZmNy00ZDY5LTgxZmMtMjg5MzgzMWZjNGZkIiwiUm9sZSI6IlVzZXIiLCJleHAiOjE3Mzk3ODI4MzMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjYiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2In0.bgY_OP6kGdlnXgocunUNQSECx_YwAfHmJWoQq1RPD58";
+
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Change-Satue`,{
+          BrokerID: BrokerId,
+          ID: OrderId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Tokken}`,
+          },
+        }
+     
+      );
+      console.log(data);
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getOrders = async () => {
@@ -46,6 +68,7 @@ export default function OrderDetails() {
           },
         }
       );
+console.log(data);
 
       setdata(data);
     } catch (error) {
@@ -57,6 +80,7 @@ export default function OrderDetails() {
     setcost(value.target.value);
   };
   useEffect(() => {
+    SendValue();
     getOrders();
   }, []);
   return (
@@ -77,6 +101,8 @@ export default function OrderDetails() {
                         <tbody>
                           <tr>
                             <th>رقم الطلب</th>
+                            {console.log(data.id)
+                            }
                             <td>{data.id}</td>
                           </tr>
                           <tr>
@@ -146,56 +172,39 @@ export default function OrderDetails() {
                       <th>رقم المعرف</th>
                       <th>التقييم</th>
                       <th>سعر العرض</th>
+                      <th>الحاله</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {allOrders.map((item)=><>
+                    {allOrders.map((item) => (
+                      <>
+                        <tr>
+                          <td>{item.id}</td>
+                          <td>
+                            <span className="text-warning">
+                              <i className="fas fa-star"></i>
+                              <i className="fas fa-star"></i>
+                              <i className="fas fa-star"></i>
+                              <i className="fas fa-star"></i>
+                              <i className="far fa-star"></i>
+                            </span>
+                          </td>
+                          <td>{item.value}</td>
 
-<tr>
-<td>{item.id}</td>
-<td>
-  <span className="text-warning">
-    <i className="fas fa-star"></i>
-    <i className="fas fa-star"></i>
-    <i className="fas fa-star"></i>
-    <i className="fas fa-star"></i>
-    <i className="far fa-star"></i>
-  </span>
-</td>
-<td>{item.value}</td>
-</tr>
-<tr>
-
-</tr>
-
-
-
-                    </>)}
-
+                          <td>
+                            {" "}
+                            <Button
+                            onClick={()=>{SendId(data.id,item.brokerID)}}
+                            className="w-100 m-0" variant="success">
+                              قبول
+                            </Button>
+                          </td>
+                        </tr>
+                        <tr></tr>
+                      </>
+                    ))}
                   </tbody>
                 </Table>
-
-                <div className="mt-4">
-                  <h5 className="text-muted mb-3">تقديم عرض جديد</h5>
-                  <div className="input-group mb-3">
-                    <input
-                      onChange={(e) => handleChange(e)}
-                      type="number"
-                      className="form-control"
-                      placeholder="ادخل سعر العرض بالريال"
-                      aria-label="سعر العرض"
-                    />
-                    <button
-                      onClick={() => {
-                        SendValue(cost, data.id);
-                      }}
-                      className="btn btn-primary"
-                      type="button"
-                    >
-                      تقديم العرض
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

@@ -40,6 +40,8 @@ import BrookersCart from "./Component/BrookersComponent/BrookersCart/BrookersCar
 import LandingPageForUsers from "./Component/LandingPageForUsers/LandingPageForUsers.jsx";
 import NewOrderForm from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
 import PendingOrders from "./Component/ClientsComponent/Orders/Orders.jsx";
+import OrderDetailsForUser from "./Component/ClientsComponent/OrderDetailsForUser/OrderDetailsForUser.jsx";
+import CurrentOrdersForUsers from "./Component/ClientsComponent/CurrentOrdersForUsers/CurrentOrdersForUsers.jsx";
 
 
 
@@ -49,6 +51,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <LandingPage /> },
+      {path:"OrderDetailsForUser",element:<OrderDetailsForUser/>},
       { path: "availableOrders", element: <AvailableOrders /> },
       {path:"brookersCart", element:<BrookersCart/>},
       { path: "currentOffers", element: <CurrentOffers /> },
@@ -81,7 +84,7 @@ const router = createBrowserRouter([
       { path: "SignInForCompany", element: <SignInForCompany /> },
       { path: "ResetThePassword", element: <ResetThePassword /> },
       {path:'LandingPageForUsers', element: <LandingPageForUsers/>},
-
+      {path:'CurrentOrdersForUsers',element:<CurrentOrdersForUsers/>},
       { path: "brookers", element: <Brookers /> },
     ],
   },
