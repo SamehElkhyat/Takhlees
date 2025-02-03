@@ -18,25 +18,28 @@ import WaitingForData from "./Component/WaitingForData/WaitingForData";
 import ResetPassword from "./Component/ResetPassword/ResetPassword";
 import ConfirmPassword from "./Component/ResetPassword/ConfirmPassowrd/ConfirmPassword";
 import ResetThePassword from "./Component/ResetPassword/ResetThePassword/ResetThePassword";
-import Clients from "./Component/Clients/Clients";
-import Blacklist from "./Component/blacklist/blacklist";
-import Brookers from "./Component/Brookers/Brookers";
-import CustomService from "./Component/CustomService/CustomService";
+import Clients from "./Component/AdminComponent/Clients/Clients.jsx";
+import Blacklist from "./Component/AdminComponent/blacklist/blacklist.jsx";
+import Brookers from "./Component/AdminComponent/Brookers/Brookers";
+import Accountant from "./Component/Accountant/Accountant";
+import CustomService from "./Component/CustomService/CustomService";  
 import Permissions from "./Component/Permissions/Permissions";
-import Statistics from "./Component/statistics/statistics";
-import NewOrder from "./Component/NewOrder/NewOrder";
-import Orders from "./Component/Orders/Orders";
-import Cart from "./Component/Cart/Cart";
+import Statistics from "./Component/AdminComponent/statistics/statistics.jsx";
+import NewOrder from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
+import Orders from "./Component/ClientsComponent/Orders/Orders.jsx";
+import Cart from "./Component/ClientsComponent/Cart/Cart.jsx";
 import LandingUser from "./Component/LandingUser/LandingUser.jsx";
 import Mokhalseen from "./Component/Mokhalseen/Mokhalseen.jsx";
 import SignUpForMokhalseen from "./Component/SignUpForMokhalseen/SignUpForMokhalseen.jsx";
-import BrookersLandingPage from "./Component/BrookersLandingPage/BrookersLandingPage";
-import AvailableOrders from "./Component/AvailableOrders/AvailableOrders";
-import OrderDetails from "./Component/OrderDetails/OrderDetails";
-import CurrentOffers from "./Component/CurrentOffers/CurrentOffers.jsx";
-import HistoryOfOrders from "./Component/HistoryOfOrders/HistoryOfOrders.jsx";
-import BrookersCart from "./Component/BrookersCart/BrookersCart.jsx";
+import BrookersLandingPage from "./Component/BrookersComponent/BrookersLandingPage/BrookersLandingPage.jsx";
+import AvailableOrders from "./Component/BrookersComponent/AvailableOrders/AvailableOrders.jsx";
+import OrderDetails from "./Component/BrookersComponent/OrderDetails/OrderDetails.jsx";
+import CurrentOffers from "./Component/BrookersComponent/CurrentOffers/CurrentOffers.jsx";
+import HistoryOfOrders from "./Component/BrookersComponent/HistoryOfOrders/HistoryOfOrders.jsx";
+import BrookersCart from "./Component/BrookersComponent/BrookersCart/BrookersCart.jsx";
 import LandingPageForUsers from "./Component/LandingPageForUsers/LandingPageForUsers.jsx";
+import NewOrderForm from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
+import PendingOrders from "./Component/ClientsComponent/Orders/Orders.jsx";
 
 
 
@@ -52,6 +55,7 @@ const router = createBrowserRouter([
       { path: "historyOfOrders", element: <HistoryOfOrders /> },
       { path: "orderDetails", element: <OrderDetails /> },
       { path: "newOrder", element: <NewOrder /> },
+      { path: "accountant", element: <Accountant /> },
       { path: "mokhalseen", element: <Mokhalseen /> },
       { path: "orders", element: <Orders /> },
       { path: "brookersLandingPage", element: <BrookersLandingPage /> },
@@ -62,6 +66,9 @@ const router = createBrowserRouter([
       { path: "customService", element: <CustomService /> },
       { path: "IntorSignUp", element: <IntorSignUp /> },
       { path: "IntorSignIn", element: <IntorSignIn /> },
+      { path: "LandingPageForUsers", element: <LandingPageForUsers /> },  
+      { path: "NewOrder", element: <NewOrderForm /> },
+      { path: "Orders", element: <PendingOrders /> },
       { path: "Clients", element: <Clients /> },
       { path: "blackList", element: <Blacklist /> },
       { path: "WaitingForData", element: <WaitingForData /> },
