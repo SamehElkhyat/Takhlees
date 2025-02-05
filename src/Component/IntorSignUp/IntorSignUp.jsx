@@ -29,6 +29,14 @@ const IntorSignUp = () => {
       </div>
       </Link>
 
+      <Link className="Personal" to='/SignUpForMokhalseen'>
+
+<div className="">
+  <h4>مخلص</h4>
+
+</div>
+</Link>
+
       </div>
 
     </div>
