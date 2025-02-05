@@ -5,6 +5,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const SignInForCompany = () => {
   async function handelesignin(values) {
@@ -13,20 +14,41 @@ const SignInForCompany = () => {
         Email: values.Email,
         Password: values.Password,
       });
-
-      if (data.data.message === "تم تسجيل الدخول بنجاح") {
+     if (data.data.message === "تم تسجيل الدخول بنجاح") {
         toast(data.data.message);
-        window.location.href = "/WaitingForData";
+        localStorage.setItem("Tokken", data.data.data);
+        localStorage.setItem("Code", data.data.state);
+        const decodedCode= jwtDecode(localStorage.getItem("Tokken"))
+             console.log(decodedCode);
+        if (decodedCode.Role == "User") {
+          return (window.location.href = "/landingUser");
+        } else if (decodedCode.Role == "Admin") {
+          return (window.location.href = "/LandingPageAdmin");
+        } else if (decodedCode.Role == "Company") {
+          return (window.location.href = "/landingUser");
+        } else if (decodedCode.Role == "Account") {
+
+         return console.log("accountant");
+         
+        } else if (decodedCode.Role == "CustomerService") {
+          return (window.location.href = "/LandingPageCustomeService");
+        } else if (decodedCode.Role == "Broker") {
+          return (window.location.href="/BrookersLandingPage")
+        } else if (decodedCode.Role == "Manager") {
+          console.log("Manager");
+        }
+
+        toast(data.data.message);
       } else {
         toast(data.data.message);
       }
     } catch (error) {
       if (error.response) {
-        console.error("Response error:", error.response.data); 
+        console.error("Response error:", error.response.data);
       } else if (error.request) {
-        console.error("Request error:", error.request); 
+        console.error("Request error:", error.request);
       } else {
-        console.error("Axios error:", error.message); 
+        console.error("Axios error:", error.message);
       }
     }
   }
@@ -75,22 +97,20 @@ const SignInForCompany = () => {
             />
           </div>
           <p>
-              <Link className="to-ResetPassword" to="/ResetPassword">
-                هل نسيت كلمة السر؟
-              </Link>
-            </p>
+            <Link className="to-ResetPassword" to="/ResetPassword">
+              هل نسيت كلمة السر؟
+            </Link>
+          </p>
 
           <div className="button-group">
             <button className="signin-button" type="submit">
               تسجيل الدخول
             </button>
-            <p >
-              <Link
-              className="to-SignUp"
-                to="/SignUpForCompany"
-              >
-              انشاء حساب جديد 
-              </Link></p>
+            <p>
+              <Link className="to-SignUp" to="/SignUpForCompany">
+                انشاء حساب جديد
+              </Link>
+            </p>
           </div>
         </form>
       </div>

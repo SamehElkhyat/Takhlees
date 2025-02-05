@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Select,
@@ -10,14 +10,33 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
+import axios from "axios";
 
 
-export default function CustomService() {
-
+export default function CanceledOrders() {
 
 
   const[customers, setCustomers]= useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
+
+  const getCustomers = async ()=>{
+   
+    try{
+    
+        const {data}= await axios.get(`https://user.runasp.net/api/Get-All-Refuse-Orders`)
+        console.log(data);
+        
+
+    }catch(error){
+
+console.log(error);
+
+
+    }
+
+
+
+  }
 
   const handleConfirm = (id) => {
     setCustomers(
@@ -34,6 +53,9 @@ export default function CustomService() {
       ? new Date(b.date) - new Date(a.date)
       : new Date(a.date) - new Date(b.date)
   );
+useEffect(() => {
+    getCustomers();
+}, [])
 
   return (
     <Box width="100%" textAlign="center" p={4}>

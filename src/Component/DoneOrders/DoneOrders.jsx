@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Select,
@@ -10,30 +10,39 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
+import axios from "axios";
 
 
-export default function CustomService() {
-
+export default function DoneOrders() {
 
 
   const[customers, setCustomers]= useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
+  let [Counter, setCounter] = useState(1)
 
-  const handleConfirm = (id) => {
-    setCustomers(
-      customers.map((c) => (c.id === id ? { ...c, status: "contacted" } : c))
-    );
-  };
+  const getAllAcceptedOrders =async ()=>{
 
-  const handleExecutionStatus = (id, status) => {
-    setCustomers(customers.map((c) => (c.id === id ? { ...c, status } : c)));
-  };
+const {data} = await axios.get(`https://user.runasp.net/api/Get-All-Accept-Orders`)
+
+console.log(data);
+setCustomers(data)
+
+}
+
+
 
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
       ? new Date(b.date) - new Date(a.date)
       : new Date(a.date) - new Date(b.date)
   );
+
+  useEffect(() => {
+    
+    getAllAcceptedOrders()
+
+  }, [])
+  
 
   return (
     <Box width="100%" textAlign="center" p={4}>
@@ -65,25 +74,30 @@ export default function CustomService() {
         >
           <TableRow>
             <TableCell align="center">رقم الطلب</TableCell>
+            <TableCell align="center">موقع الطلب</TableCell>
+
             <TableCell align="center">الاسم</TableCell>
-            <TableCell align="center">المسؤول</TableCell>
+            <TableCell align="center">نوع الطلب</TableCell>
 
             <TableCell align="center">الهاتف</TableCell>
             <TableCell align="center">التاريخ</TableCell>
-            <TableCell align="center">الإجراء</TableCell>
+            <TableCell align="center">الحاله</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {sortedCustomers.map((customer) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.id}
+                {Counter++}
+              </TableCell>       <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                {customer.location}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.name}
               </TableCell>
+       
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.accountManager}
+                {customer.typeOrder}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.phone}
@@ -93,24 +107,10 @@ export default function CustomService() {
               </TableCell>
 
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.status === "pending" ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleConfirm(customer.id)}
-                  >
-                    تم التواصل
-                  </Button>
-                ) : (
-                  <Select
-                    onChange={(e) =>
-                      handleExecutionStatus(customer.id, e.target.value)
-                    }
-                  >
-                    <MenuItem value="executed">تم التنفيذ</MenuItem>
-                    <MenuItem value="not_executed">لم يتم التنفيذ</MenuItem>
-                  </Select>
-                )}
+             <Button className="bg-success text-white">
+             {customer.statuOrder}
+
+             </Button>
               </TableCell>
             </TableRow>
           ))}

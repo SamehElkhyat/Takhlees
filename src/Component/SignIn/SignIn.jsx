@@ -6,6 +6,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const SignIn = () => {
   const validationSchema = Yup.object({
@@ -28,7 +29,27 @@ const SignIn = () => {
         toast(data.data.message);
         localStorage.setItem("Tokken", data.data.data);
         localStorage.setItem("Code", data.data.state);
-         window.location.href = "/ConfirmPassword";
+        const decodedCode= jwtDecode(localStorage.getItem("Tokken"))
+             console.log(decodedCode);
+             if (decodedCode.Role == "User") {
+              return (window.location.href = "/landingUser");
+            } else if (decodedCode.Role == "Admin") {
+              return (window.location.href = "/LandingPageAdmin");
+            } else if (decodedCode.Role == "Company") {
+              return (window.location.href = "/landingUser");
+            } else if (decodedCode.Role == "Account") {
+    
+             return console.log("accountant");
+             
+            } else if (decodedCode.Role == "CustomerService") {
+              return (window.location.href = "/LandingPageCustomeService");
+            } else if (decodedCode.Role == "Broker") {
+              return (window.location.href="/BrookersLandingPage")
+            } else if (decodedCode.Role == "Manager") {
+              console.log("Manager");
+            }
+             
+        //  window.location.href = "/ConfirmPassword";
       } else {
         toast(data.data.message);
       }

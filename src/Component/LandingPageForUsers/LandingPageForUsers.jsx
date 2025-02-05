@@ -25,6 +25,18 @@ const LandingPageForUsers = () => {
             </Card.Body>
           </Card>
         </Col>
+
+        <Col sm={12} md={4}>
+          <Card className="shadow-lg p-4 mb-4 bg-white rounded border-0">
+            <Card.Body>
+              <Card.Title className="fs-3 text-success fw-bold">📋 الطلبات الجاريه</Card.Title>
+              <Card.Text className="text-muted">تحقق من طلباتك الجاريه وتتبع تقدمها</Card.Text>
+              <Button variant="success" className="fw-bold px-4 py-2"><Link className='text-decoration-none text-white' to='/Orders'>عرض الطلبات الجاريه</Link></Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
+
         <Col sm={12} md={4}>
           <Card className="shadow-lg p-4 mb-4 bg-white rounded border-0">
             <Card.Body>

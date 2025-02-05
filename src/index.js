@@ -22,7 +22,7 @@ import Clients from "./Component/AdminComponent/Clients/Clients.jsx";
 import Blacklist from "./Component/AdminComponent/blacklist/blacklist.jsx";
 import Brookers from "./Component/AdminComponent/Brookers/Brookers";
 import Accountant from "./Component/Accountant/Accountant";
-import CustomService from "./Component/CustomService/CustomService";  
+import CustomService from "./Component/CustomService/CustomService";
 import Permissions from "./Component/Permissions/Permissions";
 import Statistics from "./Component/AdminComponent/statistics/statistics.jsx";
 import NewOrder from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
@@ -42,8 +42,10 @@ import NewOrderForm from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
 import PendingOrders from "./Component/ClientsComponent/Orders/Orders.jsx";
 import OrderDetailsForUser from "./Component/ClientsComponent/OrderDetailsForUser/OrderDetailsForUser.jsx";
 import CurrentOrdersForUsers from "./Component/ClientsComponent/CurrentOrdersForUsers/CurrentOrdersForUsers.jsx";
-
-
+import LandingPageCustomeService from "./Component/LandingPageCustomeService/LandingPageCustomeService.jsx";
+import CanceledOrders from "./Component/CanceledOrders/CanceledOrders.jsx";
+import DoneOrders from "./Component/DoneOrders/DoneOrders.jsx";
+import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,9 +53,9 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "", element: <LandingPage /> },
-      {path:"OrderDetailsForUser",element:<OrderDetailsForUser/>},
+      { path: "OrderDetailsForUser", element: <OrderDetailsForUser /> },
       { path: "availableOrders", element: <AvailableOrders /> },
-      {path:"brookersCart", element:<BrookersCart/>},
+      { path: "brookersCart", element: <BrookersCart /> },
       { path: "currentOffers", element: <CurrentOffers /> },
       { path: "historyOfOrders", element: <HistoryOfOrders /> },
       { path: "orderDetails", element: <OrderDetails /> },
@@ -63,13 +65,17 @@ const router = createBrowserRouter([
       { path: "orders", element: <Orders /> },
       { path: "brookersLandingPage", element: <BrookersLandingPage /> },
       { path: "landingUser", element: <LandingUser /> },
+      {  path: "LandingPageAdmin", element: <LandingPageAdmin />},
       { path: "Cart", element: <Cart /> },
       { path: "permissions", element: <Permissions /> },
       { path: "statistics", element: <Statistics /> },
       { path: "customService", element: <CustomService /> },
+      {path:"canceledOrders", element :<CanceledOrders/>},
+      {path:"DoneOrders", element:<DoneOrders/>},
       { path: "IntorSignUp", element: <IntorSignUp /> },
       { path: "IntorSignIn", element: <IntorSignIn /> },
-      { path: "LandingPageForUsers", element: <LandingPageForUsers /> },  
+      { path: "LandingPageCustomeService", element: <LandingPageCustomeService /> },
+      { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
       { path: "NewOrder", element: <NewOrderForm /> },
       { path: "Orders", element: <PendingOrders /> },
       { path: "Clients", element: <Clients /> },
@@ -83,8 +89,8 @@ const router = createBrowserRouter([
       { path: "ConfirmPassword", element: <ConfirmPassword /> },
       { path: "SignInForCompany", element: <SignInForCompany /> },
       { path: "ResetThePassword", element: <ResetThePassword /> },
-      {path:'LandingPageForUsers', element: <LandingPageForUsers/>},
-      {path:'CurrentOrdersForUsers',element:<CurrentOrdersForUsers/>},
+      { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
+      { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
       { path: "brookers", element: <Brookers /> },
     ],
   },

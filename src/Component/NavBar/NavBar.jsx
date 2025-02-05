@@ -144,6 +144,7 @@ const NavBar = () => {
                     <ListItemText primary={"خدمه العملاء"} />
                   </ListItemButton>
                 </ListItem>
+                
                 <ListItem key={"text9"} disablePadding>
                   <ListItemButton>
                     <ListItemText
@@ -175,6 +176,19 @@ const NavBar = () => {
                 <ListItem key={"text3"} disablePadding>
                   <ListItemButton>
                     <ListItemText primary={"أدوات العملاء"} />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem key={"text9"} disablePadding>
+                  <ListItemButton>
+                    <ListItemText
+                      onClick={() => {
+                        localStorage.removeItem("Tokken");
+                        toast("تم تسجيل الخروج بنجاح");
+                        setApiToken(false);
+                        window.location.href="/SignIn";
+                      }}
+                      primary={"تسجيل الخروج"}
+                    />
                   </ListItemButton>
                 </ListItem>
               </List>
