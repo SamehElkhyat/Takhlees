@@ -7,6 +7,8 @@ import { IdContext } from "../../IdContext/IdContext";
 import axios from "axios";
 
 export default function AvailableOrders() {
+  const [Tokeen, setTokeen] = useState(null)
+
   const [orders, setOrders] = useState([
     { id: 1, location: "الرياض", type: "طبليه", status: "تحت الإجراء" },
     { id: 2, location: "جدة", type: "حاويه", status: "تم تنفيذ الطلب" },
@@ -47,8 +49,7 @@ export default function AvailableOrders() {
   };
 
   const SendId = async () => {
-    const Tokken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiRFZFQUJNRDU2VlVFSTdONzY2REQ0Q1pPT1NKRTJER0YiLCJqdGkiOiIwZTkwNDc5Ni03YTM3LTQ3MTctYjYwZC03MmU0MDI5ZjJkNTMiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5NDQyODkyLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.xlOr-vJB4pEIQgNetGVX7E0yDFUMZqgVR7uRbshqVys";
+    
 
     if (id == 0) {
       console.log("error");
@@ -59,7 +60,7 @@ export default function AvailableOrders() {
           { ID: id },
           {
             headers: {
-              Authorization: `Bearer ${Tokken}`,
+              Authorization: `Bearer ${Tokeen}`,
             },
           }
         );
@@ -72,6 +73,8 @@ export default function AvailableOrders() {
     }
   };
   useEffect(() => {
+    const GetTokken=localStorage.getItem("Tokken")
+    setTokeen(GetTokken)    
     const t = moment();
     SendId();
     GetOrder();

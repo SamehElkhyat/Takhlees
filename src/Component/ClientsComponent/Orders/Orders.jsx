@@ -7,6 +7,7 @@ const PendingOrders = () => {
   const [orders, setOrder] = useState([]);
   const [id, setid] = useState();
   let [counter, setcounter] = useState(1)
+  const [Tokeen, setTokeen] = useState(null)
 
 
 
@@ -71,6 +72,8 @@ console.log(res);
 
 
   useEffect(() => {
+    const GetTokken=localStorage.getItem("Tokken")
+    setTokeen(GetTokken)    
     GetOrder();
     SendId();
   }, [id]);

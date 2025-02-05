@@ -7,12 +7,11 @@ export default function OrderDetailsForUser() {
   const [data, setdata] = useState();
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
+  const [Tokeen, setTokeen] = useState(null)
 
   const SendValue = async () => {
     try {
-      const Tokken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiVUVPS0VGSFdTVUZFSjZHTldaN0NUNjVHNFU3TkFLU0UiLCJqdGkiOiJkMWEzOGZhYS1lNTkzLTRkZGYtYjE3ZS1iODQxNzY2Zjc0ZGEiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5Nzg2MDE4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.JIXiZiPeqqtdDbvqpYa7enC8mzfZX2_uLymCxcIbN_s";
-
+      
       const { data } = await axios.get(
         `https://user.runasp.net/api/Get-all-Values`,
 
@@ -80,6 +79,8 @@ console.log(data);
     setcost(value.target.value);
   };
   useEffect(() => {
+    const GetTokken=localStorage.getItem("Tokken")
+    setTokeen(GetTokken)    
     SendValue();
     getOrders();
   }, []);

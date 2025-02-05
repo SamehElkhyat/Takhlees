@@ -5,6 +5,9 @@ import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
 const NewOrderForm = () => {
+  const [Tokeen, setTokeen] = useState(null)
+
+
   // إرسال البيانات إلى الـ API
   const handleOrder = async (values) => {
     const formData = new FormData();
@@ -30,16 +33,13 @@ const NewOrderForm = () => {
     });
 
     try {
-      const Tokken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6ImUzMGU3YWYzLWYxNDktNGQ4ZC1iMDA3LWMxNWY0MmMyZGZhOSIsIkVtYWlsIjoiYWJkZWxtb2hzZW5AZ21haWwuY29tIiwiZnVsbE5hbWUiOiJhYmR1bGxhaCBtYWhtb3VkIGFiZGVsbW9oc2VuIiwicGhvbmVOdW1iZXIiOiIrMDU0ODQyMTU0ODU0IiwiSWRlbnRpdHkiOiI2NzMzNzA5ODQ4Iiwic2VjdXJpdHlTdGFtcCI6IjdCNks3U1RIV0QzNkRRSENXT0RJUVVXS01TVEpGTEk3IiwianRpIjoiMmQwYjZjZGItMDZmNy00ZDY5LTgxZmMtMjg5MzgzMWZjNGZkIiwiUm9sZSI6IlVzZXIiLCJleHAiOjE3Mzk3ODI4MzMsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjYiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2In0.bgY_OP6kGdlnXgocunUNQSECx_YwAfHmJWoQq1RPD58";
-
       const response = await axios.post(
         "https://user.runasp.net/api/New-Order",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${Tokken}`,
+            Authorization: `Bearer ${Tokeen}`,
           },
         }
       );
@@ -92,6 +92,12 @@ const NewOrderForm = () => {
       ...e.target.files,
     ]);
   };
+
+  useEffect(() => {
+    const GetTokken=localStorage.getItem("Tokken")
+    setTokeen(GetTokken)    
+  }, [])
+  
 
   return (
     <div className="container text-center d-flex flex-column gap-3 mt-5">
