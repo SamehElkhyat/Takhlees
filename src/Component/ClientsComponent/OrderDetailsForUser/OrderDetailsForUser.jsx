@@ -22,14 +22,11 @@ export default function OrderDetailsForUser() {
         }
       );
       setallOrders(data);
-      console.log(data);
       
     } catch (error) {}
   };
   const SendId = async (OrderId,BrokerId) => {
 
-    console.log(BrokerId);
-    console.log(OrderId);
     
     try {
       const Tokken =
@@ -47,7 +44,6 @@ export default function OrderDetailsForUser() {
         }
      
       );
-      console.log(data);
       
     } catch (error) {
       console.log(error);
@@ -67,7 +63,6 @@ export default function OrderDetailsForUser() {
           },
         }
       );
-console.log(data);
 
       setdata(data);
     } catch (error) {
@@ -102,8 +97,7 @@ console.log(data);
                         <tbody>
                           <tr>
                             <th>رقم الطلب</th>
-                            {console.log(data.id)
-                            }
+                          
                             <td>{data.id}</td>
                           </tr>
                           <tr>

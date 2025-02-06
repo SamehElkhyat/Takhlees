@@ -5,11 +5,11 @@ import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
 const NewOrderForm = () => {
-  const [Tokeen, setTokeen] = useState(null)
-
+  const [Tokeen, setTokeen] = useState(null);
 
   // إرسال البيانات إلى الـ API
   const handleOrder = async (values) => {
+
     const formData = new FormData();
 
     // أضف الحقول النصية إلى FormData
@@ -43,14 +43,14 @@ const NewOrderForm = () => {
           },
         }
       );
-      ;
       toast.success(response.data.message);
       window.location.href = "/Orders";
-    } catch (error) {
-      console.log(
-        error
-      );
+
+      console.log(values);
       
+    } catch (error) {
+      console.log(error);
+
       toast.error("error 404", {
         style: {
           fontWeight: "700",
@@ -94,10 +94,9 @@ const NewOrderForm = () => {
   };
 
   useEffect(() => {
-    const GetTokken=localStorage.getItem("Tokken")
-    setTokeen(GetTokken)    
-  }, [])
-  
+    const GetTokken = localStorage.getItem("Tokken");
+    setTokeen(GetTokken);
+  }, []);
 
   return (
     <div className="container text-center d-flex flex-column gap-3 mt-5">
@@ -111,19 +110,65 @@ const NewOrderForm = () => {
         {/* موقع الطلب */}
         <Form.Group controlId="location">
           <Form.Label>موقع الطلب</Form.Label>
+
           <Form.Control
-            type="text"
+            as="select"
             placeholder="أدخل موقع الطلب"
             name="location"
             value={formik.values.location}
             onChange={formik.handleChange}
-          />
+          >
+            <option value="">اختر موقع الطلب</option>
+            <option value="ميناء الملك عبد العزيز بالدمام">
+              ميناء الملك عبد العزيز بالدمام
+            </option>
+            <option value="ميناء الملك فهد الصناعي بينبع">
+              ميناء الملك فهد الصناعي بينبع
+            </option>
+            <option value="ميناء الجبيل التجاري">ميناء الجبيل التجاري</option>
+            <option value="ميناء الملك فهد الصناعي بالجبيل">
+              ميناء الملك فهد الصناعي بالجبيل
+            </option>
+            <option value="ميناء ينبع التجاري">ميناء ينبع التجاري</option>
+            <option value="ميناء جازان">ميناء جازان</option>
+            <option value="ميناء رأس تنورة">ميناء رأس تنورة</option>
+            <option value="ميناء رأس الخير">ميناء رأس الخير</option>
+            <option value="الرياض">الرياض</option>
+            <option value="جدة مطار الملك عبد العزيز الدولي">
+              جدة (مطار الملك عبد العزيز الدولي)
+            </option>
+            <option value="الدمام">الدمام</option>
+            <option value="المدينةالمنورة">المدينة المنورة</option>
+            <option value="الطائف">الطائف</option>
+            <option value="الأحساء">الأحساء</option>
+            <option value="القيصومة">القيصومة</option>
+            <option value="رفحاء">رفحاء</option>
+            <option value="عرعر">عرعر</option>
+            <option value="طريف">طريف</option>
+            <option value="القريات">القريات</option>
+            <option value="الجوف">الجوف</option>
+            <option value="حائل">حائل</option>
+            <option value="القصيم">القصيم</option>
+            <option value="الدوادمي">الدوادمي</option>
+            <option value="وادي الدواسر">وادي الدواسر</option>
+            <option value="بيشة">بيشة</option>
+            <option value="الباحة">الباحة</option>
+            <option value="نجران">نجران</option>
+            <option value="شرورة">شرورة</option>
+            <option value="أبها">أبها</option>
+            <option value="جازان">جازان</option>
+            <option value="ينبع">ينبع</option>
+            <option value="الوجه">الوجه</option>
+            <option value="العلا">العلا</option>
+            <option value="تبوك">تبوك</option>
+            <option value="نيوم">نيوم</option>
+          </Form.Control>
         </Form.Group>
 
         <Form.Group controlId="numberOfLicense">
           <Form.Label>رقم البوليصه</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             placeholder="رقم الوليصه"
             name="numberOfLicense"
             value={formik.values.numberOfLicense}
@@ -155,7 +200,6 @@ const NewOrderForm = () => {
                 <option value="">اختر نوع الطلب</option>
                 <option value="طبليه">طبليه</option>
                 <option value="حاويه">حاويه</option>
-                <option value="وزن">وزن</option>
               </Form.Control>
             </Form.Group>
 

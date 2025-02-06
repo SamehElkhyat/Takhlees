@@ -6,17 +6,11 @@ const CurrentOrdersForUsers = () => {
   const [orders, setOrder] = useState([]);
   const [id, setid] = useState();
   let [counter, setcounter] = useState(1);
-  const [Tokeen, setTokeen] = useState(null)
 
 
   const SendId = async () => {
-    const Tokken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiRFZFQUJNRDU2VlVFSTdONzY2REQ0Q1pPT1NKRTJER0YiLCJqdGkiOiIwZTkwNDc5Ni03YTM3LTQ3MTctYjYwZC03MmU0MDI5ZjJkNTMiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5NDQyODkyLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.xlOr-vJB4pEIQgNetGVX7E0yDFUMZqgVR7uRbshqVys";
-
-    if (id == 0) {
-      console.log("Id Not Found");
-    } else {
-      try {
+  
+    try {
         console.log(id.ID);
 
         const req = await axios.post(
@@ -24,7 +18,7 @@ const CurrentOrdersForUsers = () => {
           { ID: id },
           {
             headers: {
-              Authorization: `Bearer ${Tokken}`,
+              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
             },
           }
         );
@@ -34,17 +28,18 @@ const CurrentOrdersForUsers = () => {
       } catch (error) {
         console.log(error);
       }
-    }
+    
   };
 
   const GetOrder = async () => {
+
+    
     try {
-     
       const res = await axios.get(
         `https://user.runasp.net/api/Order-Requests`,
         {
           headers: {
-            Authorization: `Bearer ${Tokeen}`,
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
@@ -55,13 +50,10 @@ const CurrentOrdersForUsers = () => {
     }
   };
   const handleChangeId = (value) => {
-    setid(value);
+console.log(value);
   };
 
-  useEffect(() => {
-
-    const GetTokken=localStorage.getItem("Tokken")
-    setTokeen(GetTokken)    
+  useEffect(() => { 
     GetOrder();
     SendId();
   }, [id]);
@@ -80,7 +72,7 @@ const CurrentOrdersForUsers = () => {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id}>
+            <tr onClick={handleChangeId(order.id)} key={order.id}>
               <td>{order.id}</td>
               <td>{order.location}</td>
               <td>{order.typeOrder}</td>
