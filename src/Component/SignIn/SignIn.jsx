@@ -32,11 +32,11 @@ const SignIn = () => {
         const decodedCode= jwtDecode(localStorage.getItem("Tokken"))
              console.log(decodedCode);
              if (decodedCode.Role == "User") {
-              return (window.location.href = "/landingUser");
+              return (window.location.href = "/LandingPageForUsers");
             } else if (decodedCode.Role == "Admin") {
               return (window.location.href = "/LandingPageAdmin");
             } else if (decodedCode.Role == "Company") {
-              return (window.location.href = "/landingUser");
+              return (window.location.href = "/LandingPageForUsers");
             } else if (decodedCode.Role == "Account") {
     
              return (window.location.href = "/AccountantLandingPage");

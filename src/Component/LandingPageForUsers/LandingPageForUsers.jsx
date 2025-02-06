@@ -10,6 +10,8 @@ const LandingPageForUsers = () => {
   const [Ishovered2, setIshovered2] = useState(false);
   const [Ishovered3, setIshovered3] = useState(false);
   const [Ishovered4, setIshovered4] = useState(false);
+  const [Ishovered5, setIshovered5] = useState(false);
+
 
   const [DecodedTokken, setDecodedTokken] = useState();
 
@@ -65,6 +67,13 @@ const LandingPageForUsers = () => {
       transform: Ishovered4 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered4 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+
+    },
+    cards5:{
+      backgroundColor: Ishovered5 ? "#1ea9e2" : "white",
+      transform: Ishovered5 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered5 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
 
     },
     icons: {
@@ -157,7 +166,25 @@ const LandingPageForUsers = () => {
             </Card.Body>
           </Card>
         </Col>
-  
+         <Col md={3} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards5}
+            onMouseEnter={() => setIshovered5(true)}
+            onMouseLeave={() => setIshovered5(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+            <i style={styles.icons} className="fa-solid fa-square-check"></i>
+              <Card.Title>الطلبات المنفذه</Card.Title>
+              <Card.Text>عرض الطلبات المنفذه الخاص بك.</Card.Text>
+              <Button className="bg-black" >
+                <Link className="text-white text-decoration-none" to="/DoneOrdersForUser">
+                  الذهاب الي الطلبات المنفذه
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards4}
@@ -177,6 +204,8 @@ const LandingPageForUsers = () => {
             </Card.Body>
           </Card>
         </Col>
+
+ 
       </Row>
     </Container>
   );

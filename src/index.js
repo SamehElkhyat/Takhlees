@@ -47,6 +47,7 @@ import DoneOrders from "./Component/DoneOrders/DoneOrders.jsx";
 import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
 import AccountantLandingPage from "./Component/AccountantLandingPage/AccountantLandingPage.jsx";
 import AcceptedOrderAccountant from "./Component/AcceptedOrderAccountant/AcceptedOrderAccountant.jsx";
+import DoneOrdersForUser from "./Component/ClientsComponent/DoneOrdersforUSer/DoneOrdersForUser.jsx";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,8 @@ const router = createBrowserRouter([
       { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
       { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
       { path: "AcceptedOrderAccountant", element: <AcceptedOrderAccountant /> },
+      { path: "DoneOrdersForUser", element: <DoneOrdersForUser /> },
+
 
       { path: "brookers", element: <Brookers /> },
     ],
