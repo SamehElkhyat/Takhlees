@@ -10,8 +10,6 @@ const PendingOrders = () => {
 
   const SendId = async () => {
     console.log("iam here");
-
-   
     if (id == 0) {
       console.log("Id Not Found");
     } else {
@@ -37,6 +35,8 @@ const PendingOrders = () => {
   };
 
   const GetOrder = async () => {
+    console.log(Tokeen);
+    
     try {
       const res = await axios.get(
         `https://user.runasp.net/api/Get-Orders`,
@@ -61,7 +61,7 @@ const PendingOrders = () => {
     setTokeen(GetTokken);
     GetOrder();
     SendId();
-  }, [id]);
+  }, []);
   return (
     <div className="container mt-5">
       <h3 className="text-center">الطلبات القائمة</h3>
