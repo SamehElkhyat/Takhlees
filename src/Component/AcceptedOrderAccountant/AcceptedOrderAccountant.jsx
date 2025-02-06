@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 
 
-export default function DoneOrders() {
+export default function AcceptedOrderAccountant() {
 
 
   const[customers, setCustomers]= useState([]);
@@ -61,7 +61,7 @@ setCustomers(data)
         backgroundColor: "transparent",
 
       }}
-      >خدمة العملاء</h1>
+      >قائمه الحوالات للمخلصين</h1>
       <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <MenuItem value="newest">الأحدث</MenuItem>
         <MenuItem value="oldest">الأقدم</MenuItem>
@@ -113,9 +113,12 @@ setCustomers(data)
               </TableCell>
 
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-             <Button className="bg-success text-white">
-             {customer.statuOrder}
+             <Button className="bg-danger text-white">
+لم يتم التحويل
+             </Button>
 
+             <Button className="bg-success text-white">
+تم التحويل
              </Button>
               </TableCell>
             </TableRow>

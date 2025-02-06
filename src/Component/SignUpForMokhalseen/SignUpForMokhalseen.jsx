@@ -36,16 +36,17 @@ const SignUpForMokhalseen = () => {
   });
   const handelSignUpForMokhalseen = async (values) => {
     try {
-      console.log(values);
 
       const data = await axios.post(
         `https://takhleesak.runasp.net/api/Register-Broker`,
         values
       );
 
-      if (data.data.message === "تم تسجيل الدخول بنجاح") {
+      if (data.data.message === "تم تسجيل حساب المخلصين بنجاح") {
+
         toast("sucsses");
-        window.location.href = "/LandingUser";
+        window.location.href = "/SignIn";
+    
       } else {
         toast(data.data.message);
       }

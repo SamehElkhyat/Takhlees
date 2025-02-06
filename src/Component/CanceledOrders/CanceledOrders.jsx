@@ -23,7 +23,16 @@ export default function CanceledOrders() {
    
     try{
     
-        const {data}= await axios.get(`https://user.runasp.net/api/Get-All-Refuse-Orders`)
+        const {data}= await axios.get(`https://user.runasp.net/api/Get-All-Refuse-Orders`,{
+          headers:{
+
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+
+          }
+
+   
+
+        })
         console.log(data);
         
 

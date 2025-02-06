@@ -242,7 +242,6 @@ const NavBar = () => {
                   </Link>
                 ) : (
                   <Link
-                    to="/User"
                     className="Drawer-link space-between text-decoration-none"
                   >
                     {Token.fullName}

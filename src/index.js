@@ -28,7 +28,6 @@ import Statistics from "./Component/AdminComponent/statistics/statistics.jsx";
 import NewOrder from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
 import Orders from "./Component/ClientsComponent/Orders/Orders.jsx";
 import Cart from "./Component/ClientsComponent/Cart/Cart.jsx";
-import LandingUser from "./Component/LandingUser/LandingUser.jsx";
 import Mokhalseen from "./Component/Mokhalseen/Mokhalseen.jsx";
 import SignUpForMokhalseen from "./Component/SignUpForMokhalseen/SignUpForMokhalseen.jsx";
 import BrookersLandingPage from "./Component/BrookersComponent/BrookersLandingPage/BrookersLandingPage.jsx";
@@ -46,6 +45,8 @@ import LandingPageCustomeService from "./Component/LandingPageCustomeService/Lan
 import CanceledOrders from "./Component/CanceledOrders/CanceledOrders.jsx";
 import DoneOrders from "./Component/DoneOrders/DoneOrders.jsx";
 import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
+import AccountantLandingPage from "./Component/AccountantLandingPage/AccountantLandingPage.jsx";
+import AcceptedOrderAccountant from "./Component/AcceptedOrderAccountant/AcceptedOrderAccountant.jsx";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +65,6 @@ const router = createBrowserRouter([
       { path: "mokhalseen", element: <Mokhalseen /> },
       { path: "orders", element: <Orders /> },
       { path: "brookersLandingPage", element: <BrookersLandingPage /> },
-      { path: "landingUser", element: <LandingUser /> },
       {  path: "LandingPageAdmin", element: <LandingPageAdmin />},
       { path: "Cart", element: <Cart /> },
       { path: "permissions", element: <Permissions /> },
@@ -89,8 +89,11 @@ const router = createBrowserRouter([
       { path: "ConfirmPassword", element: <ConfirmPassword /> },
       { path: "SignInForCompany", element: <SignInForCompany /> },
       { path: "ResetThePassword", element: <ResetThePassword /> },
+      { path: "AccountantLandingPage", element: <AccountantLandingPage /> },
       { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
       { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
+      { path: "AcceptedOrderAccountant", element: <AcceptedOrderAccountant /> },
+
       { path: "brookers", element: <Brookers /> },
     ],
   },

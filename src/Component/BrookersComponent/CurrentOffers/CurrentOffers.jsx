@@ -9,13 +9,11 @@ export default function CurrentOffers() {
   const [orders, setOrders] = useState([]);
 
   const [orders2, setOrders2] = useState([]);
-  const [Tokeen, setTokeen] = useState(null)
-
 
   const SendIdSuccses = async (ID) => {
     console.log(ID);
 
-    
+   
     try {
       const req = await axios.post(
         `https://user.runasp.net/api/Change-Statu-Broker`,
@@ -25,7 +23,7 @@ export default function CurrentOffers() {
         },
         {
           headers: {
-            Authorization: `Bearer ${Tokeen}`,
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
@@ -42,8 +40,7 @@ export default function CurrentOffers() {
   // sadsssssssssssssssssssssssssss//
 
   const SendIdCancel = async (ID) => {
-    const Tokken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiRFZFQUJNRDU2VlVFSTdONzY2REQ0Q1pPT1NKRTJER0YiLCJqdGkiOiIwZTkwNDc5Ni03YTM3LTQ3MTctYjYwZC03MmU0MDI5ZjJkNTMiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5NDQyODkyLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.xlOr-vJB4pEIQgNetGVX7E0yDFUMZqgVR7uRbshqVys";
+    
     try {
       const req = await axios.post(
         `https://user.runasp.net/api/Change-Statu-Broker`,
@@ -53,7 +50,7 @@ export default function CurrentOffers() {
         },
         {
           headers: {
-            Authorization: `Bearer ${Tokken}`,
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
@@ -66,13 +63,12 @@ export default function CurrentOffers() {
   };
   const GetValueCurrentOffers = async () => {
     try {
-      const Tokken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjZhOTNjYTU5LWQ3MWUtNGVkMC04YzdhLWY5MmZjODY1ZTZmNCIsIkVtYWlsIjoiQnJva2VyQGdtYWlsLmNvbSIsImZ1bGxOYW1lIjoiQnJva2VyIiwicGhvbmVOdW1iZXIiOiI5NjM0LTk5MTk0IiwiSWRlbnRpdHkiOiIzMzMzMzMiLCJzZWN1cml0eVN0YW1wIjoiVUVPS0VGSFdTVUZFSjZHTldaN0NUNjVHNFU3TkFLU0UiLCJqdGkiOiJkMWEzOGZhYS1lNTkzLTRkZGYtYjE3ZS1iODQxNzY2Zjc0ZGEiLCJSb2xlIjoiQnJva2VyIiwiZXhwIjoxNzM5Nzg2MDE4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY2IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2NiJ9.JIXiZiPeqqtdDbvqpYa7enC8mzfZX2_uLymCxcIbN_s";
+      
       const { data } = await axios.get(
         `https://user.runasp.net/api/Order-Requests`,
         {
           headers: {
-            Authorization: `Bearer ${Tokken}`,
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
@@ -88,7 +84,7 @@ export default function CurrentOffers() {
         `https://user.runasp.net/api/Current-Offers`,
         {
           headers: {
-            Authorization: `Bearer ${Tokeen}`,
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
@@ -102,8 +98,6 @@ export default function CurrentOffers() {
   };
 
   useEffect(() => {
-    const GetTokken=localStorage.getItem("Tokken")
-    setTokeen(GetTokken)    
     GetValueCurrentOffers();
     getValue();
     const t = moment();
@@ -251,7 +245,9 @@ export default function CurrentOffers() {
             </tr>
           </thead>
           <tbody>
-            {orders2.map((order) => (
+
+            {orders2 ? <>
+              {orders2.map((order) => (
               <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
                 <td>{order.date}</td>
                 <td>{order.location}</td>
@@ -270,6 +266,10 @@ export default function CurrentOffers() {
                 </button>
               </tr>
             ))}
+            </>:<>
+            <h1>waitingFor data</h1>
+            </>}
+
           </tbody>
         </Table>
       </div>

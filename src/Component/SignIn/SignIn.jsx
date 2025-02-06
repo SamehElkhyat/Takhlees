@@ -39,7 +39,7 @@ const SignIn = () => {
               return (window.location.href = "/landingUser");
             } else if (decodedCode.Role == "Account") {
     
-             return console.log("accountant");
+             return (window.location.href = "/AccountantLandingPage");
              
             } else if (decodedCode.Role == "CustomerService") {
               return (window.location.href = "/LandingPageCustomeService");
