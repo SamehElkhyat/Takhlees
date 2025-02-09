@@ -97,7 +97,7 @@ export default function LandingPageCustomService() {
             <Card.Body>
               <i
               on
-                class="fa-regular fa-circle-check text-success"
+                className="fa-regular fa-circle-check text-success"
                 style={styles.icons}
               ></i>
               <Card.Title>الطلبات المنفذه</Card.Title>
@@ -122,12 +122,32 @@ export default function LandingPageCustomService() {
             className="shadow-lg"
           >
             <Card.Body>
-            <i style={styles.icons} class="fa-solid fa-ban text-danger" ></i>
+            <i style={styles.icons} className="fa-solid fa-ban text-danger" ></i>
               <Card.Title>الطلبات الملغاه</Card.Title>
               <Card.Text>عرض وإدارة الطلبات الملغاه .</Card.Text>
               <Button variant="success">
                 <Link className="text-white text-decoration-none" to="/CanceledOrders">
                   الذهاب إلى الطلبات الملغاه
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col md={4} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards3}
+            onMouseEnter={() => setIshovered3(true)}
+            onMouseLeave={() => setIshovered3(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+            <i className="fa-solid fa-money-bill-transfer" style={styles.icons}></i>
+              <Card.Title>الطلبات المحوله</Card.Title>
+              <Card.Text>عرض وإدارة الطلبات الملغاه .</Card.Text>
+              <Button variant="success">
+                <Link className="text-white text-decoration-none" to="/CanceledOrders">
+                  الذهاب إلى الطلبات المحوله
                 </Link>
               </Button>
             </Card.Body>

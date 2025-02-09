@@ -12,30 +12,56 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-
 export default function DoneOrders() {
-
-
-  const[customers, setCustomers]= useState([]);
+  const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
-  let [Counter, setCounter] = useState(1)
+  let [Counter, setCounter] = useState(1);
 
-  const getAllAcceptedOrders =async ()=>{
+  const ChangeStateNotDone = async (values) => {
+    const request = await axios.post(
+      `https://user.runasp.net/api/Change-Statu-CustomerService`,{
+        statuOrder:'false',
+        ID:values
 
-const {data} = await axios.get(`https://user.runasp.net/api/Get-All-Accept-Orders`,{
- headers:{
-  Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
- }
- 
-
-})
-
-console.log(data);
-setCustomers(data)
-
-}
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+        },
+      }
+    );
+    console.log(request);
+  };
 
 
+  const ChangeStateDone = async (values) => {
+
+    const request = await axios.post(
+      `https://user.runasp.net/api/Change-Statu-CustomerService`,{
+        statuOrder:'true',
+        ID:values
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+        },
+      }
+    );
+    console.log(request);
+  };
+
+  const getAllAcceptedOrders = async () => {
+    const { data } = await axios.get(
+      `https://user.runasp.net/api/Get-All-Accept-Orders`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+        },
+      }
+    );
+
+    setCustomers(data);
+  };
 
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
@@ -44,24 +70,23 @@ setCustomers(data)
   );
 
   useEffect(() => {
-    
-    getAllAcceptedOrders()
-
-  }, [])
-  
+    getAllAcceptedOrders();
+  }, []);
 
   return (
     <Box width="100%" textAlign="center" p={4}>
-      <h1 className="text-xl font-bold mb-4" 
-      style={{
-        fontSize: "40px",
-        fontWeight: "bold",
-        marginBottom: "20px",
-        color: "black",
-        backgroundColor: "transparent",
-
-      }}
-      >خدمة العملاء</h1>
+      <h1
+        className="text-xl font-bold mb-4"
+        style={{
+          fontSize: "40px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+          color: "black",
+          backgroundColor: "transparent",
+        }}
+      >
+     الطلبات المنفذه
+      </h1>
       <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <MenuItem value="newest">الأحدث</MenuItem>
         <MenuItem value="oldest">الأقدم</MenuItem>
@@ -95,28 +120,33 @@ setCustomers(data)
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {Counter++}
-              </TableCell>       <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </TableCell>{" "}
+              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.name}
+                {customer.fullName}
               </TableCell>
-       
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.phone}
+                {customer.phoneNumber}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
               </TableCell>
-
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-             <Button className="bg-success text-white">
-             {customer.statuOrder}
-
-             </Button>
+              <TableCell
+                sx={{ backgroundColor: "#f0f0f0" }}
+                className="p-3"
+                align="center"
+              >
+                <Button onClick={()=>ChangeStateNotDone(customer.id)} className="m-1 bg-danger text-white">
+                  لم يتم التنفيذ
+                </Button>
+                <Button onClick={()=>ChangeStateDone(customer.id)} className="m-1 bg-success text-white">
+                  تم التنفيذ
+                </Button>
               </TableCell>
             </TableRow>
           ))}

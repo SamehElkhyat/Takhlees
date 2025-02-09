@@ -14,16 +14,15 @@ import SignInForCompany from "./Component/SignInForCompany/SignInForCompany";
 import IntorSignUp from "./Component/IntorSignUp/IntorSignUp";
 import IntorSignIn from "./Component/IntorSignIn/IntorSignIn";
 import SignUp from "./Component/SignUp/SignUp";
-import WaitingForData from "./Component/WaitingForData/WaitingForData";
 import ResetPassword from "./Component/ResetPassword/ResetPassword";
 import ConfirmPassword from "./Component/ResetPassword/ConfirmPassowrd/ConfirmPassword";
 import ResetThePassword from "./Component/ResetPassword/ResetThePassword/ResetThePassword";
 import Clients from "./Component/AdminComponent/Clients/Clients.jsx";
 import Blacklist from "./Component/AdminComponent/blacklist/blacklist.jsx";
 import Brookers from "./Component/AdminComponent/Brookers/Brookers";
-import Accountant from "./Component/Accountant/Accountant";
 import CustomService from "./Component/CustomService/CustomService";
-import Permissions from "./Component/Permissions/Permissions";
+import Permissions from "./Component/AdminComponent/Permissions/Permissions.jsx";
+import HistoryDoneOrder from "./Component/AccountantComponennt/HistoryOfDoneOrdersAccountant/HistoryDoneOrder.jsx";
 import Statistics from "./Component/AdminComponent/statistics/statistics.jsx";
 import NewOrder from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
 import Orders from "./Component/ClientsComponent/Orders/Orders.jsx";
@@ -45,9 +44,10 @@ import LandingPageCustomeService from "./Component/LandingPageCustomeService/Lan
 import CanceledOrders from "./Component/CanceledOrders/CanceledOrders.jsx";
 import DoneOrders from "./Component/DoneOrders/DoneOrders.jsx";
 import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
-import AccountantLandingPage from "./Component/AccountantLandingPage/AccountantLandingPage.jsx";
-import AcceptedOrderAccountant from "./Component/AcceptedOrderAccountant/AcceptedOrderAccountant.jsx";
+import AccountantLandingPage from "./Component/AccountantComponennt/AccountantLandingPage/AccountantLandingPage.jsx";
+import AcceptedOrderAccountant from "./Component/AccountantComponennt/AcceptedOrderAccountant/AcceptedOrderAccountant.jsx";
 import DoneOrdersForUser from "./Component/ClientsComponent/DoneOrdersforUSer/DoneOrdersForUser.jsx";
+import AllOrderTransfers from "./Component/AllOrderTransfers/AllOrderTransfers.jsx";
 
 const router = createBrowserRouter([
   {
@@ -62,9 +62,10 @@ const router = createBrowserRouter([
       { path: "historyOfOrders", element: <HistoryOfOrders /> },
       { path: "orderDetails", element: <OrderDetails /> },
       { path: "newOrder", element: <NewOrder /> },
-      { path: "accountant", element: <Accountant /> },
       { path: "mokhalseen", element: <Mokhalseen /> },
       { path: "orders", element: <Orders /> },
+      { path: "HistoryDoneOrder", element: <HistoryDoneOrder /> },
+{path: "AllOrderTransfers", element: <AllOrderTransfers /> },
       { path: "brookersLandingPage", element: <BrookersLandingPage /> },
       {  path: "LandingPageAdmin", element: <LandingPageAdmin />},
       { path: "Cart", element: <Cart /> },
@@ -81,7 +82,6 @@ const router = createBrowserRouter([
       { path: "Orders", element: <PendingOrders /> },
       { path: "Clients", element: <Clients /> },
       { path: "blackList", element: <Blacklist /> },
-      { path: "WaitingForData", element: <WaitingForData /> },
       { path: "SignIn", element: <SignIn /> },
       { path: "SignUp", element: <SignUp /> },
       { path: "SignUpForCompany", element: <SignUpForCompany /> },

@@ -7,10 +7,20 @@ export default function OrderDetailsForUser() {
   const [data, setdata] = useState();
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
-  
+
+  const [FilesName, setFilesName] = useState(
+    {
+      commerce: "السجل التجاري",
+      id: 0,
+    },
+    { commerce: "السجل الضريبي", id: 1 },
+    { commerce: "البوليصه", id: 2 },
+    { commerce: "شهاده المنشأ", id: 3 },
+    { commerce: "ملفات اخري", id: 4 },
+  );
+
   const SendValue = async () => {
     try {
-      
       const { data } = await axios.get(
         `https://user.runasp.net/api/Get-all-Values`,
 
@@ -21,16 +31,15 @@ export default function OrderDetailsForUser() {
         }
       );
       console.log(data);
-      
+
       setallOrders(data);
-      
     } catch (error) {}
   };
-  const SendId = async (OrderId,BrokerId) => {
+  const SendId = async (OrderId, BrokerId) => {
     try {
-
-      const  data  = await axios.post(
-        `https://user.runasp.net/api/Change-Satue`,{
+      const data = await axios.post(
+        `https://user.runasp.net/api/Change-Satue`,
+        {
           BrokerID: BrokerId,
           ID: OrderId,
         },
@@ -39,12 +48,11 @@ export default function OrderDetailsForUser() {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
-     
       );
-      if (data.status==200) {
-        toast("تم قبول الطلب بنجاح")
-        window.location.href='/CurrentOrdersForUsers'
-      }      
+      if (data.status == 200) {
+        toast("تم قبول الطلب بنجاح");
+        window.location.href = "/CurrentOrdersForUsers";
+      }
     } catch (error) {
       console.log(error);
     }
@@ -52,8 +60,6 @@ export default function OrderDetailsForUser() {
 
   const getOrders = async () => {
     try {
-     
-
       const { data } = await axios.get(
         `https://user.runasp.net/api/Get-Details`,
         {
@@ -65,7 +71,6 @@ export default function OrderDetailsForUser() {
 
       setdata(data);
       console.log(data);
-      
     } catch (error) {
       console.log(error);
     }
@@ -75,7 +80,6 @@ export default function OrderDetailsForUser() {
     setcost(value.target.value);
   };
   useEffect(() => {
-  
     SendValue();
     getOrders();
   }, []);
@@ -97,7 +101,7 @@ export default function OrderDetailsForUser() {
                         <tbody>
                           <tr>
                             <th>رقم الطلب</th>
-                          
+
                             <td>{data.id}</td>
                           </tr>
                           <tr>
@@ -137,6 +141,20 @@ export default function OrderDetailsForUser() {
                       </table>
                     </div>
                   </div>
+
+
+                  {data.fileName.map((item,i) => (
+                    <>                 
+                          <table className="table table-bordered">
+                            <tbody>
+                              <tr>
+                                <th> الملفات</th>
+                                <td>{item}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </>
+                  ))}
 
                   <div className="row mt-1">
                     <div className="col-12">
@@ -189,8 +207,12 @@ export default function OrderDetailsForUser() {
                           <td>
                             {" "}
                             <Button
-                            onClick={()=>{SendId(data.id,item.brokerID)}}
-                            className="w-100 m-0" variant="success">
+                              onClick={() => {
+                                SendId(data.id, item.brokerID);
+                              }}
+                              className="w-100 m-0"
+                              variant="success"
+                            >
                               قبول
                             </Button>
                           </td>

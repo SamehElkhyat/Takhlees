@@ -38,18 +38,16 @@ const SignIn = () => {
             } else if (decodedCode.Role == "Company") {
               return (window.location.href = "/LandingPageForUsers");
             } else if (decodedCode.Role == "Account") {
-    
              return (window.location.href = "/AccountantLandingPage");
-             
             } else if (decodedCode.Role == "CustomerService") {
               return (window.location.href = "/LandingPageCustomeService");
             } else if (decodedCode.Role == "Broker") {
-              return (window.location.href="/BrookersLandingPage")
+              return (window.location.href ="/BrookersLandingPage")
             } else if (decodedCode.Role == "Manager") {
               console.log("Manager");
             }
              
-        //  window.location.href = "/ConfirmPassword";
+        // window.location.href = "/ConfirmPassword";
       } else {
         toast(data.data.message);
       }

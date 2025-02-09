@@ -9,43 +9,62 @@ import {
   TableRow,
   TableCell,
   Box,
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 
-
 export default function CanceledOrders() {
+  const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
 
-
-  const[customers, setCustomers]= useState([]);
+  const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
-
-  const getCustomers = async ()=>{
-   
-    try{
-    
-        const {data}= await axios.get(`https://user.runasp.net/api/Get-All-Refuse-Orders`,{
-          headers:{
-
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-
-          }
-
-   
-
-        })
-        console.log(data);
-        
-
-    }catch(error){
-
-console.log(error);
+  const [notes, setNotes] = useState({})
 
 
+  const ChangeStateNot = async (id) => {
+    try {
+      await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        {
+          ID: id,
+          Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+        }
+      );
+      alert("تم تحديث الطلب بنجاح");
+      getCustomers(); // تحديث القائمة بعد الإرسال
+    } catch (error) {
+      console.error("حدث خطأ أثناء تحديث الحالة:", error);
     }
+  };
+
+  const getCustomers = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://user.runasp.net/api/Get-All-Refuse-Orders`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      console.log(data);
+      setCustomers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleNoteChange = (id, value) => {
+    setNotes((prevNotes) => ({ ...prevNotes, [id]: value }));
+  };
 
 
-
-  }
+  const toggleNoteField = (id) => {
+    setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleConfirm = (id) => {
     setCustomers(
@@ -62,22 +81,24 @@ console.log(error);
       ? new Date(b.date) - new Date(a.date)
       : new Date(a.date) - new Date(b.date)
   );
-useEffect(() => {
+  useEffect(() => {
     getCustomers();
-}, [])
+  }, []);
 
   return (
     <Box width="100%" textAlign="center" p={4}>
-      <h1 className="text-xl font-bold mb-4" 
-      style={{
-        fontSize: "40px",
-        fontWeight: "bold",
-        marginBottom: "20px",
-        color: "black",
-        backgroundColor: "transparent",
-
-      }}
-      >خدمة العملاء</h1>
+      <h1
+        className="text-xl font-bold mb-4"
+        style={{
+          fontSize: "40px",
+          fontWeight: "bold",
+          marginBottom: "20px",
+          color: "black",
+          backgroundColor: "transparent",
+        }}
+      >
+        الطلبات الملغاه
+      </h1>
       <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <MenuItem value="newest">الأحدث</MenuItem>
         <MenuItem value="oldest">الأقدم</MenuItem>
@@ -111,36 +132,45 @@ useEffect(() => {
                 {customer.id}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.name}
+                {customer.fullName}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.accountManager}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.phone}
+                {customer.phoneNumber}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
               </TableCell>
 
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.status === "pending" ? (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleConfirm(customer.id)}
-                  >
-                    تم التواصل
-                  </Button>
-                ) : (
-                  <Select
-                    onChange={(e) =>
-                      handleExecutionStatus(customer.id, e.target.value)
-                    }
-                  >
-                    <MenuItem value="executed">تم التنفيذ</MenuItem>
-                    <MenuItem value="not_executed">لم يتم التنفيذ</MenuItem>
-                  </Select>
+                <Button
+                  onClick={() => toggleNoteField(customer.id)}
+                  className="bg-danger text-white"
+                  sx={{ marginRight: "10px" }}
+                >
+                  لم يتم التحويل
+                </Button>
+                {showNoteField[customer.id] && (
+                  <Box mt={1}>
+                    <TextField
+                      label="اكتب ملاحظة"
+                      variant="outlined"
+                      fullWidth
+                      value={notes[customer.id] || ""}
+                      onChange={(e) =>
+                        handleNoteChange(customer.id, e.target.value)
+                      }
+                      sx={{ marginBottom: "10px" }}
+                    />
+                    <Button
+                      onClick={() => ChangeStateNot(customer.id)}
+                      className="bg-danger text-white"
+                    >
+                      إرسال الملاحظة
+                    </Button>
+                  </Box>
                 )}
               </TableCell>
             </TableRow>
