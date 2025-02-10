@@ -59,7 +59,7 @@ export default function HistoryDoneOrder() {
           backgroundColor: "transparent",
         }}
       >
-        قائمه الحوالات المنفذه
+        سجل الحوالات المنفذه
       </h1>
       <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <MenuItem value="newest">الأحدث</MenuItem>
@@ -88,9 +88,9 @@ export default function HistoryDoneOrder() {
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell align="center">{index + 1}</TableCell>
               <TableCell align="center">{customer.location}</TableCell>
-              <TableCell align="center">{customer.name}</TableCell>
+              <TableCell align="center">{customer.fullName}</TableCell>
               <TableCell align="center">{customer.typeOrder}</TableCell>
-              <TableCell align="center">{customer.phone}</TableCell>
+              <TableCell align="center">{customer.phoneNumber}</TableCell>
               <TableCell align="center">{customer.date}</TableCell>
               <TableCell align="center">
                 {/* زر "لم يتم التحويل"

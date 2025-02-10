@@ -68,7 +68,7 @@ export default function AccountantLandingPage() {
                   استعرض سجل الحوالات المنفذه وقم باداره بكل سهولة
                 </p>
                 <Link
-                  to="/AcceptedOrderAccountant"
+                  to="/HistoryDoneOrder"
                   className="btn btn-primary"
                   style={{ backgroundColor: "#1ea9e2" }}
                 >
