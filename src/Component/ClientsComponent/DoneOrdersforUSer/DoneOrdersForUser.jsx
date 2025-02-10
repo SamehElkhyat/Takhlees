@@ -19,6 +19,8 @@ const DoneOrdersForUser = () => {
           },
         }
       );
+      console.log(res.data);
+      
       
       setOrder(res.data);
       
