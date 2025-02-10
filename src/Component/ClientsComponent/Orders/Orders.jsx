@@ -8,30 +8,25 @@ const PendingOrders = () => {
   let [counter, setcounter] = useState(1);
 
   const SendId = async () => {
-    
-      try {
-
-        const req = await axios.post(
-          `https://user.runasp.net/api/Get-ID`,
-          { ID: id },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-            },
-          }
-        );        
-        if (req.status == 200) {
-          window.location.href = "/OrderDetailsForUser";
+    try {
+      const req = await axios.post(
+        `https://user.runasp.net/api/Get-ID`,
+        { ID: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
         }
-      } catch (error) {
-        
-        console.log(error);
+      );
+      if (req.status == 200) {
+        window.location.href = "/OrderDetailsForUser";
       }
-    
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const GetOrder = async () => {
-    
     try {
       const res = await axios.get(
         `https://user.runasp.net/api/Get-Orders`,
@@ -43,21 +38,21 @@ const PendingOrders = () => {
         }
       );
       console.log(localStorage.getItem("Tokken"));
-      
+      console.log(res);
+
       setOrder(res.data);
-      
     } catch (error) {
       console.log(error);
     }
   };
   const handleChangeId = (value) => {
-  setid(value);
-  SendId();
+    setid(value);
+    SendId();
   };
 
   useEffect(() => {
     GetOrder();
-    SendId()
+    SendId();
   }, [id]);
   return (
     <div className="container mt-5">
@@ -72,19 +67,29 @@ const PendingOrders = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order, i) => (
-            <tr
-              key={counter++}
-              onClick={() => {
-                handleChangeId(order.id);
-              }}
-            >
-              <td>{counter}</td>
-              <td>{order.location}</td>
-              <td>{order.typeOrder}</td>
-              <td>{order.statuOrder}</td>
-            </tr>
-          ))}
+          {console.log(orders)}
+
+          {!orders.length == 0 ? (
+            <>
+              {orders.map((order, i) => (
+                <tr
+                  key={counter++}
+                  onClick={() => {
+                    handleChangeId(order.id);
+                  }}
+                >
+                  <td>{counter}</td>
+                  <td>{order.location}</td>
+                  <td>{order.typeOrder}</td>
+                  <td>{order.statuOrder}</td>
+                </tr>
+              ))}
+            </>
+          ) : (
+            <>
+              <h1>waiting for data</h1>
+            </>
+          )}
         </tbody>
       </Table>
     </div>

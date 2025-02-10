@@ -15,7 +15,7 @@ const NewOrderForm = () => {
     // أضف الحقول النصية إلى FormData
     formData.append("Location", values.location);
     formData.append("numberOfLicense", values.numberOfLicense);
-
+    formData.append("Notes", values.Notes);
     values.numberOfTypeOrders.forEach((order, index) => {
       formData.append(`numberOfTypeOrders[${index}][Number]`, order.Number);
       formData.append(
@@ -63,8 +63,9 @@ const NewOrderForm = () => {
     initialValues: {
       location: "",
       numberOfLicense: "",
+      Notes: "",
       numberOfTypeOrders: [{ Number: "", typeOrder: "", Weight: "", Size: "" }],
-      uploadFile: [], // ملفات مرفقة
+      uploadFile: [], // ملفات مرفق
     },
     onSubmit: handleOrder,
   });
@@ -91,6 +92,26 @@ const NewOrderForm = () => {
       ...formik.values.uploadFile,
       ...e.target.files,
     ]);
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+  
+    let newFiles = Array.from(e.target.files);
+    
+    // تصفية الملفات غير المسموحة
+    newFiles = newFiles.filter((file) => {
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(`نوع الملف غير مدعوم: ${file.name}`);
+        return false;
+      }
+      if (file.size > maxSize) {
+        toast.error(`حجم الملف ${file.name} يتجاوز 5MB`);
+        return false;
+      }
+      return true;
+    });
+  
+    // تحديث الملفات المقبولة فقط
+    formik.setFieldValue("uploadFile", [...formik.values.uploadFile, ...newFiles]);
   };
 
   useEffect(() => {
@@ -176,6 +197,17 @@ const NewOrderForm = () => {
           />
         </Form.Group>
 
+        <Form.Group controlId="Notes">
+          <Form.Label>ملاحظات الطلب</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="ملاحظات الطلب"
+            name="Notes"
+            value={formik.values.Notes}
+            onChange={formik.handleChange}
+          />
+        </Form.Group>
+
         {/* الحقول الديناميكية */}
         <h5>تفاصيل الطلبات</h5>
         {formik.values.numberOfTypeOrders.map((order, index) => (
@@ -235,15 +267,22 @@ const NewOrderForm = () => {
             {order.typeOrder === "حاويه" && (
               <Form.Group controlId={`numberOfTypeOrders[${index}][Size]`}>
                 <Form.Label>الحجم</Form.Label>
+
+
                 <Form.Control
-                  type="text"
-                  value={order.Size}
-                  onChange={(e) => {
-                    const updatedOrders = [...formik.values.numberOfTypeOrders];
-                    updatedOrders[index].Size = e.target.value;
-                    formik.setFieldValue("numberOfTypeOrders", updatedOrders);
-                  }}
-                />
+                as="select"
+                value={order.Size}
+                onChange={(e) => {
+                  const updatedOrders = [...formik.values.numberOfTypeOrders];
+                  updatedOrders[index].Size = e.target.value;
+                  formik.setFieldValue("numberOfTypeOrders", updatedOrders);
+                }}
+              >
+                <option value="">اختر حجم الحاويه</option>
+                <option value="20">20</option>
+                <option value="40">40</option>
+              </Form.Control>
+  
               </Form.Group>
             )}
 
