@@ -33,20 +33,18 @@ export default function OrderDetailsForUser() {
           responseType: "blob", // تحديد نوع الاستجابة كـ Blob
         }
       );
-  
-      // استخراج اسم الملف من Content-Disposition (إذا كان متوفرًا)
-      console.log(response
 
-      );
-      
+      // استخراج اسم الملف من Content-Disposition (إذا كان متوفرًا)
+      console.log(response);
+
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
         : `${AllFilesHere[index]}.${response.data.type.split("/")[1]}`; // اسم افتراضي
-  
+
       const blob = response.data; // البيانات كـ Blob
       const url = window.URL.createObjectURL(blob);
-  
+
       // إنشاء رابط تنزيل تلقائي
       const link = document.createElement("a");
       link.href = url;
@@ -54,14 +52,13 @@ export default function OrderDetailsForUser() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-  
+
       // تنظيف الرابط المؤقت من الذاكرة
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("حدث خطأ أثناء تحميل الملف:", error);
     }
   };
-  
 
   const SendValue = async () => {
     try {
@@ -77,7 +74,10 @@ export default function OrderDetailsForUser() {
       console.log(data);
 
       setallOrders(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
   const SendId = async (OrderId, BrokerId) => {
     try {
@@ -121,9 +121,7 @@ export default function OrderDetailsForUser() {
   };
 
   const handleChange = (value) => {
-  
     setcost(value.target.value);
-  
   };
 
   useEffect(() => {
@@ -198,7 +196,10 @@ export default function OrderDetailsForUser() {
                         <th>
                           <i
                             onClick={() =>
-                              DownloadFilesApi(AllFilesHere.indexOf(AllFilesHere[0]),data.id)
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[0]),
+                                data.id
+                              )
                             }
                             className="fa-solid fa-download"
                           ></i>
@@ -211,7 +212,10 @@ export default function OrderDetailsForUser() {
                         <th>
                           <i
                             onClick={() =>
-                              DownloadFilesApi(AllFilesHere.indexOf(AllFilesHere[1]),data.id)
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[1]),
+                                data.id
+                              )
                             }
                             className="fa-solid fa-download"
                           ></i>
@@ -223,7 +227,10 @@ export default function OrderDetailsForUser() {
                         <th>
                           <i
                             onClick={() =>
-                              DownloadFilesApi(AllFilesHere.indexOf(AllFilesHere[2]),data.id)
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[2]),
+                                data.id
+                              )
                             }
                             className="fa-solid fa-download"
                           ></i>
@@ -236,7 +243,10 @@ export default function OrderDetailsForUser() {
                         <th>
                           <i
                             onClick={() =>
-                              DownloadFilesApi(AllFilesHere.indexOf(AllFilesHere[3]),data.id)
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[3]),
+                                data.id
+                              )
                             }
                             className="fa-solid fa-download"
                           ></i>
@@ -248,7 +258,10 @@ export default function OrderDetailsForUser() {
                         <th>
                           <i
                             onClick={() =>
-                              DownloadFilesApi(AllFilesHere.indexOf(AllFilesHere[4]),data.id)
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[4]),
+                                data.id
+                              )
                             }
                             className="cursor-pointer fa-solid fa-download"
                           ></i>
@@ -286,37 +299,40 @@ export default function OrderDetailsForUser() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allOrders.map((item) => (
-                      <>
-                        <tr>
-                          <td>{item.id}</td>
-                          <td>
-                            <span className="text-warning">
-                              <i className="fas fa-star"></i>
-                              <i className="fas fa-star"></i>
-                              <i className="fas fa-star"></i>
-                              <i className="fas fa-star"></i>
-                              <i className="far fa-star"></i>
-                            </span>
-                          </td>
-                          <td>{item.value}</td>
+{allOrders.length == 0 ? <></>:<>
+  {allOrders.map((item) => (
+                        <>
+                          <tr>
+                            <td>{item.id}</td>
+                            <td>
+                              <span className="text-warning">
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="far fa-star"></i>
+                              </span>
+                            </td>
+                            <td>{item.value}</td>
 
-                          <td>
-                            {" "}
-                            <Button
-                              onClick={() => {
-                                SendId(data.id, item.brokerID);
-                              }}
-                              className="w-100 m-0"
-                              variant="success"
-                            >
-                              قبول
-                            </Button>
-                          </td>
-                        </tr>
-                        <tr></tr>
-                      </>
-                    ))}
+                            <td>
+                              <Button
+                                onClick={() => {
+                                  SendId(data.id, item.brokerID);
+                                }}
+                                className="w-100 m-0"
+                                variant="success"
+                              >
+                                قبول
+                              </Button>
+                            </td>
+                          </tr>
+                          <tr></tr>
+                        </>
+                      ))}</>}
+                   
+                  
+                    
                   </tbody>
                 </Table>
               </div>

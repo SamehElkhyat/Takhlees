@@ -6,12 +6,63 @@ import toast, { Toaster } from "react-hot-toast";
 export default function OrderDetails() {
   const [data, setdata] = useState();
   const [cost, setcost] = useState();
-  const [allOrders ,setallOrders]= useState([]);
+  const [allOrders, setallOrders] = useState([]);
 
+  const [FilesName, setFilesName] = useState({
+    commerce1: "السجل التجاري",
+    commerce2: "السجل الضريبي",
+    commerce3: "البوليصه",
+    commerce4: "شهاده المنشأ",
+    commerce5: "ملفات اخري",
+  });
+
+  let AllFilesHere = [];
+
+  const DownloadFilesApi = async (index, orderId) => {
+    try {
+      const response = await axios.post(
+        `https://user.runasp.net/api/DownloadFiles`,
+        {
+          newOrderId: orderId,
+          Id: index,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+          responseType: "blob", // تحديد نوع الاستجابة كـ Blob
+        }
+      );
+
+      // استخراج اسم الملف من Content-Disposition (إذا كان متوفرًا)
+      console.log(response);
+
+      const contentDisposition = response.headers["content-disposition"];
+      const fileName = contentDisposition
+        ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
+        : `${AllFilesHere[index]}.${response.data.type.split("/")[1]}`; // اسم افتراضي
+
+      const blob = response.data; // البيانات كـ Blob
+      const url = window.URL.createObjectURL(blob);
+
+      // إنشاء رابط تنزيل تلقائي
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName; // تعيين اسم الملف
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // تنظيف الرابط المؤقت من الذاكرة
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("حدث خطأ أثناء تحميل الملف:", error);
+    }
+  };
 
   const SendValue = async (cost, orderValue) => {
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `https://user.runasp.net/api/Apply-Order`,
         {
           value: cost,
@@ -23,10 +74,8 @@ export default function OrderDetails() {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
-        
       );
-      setallOrders(data)
-
+      setallOrders(data);
     } catch (error) {}
   };
 
@@ -51,7 +100,6 @@ export default function OrderDetails() {
     setcost(value.target.value);
   };
   useEffect(() => {
-  
     getOrders();
   }, []);
   return (
@@ -112,19 +160,98 @@ export default function OrderDetails() {
                     </div>
                   </div>
 
+                  {data.fileName.map((item, i) => AllFilesHere.push(item))}
+
+                  <table className="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <th>{FilesName.commerce1}</th>
+                        <td>{AllFilesHere[0]}</td>
+                        <th>
+                          <i
+                            onClick={() =>
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[0]),
+                                data.id
+                              )
+                            }
+                            className="fa-solid fa-download"
+                          ></i>
+                        </th>
+                      </tr>
+
+                      <tr>
+                        <th>{FilesName.commerce2}</th>
+                        <td>{AllFilesHere[1]}</td>
+                        <th>
+                          <i
+                            onClick={() =>
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[1]),
+                                data.id
+                              )
+                            }
+                            className="fa-solid fa-download"
+                          ></i>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>{FilesName.commerce3}</th>
+                        <td>{AllFilesHere[2]}</td>
+                        <th>
+                          <i
+                            onClick={() =>
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[2]),
+                                data.id
+                              )
+                            }
+                            className="fa-solid fa-download"
+                          ></i>
+                        </th>
+                      </tr>
+
+                      <tr>
+                        <th>{FilesName.commerce4}</th>
+                        <td>{AllFilesHere[3]}</td>
+                        <th>
+                          <i
+                            onClick={() =>
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[3]),
+                                data.id
+                              )
+                            }
+                            className="fa-solid fa-download"
+                          ></i>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>{FilesName.commerce5}</th>
+                        <td>{AllFilesHere[4]}</td>
+                        <th>
+                          <i
+                            onClick={() =>
+                              DownloadFilesApi(
+                                AllFilesHere.indexOf(AllFilesHere[4]),
+                                data.id
+                              )
+                            }
+                            className="cursor-pointer fa-solid fa-download"
+                          ></i>
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
                   <div className="row mt-1">
                     <div className="col-12">
                       <h5 className="text-muted mb-3">ملاحظات إضافية</h5>
                       <div className="p-3 bg-light rounded">
-                        <p className="mb-0">
-                          يرجى التعامل مع الشحنة بعناية فائقة. تحتوي على مواد
-                          قابلة للكسر.
-                        </p>
+                        <p className="mb-0">{data.notes}</p>
                       </div>
                     </div>
                   </div>
                 </>
-                ;
               </>
             ) : (
               <>
@@ -144,29 +271,24 @@ export default function OrderDetails() {
                     </tr>
                   </thead>
                   <tbody>
-                    {allOrders.map((item)=><>
-
-<tr>
-<td>{item.id}</td>
-<td>
-  <span className="text-warning">
-    <i className="fas fa-star"></i>
-    <i className="fas fa-star"></i>
-    <i className="fas fa-star"></i>
-    <i className="fas fa-star"></i>
-    <i className="far fa-star"></i>
-  </span>
-</td>
-<td>{item.value}</td>
-</tr>
-<tr>
-
-</tr>
-
-
-
-                    </>)}
-
+                    {allOrders.map((item) => (
+                      <>
+                        <tr>
+                          <td>{item.id}</td>
+                          <td>
+                            <span className="text-warning">
+                              <i className="fas fa-star"></i>
+                              <i className="fas fa-star"></i>
+                              <i className="fas fa-star"></i>
+                              <i className="fas fa-star"></i>
+                              <i className="far fa-star"></i>
+                            </span>
+                          </td>
+                          <td>{item.value}</td>
+                        </tr>
+                        <tr></tr>
+                      </>
+                    ))}
                   </tbody>
                 </Table>
 
