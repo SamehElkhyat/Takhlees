@@ -65,17 +65,7 @@ export default function CanceledOrders() {
   const toggleNoteField = (id) => {
     setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
   };
-
-  const handleConfirm = (id) => {
-    setCustomers(
-      customers.map((c) => (c.id === id ? { ...c, status: "contacted" } : c))
-    );
-  };
-
-  const handleExecutionStatus = (id, status) => {
-    setCustomers(customers.map((c) => (c.id === id ? { ...c, status } : c)));
-  };
-
+  
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
       ? new Date(b.date) - new Date(a.date)
