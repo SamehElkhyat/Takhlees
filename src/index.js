@@ -40,14 +40,14 @@ import NewOrderForm from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
 import PendingOrders from "./Component/ClientsComponent/Orders/Orders.jsx";
 import OrderDetailsForUser from "./Component/ClientsComponent/OrderDetailsForUser/OrderDetailsForUser.jsx";
 import CurrentOrdersForUsers from "./Component/ClientsComponent/CurrentOrdersForUsers/CurrentOrdersForUsers.jsx";
-import LandingPageCustomeService from "./Component/LandingPageCustomeService/LandingPageCustomeService.jsx";
-import CanceledOrders from "./Component/CanceledOrders/CanceledOrders.jsx";
-import DoneOrders from "./Component/DoneOrders/DoneOrders.jsx";
-import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
+import LandingPageCustomeService from "./Component/CustomerServices/LandingPageCustomeService/LandingPageCustomeService.jsx";
+import CanceledOrders from "./Component/CustomerServices/CanceledOrders/CanceledOrders.jsx";
+import DoneOrders from "./Component/CustomerServices/DoneOrders/DoneOrders.jsx";
 import AccountantLandingPage from "./Component/AccountantComponennt/AccountantLandingPage/AccountantLandingPage.jsx";
 import AcceptedOrderAccountant from "./Component/AccountantComponennt/AcceptedOrderAccountant/AcceptedOrderAccountant.jsx";
 import DoneOrdersForUser from "./Component/ClientsComponent/DoneOrdersforUSer/DoneOrdersForUser.jsx";
-import AllOrderTransfers from "./Component/AllOrderTransfers/AllOrderTransfers.jsx";
+import AllOrderTransfers from "./Component/CustomerServices/AllOrderTransfers/AllOrderTransfers.jsx";
+import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
       { path: "mokhalseen", element: <Mokhalseen /> },
       { path: "orders", element: <Orders /> },
       { path: "HistoryDoneOrder", element: <HistoryDoneOrder /> },
-{path: "AllOrderTransfers", element: <AllOrderTransfers /> },
+      {path: "AllOrderTransfers", element: <AllOrderTransfers /> },
       { path: "brookersLandingPage", element: <BrookersLandingPage /> },
       {  path: "LandingPageAdmin", element: <LandingPageAdmin />},
       { path: "Cart", element: <Cart /> },

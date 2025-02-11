@@ -146,7 +146,7 @@ export default function LandingPageCustomService() {
               <Card.Title>الطلبات المحوله</Card.Title>
               <Card.Text>عرض وإدارة الطلبات الملغاه .</Card.Text>
               <Button variant="success">
-                <Link className="text-white text-decoration-none" to="/CanceledOrders">
+                <Link className="text-white text-decoration-none" to="/AllOrderTransfers">
                   الذهاب إلى الطلبات المحوله
                 </Link>
               </Button>

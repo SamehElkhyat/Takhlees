@@ -159,7 +159,7 @@ export default function CurrentOffers() {
             },
           }}
         >
-          قائمة العروض المقدمة{" "}
+          قائمة العروض المقدمة
         </h3>
         <Table striped bordered hover>
           <thead>
@@ -336,6 +336,7 @@ export default function CurrentOffers() {
           <thead>
             <tr className="text-center">
               <th>التاريخ</th>
+              <th>الملاحظات</th>
               <th>اسم (الميناء/المطار)</th>
               <th>رقم الطلب</th>
               <th>الحالة</th>
@@ -347,48 +348,22 @@ export default function CurrentOffers() {
               {CustomersOrders.map((order) => (
               <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
                 <td>{order.date}</td>
+                <td>{order.notes}</td>
                 <td>{order.location}</td>
                 <td>{order.id}</td>
-                {order.statuOrder === "محولة" && (<>
-                  <button
-           onClick={() => SendIdSuccses(order.id)}
-           className="btn bg-success w-50"
-         >
-           تنفيذ
-         </button>
-         <button
-           onClick={() => SendIdCancel(order.id)}
-           className="btn bg-danger w-50"
-         >
-           ألغاء
-         </button>
-                </>
+                <button
+                  onClick={() => SendIdSuccses(order.id)}
+                  className="btn bg-success w-50"
+                >
+                  تنفيذ
+                </button>
+                <button
+                  onClick={() => SendIdCancel(order.id)}
+                  className="btn bg-danger w-50"
+                >
+                  ألغاء
+                </button>
 
-                )}
-
-                {order.statuOrder === "تم التنفيذ" && (
-                  <button
-                    onClick={() => setStatus("تم التنفيذ")}
-                    className={`btn bg-success w-100 ${
-                      status === "تم التنفيذ"
-                        ? "bg-success"
-                        : "btn-outline-success"
-                    }`}
-                  >
-                    تم التنفيذ
-                  </button>
-                )}
-
-                {order.statuOrder === "ملغي" && (
-                  <button
-                    onClick={() => setStatus("ملغي")}
-                    className={`btn bg-danger w-100 ${
-                      status === "ملغي" ? "bg-danger" : "btn-outline-danger"
-                    }`}
-                  >
-                    ملغي
-                  </button>
-                )}
               </tr>
             ))}</> :<><h1>
               not availableOrders</h1></>}

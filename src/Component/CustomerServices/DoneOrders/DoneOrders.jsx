@@ -9,6 +9,7 @@ import {
   TableRow,
   TableCell,
   Box,
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 
@@ -16,12 +17,24 @@ export default function DoneOrders() {
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
   let [Counter, setCounter] = useState(1);
+  const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
+  const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
 
-  const ChangeStateNotDone = async (values) => {
+
+  // دالة تغيير الحالة إلى "تم التحويل"
+
+  const handleNoteChange = (id, value) => {
+    setNotes((prevNotes) => ({ ...prevNotes, [id]: value }));
+  };
+
+  const ChangeStateNotDone = async (id) => {
+
+    setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
+
     const request = await axios.post(
       `https://user.runasp.net/api/Change-Statu-CustomerService`,{
         statuOrder:'false',
-        ID:values
+        ID:id
 
       },
       {
@@ -120,7 +133,7 @@ export default function DoneOrders() {
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {Counter++}
-              </TableCell>{" "}
+              </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
               </TableCell>
@@ -136,6 +149,28 @@ export default function DoneOrders() {
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
               </TableCell>
+
+              {showNoteField[customer.id] && (
+                  <Box mt={1}>
+                    <TextField
+                      label="اكتب ملاحظة"
+                      variant="outlined"
+                      fullWidth
+                      value={notes[customer.id] || ""}
+                      onChange={(e) =>
+                        handleNoteChange(customer.id, e.target.value)
+                      }
+                      sx={{ marginBottom: "10px" }}
+                    />
+                    <Button
+                      onClick={() => ChangeStateNotDone(customer.id)}
+                      className="bg-danger text-white"
+                    >
+                      إرسال الملاحظة
+                    </Button>
+                  </Box>
+                )}
+
               <TableCell
                 sx={{ backgroundColor: "#f0f0f0" }}
                 className="p-3"
