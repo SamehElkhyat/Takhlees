@@ -8,22 +8,25 @@ const PendingOrders = () => {
   let [counter, setcounter] = useState(1);
 
   const SendId = async () => {
-    try {
-      const req = await axios.post(
-        `https://user.runasp.net/api/Get-ID`,
-        { ID: id },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+    if (id) {
+      try {
+        const req = await axios.post(
+          `https://user.runasp.net/api/Get-ID`,
+          { ID: id },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+            },
+          }
+        );
+        if (req.status == 200) {
+          window.location.href = "/OrderDetailsForUser";
         }
-      );
-      if (req.status == 200) {
-        window.location.href = "/OrderDetailsForUser";
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
+
   };
 
   const GetOrder = async () => {
@@ -37,8 +40,6 @@ const PendingOrders = () => {
           },
         }
       );
-      console.log(localStorage.getItem("Tokken"));
-      console.log(res);
 
       setOrder(res.data);
     } catch (error) {
@@ -67,7 +68,6 @@ const PendingOrders = () => {
           </tr>
         </thead>
         <tbody>
-          {console.log(orders)}
 
           {!orders.length == 0 ? (
             <>
@@ -87,7 +87,6 @@ const PendingOrders = () => {
             </>
           ) : (
             <>
-              <h1>waiting for data</h1>
             </>
           )}
         </tbody>

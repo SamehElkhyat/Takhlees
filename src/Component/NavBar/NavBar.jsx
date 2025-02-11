@@ -22,6 +22,8 @@ const NavBar = () => {
     setOpen(newOpen);
   };
 
+
+
   let DrawerListEdit = () => {
     let Icon = document.getElementById("icon");
 
@@ -31,8 +33,6 @@ const NavBar = () => {
   };
   useEffect(() => {
     let ApiToken = localStorage.getItem("Tokken");
-    console.log(localStorage.getItem("Tokken"));
-
     setApiToken(true);
 
     const path = window.location.pathname;
@@ -139,8 +139,7 @@ const NavBar = () => {
                     <ListItemText primary={"خدمه العملاء"} />
                   </ListItemButton>
                 </ListItem>
-                {console.log(Token)
-                }
+                {console.log(Token)}
 
                 <ListItem key={"text9"} disablePadding>
                   <ListItemButton>
@@ -257,25 +256,30 @@ const NavBar = () => {
                       <i className="m-2 fa-solid fa-toolbox"></i>
                     </Link>
                   </>
-                ) :Token.Role==="CustomerService" ?  (
+                ) : Token.Role === "CustomerService" ? (
                   <>
                     <Link to="/LandingPageCustomeService" className="nav-link">
-                    {Token.fullName}
-                    <i className="m-2 fa-solid fa-toolbox"></i>
-                  </Link>
+                      {Token.fullName}
+                      <i className="m-2 fa-solid fa-toolbox"></i>
+                    </Link>
                   </>
-                ):Token.Role==="Broker"?( <>
-                  <Link to="/BrookersLandingPage" className="nav-link">
-                    {Token.fullName}
-                    <i className="m-2 fa-solid fa-toolbox"></i>
-                  </Link></>): Token.Role==="Manager" ?<>
-                  
-                  <Link to="/Admin" className="nav-link">
-                    {Token.fullName}
-                    <i className="m-2 fa-solid fa-toolbox"></i>
-                  </Link>
-                  </> :<></>}
-
+                ) : Token.Role === "Broker" ? (
+                  <>
+                    <Link to="/BrookersLandingPage" className="nav-link">
+                      {Token.fullName}
+                      <i className="m-2 fa-solid fa-toolbox"></i>
+                    </Link>
+                  </>
+                ) : Token.Role === "Manager" ? (
+                  <>
+                    <Link to="/Admin" className="nav-link">
+                      {Token.fullName}
+                      <i className="m-2 fa-solid fa-toolbox"></i>
+                    </Link>
+                  </>
+                ) : (
+                  <></>
+                )}
               </li>
             </>
           )}

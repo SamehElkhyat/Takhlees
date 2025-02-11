@@ -100,7 +100,7 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-              <i class="fa-solid fa-tty text-success" style={styles.icons}></i>
+              <i className="fa-solid fa-tty text-success" style={styles.icons}></i>
 
               <Card.Title>المخلصين</Card.Title>
               <Card.Text>الذهاب الي المخلصين.</Card.Text>
@@ -124,7 +124,7 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-            <i style={styles.icons} class="fa-solid fa-user"></i>
+            <i style={styles.icons} className="fa-solid fa-user"></i>
               <Card.Title>العملاء</Card.Title>
               <Card.Text>عرض وإدارة العملاء .</Card.Text>
               <Button variant="success">
@@ -147,7 +147,7 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-            <i style={styles.icons} class="fa-solid fa-chart-line text-primary"></i>
+            <i style={styles.icons} className="fa-solid fa-chart-line text-primary"></i>
               <Card.Title>الاحصائيات </Card.Title>
               <Card.Text>عرض أحصائيات الموقع .</Card.Text>
               <Button variant="success">
@@ -170,7 +170,7 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-              <i style={styles.icons} class="fa-solid fa-ban text-danger"></i>
+              <i style={styles.icons} className="fa-solid fa-ban text-danger"></i>
               <Card.Title>المحظورين</Card.Title>
               <Card.Text>عرض وإدارة المحظورين .</Card.Text>
               <Button variant="success">

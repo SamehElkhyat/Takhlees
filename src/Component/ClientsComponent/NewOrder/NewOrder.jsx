@@ -9,7 +9,6 @@ const NewOrderForm = () => {
 
   // إرسال البيانات إلى الـ API
   const handleOrder = async (values) => {
-
     const formData = new FormData();
 
     // أضف الحقول النصية إلى FormData
@@ -43,11 +42,22 @@ const NewOrderForm = () => {
           },
         }
       );
-      toast.success(response.data.message);
-      window.location.href = "/Orders";
+      toast.success(response.data.message)
 
-      console.log(values);
+      // if (response.data.message='تم تقديم الطلب بنجاح') {
+
+      // console.log(values.uploadFile);
       
+
+
+        
+        
+      // }
+      setTimeout(() => {
+        window.location.href = "/Orders";
+
+      }, 1000);
+
     } catch (error) {
       console.log(error);
 
@@ -65,7 +75,7 @@ const NewOrderForm = () => {
       numberOfLicense: "",
       Notes: "",
       numberOfTypeOrders: [{ Number: "", typeOrder: "", Weight: "", Size: "" }],
-      uploadFile: [], // ملفات مرفق
+      uploadFile: [],
     },
     onSubmit: handleOrder,
   });
@@ -92,11 +102,16 @@ const NewOrderForm = () => {
       ...formik.values.uploadFile,
       ...e.target.files,
     ]);
-    const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
+    const allowedTypes = [
+      "application/pdf",
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+    ];
     const maxSize = 5 * 1024 * 1024; // 5MB
-  
+
     let newFiles = Array.from(e.target.files);
-    
+
     // تصفية الملفات غير المسموحة
     newFiles = newFiles.filter((file) => {
       if (!allowedTypes.includes(file.type)) {
@@ -109,9 +124,12 @@ const NewOrderForm = () => {
       }
       return true;
     });
-  
+
     // تحديث الملفات المقبولة فقط
-    formik.setFieldValue("uploadFile", [...formik.values.uploadFile, ...newFiles]);
+    formik.setFieldValue("uploadFile", [
+      ...formik.values.uploadFile,
+      ...newFiles,
+    ]);
   };
 
   useEffect(() => {
@@ -268,21 +286,19 @@ const NewOrderForm = () => {
               <Form.Group controlId={`numberOfTypeOrders[${index}][Size]`}>
                 <Form.Label>الحجم</Form.Label>
 
-
                 <Form.Control
-                as="select"
-                value={order.Size}
-                onChange={(e) => {
-                  const updatedOrders = [...formik.values.numberOfTypeOrders];
-                  updatedOrders[index].Size = e.target.value;
-                  formik.setFieldValue("numberOfTypeOrders", updatedOrders);
-                }}
-              >
-                <option value="">اختر حجم الحاويه</option>
-                <option value="20">20</option>
-                <option value="40">40</option>
-              </Form.Control>
-  
+                  as="select"
+                  value={order.Size}
+                  onChange={(e) => {
+                    const updatedOrders = [...formik.values.numberOfTypeOrders];
+                    updatedOrders[index].Size = e.target.value;
+                    formik.setFieldValue("numberOfTypeOrders", updatedOrders);
+                  }}
+                >
+                  <option value="">اختر حجم الحاويه</option>
+                  <option value="20">20</option>
+                  <option value="40">40</option>
+                </Form.Control>
               </Form.Group>
             )}
 
@@ -330,15 +346,16 @@ const NewOrderForm = () => {
 
         <Form.Group controlId="orderFiles" className="mt-4">
           <Form.Label>
-            ملفات اخري{" "}
-            <span className="text-danger">(اي رخص او شهادات تتعلق بالطلب)</span>{" "}
+            ملفات اخري
+            <span className="text-danger">
+              (اي رخص او شهادات تتعلق بالطلب)
+            </span>{" "}
           </Form.Label>
           <InputGroup>
             <FormControl type="file" multiple onChange={handleFileChange} />
           </InputGroup>
         </Form.Group>
 
-        {/* إرسال الطلب */}
         <Button variant="primary" type="submit" className="mt-4">
           إرسال الطلب
         </Button>

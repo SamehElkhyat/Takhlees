@@ -16,16 +16,16 @@ const LandingPage = () => {
  <h1>منصه تخليصك للخدمات اللوجوستيه</h1>
 
    <li>
-     <i class="fa-solid fa-check"></i> حل شامل للاستيراد والتصدير
+     <i className="fa-solid fa-check"></i> حل شامل للاستيراد والتصدير
    </li>
    <li>
-     <i class="fa-solid fa-check"></i> ربط العملاء بالمخلصين المحترفين
+     <i className="fa-solid fa-check"></i> ربط العملاء بالمخلصين المحترفين
    </li>
    <li>
-     <i class="fa-solid fa-check"></i> تتبع الإجراءات والمعاملات
+     <i className="fa-solid fa-check"></i> تتبع الإجراءات والمعاملات
    </li>
    <li>
-     <i class="fa-solid fa-check"></i> دفع إلكتروني آمن وشفاف
+     <i className="fa-solid fa-check"></i> دفع إلكتروني آمن وشفاف
    </li>
 
    <button className="mt-5 pl-2 btn btn-success">خصائص اكثر</button>

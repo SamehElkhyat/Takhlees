@@ -29,10 +29,9 @@ const DoneOrdersForUser = () => {
     }
   };
  
-
   useEffect(() => {
     GetOrder();
-  }, []);
+  }, [orders]);
   return (
     <div className="container mt-5">
       <h3 className="text-center">الطلبات المنفذه</h3>
