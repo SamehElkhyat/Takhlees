@@ -7,47 +7,50 @@ import ships from "../ships.png";
 import { Toaster } from "react-hot-toast";
 
 const ConfirmPassword = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [Token, setToken] = useState(null);
-  const [Code, setCode] = useState(null);
-
-  const validationSchema = Yup.object({
-    code: Yup.string()
-      .required("الرمز مطلوب")
-      .min(6, "يجب أن يكون الرمز 6 أرقام على الأقل"),
-  });
-
   const SendCode = async (values) => {
-    setIsLoading(true);
     try {
-      console.log(Token);
-      console.log(Code);
-
       const response = await axios.post(
-        "https://takhleesak.runasp.net/api/VerifyCode",
-        { code: values.code },
-        { headers: { Authorization: `Bearer ${Token}` } }
+        "https://takhleesak.runasp.net/api/Reset-Password",
+        {
+          Code: values.Code,
+          newPassword: values.newPassword,
+          Confirm: values.Confirm,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
       );
-      console.log(response.data.message);
-      console.log(Token);
+
+      toast.success(response.data.message);
+
+      if (response.data.message == "تم إعادة تعيين كلمة المرور بنجاح") {
+
+        setTimeout(()=>{
+
+          window.location.href = "/SignIn";
+
+        },1000)
+      }
     } catch (error) {
       toast("حدث خطأ في إعادة تعيين كلمة المرور");
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("Tokken");
-    setToken(token);
     const code = localStorage.getItem("Code");
-    setCode(code);
+    console.log(localStorage.getItem("Tokken"));
+
     console.log(code);
   }, []);
 
   const formik = useFormik({
     initialValues: {
-      code: "",
+      Code: "",
+      newPassword: "",
+      Confirm: "",
     },
-    validationSchema,
     onSubmit: SendCode,
   });
 
@@ -64,20 +67,49 @@ const ConfirmPassword = () => {
             <div className="form-group">
               <input
                 className="text-white"
-                value={formik.values.code}
+                value={formik.values.Code}
                 type="text"
-                name="code"
+                name="Code"
                 placeholder="رمز التحقق"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.code && formik.errors.code && (
-                <div className="text-danger">{formik.errors.code}</div>
+              {formik.touched.Code && formik.errors.Code && (
+                <div className="text-danger">{formik.errors.Code}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <input
+                className="text-white"
+                value={formik.values.newPassword}
+                type="password"
+                name="newPassword"
+                placeholder="رمز التحقق"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.newPassword && formik.errors.newPassword && (
+                <div className="text-danger">{formik.errors.newPassword}</div>
               )}
             </div>
 
-            <button type="submit" className="reset-btn" disabled={isLoading}>
-              {isLoading ? "جاري المعالجة..." : "تأكيد الكود"}
+            <div className="form-group">
+              <input
+                className="text-white"
+                value={formik.values.Confirm}
+                type="password"
+                name="Confirm"
+                placeholder="رمز التحقق"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.Confirm && formik.errors.Confirm && (
+                <div className="text-danger">{formik.errors.Confirm}</div>
+              )}
+            </div>
+
+            <button type="submit" className="reset-btn">
+              تأكيد الكود
             </button>
           </form>
         </div>

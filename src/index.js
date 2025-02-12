@@ -15,7 +15,6 @@ import IntorSignIn from "./Component/IntorSignIn/IntorSignIn";
 import SignUp from "./Component/SignUp/SignUp";
 import ResetPassword from "./Component/ResetPassword/ResetPassword";
 import ConfirmPassword from "./Component/ResetPassword/ConfirmPassowrd/ConfirmPassword";
-import ResetThePassword from "./Component/ResetPassword/ResetThePassword/ResetThePassword";
 import Clients from "./Component/AdminComponent/Clients/Clients.jsx";
 import Blacklist from "./Component/AdminComponent/blacklist/blacklist.jsx";
 import Brookers from "./Component/AdminComponent/Brookers/Brookers";
@@ -87,7 +86,6 @@ const router = createBrowserRouter([
       { path: "SignUpForMokhalseen", element: <SignUpForMokhalseen /> },
       { path: "ResetPassword", element: <ResetPassword /> },
       { path: "ConfirmPassword", element: <ConfirmPassword /> },
-      { path: "ResetThePassword", element: <ResetThePassword /> },
       { path: "AccountantLandingPage", element: <AccountantLandingPage /> },
       { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
       { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import './ResetPassword.css';
 import ships from './ships.png'
+import toast, { Toaster } from "react-hot-toast";
 
 const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,19 +22,30 @@ const ResetPassword = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      console.log(values);
+      
       setIsLoading(true);
       try {
-        const response = await axios.post('https://takhleesak.runasp.net/api/Forget-Password', {
+        const {data} = await axios.post('https://takhleesak.runasp.net/api/Forget-Password', {
           Email: values.Email,
         });
 
-        if (response.data.state) {
-          toast('تم ارسال الرمز المرور الخاص بك');
+        console.log(data.message);
+        
+        if (data.message=='تم إرسال الرسالة بنجاح') {
+
+          localStorage.setItem("Tokken" ,data.state)
+          localStorage.setItem("Code",data.data)
+          toast.success(data.message);
+
+          setTimeout(()=>{
+            window.location.href="/ConfirmPassword"
+          },1000)
         } else {
-          toast.error(response.data.message || 'حدث خطأ ما');
+          toast.error(data.message || 'حدث خطأ ما');
         }
       } catch (error) {
-        toast.error('حدث خطأ في ارسال الرمز المرور الخاص بك');
+console.log(error);
       } finally {
         setIsLoading(false);
       }
@@ -70,8 +81,10 @@ const ResetPassword = () => {
           >
             {isLoading ? 'جاري المعالجة...' : 'إعادة تعيين كلمة المرور'}
           </button>
+          
         </form>
-      </div>
+        <Toaster />
+        </div>
     </div>  
   </>
   
