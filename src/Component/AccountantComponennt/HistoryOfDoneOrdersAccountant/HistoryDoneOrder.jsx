@@ -11,6 +11,8 @@ import {
   Box,
   TextField,
 } from "@mui/material";
+import { Modal } from "react-bootstrap";
+
 import axios from "axios";
 
 export default function HistoryDoneOrder() {
@@ -19,7 +21,40 @@ export default function HistoryDoneOrder() {
   const [sortOrder, setSortOrder] = useState("newest");
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
-  // تحديث حالة الملاحظات عند إدخالها
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [order, setorder] = useState({});
+
+  const handleShowDetails = (order,BrokerId) => {
+    setSelectedOrder(order)
+    getAllInformationBroker(BrokerId)
+    
+  };
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
+  };
+
+
+
+  const getAllInformationBroker = async (BrokerId) => {
+    try {
+      const {data} = await axios.post(
+        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,{
+          BrokerID:BrokerId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+console.log(data);
+
+setSelectedOrder(data)
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
 
@@ -81,6 +116,8 @@ export default function HistoryDoneOrder() {
             <TableCell align="center">نوع الطلب</TableCell>
             <TableCell align="center">الهاتف</TableCell>
             <TableCell align="center">التاريخ</TableCell>
+            <TableCell align="center">تفاصيل المخلص</TableCell>
+
             <TableCell align="center">الحالة</TableCell>
           </TableRow>
         </TableHead>
@@ -93,48 +130,54 @@ export default function HistoryDoneOrder() {
               <TableCell align="center">{customer.typeOrder}</TableCell>
               <TableCell align="center">{customer.phoneNumber}</TableCell>
               <TableCell align="center">{customer.date}</TableCell>
-              <TableCell align="center">
-                {/* زر "لم يتم التحويل"
+              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
-                //   onClick={() => toggleNoteField(customer.id)}
-                  className="bg-danger text-white"
-                  sx={{ marginRight: "10px" }}
+                  className="bg-primary text-white p-2"
+                  onClick={() => handleShowDetails(order,customer.brokerID)}
                 >
-                  لم يتم التحويل
-                </Button> */}
-                
-                {/* إذا تم الضغط على الزر، يظهر حقل الإدخال */}
-                {/* {showNoteField[customer.id] && (
-                  <Box mt={1}>
-                    <TextField
-                      label="اكتب ملاحظة"
-                      variant="outlined"
-                      fullWidth
-                      value={notes[customer.id] || ""}
-                      onChange={(e) =>
-                        handleNoteChange(customer.id, e.target.value)
-                      }
-                      sx={{ marginBottom: "10px" }}
-                    />
-                    <Button
-                      onClick={() => ChangeStateNot(customer.id)}
-                      className="bg-danger text-white"
-                    >
-                      إرسال الملاحظة
-                    </Button>
-                  </Box>
-                )} */}
-
-                {/* زر "تم التحويل" */}
-                <Button
-                //   onClick={() => ChangeStatedone(customer.id)}
-                  className="bg-success text-white"
-                >
-                  تم التحويل
+                  عرض التفاصيل
                 </Button>
               </TableCell>
             </TableRow>
           ))}
+
+<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+            <Modal.Header closeButton>
+              <Modal.Title>تفاصيل الطلب</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+{              console.log(selectedOrder)
+}              
+              {selectedOrder && (
+                <>
+              
+                  <p>
+                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                  </p>
+                  <p>
+                    <strong>الاسم:</strong> {selectedOrder.fullName}
+                  </p>
+                  <p>
+                    <strong>رقم الهويه:</strong> {selectedOrder.identity}
+                  </p>
+                  <p>
+                    <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
+                  </p>
+                  <p>
+                    <strong>رخصه المخلص:</strong> {selectedOrder.license}
+                  </p>
+                  <p>
+                    <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
+                  </p>
+                </>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDetails}>
+                إغلاق
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </TableBody>
       </Table>
     </Box>

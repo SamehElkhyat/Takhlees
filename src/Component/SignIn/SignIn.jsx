@@ -115,6 +115,7 @@ const SignIn = () => {
           </div>
           <p>
             <Link className="to-ResetPassword" to="/ResetPassword">
+            
               هل نسيت كلمة السر؟
             </Link>
           </p>
@@ -125,7 +126,7 @@ const SignIn = () => {
               تسجيل الدخول
             </button>
             <p>
-              <Link className="to-SignUp" to="/SignUpForCompany">
+              <Link className="to-SignUp" to="/IntorSignUp">
                 انشاء حساب جديد
               </Link>
             </p>

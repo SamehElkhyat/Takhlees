@@ -11,7 +11,10 @@ import {
   Box,
   TextField,
 } from "@mui/material";
+import { Modal } from "react-bootstrap";
+
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function AllOrderTransfers() {
   const [customers, setCustomers] = useState([]);
@@ -19,11 +22,45 @@ export default function AllOrderTransfers() {
   let [Counter, setCounter] = useState(1);
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [order, setorder] = useState({});
+
+
+  const handleShowDetails = (order,BrokerId) => {
+    setSelectedOrder(order);
+    getAllInformationBroker(BrokerId)
+    
+  };
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
+  };
+
+
+
+  const getAllInformationBroker = async (BrokerId) => {
+    try {
+      const {data} = await axios.post(
+        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,{
+          BrokerID:BrokerId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+console.log(data);
+
+setSelectedOrder(data)
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleNoteChange = (id, value) => {
     setNotes((prevNotes) => ({ ...prevNotes, [id]: value }));
   };
-
 
   const toggleNoteField = (id) => {
     setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -33,9 +70,10 @@ export default function AllOrderTransfers() {
     setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
 
     const request = await axios.post(
-      `https://user.runasp.net/api/Change-Statu-CustomerService`,{
-        statuOrder:'false',
-        ID:id,
+      `https://user.runasp.net/api/Change-Statu-CustomerService`,
+      {
+        statuOrder: "false",
+        ID: id,
         Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
       },
       {
@@ -47,13 +85,12 @@ export default function AllOrderTransfers() {
     console.log(request);
   };
 
-
   const ChangeStateDone = async (values) => {
-
     const request = await axios.post(
-      `https://user.runasp.net/api/Change-Statu-CustomerService`,{
-        statuOrder:'true',
-        ID:values
+      `https://user.runasp.net/api/Change-Statu-CustomerService`,
+      {
+        statuOrder: "true",
+        ID: values,
       },
       {
         headers: {
@@ -73,10 +110,7 @@ export default function AllOrderTransfers() {
         },
       }
     );
-    console.log(
-        data
-    );
-    
+
     setCustomers(data);
   };
 
@@ -87,6 +121,8 @@ export default function AllOrderTransfers() {
   );
 
   useEffect(() => {
+    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
+    setorder(DecodedToken);
     getAllAcceptedOrders();
   }, []);
 
@@ -102,7 +138,7 @@ export default function AllOrderTransfers() {
           backgroundColor: "transparent",
         }}
       >
-     الطلبات المحوله
+        الطلبات المحوله
       </h1>
       <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <MenuItem value="newest">الأحدث</MenuItem>
@@ -125,16 +161,17 @@ export default function AllOrderTransfers() {
             <TableCell align="center">موقع الطلب</TableCell>
             <TableCell align="center">الملاحظات</TableCell>
 
-
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">نوع الطلب</TableCell>
 
             <TableCell align="center">الهاتف</TableCell>
             <TableCell align="center">التاريخ</TableCell>
+            <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الحاله</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
+          {console.log(sortedCustomers)}
           {sortedCustomers.map((customer) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
@@ -143,7 +180,6 @@ export default function AllOrderTransfers() {
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
               </TableCell>
-
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.notes}
               </TableCell>
@@ -159,45 +195,92 @@ export default function AllOrderTransfers() {
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
               </TableCell>
-
-
+              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                <Button
+                  className="bg-primary text-white p-2"
+                  onClick={() => handleShowDetails(order,customer.brokerID)}
+                >
+                  عرض التفاصيل
+                </Button>
+              </TableCell>
               {showNoteField[customer.id] && (
-                  <Box mt={1}>
-                    <TextField
-                      label="اكتب ملاحظة"
-                      variant="outlined"
-                      fullWidth
-                      value={notes[customer.id] || ""}
-                      onChange={(e) =>
-                        handleNoteChange(customer.id, e.target.value)
-                      }
-                      sx={{ marginBottom: "10px" }}
-                    />
-                    <Button
-                      onClick={() => ChangeStateNotDone(customer.id)}
-                      className="bg-danger text-white"
-                    >
-                      إرسال الملاحظة
-                    </Button>
-                  </Box>
-                )}
+                <Box mt={1}>
+                  <TextField
+                    label="اكتب ملاحظة"
+                    variant="outlined"
+                    fullWidth
+                    value={notes[customer.id] || ""}
+                    onChange={(e) =>
+                      handleNoteChange(customer.id, e.target.value)
+                    }
+                    sx={{ marginBottom: "10px" }}
+                  />
+                  <Button
+                    onClick={() => ChangeStateNotDone(customer.id)}
+                    className="bg-danger text-white"
+                  >
+                    إرسال الملاحظة
+                  </Button>
+                </Box>
+              )}
               <TableCell
                 sx={{ backgroundColor: "#f0f0f0" }}
                 className="p-3"
                 align="center"
               >
-                <Button onClick={()=>ChangeStateNotDone(customer.id)} className="m-1 bg-danger text-white">
+                <Button
+                  onClick={() => ChangeStateNotDone(customer.id)}
+                  className="m-1 bg-danger text-white"
+                >
                   لم يتم التنفيذ
                 </Button>
-                <Button onClick={()=>ChangeStateDone(customer.id)} className="m-1 bg-success text-white">
+                <Button
+                  onClick={() => ChangeStateDone(customer.id)}
+                  className="m-1 bg-success text-white"
+                >
                   تم التنفيذ
                 </Button>
               </TableCell>
             </TableRow>
           ))}
+
+<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+            <Modal.Header closeButton>
+              <Modal.Title>تفاصيل الطلب</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {selectedOrder && (
+                <>
+              
+                  <p>
+                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                  </p>
+                  <p>
+                    <strong>الاسم:</strong> {selectedOrder.fullName}
+                  </p>
+                  <p>
+                    <strong>رقم الهويه:</strong> {selectedOrder.identity}
+                  </p>
+                  <p>
+                    <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
+                  </p>
+                  <p>
+                    <strong>رخصه المخلص:</strong> {selectedOrder.license}
+                  </p>
+                  <p>
+                    <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
+                  </p>
+                </>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDetails}>
+                إغلاق
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </TableBody>
       </Table>
     </Box>
   );
 }
-

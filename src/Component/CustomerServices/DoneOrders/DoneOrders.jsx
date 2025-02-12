@@ -12,6 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
+import { Modal } from "react-bootstrap";
 
 export default function DoneOrders() {
   const [customers, setCustomers] = useState([]);
@@ -20,6 +21,42 @@ export default function DoneOrders() {
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
 
+
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [order, setorder] = useState({});
+
+
+  const handleShowDetails = (order,BrokerId) => {
+    setSelectedOrder(order);
+    getAllInformationBroker(BrokerId)
+    
+  };
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
+  };
+
+
+
+  const getAllInformationBroker = async (BrokerId) => {
+    try {
+      const {data} = await axios.post(
+        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,{
+          BrokerID:BrokerId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+console.log(data);
+
+setSelectedOrder(data)
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // دالة تغيير الحالة إلى "تم التحويل"
 
@@ -125,6 +162,7 @@ export default function DoneOrders() {
 
             <TableCell align="center">الهاتف</TableCell>
             <TableCell align="center">التاريخ</TableCell>
+            <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الحاله</TableCell>
           </TableRow>
         </TableHead>
@@ -148,6 +186,14 @@ export default function DoneOrders() {
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
+              </TableCell>
+              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                <Button
+                  className="bg-primary text-white p-2"
+                  onClick={() => handleShowDetails(order,customer.brokerID)}
+                >
+                  عرض التفاصيل
+                </Button>
               </TableCell>
 
               {showNoteField[customer.id] && (
@@ -185,6 +231,42 @@ export default function DoneOrders() {
               </TableCell>
             </TableRow>
           ))}
+
+<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+            <Modal.Header closeButton>
+              <Modal.Title>تفاصيل الطلب</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {selectedOrder && (
+                <>
+              
+                  <p>
+                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                  </p>
+                  <p>
+                    <strong>الاسم:</strong> {selectedOrder.fullName}
+                  </p>
+                  <p>
+                    <strong>رقم الهويه:</strong> {selectedOrder.identity}
+                  </p>
+                  <p>
+                    <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
+                  </p>
+                  <p>
+                    <strong>رخصه المخلص:</strong> {selectedOrder.license}
+                  </p>
+                  <p>
+                    <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
+                  </p>
+                </>
+              )}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDetails}>
+                إغلاق
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </TableBody>
       </Table>
     </Box>
