@@ -1,16 +1,39 @@
-import React from 'react'
-import { Table } from 'react-bootstrap'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
 
 export default function HistoryOfOrders() {
 
+  const [order, setorder] = useState([])
 
+  const HistoryOfAllOrders = async () => {
+    try {
+      const {data} = await axios.get(
+        `https://user.runasp.net/api/Get-All-Orders-Brokers`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
 
+      setorder(data);
+      console.log(data);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  
-  return<>
-  
-    <div className="container mt-5 text-center">
-      <h3
+  useEffect(()=>{
+    HistoryOfAllOrders()
+ 
+
+  },[])
+  return (
+    <>
+      <div className="container mt-5 text-center">
+        <h3
           className="mb-4 text-green"
           style={{
             fontSize: "2rem",
@@ -37,48 +60,52 @@ export default function HistoryOfOrders() {
             },
           }}
         >
-           سجل العروض
-            </h3>
+          سجل العروض
+        </h3>
 
-      <Table striped bordered hover>
-        <thead>
-          <tr className="text-center">
-            <th>رقم الطلب</th>
-            <th>اسم الميناء</th>
-            <th>التاريخ</th>
-            <th>الحالة</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            { id: 1, port: "ميناء جدة", status: "تم التنفيذ", date: "2024-01-01" },
-            { id: 2, port: "ميناء الدمام", status: "مرفوض", date: "2024-01-02" },
-            { id: 3, port: "ميناء ينبع", status: "ملغي", date: "2024-01-03" },
-            { id: 4, port: "ميناء جازان", status: "تم التنفيذ", date: "2024-01-04" },
-            { id: 5, port: "ميناء رابغ", status: "مرفوض", date: "2024-01-05" }
-          ].map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.port}</td>
-              <td>{order.date}</td>
-              <td>
-
-                {order.status === "تم التنفيذ" && (
-                  <button className="btn bg-success w-100">تم التنفيذ</button>
-                )}
-                {order.status === "مرفوض" && (
-                  <button className="btn bg-danger w-100">مرفوض</button>
-                )}
-                {order.status === "ملغي" && (
-                  <button className="btn bg-secondary w-100">ملغي</button>
-                )}
-              </td>
+        <Table striped bordered hover>
+          <thead>
+            <tr className="text-center">
+              <th>رقم الطلب</th>
+              <th>اسم الميناء</th>
+              <th>التاريخ</th>
+              <th>الحالة</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
-  
-  </>
+          </thead>
+          <tbody>
+            {order.map((order) => (
+              <tr key={order.id}>
+                <td>{order.id}</td>
+                <td>{order.location}</td>
+                <td>{order.date}</td>
+                <td>
+                  {order.statuOrder === "لم يتم التنفيذ" && (
+                    <button className="btn bg-success w-100">تم التنفيذ</button>
+                  )}
+                  {order.statuOrder === "تم التحويل" && (
+                    <button className="btn bg-success w-100">تم التحويل</button>
+                  )}
+                  {order.statuOrder === "محولة" && (
+                    <button className="btn bg-success w-100">محولة</button>
+                  )}
+                   {order.statuOrder === "لم يتم التحويل" && (
+                    <button className="btn bg-danger w-100">لم يتم التحويل</button>
+                  )}
+                    {order.statuOrder === "قيد الإنتظار" && (
+                    <button className="btn bg-secondary w-100">قيد الإنتظار</button>
+                  )}
+                    {order.statuOrder === "تحت الإجراء" && (
+                    <button className="btn bg-primary w-100">تحت الإجراء</button>
+                  )}
+                    {order.statuOrder === "تم التنفيذ" && (
+                    <button className="btn bg-success w-100">تم التنفيذ</button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </>
+  );
 }
