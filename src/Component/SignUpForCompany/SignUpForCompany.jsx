@@ -42,7 +42,7 @@ const SignUpForCompany = () => {
 
       if (data.data.message === "تم تسجيل الدخول بنجاح") {
         toast("sucsses");
-        window.location.href = "/WaitingForData";
+        window.location.href = "/SignIn";
       } else {
         toast(data.data.message);
       }

@@ -16,7 +16,7 @@ const IntorSignUp = () => {
     <h2 >تسجيل الدخول </h2>
       
       <div className="Tow-card">
-      <Link className="Comapnies" to='/SignInForCompany'>
+      <Link className="Comapnies" to='/SignIn'>
       <div className="">
              <h4>أعمال</h4>
 

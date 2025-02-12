@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
-import toast, { Toaster } from "react-hot-toast";
 
 export default function OrderDetails() {
   const [data, setdata] = useState();
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
+
 
   const [FilesName, setFilesName] = useState({
     commerce1: "السجل التجاري",
@@ -62,7 +62,7 @@ export default function OrderDetails() {
 
   const SendValue = async (cost, orderValue) => {
     try {
-      const { data } = await axios.post(
+      const {data}  = await axios.post(
         `https://user.runasp.net/api/Apply-Order`,
         {
           value: cost,
@@ -75,8 +75,29 @@ export default function OrderDetails() {
           },
         }
       );
-      setallOrders(data);
+
+      
     } catch (error) {}
+  };
+
+  const getValue = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://user.runasp.net/api/Get-all-Values`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      console.log(data);
+
+      setallOrders(data);
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
 
   const getOrders = async () => {
@@ -100,6 +121,8 @@ export default function OrderDetails() {
     setcost(value.target.value);
   };
   useEffect(() => {
+
+    getValue();
     getOrders();
   }, []);
   return (
@@ -265,30 +288,36 @@ export default function OrderDetails() {
                 <Table striped bordered hover>
                   <thead>
                     <tr className="text-center">
-                      <th>رقم المعرف</th>
+                      <th>عدد العمليات الناجحه</th>
                       <th>التقييم</th>
                       <th>سعر العرض</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {allOrders.map((item) => (
-                      <>
-                        <tr>
-                          <td>{item.id}</td>
-                          <td>
-                            <span className="text-warning">
-                              <i className="fas fa-star"></i>
-                              <i className="fas fa-star"></i>
-                              <i className="fas fa-star"></i>
-                              <i className="fas fa-star"></i>
-                              <i className="far fa-star"></i>
-                            </span>
-                          </td>
-                          <td>{item.value}</td>
-                        </tr>
+                  <tbody className="text-center">
+
+
+                  {allOrders.length == 0 ? <></>:<>
+  {allOrders.map((item) => (
+                        <>
+                          <tr>
+                            <td>{item.count}</td>
+                            <td>
+                              <span className="text-warning">
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="fas fa-star"></i>
+                                <i className="far fa-star"></i>
+                              </span>
+                            </td>
+                            <td>{item.value}</td>
+
+        
+                          </tr>
+                          <tr></tr>
+                        </>
+                      ))}</>}
                         <tr></tr>
-                      </>
-                    ))}
                   </tbody>
                 </Table>
 

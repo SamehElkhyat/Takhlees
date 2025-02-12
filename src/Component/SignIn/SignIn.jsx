@@ -78,8 +78,10 @@ const SignIn = () => {
         <div className="SignIn-Frame"></div>
       </div>
 
+
       <div className="sign-in-container">
-        <h2>تسجيل الدخول للأفراد</h2>
+
+        <h2>تسجيل الدخول</h2>
         <form onSubmit={formik.handleSubmit} noValidate>
           <div className="form-group-company">
             <hr />

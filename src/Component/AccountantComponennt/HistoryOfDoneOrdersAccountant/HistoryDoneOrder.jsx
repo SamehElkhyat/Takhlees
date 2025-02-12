@@ -87,7 +87,7 @@ export default function HistoryDoneOrder() {
         <TableBody>
           {sortedCustomers.map((customer, index) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell align="center">{index + 1}</TableCell>
+              <TableCell align="center">{customer.id}</TableCell>
               <TableCell align="center">{customer.location}</TableCell>
               <TableCell align="center">{customer.fullName}</TableCell>
               <TableCell align="center">{customer.typeOrder}</TableCell>

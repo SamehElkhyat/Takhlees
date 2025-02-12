@@ -10,7 +10,6 @@ import Layout from "./Component/Layout/Layout";
 import LandingPage from "./Component/LandingPage/LandingPage";
 import SignIn from "./Component/SignIn/SignIn";
 import SignUpForCompany from "./Component/SignUpForCompany/SignUpForCompany";
-import SignInForCompany from "./Component/SignInForCompany/SignInForCompany";
 import IntorSignUp from "./Component/IntorSignUp/IntorSignUp";
 import IntorSignIn from "./Component/IntorSignIn/IntorSignIn";
 import SignUp from "./Component/SignUp/SignUp";
@@ -88,7 +87,6 @@ const router = createBrowserRouter([
       { path: "SignUpForMokhalseen", element: <SignUpForMokhalseen /> },
       { path: "ResetPassword", element: <ResetPassword /> },
       { path: "ConfirmPassword", element: <ConfirmPassword /> },
-      { path: "SignInForCompany", element: <SignInForCompany /> },
       { path: "ResetThePassword", element: <ResetThePassword /> },
       { path: "AccountantLandingPage", element: <AccountantLandingPage /> },
       { path: "LandingPageForUsers", element: <LandingPageForUsers /> },

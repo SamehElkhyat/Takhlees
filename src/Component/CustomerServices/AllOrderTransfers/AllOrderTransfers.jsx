@@ -138,7 +138,7 @@ export default function AllOrderTransfers() {
           {sortedCustomers.map((customer) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {Counter++}
+                {customer.id}
               </TableCell>{" "}
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}

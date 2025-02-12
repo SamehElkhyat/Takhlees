@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
 const NewOrderForm = () => {
-  const [Tokeen, setTokeen] = useState(null);
-
-  // إرسال البيانات إلى الـ API
   const handleOrder = async (values) => {
     const formData = new FormData();
 
@@ -38,26 +35,14 @@ const NewOrderForm = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${Tokeen}`,
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
-      toast.success(response.data.message)
-
-      // if (response.data.message='تم تقديم الطلب بنجاح') {
-
-      // console.log(values.uploadFile);
-      
-
-
-        
-        
-      // }
+      toast.success(response.data.message);
       setTimeout(() => {
         window.location.href = "/Orders";
-
       }, 1000);
-
     } catch (error) {
       console.log(error);
 
@@ -131,12 +116,6 @@ const NewOrderForm = () => {
       ...newFiles,
     ]);
   };
-
-  useEffect(() => {
-    const GetTokken = localStorage.getItem("Tokken");
-    setTokeen(GetTokken);
-  }, []);
-
   return (
     <div className="container text-center d-flex flex-column gap-3 mt-5">
       <Toaster

@@ -6,7 +6,6 @@ import { Table } from "react-bootstrap";
 import axios from "axios";
 
 export default function AvailableOrders() {
-  const [order, setOrder] = useState(null);
   const [date, setDate] = useState(null);
   const [data, setData] = useState(null);
   const [id, setid] = useState(0);

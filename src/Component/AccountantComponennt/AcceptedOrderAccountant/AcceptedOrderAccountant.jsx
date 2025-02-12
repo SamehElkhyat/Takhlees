@@ -134,9 +134,9 @@ export default function AcceptedOrderAccountant() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedCustomers.map((customer, index) => (
+          {sortedCustomers.map((customer,index) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell align="center">{index + 1}</TableCell>
+              <TableCell align="center">{customer.id}</TableCell>
               <TableCell align="center">{customer.location}</TableCell>
               <TableCell align="center">{customer.fullName}</TableCell>
               <TableCell align="center">{customer.typeOrder}</TableCell>
@@ -152,7 +152,6 @@ export default function AcceptedOrderAccountant() {
                   لم يتم التحويل
                 </Button>
                 
-                {/* إذا تم الضغط على الزر، يظهر حقل الإدخال */}
                 {showNoteField[customer.id] && (
                   <Box mt={1}>
                     <TextField
@@ -174,7 +173,6 @@ export default function AcceptedOrderAccountant() {
                   </Box>
                 )}
 
-                {/* زر "تم التحويل" */}
                 <Button
                   onClick={() => ChangeStatedone(customer.id)}
                   className="bg-success text-white"

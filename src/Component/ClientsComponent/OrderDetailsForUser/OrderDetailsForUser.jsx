@@ -30,11 +30,9 @@ export default function OrderDetailsForUser() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
-          responseType: "blob", // تحديد نوع الاستجابة كـ Blob
+          responseType: "blob", 
         }
       );
-
-      // استخراج اسم الملف من Content-Disposition (إذا كان متوفرًا)
       console.log(response);
 
       const contentDisposition = response.headers["content-disposition"];

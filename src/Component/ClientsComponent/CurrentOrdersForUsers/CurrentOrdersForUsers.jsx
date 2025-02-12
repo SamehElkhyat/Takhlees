@@ -5,7 +5,6 @@ import { Button, Table } from "react-bootstrap";
 const CurrentOrdersForUsers = () => {
   const [orders, setOrder] = useState([]);
   const [id, setid] = useState();
-  let [counter, setcounter] = useState(1);
 
 
   const SendId = async () => {
