@@ -4,7 +4,7 @@ import { Button, Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function OrderDetailsForUser() {
-  const [data, setdata] = useState();
+  const [data, setdata] = useState(null);
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
 
@@ -30,7 +30,7 @@ export default function OrderDetailsForUser() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
-          responseType: "blob", 
+          responseType: "blob",
         }
       );
       console.log(response);
@@ -70,14 +70,14 @@ export default function OrderDetailsForUser() {
         }
       );
       console.log(data);
-
       setallOrders(data);
     } catch (error) {
       console.log(error);
-      
     }
   };
   const SendId = async (OrderId, BrokerId) => {
+    console.log(OrderId);
+
     try {
       const data = await axios.post(
         `https://user.runasp.net/api/Change-Satue`,
@@ -91,6 +91,7 @@ export default function OrderDetailsForUser() {
           },
         }
       );
+
       if (data.status == 200) {
         toast("تم قبول الطلب بنجاح");
         window.location.href = "/CurrentOrdersForUsers";
@@ -272,7 +273,13 @@ export default function OrderDetailsForUser() {
                     <div className="col-12">
                       <h5 className="text-muted mb-3">ملاحظات إضافية</h5>
                       <div className="p-3 bg-light rounded">
-                        <p className="mb-0">{data.notes}</p>
+                        {data ? (
+                          <>
+                            <p className="mb-0">{data.notes}</p>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -297,40 +304,42 @@ export default function OrderDetailsForUser() {
                     </tr>
                   </thead>
                   <tbody>
-{allOrders.length == 0 ? <></>:<>
-  {allOrders.map((item) => (
-                        <>
-                          <tr>
-                            <td>{item.id}</td>
-                            <td>
-                              <span className="text-warning">
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="far fa-star"></i>
-                              </span>
-                            </td>
-                            <td>{item.value}</td>
+                    {allOrders.length == 0 ? (
+                      <></>
+                    ) : (
+                      <>
+                        {allOrders.map((item) => (
+                          <>
+                            <tr>
+                              <td>{item.id}</td>
+                              <td>
+                                <span className="text-warning">
+                                  <i className="fas fa-star"></i>
+                                  <i className="fas fa-star"></i>
+                                  <i className="fas fa-star"></i>
+                                  <i className="fas fa-star"></i>
+                                  <i className="far fa-star"></i>
+                                </span>
+                              </td>
+                              <td>{item.value}</td>
 
-                            <td>
-                              <Button
-                                onClick={() => {
-                                  SendId(data.id, item.brokerID);
-                                }}
-                                className="w-100 m-0"
-                                variant="success"
-                              >
-                                قبول
-                              </Button>
-                            </td>
-                          </tr>
-                          <tr></tr>
-                        </>
-                      ))}</>}
-                   
-                  
-                    
+                              <td>
+                                <Button
+                                  onClick={() => {
+                                    SendId(data.id, item.brokerID);
+                                  }}
+                                  className="w-100 m-0"
+                                  variant="success"
+                                >
+                                  قبول
+                                </Button>
+                              </td>
+                            </tr>
+                            <tr></tr>
+                          </>
+                        ))}
+                      </>
+                    )}
                   </tbody>
                 </Table>
               </div>

@@ -121,11 +121,6 @@ const SignIn = () => {
 
           <div className="button-group">
             <button className="signin-button"
-            onClick={() => {
-              toast("hello")
-
-
-             }}
             type="submit">
               تسجيل الدخول
             </button>
