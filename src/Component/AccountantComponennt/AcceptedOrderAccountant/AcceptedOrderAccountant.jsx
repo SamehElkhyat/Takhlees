@@ -31,7 +31,6 @@ export default function AcceptedOrderAccountant() {
   // onClick={() => DownloadFilesApi(customer[index],customer.id)}
 
   const handleShowBar = (items, orderId) => {
-    
     setIndexCutome(items);
     setOrderId(orderId);
     setBar(items);
@@ -222,7 +221,9 @@ export default function AcceptedOrderAccountant() {
     getAllAcceptedOrders();
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
-  }, []);
+    GetFileName();
+
+  }, [OrderId]);
 
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"

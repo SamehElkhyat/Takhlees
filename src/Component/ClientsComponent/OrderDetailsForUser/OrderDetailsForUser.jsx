@@ -20,13 +20,14 @@ export default function OrderDetailsForUser() {
   let NewAllfile =[];
 
   const DownloadFilesApi = async (index, orderId) => {
-    console.log(index);
+
+
     
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles`,
         {
-          newOrderId: orderId,
+          newOrderId: NewId[0],
           Id: index,
         },
         {
@@ -40,7 +41,7 @@ export default function OrderDetailsForUser() {
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
-        : `${NewAllfile[index][index]}.${response.data.type.split("/")[1]}`; // اسم افتراضي
+        : `${FilesName.commerce[index]}.${response.data.type.split("/")[1]}`; // اسم افتراضي
 
       const blob = response.data; // البيانات كـ Blob
       const url = window.URL.createObjectURL(blob);
@@ -55,6 +56,8 @@ export default function OrderDetailsForUser() {
 
       // تنظيف الرابط المؤقت من الذاكرة
       window.URL.revokeObjectURL(url);
+
+      
     } catch (error) {
       console.error("حدث خطأ أثناء تحميل الملف:", error);
     }
@@ -84,7 +87,7 @@ export default function OrderDetailsForUser() {
         {
           Value:value,
           BrokerID: BrokerId,
-          ID: OrderId,
+          ID: NewId[0],
         },
         {
           headers: {
@@ -94,8 +97,11 @@ export default function OrderDetailsForUser() {
       );
 
       if (data.status == 200) {
-        toast("تم قبول الطلب بنجاح");
-        window.location.href = "/CurrentOrdersForUsers";
+        toast.success("تم قبول الطلب بنجاح");
+        setTimeout(() => {
+          window.location.href = "/CurrentOrdersForUsers";
+
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
@@ -216,15 +222,24 @@ export default function OrderDetailsForUser() {
                         <th>{FilesName.commerce[i]}</th>
                         <td>{AllFilesHere}</td>
                         <th>
-                          <i
-                            onClick={() =>
-                              DownloadFilesApi(
-                                i,
-                                NewId[i],
-                              )
-                            }
-                            className="fa-solid fa-download"
-                          ></i>
+                        <i
+  onClick={() => DownloadFilesApi(i, NewId[i])}
+  className="fa-solid fa-download"
+  style={{
+    fontSize: "1.5rem", // حجم الأيقونة
+    color: "#007bff", // لون افتراضي (أزرق)
+    cursor: "pointer",
+    transition: "transform 0.3s ease, color 0.3s ease",
+  }}
+  onMouseEnter={(e) => {
+    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
+    e.target.style.transform = "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
+    e.target.style.transform = "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
+  }}
+></i>
                         </th>
                       </tr>
                       
@@ -303,7 +318,7 @@ export default function OrderDetailsForUser() {
           </div>
         </div>
       </div>
-
+<Toaster/>
     </>
     
   );

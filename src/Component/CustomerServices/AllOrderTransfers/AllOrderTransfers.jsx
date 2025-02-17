@@ -18,7 +18,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useFormik } from "formik";
 import { use } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function AllOrderTransfers() {
   const [customers, setCustomers] = useState([]);
@@ -152,7 +152,8 @@ export default function AllOrderTransfers() {
         },
       }
     );
-    console.log(request);
+toast.success('تم التنفيذ بنجاح')
+
   };
 
   const getAllAcceptedOrders = async () => {
@@ -435,6 +436,8 @@ export default function AllOrderTransfers() {
 
         </TableBody>
       </Table>
+      <Toaster/>
+
     </Box>
   );
 }

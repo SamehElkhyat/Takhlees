@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function OrderDetails() {
   const [data, setdata] = useState([]);
@@ -17,12 +18,15 @@ export default function OrderDetails() {
 
   let NewAllfile =[];
 
-  const DownloadFilesApi = async (index, orderId) => {
+  const DownloadFilesApi = async (index) => {
+    console.log(index);
+    
+    
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles`,
         {
-          newOrderId: orderId,
+          newOrderId: NewId[0],
           Id: index,
         },
         {
@@ -39,7 +43,7 @@ export default function OrderDetails() {
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
-        : `${NewAllfile[index][index]}.${response.data.type.split("/")[1]}`; // اسم افتراضي
+        : `${FilesName.commerce[index]}.${response.data.type.split("/")[1]}`; // اسم افتراضي
 
       const blob = response.data; // البيانات كـ Blob
       const url = window.URL.createObjectURL(blob);
@@ -60,7 +64,6 @@ export default function OrderDetails() {
   };
 
   const SendValue = async (cost, orderValue) => {
-    console.log(cost,orderValue);
     
     try {
       const { data } = await axios.post(
@@ -76,8 +79,10 @@ export default function OrderDetails() {
           },
         }
       );
-      console.log(data);
-      
+
+      toast.success("تم تقديم الطلب بنجاح")
+      getValue()
+
     } catch (error) {}
   };
 
@@ -207,7 +212,6 @@ export default function OrderDetails() {
       </>:<>
       
       {NewAllfile[0].map((AllFilesHere,i)=><>
-                        
 
                           {}
                         <tr>
@@ -241,6 +245,8 @@ export default function OrderDetails() {
                 <Table striped bordered hover>
                   <thead>
                     <tr className="text-center">
+                    <th>رقم المعرف</th>
+
                       <th>عدد العمليات الناجحه</th>
                       <th>التقييم</th>
                       <th>سعر العرض</th>
@@ -252,8 +258,13 @@ export default function OrderDetails() {
                     ) : (
                       <>
                         {allOrders.map((item,i) => (
-                          <>
+ <>
+ {console.log(
+ item)
+ }
                             <tr>
+                            <td>{item.brokerID}</td>
+
                               <td>{item.count}</td>
                               <td>
                                 <span className="text-warning">
@@ -301,6 +312,8 @@ export default function OrderDetails() {
           </div>
         </div>
       </div>
+      <Toaster/>
+
     </>
   );
 }
