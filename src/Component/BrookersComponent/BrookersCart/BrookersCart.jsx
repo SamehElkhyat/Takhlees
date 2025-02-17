@@ -1,43 +1,31 @@
-import React, { useState } from 'react';
-import { Table, Form, Button, Modal } from 'react-bootstrap';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Table, Form, Button, Modal } from "react-bootstrap";
 
 const BrookersCart = () => {
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      location: 'الرياض',
-      type: 'طبليه',
-      status: 'تم التنفيذ',
-      details: 'تم تسليم الطلب بنجاح إلى الموقع المحدد.',
-      amount: 500,
-    },
-    {
-      id: 2,
-      location: 'جدة',
-      type: 'حاويه',
-      status: 'تم التنفيذ',
-      details: 'تم تحميل الحاوية بنجاح إلى السفينة.',
-      amount: 1000,
-    },
-    { id: 3, location: 'القاهره', type: 'حاويه', status: 'تم التنفيذ', details: 'تم تحميل الحاوية بنجاح إلى السفينة.', amount: 1000 },
-    { id: 4, location: 'المدينه المنوره', type: 'طبليه', status: 'تم التنفيذ', details: 'تم تسليم الطلب بنجاح إلى الموقع المحدد.', amount: 500 },
-    { id: 5, location: 'الجيزه', type: 'وزن', status: 'تم التنفيذ', details: 'تم تسليم الطلب بنجاح إلى الموقع المحدد.', amount: 200 },
-  ]);
+  const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState(orders);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [balance, setBalance] = useState(1500); // مثال على الرصيد
 
+
+  const allOrders = async ()=>{
+  
+   const {data}= await axios.get(`https://user.runasp.net/api/Wallet`,{
+    
+    headers:{
+      Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+
+   }})
+   console.log(data);
+   
+   setOrders(data);
+  }
+
+
   // فلترة الطلبات بناءً على البحث
-  const handleSearch = () => {
-    const filtered = orders.filter(
-      (order) =>
-        order.location.includes(searchTerm) ||
-        order.type.includes(searchTerm) ||
-        order.status.includes(searchTerm)
-    );
-    setFilteredOrders(filtered);
-  };
+
 
   // فتح تفاصيل الطلب
   const handleShowDetails = (order) => {
@@ -48,7 +36,9 @@ const BrookersCart = () => {
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
-
+useEffect(()=>{
+  allOrders()
+},[])
   return (
     <div className="container mt-5">
       <h3 className="mb-4">المحفظة</h3>
@@ -66,7 +56,7 @@ const BrookersCart = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button className="mt-2" variant="primary" onClick={handleSearch}>
+        <Button className="mt-2" variant="primary">
           بحث
         </Button>
       </Form>
@@ -84,13 +74,15 @@ const BrookersCart = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredOrders.map((order) => (
+          {console.log(filteredOrders)
+          }
+          {orders.map((order) => (
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{order.location}</td>
-              <td>{order.type}</td>
-              <td>{order.status}</td>
-              <td>{order.amount} ريال</td>
+              <td>{order.typeOrder}</td>
+              <td>{order.statuOrder}</td>
+              <td>{order.value} ريال</td>
               <td>
                 <Button
                   variant="info"
@@ -113,12 +105,22 @@ const BrookersCart = () => {
         <Modal.Body>
           {selectedOrder && (
             <>
-              <p><strong>رقم الطلب:</strong> {selectedOrder.id}</p>
-              <p><strong>موقع الطلب:</strong> {selectedOrder.location}</p>
-              <p><strong>نوع الطلب:</strong> {selectedOrder.type}</p>
-              <p><strong>الحالة:</strong> {selectedOrder.status}</p>
-              <p><strong>المبلغ:</strong> {selectedOrder.amount} ريال</p>
-              <p><strong>التفاصيل:</strong> {selectedOrder.details}</p>
+              <p>
+                <strong>رقم الطلب:</strong> {selectedOrder.id}
+              </p>
+              <p>
+                <strong>موقع الطلب:</strong> {selectedOrder.location}
+              </p>
+              <p>
+                <strong>نوع الطلب:</strong> {selectedOrder.typeOrder}
+              </p>
+              <p>
+                <strong>الحالة:</strong> {selectedOrder.statuOrder}
+              </p>
+              <p>
+                <strong>المبلغ:</strong> {selectedOrder.value} ريال
+              </p>
+
             </>
           )}
         </Modal.Body>
