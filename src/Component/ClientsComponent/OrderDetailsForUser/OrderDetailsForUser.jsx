@@ -274,7 +274,7 @@ export default function OrderDetailsForUser() {
                         <tbody>
 
                             <tr key={i}>
-                              <td>{item.id}</td>
+                              <td>{item.brokerID}</td>
                               <td>
                                 <span className="text-warning">
                                   <i className="fas fa-star"></i>
