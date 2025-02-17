@@ -11,16 +11,23 @@ const Portfolio = () => {
 
 
   const allOrders = async ()=>{
-  
-   const {data}= await axios.get(`https://user.runasp.net/api/Wallet`,{
+    try {
+      const {data}= await axios.get(`https://user.runasp.net/api/Wallet`,{
     
-    headers:{
-      Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+    
+       }})
+       console.log(data.response);
+       
+       setOrders(data);
+    } catch (error) {
+      
+      console.log(error.response.data.message);
+      
+    }
+  
 
-   }})
-   console.log(data);
-   
-   setOrders(data);
   }
 
 

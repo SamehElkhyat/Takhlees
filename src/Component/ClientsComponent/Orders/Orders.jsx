@@ -60,7 +60,7 @@ const PendingOrders = () => {
       <h3 className="text-center">الطلبات القائمة</h3>
       <Table striped bordered hover>
         <thead>
-          <tr>
+          <tr className="text-center">
             <th>رقم الطلب</th>
             <th>موقع الطلب</th>
             <th>نوع الطلب</th>
@@ -73,12 +73,13 @@ const PendingOrders = () => {
             <>
               {orders.map((order) => (
                 <tr
+                className="text-center"
                   key={counter++}
                   onClick={() => {
                     handleChangeId(order.id);
                   }}
                 >
-                  <td>{counter}</td>
+                  <td>{order.id}</td>
                   <td>{order.location}</td>
                   <td>{order.typeOrder}</td>
                   <td>{order.statuOrder}</td>
