@@ -136,10 +136,13 @@ export default function OrderDetails() {
             
               {data.map((data,i) => (
                   <>
+<p style={{display:"none"}} className="">
 
-                     {NewId.push(data.id)}
+{NewId.push(data.id)}
                      {AllFilesHere.push(data)}
                      {NewAllfile.push(AllFilesHere[0].fileName)}
+</p>
+
                     <div className="row">
                       <div className="col-md-6">
                         <h5 className="text-muted mb-3">معلومات الطلب</h5>
