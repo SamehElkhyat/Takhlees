@@ -85,6 +85,9 @@ export default function HistoryOfOrders() {
                   {order.statuOrder === "لم يتم التنفيذ" && (
                     <button className="btn bg-success w-100">تم التنفيذ</button>
                   )}
+                    {order.statuOrder === "ملغى" && (
+                    <button className="btn bg-danger w-100">ملغي</button>
+                  )}
                   {order.statuOrder === "تم التحويل" && (
                     <button className="btn bg-success w-100">تم التحويل</button>
                   )}
