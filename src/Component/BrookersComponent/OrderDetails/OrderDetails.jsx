@@ -18,9 +18,7 @@ export default function OrderDetails() {
 
   let NewAllfile =[];
 
-  const DownloadFilesApi = async (index) => {
-    console.log(index);
-    
+  const DownloadFilesApi = async (index) => {    
     
     try {
       const response = await axios.post(
@@ -37,9 +35,8 @@ export default function OrderDetails() {
         }
       );
 
-      // استخراج اسم الملف من Content-Disposition (إذا كان متوفرًا)
-      console.log(response);
 
+      // استخراج اسم الملف من Content-Disposition (إذا كان متوفرًا)
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
@@ -58,6 +55,8 @@ export default function OrderDetails() {
 
       // تنظيف الرابط المؤقت من الذاكرة
       window.URL.revokeObjectURL(url);
+      toast.success("تم التحميل")
+
     } catch (error) {
       console.error("حدث خطأ أثناء تحميل الملف:", error);
     }
@@ -218,15 +217,24 @@ export default function OrderDetails() {
                         <th>{FilesName.commerce[i]}</th>
                         <td>{AllFilesHere}</td>
                         <th>
-                          <i
-                            onClick={() =>
-                              DownloadFilesApi(
-                                i,
-                                NewId[i],
-                              )
-                            }
-                            className="fa-solid fa-download"
-                          ></i>
+                        <i
+  onClick={() => DownloadFilesApi(i, NewId[i])}
+  className="fa-solid fa-download"
+  style={{
+    fontSize: "1.5rem", // حجم الأيقونة
+    color: "#007bff", // لون افتراضي (أزرق)
+    cursor: "pointer",
+    transition: "transform 0.3s ease, color 0.3s ease",
+  }}
+  onMouseEnter={(e) => {
+    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
+    e.target.style.transform = "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
+    e.target.style.transform = "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
+  }}
+></i>
                         </th>
                       </tr>
                       
@@ -313,6 +321,8 @@ export default function OrderDetails() {
         </div>
       </div>
       <Toaster/>
+      <Toaster/>
+
 
     </>
   );
