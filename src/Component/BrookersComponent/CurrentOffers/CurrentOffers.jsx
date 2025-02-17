@@ -98,7 +98,7 @@ export default function CurrentOffers() {
 
   const getCustomersOrders = async () => {
     try {
-      
+    
       const { data } = await axios.get(
         `https://user.runasp.net/api/Order-Transfer-From-CustomerService`,
         {

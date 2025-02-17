@@ -60,6 +60,8 @@ export default function OrderDetails() {
   };
 
   const SendValue = async (cost, orderValue) => {
+    console.log(cost,orderValue);
+    
     try {
       const { data } = await axios.post(
         `https://user.runasp.net/api/Apply-Order`,
@@ -74,6 +76,8 @@ export default function OrderDetails() {
           },
         }
       );
+      console.log(data);
+      
     } catch (error) {}
   };
 
@@ -247,7 +251,7 @@ export default function OrderDetails() {
                       <></>
                     ) : (
                       <>
-                        {allOrders.map((item) => (
+                        {allOrders.map((item,i) => (
                           <>
                             <tr>
                               <td>{item.count}</td>
@@ -283,7 +287,7 @@ export default function OrderDetails() {
                     />
                     <button
                       onClick={() => {
-                        SendValue(cost, data.id);
+                        SendValue(cost, NewId[0]);
                       }}
                       className="btn btn-primary"
                       type="button"
