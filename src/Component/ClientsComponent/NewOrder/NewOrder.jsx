@@ -1,12 +1,70 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
-import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Form, InputGroup, FormControl, Spinner } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
+import * as Yup from "yup";
+
 
 const NewOrderForm = () => {
+
+  const [IsLoading, setIsLoading] = useState(false)
+
+  const validationSchema = Yup.object().shape({
+    location: Yup.string().required("موقع الطلب مطلوب"),
+    numberOfLicense: Yup.string()
+      .required("رقم البوليصة مطلوب")
+      .matches(/^\d+$/, "يجب أن يكون رقمًا فقط"),
+    Notes: Yup.string()
+    .required("الملاحظات مطلوبه"),
+    numberOfTypeOrders: Yup.array()
+      .of(
+        Yup.object().shape({
+          Number: Yup.number()
+            .typeError("يجب إدخال عدد صحيح")
+            .positive("يجب أن يكون العدد أكبر من 0")
+            .required("عدد الطلب مطلوب"),
+          typeOrder: Yup.string().required("نوع الطلب مطلوب"),
+          Weight: Yup.number()
+            .when("typeOrder", {
+              is: (val) => val !== "حاويه",
+              then: (schema) =>
+                schema
+                  .typeError("يجب إدخال وزن صحيح")
+                  .positive("يجب أن يكون الوزن أكبر من 0")
+                  .required("الوزن مطلوب"),
+              otherwise: (schema) => schema.nullable(),
+            }),
+          Size: Yup.string().when("typeOrder", {
+            is: "حاويه",
+            then: (schema) => schema.required("حجم الحاوية مطلوب"),
+            otherwise: (schema) => schema.nullable(),
+          }),
+        })
+      )
+      .min(1, "يجب إضافة طلب واحد على الأقل"),
+
+      uploadFile: Yup.array()
+        .required("يجب رفع كل الملفات") // تأكيد وجود ملفات
+        .max(5, "ghdl;k vtu h;ev lk `g;") // يضمن وجود ملف واحد على الأقل
+        .test("fileSize", "أحد الملفات يتجاوز الحجم المسموح (5MB)", (files) =>
+          files && files.length ? files.every((file) => file.size <= 5 * 1024 * 1024) : false
+        )
+        .test("fileType", "نوع الملف غير مدعوم", (files) =>
+          files && files.length
+            ? files.every((file) =>
+                ["application/pdf", "image/jpeg", "image/png", "image/jpg"].includes(file.type)
+              )
+            : false
+        ),
+  });
+
+
   const handleOrder = async (values) => {
+
+    setIsLoading(true)
     const formData = new FormData();
+    
 
     // أضف الحقول النصية إلى FormData
     formData.append("Location", values.location);
@@ -28,6 +86,10 @@ const NewOrderForm = () => {
       formData.append("uploadFile", file);
     });
 
+    console.log(values);
+
+    
+
     try {
       const response = await axios.post(
         "https://user.runasp.net/api/New-Order",
@@ -39,11 +101,18 @@ const NewOrderForm = () => {
           },
         }
       );
+      
       toast.success(response.data.message);
+
+      setIsLoading(false)
+
       setTimeout(() => {
+
         window.location.href = "/Orders";
+
       }, 1000);
     } catch (error) {
+      setIsLoading(false)
       console.log(error);
 
       toast.error("error 404", {
@@ -62,7 +131,8 @@ const NewOrderForm = () => {
       numberOfTypeOrders: [{ Number: "", typeOrder: "", Weight: "", Size: "" }],
       uploadFile: [],
     },
-    onSubmit: handleOrder,
+    validationSchema,
+    onSubmit:handleOrder,
   });
 
   // إضافة طلب جديد
@@ -181,6 +251,9 @@ const NewOrderForm = () => {
             <option value="تبوك">تبوك</option>
             <option value="نيوم">نيوم</option>
           </Form.Control>
+          {formik.touched.location && formik.errors.location && (
+              <div className="error-message">{formik.errors.location}</div>
+            )}
         </Form.Group>
 
         <Form.Group controlId="numberOfLicense">
@@ -192,6 +265,10 @@ const NewOrderForm = () => {
             value={formik.values.numberOfLicense}
             onChange={formik.handleChange}
           />
+              {formik.touched.numberOfLicense && formik.errors.numberOfLicense && (
+              <div className="error-message">{formik.errors.numberOfLicense}</div>
+            )}
+
         </Form.Group>
 
         <Form.Group controlId="Notes">
@@ -203,12 +280,17 @@ const NewOrderForm = () => {
             value={formik.values.Notes}
             onChange={formik.handleChange}
           />
+                     {formik.touched.Notes && formik.errors.Notes && (
+              <div className="error-message">{formik.errors.Notes}</div>
+            )}
+
         </Form.Group>
+     
 
         {/* الحقول الديناميكية */}
         <h5>تفاصيل الطلبات</h5>
         {formik.values.numberOfTypeOrders.map((order, index) => (
-          <div key={index} style={{}} className="border p-3 mb-3">
+          <div key={index} className="border p-3 mb-3">
             <Form.Group controlId={`numberOfTypeOrders[${index}][typeOrder]`}>
               <Form.Label>نوع الطلب</Form.Label>
               <Form.Control
@@ -230,7 +312,14 @@ const NewOrderForm = () => {
                 <option value="طبليه">طبليه</option>
                 <option value="حاويه">حاويه</option>
               </Form.Control>
+
             </Form.Group>
+            {formik.touched.numberOfTypeOrders?.[index]?.typeOrder &&
+    formik.errors.numberOfTypeOrders?.[index]?.typeOrder && (
+      <div className="text-danger">
+        {formik.errors.numberOfTypeOrders[index].typeOrder}
+      </div>
+    )}
 
             <Form.Group controlId={`numberOfTypeOrders[${index}][Number]`}>
               <Form.Label>عدد</Form.Label>
@@ -243,6 +332,13 @@ const NewOrderForm = () => {
                   formik.setFieldValue("numberOfTypeOrders", updatedOrders);
                 }}
               />
+                          {formik.touched.numberOfTypeOrders?.[index]?.Number &&
+    formik.errors.numberOfTypeOrders?.[index]?.Number && (
+      <div className="text-danger">
+        {formik.errors.numberOfTypeOrders[index].Number}
+      </div>
+    )}
+  
             </Form.Group>
 
             {/* حقل الوزن يظهر فقط إذا لم يكن نوع الطلب "حاوية" */}
@@ -258,6 +354,12 @@ const NewOrderForm = () => {
                     formik.setFieldValue("numberOfTypeOrders", updatedOrders);
                   }}
                 />
+                    {formik.touched.numberOfTypeOrders?.[index]?.Weight &&
+    formik.errors.numberOfTypeOrders?.[index]?.Weight && (
+      <div className="text-danger">
+        {formik.errors.numberOfTypeOrders[index].Weight}
+      </div>
+    )}
               </Form.Group>
             )}
 
@@ -278,6 +380,12 @@ const NewOrderForm = () => {
                   <option value="20">20</option>
                   <option value="40">40</option>
                 </Form.Control>
+                {formik.touched.numberOfTypeOrders?.[index]?.Size &&
+    formik.errors.numberOfTypeOrders?.[index]?.Size && (
+      <div className="text-danger">
+        {formik.errors.numberOfTypeOrders[index].Size}
+      </div>
+    )}
               </Form.Group>
             )}
 
@@ -300,6 +408,10 @@ const NewOrderForm = () => {
           <InputGroup>
             <FormControl type="file" multiple onChange={handleFileChange} />
           </InputGroup>
+  {formik.touched.uploadFile && formik.errors.uploadFile && (
+    <div className="error-message text-danger mt-2">{formik.errors.uploadFile}</div>
+  )}
+              
         </Form.Group>
 
         <Form.Group controlId="orderFiles" className="mt-4">
@@ -307,6 +419,9 @@ const NewOrderForm = () => {
           <InputGroup>
             <FormControl type="file" multiple onChange={handleFileChange} />
           </InputGroup>
+  {formik.touched.uploadFile && formik.errors.uploadFile && (
+    <div className="error-message text-danger mt-2">{formik.errors.uploadFile}</div>
+  )}
         </Form.Group>
 
         <Form.Group controlId="orderFiles" className="mt-4">
@@ -314,6 +429,9 @@ const NewOrderForm = () => {
           <InputGroup>
             <FormControl type="file" multiple onChange={handleFileChange} />
           </InputGroup>
+  {formik.touched.uploadFile && formik.errors.uploadFile && (
+    <div className="error-message text-danger mt-2">{formik.errors.uploadFile}</div>
+  )}
         </Form.Group>
 
         <Form.Group controlId="orderFiles" className="mt-4">
@@ -321,6 +439,9 @@ const NewOrderForm = () => {
           <InputGroup>
             <FormControl type="file" multiple onChange={handleFileChange} />
           </InputGroup>
+  {formik.touched.uploadFile && formik.errors.uploadFile && (
+    <div className="error-message text-danger mt-2">{formik.errors.uploadFile}</div>
+  )}
         </Form.Group>
 
         <Form.Group controlId="orderFiles" className="mt-4">
@@ -330,14 +451,30 @@ const NewOrderForm = () => {
               (اي رخص او شهادات تتعلق بالطلب)
             </span>{" "}
           </Form.Label>
+  {formik.touched.uploadFile && formik.errors.uploadFile && (
+    <div className="error-message text-danger mt-2">{formik.errors.uploadFile}</div>
+  )}
           <InputGroup>
             <FormControl type="file" multiple onChange={handleFileChange} />
           </InputGroup>
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="mt-4">
+        {IsLoading ? <> <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-2 "
+                      />
+                      جارٍ التحميل...
+                    </>:<>
+                    <Button variant="primary" type="submit" className="mt-4">
           إرسال الطلب
         </Button>
+                    </>}
+
+      
       </Form>
     </div>
   );

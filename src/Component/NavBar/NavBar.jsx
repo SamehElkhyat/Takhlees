@@ -33,6 +33,8 @@ const NavBar = () => {
   };
   useEffect(() => {
     let ApiToken = localStorage.getItem("Tokken");
+    console.log(localStorage.getItem("Tokken"));
+
     setApiToken(true);
 
     const path = window.location.pathname;
@@ -81,7 +83,7 @@ const NavBar = () => {
               backgroundColor: "#dee2e6",
             },
           }}
-          Role="presentation"
+          role="presentation"
         >
           {Token?.Role === "Admin" ? (
             <>
@@ -103,23 +105,26 @@ const NavBar = () => {
                 <ListItem key={"text3"} disablePadding>
                   <ListItemButton>
                     <Link to="/permissions">
-                      <ListItemText primary={"الصلاحيات"} />
+                    <ListItemText primary={"الصلاحيات"} />
                     </Link>
                   </ListItemButton>
                 </ListItem>
                 <ListItem key={"text4"} disablePadding>
                   <ListItemButton>
                     <Link to="/statistics">
-                      <ListItemText primary={"احصائيات"} />
+                    <ListItemText primary={"احصائيات"} />
                     </Link>
+                    
                   </ListItemButton>
                 </ListItem>
                 <ListItem key={"text5"} disablePadding>
-                  <Link to="/blackList">
-                    <ListItemButton>
+                <Link to="/blackList">
+
+                  <ListItemButton>
                       <ListItemText primary={"المحظورين"} />
-                    </ListItemButton>
+                  </ListItemButton>
                   </Link>
+
                 </ListItem>
               </List>
               <Divider />
@@ -139,8 +144,7 @@ const NavBar = () => {
                     <ListItemText primary={"خدمه العملاء"} />
                   </ListItemButton>
                 </ListItem>
-                {console.log(Token)}
-
+                
                 <ListItem key={"text9"} disablePadding>
                   <ListItemButton>
                     <ListItemText
@@ -148,7 +152,7 @@ const NavBar = () => {
                         localStorage.removeItem("Tokken");
                         toast("تم تسجيل الخروج بنجاح");
                         setApiToken(false);
-                        window.location.href = "/SignIn";
+                        window.location.href="/SignIn";
                       }}
                       primary={"تسجيل الخروج"}
                     />
@@ -181,7 +185,7 @@ const NavBar = () => {
                         localStorage.removeItem("Tokken");
                         toast("تم تسجيل الخروج بنجاح");
                         setApiToken(false);
-                        window.location.href = "/SignIn";
+                        window.location.href="/SignIn";
                       }}
                       primary={"تسجيل الخروج"}
                     />
@@ -190,7 +194,7 @@ const NavBar = () => {
               </List>
             </>
           )}
-
+         
           <Divider />
         </Box>
       </Drawer>
@@ -203,16 +207,17 @@ const NavBar = () => {
           {Token == null ? (
             <>
               {" "}
+
               <div className="Items-NavBar">
                 <ul className="nav-menu">
                   <li className="nav-item">
-                    <Link to="/IntorSignUp" className="nav-link">
-                      انشاء حساب
+                    <Link to="/IntorSignUp" className="nav-link">                
+                    انشاء حساب
                     </Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/IntorSignIn" className="nav-link">
-                      تسجيل دخول
+                    تسجيل دخول
                     </Link>
                   </li>
                 </ul>
@@ -220,68 +225,68 @@ const NavBar = () => {
             </>
           ) : (
             <>
-              <Button
-                id="icon"
-                onClick={toggleDrawer(true)}
-                className="men me-5 d-flex flex-row align-items-center justify-content-start text-white"
-              >
-                لوحه التحكم
-              </Button>
+            <Button
+              id="icon"
+              onClick={toggleDrawer(true)}
+              className="men me-5 d-flex flex-row align-items-center justify-content-start text-white"
+            >
+              لوحه التحكم
+            </Button>
 
-              <li className="nav-item d-flex flex-row align-items-center justify-content-start">
-                {Token.Role === "User" ? (
+            <li className="nav-item d-flex flex-row align-items-center justify-content-start">
+              {Token.Role === "User" ? (
+                <Link to="/LandingPageForUsers" className="nav-link">
+                  {Token.fullName}
+                  <i className="m-2 fa-solid fa-toolbox"></i>
+                </Link>
+              ) : Token.Role === "Admin" ? (
+                <>
+                  <Link to="/LandingPageAdmin" className="nav-link">
+                    {Token.fullName}
+                    <i className="m-2 fa-solid fa-toolbox"></i>
+                  </Link>
+                </>
+              ) : Token.Role === "Company" ? (
+                <>
                   <Link to="/LandingPageForUsers" className="nav-link">
                     {Token.fullName}
                     <i className="m-2 fa-solid fa-toolbox"></i>
                   </Link>
-                ) : Token.Role === "Admin" ? (
-                  <>
-                    <Link to="/LandingPageAdmin" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.Role === "Company" ? (
-                  <>
-                    <Link to="/LandingPageForUsers" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.Role === "Account" ? (
-                  <>
-                    {" "}
-                    <Link to="/AccountantLandingPage" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.Role === "CustomerService" ? (
-                  <>
-                    <Link to="/LandingPageCustomeService" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.Role === "Broker" ? (
-                  <>
-                    <Link to="/BrookersLandingPage" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.Role === "Manager" ? (
-                  <>
-                    <Link to="/Admin" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </li>
-            </>
+                </>
+              ) : Token.Role === "Account" ? (
+                <>
+                  {" "}
+                  <Link to="/AccountantLandingPage" className="nav-link">
+                    {Token.fullName}
+                    <i className="m-2 fa-solid fa-toolbox"></i>
+                  </Link>
+                </>
+              ) : Token.Role === "CustomerService" ? (
+                <>
+                  <Link to="/LandingPageCustomeService" className="nav-link">
+                    {Token.fullName}
+                    <i className="m-2 fa-solid fa-toolbox"></i>
+                  </Link>
+                </>
+              ) : Token.Role === "Broker" ? (
+                <>
+                  <Link to="/BrookersLandingPage" className="nav-link">
+                    {Token.fullName}
+                    <i className="m-2 fa-solid fa-toolbox"></i>
+                  </Link>
+                </>
+              ) : Token.Role === "Manager" ? (
+                <>
+                  <Link to="/Admin" className="nav-link">
+                    {Token.fullName}
+                    <i className="m-2 fa-solid fa-toolbox"></i>
+                  </Link>
+                </>
+              ) : (
+                <></>
+              )}
+            </li>
+          </>
           )}
         </div>
       </nav>

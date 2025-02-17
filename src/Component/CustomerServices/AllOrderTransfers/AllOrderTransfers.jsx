@@ -10,11 +10,15 @@ import {
   TableCell,
   Box,
   TextField,
+  Typography,
 } from "@mui/material";
-import { Modal } from "react-bootstrap";
+import { Form, FormControl, InputGroup, Modal } from "react-bootstrap";
 
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useFormik } from "formik";
+import { use } from "react";
+import toast from "react-hot-toast";
 
 export default function AllOrderTransfers() {
   const [customers, setCustomers] = useState([]);
@@ -24,24 +28,33 @@ export default function AllOrderTransfers() {
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
+  const [Bar, setBar] = useState(null);
+  const [OrderId, setOrderId] = useState(null)
+  const [IsLoading, setIsLoading] = useState(false)
 
-
-  const handleShowDetails = (order,BrokerId) => {
+  const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
-    getAllInformationBroker(BrokerId)
-    
+    getAllInformationBroker(BrokerId);
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
+  //>>>>>>>>>>>>>>>>BAR>>>>>>>>>>>//
+  const handleShowBar = (items,orderId) => {
 
-
+    setOrderId(orderId);
+    setBar(items);
+  };
+  const handleCloseBar = () => {
+    setBar(null);
+  };
 
   const getAllInformationBroker = async (BrokerId) => {
     try {
-      const {data} = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,{
-          BrokerID:BrokerId,
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        {
+          BrokerID: BrokerId,
         },
         {
           headers: {
@@ -49,10 +62,9 @@ export default function AllOrderTransfers() {
           },
         }
       );
-console.log(data);
+      console.log(data);
 
-setSelectedOrder(data)
-      
+      setSelectedOrder(data);
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +95,48 @@ setSelectedOrder(data)
       }
     );
     console.log(request);
+  };
+
+  const handleFileChange = (e) => {
+
+    console.log(e);
+
+    if (e.target.files.length > 0) {
+      formik.setFieldValue("formFile", e.target.files[0]); // تعيين الملف مباشرة
+    }
+  };
+
+  const SendFile = async (values) => {
+
+    setIsLoading(true)
+    const formData = new FormData();
+    formData.append("formFile", values.formFile); // تعيين الملف الصحيح
+    formData.append("Notes", values.Notes);
+    formData.append("newOrderId", OrderId); 
+    // التأكد من إرسال OrderId الصحيح
+  console.log(values);
+
+  
+    try {
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Notes-From-CustomerService`,
+        formData, // إرسال formData مباشرة بدون وضعه داخل كائن
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      setIsLoading(false)
+       toast.success("تم تقديم الملاحظات بنجاح")
+       setBar(null);
+       console.log("نجاح:", data);
+    } catch (error) {
+      console.log("خطأ:", error);
+      setIsLoading(false)
+
+    }
   };
 
   const ChangeStateDone = async (values) => {
@@ -126,6 +180,15 @@ setSelectedOrder(data)
     getAllAcceptedOrders();
   }, []);
 
+  let formik = useFormik({
+    initialValues: {
+      Notes: "",
+      formFile: "",
+
+    },
+    onSubmit: SendFile,
+  });
+
   return (
     <Box width="100%" textAlign="center" p={4}>
       <h1
@@ -160,6 +223,7 @@ setSelectedOrder(data)
             <TableCell align="center">رقم الطلب</TableCell>
             <TableCell align="center">موقع الطلب</TableCell>
             <TableCell align="center">الملاحظات</TableCell>
+            <TableCell align="center">اضافه مرفقات</TableCell>
 
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">نوع الطلب</TableCell>
@@ -171,7 +235,6 @@ setSelectedOrder(data)
           </TableRow>
         </TableHead>
         <TableBody>
-          {console.log(sortedCustomers)}
           {sortedCustomers.map((customer) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
@@ -182,6 +245,14 @@ setSelectedOrder(data)
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.notes}
+              </TableCell>
+              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                <Button
+                  className="bg-primary text-white p-2"
+                  onClick={() => handleShowBar(customer.notes,customer.id)}
+                >
+                  اضافه ملفات
+                </Button>
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.fullName}
@@ -198,7 +269,7 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order,customer.brokerID)}
+                  onClick={() => handleShowDetails(order, customer.brokerID)}
                 >
                   عرض التفاصيل
                 </Button>
@@ -244,16 +315,19 @@ setSelectedOrder(data)
             </TableRow>
           ))}
 
-<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+          <Modal
+            className="text-end"
+            show={selectedOrder !== null}
+            onHide={handleCloseDetails}
+          >
             <Modal.Header closeButton>
               <Modal.Title>تفاصيل الطلب</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {selectedOrder && (
                 <>
-              
                   <p>
-                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
                   </p>
                   <p>
                     <strong>الاسم:</strong> {selectedOrder.fullName}
@@ -279,6 +353,86 @@ setSelectedOrder(data)
               </Button>
             </Modal.Footer>
           </Modal>
+
+          <Modal
+            className="text-end"
+            show={Bar !== null}
+            onHide={handleCloseBar}
+          >
+            <Modal.Header
+              closeButton
+              className="bg-primary text-white text-center"
+              style={{ borderRadius: "8px 8px 0 0", padding: "15px" }}
+            >
+              <Modal.Title className="w-100 fs-5">تقديم الملاحظات</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="p-4 bg-light" style={{ borderRadius: "0 0 8px 8px" }}>
+              <Box
+                sx={{
+                  maxWidth: 400,
+                  mx: "auto",
+                  p: 3,
+                  boxShadow: 4,
+                  borderRadius: 3,
+                  backgroundColor: "white",
+                }}
+              >
+                <Typography variant="h6" gutterBottom className="text-primary fw-bold text-center">
+                  إضافة ملاحظات وملف
+                </Typography>
+                <Form onSubmit={formik.handleSubmit}>
+                  <Form.Group className="mt-4 text-center" controlId="Notes">
+                    <Form.Label className="fw-bold text-secondary">ملاحظات الطلب</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="أدخل ملاحظاتك هنا..."
+                      name="Notes"
+                      value={formik.values.Notes}
+                      onChange={formik.handleChange}
+                      className="shadow-sm border-primary"
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formData" className="mt-4 text-center">
+                    <Form.Label className="fw-bold text-secondary">الإبانه</Form.Label>
+                    <InputGroup className="shadow-sm border-primary">
+                      <FormControl
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                        className="p-2"
+                      />
+                    </InputGroup>
+                  </Form.Group>
+                  {IsLoading ? (
+                    <Button
+                      className="w-100 mt-4 d-flex justify-content-center align-items-center  text-black border-0 shadow-sm"
+                      disabled
+                    >
+                      <i className="fa-solid fa-gear fa-spin" style={{ fontSize: "30px" }}></i>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="w-100 mt-4 d-flex justify-content-center align-items-center fw-bold shadow-sm"
+                    >
+                      إرسال الملاحظات
+                    </Button>
+                  )}
+                </Form>
+              </Box>
+            </Modal.Body>
+            <Modal.Footer className="bg-light d-flex justify-content-center">
+              <Button
+                variant="secondary"
+                onClick={handleCloseBar}
+                className="fw-bold shadow-sm px-4"
+              >
+                إغلاق
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
         </TableBody>
       </Table>
     </Box>

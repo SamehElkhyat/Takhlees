@@ -16,7 +16,6 @@ import { Modal } from "react-bootstrap";
 import axios from "axios";
 
 export default function HistoryDoneOrder() {
-  
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
@@ -24,10 +23,9 @@ export default function HistoryDoneOrder() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
 
-  const handleShowDetails = (order,BrokerId) => {
-    setSelectedOrder(order)
-    getAllInformationBroker(BrokerId)
-    
+  const handleShowDetails = (order, BrokerId) => {
+    setSelectedOrder(order);
+    getAllInformationBroker(BrokerId);
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
@@ -37,9 +35,10 @@ export default function HistoryDoneOrder() {
 
   const getAllInformationBroker = async (BrokerId) => {
     try {
-      const {data} = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,{
-          BrokerID:BrokerId,
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        {
+          BrokerID: BrokerId,
         },
         {
           headers: {
@@ -47,27 +46,26 @@ export default function HistoryDoneOrder() {
           },
         }
       );
-console.log(data);
+      console.log(data);
 
-setSelectedOrder(data)
-      
+      setSelectedOrder(data);
     } catch (error) {
       console.log(error);
     }
   };
-
-
 
   const getAllAcceptedOrders = async () => {
     try {
       const { data } = await axios.get(
         `https://user.runasp.net/api/Get-All-Done-Transfer-Orders`,
         {
-          headers: { Authorization:`Bearer ${localStorage.getItem("Tokken")}`,},
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
         }
       );
       console.log(data);
-      
+
       setCustomers(data);
     } catch (error) {
       console.error("حدث خطأ أثناء جلب البيانات:", error);
@@ -117,7 +115,6 @@ setSelectedOrder(data)
             <TableCell align="center">الهاتف</TableCell>
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
-
             <TableCell align="center">الحالة</TableCell>
           </TableRow>
         </TableHead>
@@ -133,26 +130,34 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order,customer.brokerID)}
+                  onClick={() => handleShowDetails(order, customer.brokerID)}
                 >
                   عرض التفاصيل
                 </Button>
               </TableCell>
+              <TableCell align="center" className="bg-succsses">
+                <Button className="bg-success text-white p-2">
+                  {customer.statuOrder}{" "}
+                </Button>
+              </TableCell>
+
             </TableRow>
           ))}
 
-<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+          <Modal
+            className="text-end"
+            show={selectedOrder !== null}
+            onHide={handleCloseDetails}
+          >
             <Modal.Header closeButton>
               <Modal.Title>تفاصيل الطلب</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-{              console.log(selectedOrder)
-}              
+              {console.log(selectedOrder)}
               {selectedOrder && (
                 <>
-              
                   <p>
-                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
                   </p>
                   <p>
                     <strong>الاسم:</strong> {selectedOrder.fullName}

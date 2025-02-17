@@ -24,9 +24,9 @@ const SignIn = () => {
         Password: values.Password,
       });
       console.log(data.data.message);
-
       if (data.data.message === "تم تسجيل الدخول بنجاح") {
         toast(data.data.message);
+        console.log(data);
         localStorage.setItem("Tokken", data.data.data);
         localStorage.setItem("Code", data.data.state);
         const decodedCode= jwtDecode(localStorage.getItem("Tokken"))
@@ -46,14 +46,17 @@ const SignIn = () => {
             } else if (decodedCode.Role == "Manager") {
               console.log("Manager");
             }
+
              
-        // window.location.href = "/ConfirmPassword";
       } else {
         toast(data.data.message);
       }
     } catch (error) {
       if (error.response) {
-        console.error("Response error:", error.response.data); // رسالة الخطأ من الخادم
+         if (error.response.data.status==401) {
+          toast(error.response.data.message)
+          
+         }
       } else if (error.request) {
         console.error("Request error:", error.request); // مشكلة في الطلب
       } else {

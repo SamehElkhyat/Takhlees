@@ -109,7 +109,8 @@ setSelectedOrder(data)
         },
       }
     );
-
+   console.log(data);
+   
     setCustomers(data);
   };
 
@@ -158,6 +159,8 @@ setSelectedOrder(data)
             <TableCell align="center">موقع الطلب</TableCell>
 
             <TableCell align="center">الاسم</TableCell>
+            <TableCell align="center">الملاحظات</TableCell>
+
             <TableCell align="center">نوع الطلب</TableCell>
 
             <TableCell align="center">الهاتف</TableCell>
@@ -177,6 +180,9 @@ setSelectedOrder(data)
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.fullName}
+              </TableCell>
+              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                {customer.notes}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}

@@ -68,6 +68,7 @@ export default function HistoryOfOrders() {
             <tr className="text-center">
               <th>رقم الطلب</th>
               <th>اسم الميناء</th>
+              <th>الملاحظات</th>
               <th>التاريخ</th>
               <th>الحالة</th>
             </tr>
@@ -77,6 +78,8 @@ export default function HistoryOfOrders() {
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.location}</td>
+                <td>{order.notes}</td>
+
                 <td>{order.date}</td>
                 <td>
                   {order.statuOrder === "لم يتم التنفيذ" && (

@@ -71,7 +71,7 @@ const PendingOrders = () => {
 
           {!orders.length == 0 ? (
             <>
-              {orders.map((order, i) => (
+              {orders.map((order) => (
                 <tr
                   key={counter++}
                   onClick={() => {

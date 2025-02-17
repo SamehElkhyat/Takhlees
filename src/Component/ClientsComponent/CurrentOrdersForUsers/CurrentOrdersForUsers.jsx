@@ -10,7 +10,6 @@ const CurrentOrdersForUsers = () => {
   const SendId = async () => {
   
     try {
-        console.log(id.ID);
 
         const req = await axios.post(
           `https://user.runasp.net/api/Get-ID`,
@@ -42,15 +41,12 @@ const CurrentOrdersForUsers = () => {
           },
         }
       );
-      console.log(res);
       setOrder(res.data);
     } catch (error) {
       console.log(error);
     }
   };
-  const handleChangeId = (value) => {
-console.log(value);
-  };
+
 
   useEffect(() => { 
     GetOrder();
@@ -71,7 +67,7 @@ console.log(value);
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr onClick={handleChangeId(order.id)} key={order.id}>
+            <tr  key={order.id}>
               <td>{order.id}</td>
               <td>{order.location}</td>
               <td>{order.typeOrder}</td>

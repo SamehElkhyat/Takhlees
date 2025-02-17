@@ -261,6 +261,7 @@ export default function CurrentOffers() {
             <tr className="text-center">
               <th>التاريخ</th>
               <th>اسم (الميناء/المطار)</th>
+              <th>الملاحظات</th>
               <th>رقم الطلب</th>
               <th>الحالة</th>
             </tr>
@@ -272,6 +273,8 @@ export default function CurrentOffers() {
               <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
                 <td>{order.date}</td>
                 <td>{order.location}</td>
+                <td>{order.notes}</td>
+
                 <td>{order.id}</td>
                 <button
                   onClick={() => SendIdSuccses(order.id)}
