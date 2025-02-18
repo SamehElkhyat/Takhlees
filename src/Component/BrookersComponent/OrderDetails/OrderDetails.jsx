@@ -128,7 +128,7 @@ export default function OrderDetails() {
   useEffect(() => {
     getValue();
     getOrders();
-  }, []);
+  }, [allOrders]);
   return (
     <>
       <div className="container mt-5">
@@ -137,9 +137,10 @@ export default function OrderDetails() {
             <h3 className="mb-0 text-center">تفاصيل الطلب</h3>
           </div>
           <div className="card-body">
-          {data.length == 0 ? <>
-            <p>no data</p>
-            
+          {data.length === 0  || error === 'null' ? <>
+            <tr>
+      <td colSpan="5" className="text-center">لا توجد تفاصيل للطلب </td>
+    </tr>            
             </>:<>
             
               {data.map((data,i) => (
@@ -255,7 +256,6 @@ export default function OrderDetails() {
                     <tr className="text-center">
                     <th>رقم المعرف</th>
 
-                      <th>عدد العمليات الناجحه</th>
                       <th>التقييم</th>
                       <th>سعر العرض</th>
                     </tr>
@@ -273,7 +273,6 @@ export default function OrderDetails() {
                             <tr>
                             <td>{item.brokerID}</td>
 
-                              <td>{item.count}</td>
                               <td>
                                 <span className="text-warning">
                                   <i className="fas fa-star"></i>

@@ -11,23 +11,25 @@ const BrookersCart = () => {
 
 
   const allOrders = async ()=>{
-  
-   const {data}= await axios.get(`https://user.runasp.net/api/Wallet`,{
+    try {
+      const {data}= await axios.get(`https://user.runasp.net/api/Wallet`,{
     
-    headers:{
-      Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+    
+       }})
+       console.log(data.response);
+       
+       setOrders(data);
+    } catch (error) {
+      
+      console.log(error.response.data.message);
+      
+    }
+  
 
-   }})
-   console.log(data);
-   
-   setOrders(data);
   }
 
-
-  // فلترة الطلبات بناءً على البحث
-
-
-  // فتح تفاصيل الطلب
   const handleShowDetails = (order) => {
     setSelectedOrder(order);
   };
@@ -38,7 +40,7 @@ const BrookersCart = () => {
   };
 useEffect(()=>{
   allOrders()
-},[])
+},[orders])
   return (
     <div className="container mt-5">
       <h3 className="mb-4">المحفظة</h3>
@@ -61,7 +63,6 @@ useEffect(()=>{
         </Button>
       </Form>
 
-      {/* قائمة الطلبات المنجزة */}
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -74,8 +75,7 @@ useEffect(()=>{
           </tr>
         </thead>
         <tbody>
-          {console.log(filteredOrders)
-          }
+
           {orders.map((order) => (
             <tr key={order.id}>
               <td>{order.id}</td>

@@ -27,6 +27,7 @@ export default function AcceptedOrderAccountant() {
   const [IsLoading, setIsLoading] = useState(false);
   const [IndexCutome, setIndexCutome] = useState(false);
   const [ImageName, setImageName] = useState({});
+  const [error, seterror] = useState(null);
 
   // onClick={() => DownloadFilesApi(customer[index],customer.id)}
 
@@ -37,10 +38,8 @@ export default function AcceptedOrderAccountant() {
 
     if (OrderId == null) {
       console.log("سشيشي");
-
     } else {
       GetFileName();
-
     }
   };
   const handleCloseBar = () => {
@@ -76,6 +75,7 @@ export default function AcceptedOrderAccountant() {
       setImageName(data);
     } catch (error) {
       console.log(error);
+      seterror(error.status);
       setIsLoading(false);
     }
   };
@@ -83,7 +83,7 @@ export default function AcceptedOrderAccountant() {
   const DownloadFilesApi = async () => {
     setIsLoading(true);
     console.log(OrderId);
-    
+
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles-From-Account`,
@@ -98,7 +98,6 @@ export default function AcceptedOrderAccountant() {
         }
       );
       setIsLoading(false);
-
 
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
@@ -124,7 +123,6 @@ export default function AcceptedOrderAccountant() {
   };
 
   const getAllInformationBroker = async (BrokerId) => {
-
     try {
       const { data } = await axios.post(
         `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
@@ -143,7 +141,7 @@ export default function AcceptedOrderAccountant() {
       console.log(error);
     }
   };
-  
+
   // تحديث حالة الملاحظات عند إدخالها
   const handleNoteChange = (id, value) => {
     setNotes((prevNotes) => ({ ...prevNotes, [id]: value }));
@@ -214,16 +212,17 @@ export default function AcceptedOrderAccountant() {
       setCustomers(data);
     } catch (error) {
       console.error("حدث خطأ أثناء جلب البيانات:", error);
+      seterror(error.status);
     }
   };
 
   useEffect(() => {
-    getAllAcceptedOrders();
+    if (!error === null) getAllAcceptedOrders();
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
-    GetFileName();
 
-  }, [OrderId]);
+    if (!error === null) GetFileName();
+  }, [OrderId, customers]);
 
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"

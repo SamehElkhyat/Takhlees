@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Table } from "react-bootstrap";
 
@@ -11,7 +11,6 @@ export default function AvailableOrders() {
   const [id, setid] = useState(0);
 
   const GetOrder = async () => {
-   
     try {
       const { data } = await axios.get(
         `https://user.runasp.net/api/Get-All-Orders`,
@@ -31,8 +30,6 @@ export default function AvailableOrders() {
   };
 
   const SendId = async () => {
-    
-
     if (id == 0) {
       console.log("error");
     } else {
@@ -55,12 +52,11 @@ export default function AvailableOrders() {
     }
   };
   useEffect(() => {
-      
     const t = moment();
     SendId();
     GetOrder();
     setDate(t.format("MMM Do YYYY | h:mm"));
-  }, [id]);
+  }, [data]);
 
   return (
     <>
@@ -76,23 +72,23 @@ export default function AvailableOrders() {
             </tr>
           </thead>
           <tbody>
+            {data == null && (
+                    <tr>
+                    <td colSpan="5" className="text-center">لا توجد عروض متاحه</td>
+                  </tr>
+            )}
 
-            {data==null && (<>
-            
-            
-            <h1>WaitingForData</h1>
-            
-            
-            </>)}
-
-            {data!==null && (<>            {data.map((order) => (
-              <tr key={order.id} onClick={() => setid(order.id)}>
-                <td>{order.date}</td>
-                <td>{order.location}</td>
-                <td>{order.id}</td>
-              </tr>
-            ))}</>)}
-
+            {data !== null && (
+              <>
+                {data.map((order) => (
+                  <tr key={order.id} onClick={() => setid(order.id)}>
+                    <td>{order.date}</td>
+                    <td>{order.location}</td>
+                    <td>{order.id}</td>
+                  </tr>
+                ))}
+              </>
+            )}
           </tbody>
         </Table>
       </div>

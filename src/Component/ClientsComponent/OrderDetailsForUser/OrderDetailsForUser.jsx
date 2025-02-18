@@ -8,21 +8,23 @@ export default function OrderDetailsForUser() {
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
 
-
   const FilesName = {
-    commerce: ["السجل التجاري", "السجل الضريبي","البوليصه","شهاده المنشأ","ملفات اخري",]
+    commerce: [
+      "السجل التجاري",
+      "السجل الضريبي",
+      "البوليصه",
+      "شهاده المنشأ",
+      "ملفات اخري",
+    ],
   };
 
   let AllFilesHere = [];
 
   let NewId = [];
 
-  let NewAllfile =[];
+  let NewAllfile = [];
 
   const DownloadFilesApi = async (index, orderId) => {
-
-
-    
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles`,
@@ -56,8 +58,6 @@ export default function OrderDetailsForUser() {
 
       // تنظيف الرابط المؤقت من الذاكرة
       window.URL.revokeObjectURL(url);
-
-      
     } catch (error) {
       console.error("حدث خطأ أثناء تحميل الملف:", error);
     }
@@ -79,13 +79,12 @@ export default function OrderDetailsForUser() {
       console.log(error);
     }
   };
-  const SendId = async (OrderId, BrokerId,value) => {
-    
+  const SendId = async (OrderId, BrokerId, value) => {
     try {
       const data = await axios.post(
         `https://user.runasp.net/api/Change-Satue`,
         {
-          Value:value,
+          Value: value,
           BrokerID: BrokerId,
           ID: NewId[0],
         },
@@ -100,7 +99,6 @@ export default function OrderDetailsForUser() {
         toast.success("تم قبول الطلب بنجاح");
         setTimeout(() => {
           window.location.href = "/CurrentOrdersForUsers";
-
         }, 1000);
       }
     } catch (error) {
@@ -132,7 +130,7 @@ export default function OrderDetailsForUser() {
   useEffect(() => {
     SendValue();
     getOrders();
-  }, []);
+  }, [allOrders]);
   return (
     <>
       <div className="container mt-5">
@@ -141,21 +139,20 @@ export default function OrderDetailsForUser() {
             <h3 className="mb-0 text-center">تفاصيل الطلب</h3>
           </div>
           <div className="card-body">
-
-            {data.length == 0 ? <>
-            <p key={1}>no data</p>
-            
-            </>:<>
-            
-              {data.map((data,i) => (
+            {data.length == 0 ? (
+              <>
+                <p key={1}>no data</p>
+              </>
+            ) : (
+              <>
+                {data.map((data, i) => (
                   <>
-<p style={{display:"none"}} className="">
-
-{NewId.push(data.id)}
-                     {AllFilesHere.push(data)}
-                     {NewAllfile.push(AllFilesHere[0].fileName)}
-</p>
-                    <div key={i}  className="row">
+                    <p style={{ display: "none" }} className="">
+                      {NewId.push(data.id)}
+                      {AllFilesHere.push(data)}
+                      {NewAllfile.push(AllFilesHere[0].fileName)}
+                    </p>
+                    <div key={i} className="row">
                       <div className="col-md-6">
                         <h5 className="text-muted mb-3">معلومات الطلب</h5>
                         <table className="table table-bordered">
@@ -190,10 +187,17 @@ export default function OrderDetailsForUser() {
                               <td>{data.numberOflicense}</td>
                             </tr>
 
- {data.size == null ? <></>:<>                           <tr>
-                              <th>وزن الشحنة</th>
-                              <td>{data.size}</td>
-                            </tr></>}
+                            {data.size == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                {" "}
+                                <tr>
+                                  <th>وزن الشحنة</th>
+                                  <td>{data.size}</td>
+                                </tr>
+                              </>
+                            )}
                             <tr>
                               <th>عدد القطع</th>
                               <td>{data.number}</td>
@@ -203,78 +207,81 @@ export default function OrderDetailsForUser() {
                       </div>
                     </div>
                     <hr className="h-50" />
-                    
                   </>
                 ))}
-            
 
-            <table className="table table-bordered">
-                    <tbody>
-      {data.length == 0 ? <>
-      <p>no data</p>
-      </>:<>
-      
-      {NewAllfile[0].map((AllFilesHere,i)=><>
-                        
-
-                          {}
-                        <tr>
-                        <th>{FilesName.commerce[i]}</th>
-                        <td>{AllFilesHere}</td>
-                        <th>
-                        <i
-  onClick={() => DownloadFilesApi(i, NewId[i])}
-  className="fa-solid fa-download"
-  style={{
-    fontSize: "1.5rem", // حجم الأيقونة
-    color: "#007bff", // لون افتراضي (أزرق)
-    cursor: "pointer",
-    transition: "transform 0.3s ease, color 0.3s ease",
-  }}
-  onMouseEnter={(e) => {
-    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
-    e.target.style.transform = "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
-  }}
-  onMouseLeave={(e) => {
-    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
-    e.target.style.transform = "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
-  }}
-></i>
-                        </th>
-                      </tr>
-                      
-                      
-                      </>)}
-      </>}
-
-                    </tbody>
-                  </table>
-
-            </>}
-
+                <table className="table table-bordered">
+                  <tbody>
+                    {data.length == 0 ? (
+                      <>
+                        <p>no data</p>
+                      </>
+                    ) : (
+                      <>
+                        {NewAllfile[0].map((AllFilesHere, i) => (
+                          <>
+                            {}
+                            <tr>
+                              <th>{FilesName.commerce[i]}</th>
+                              <td>{AllFilesHere}</td>
+                              <th>
+                                <i
+                                  onClick={() => DownloadFilesApi(i, NewId[i])}
+                                  className="fa-solid fa-download"
+                                  style={{
+                                    fontSize: "1.5rem", // حجم الأيقونة
+                                    color: "#007bff", // لون افتراضي (أزرق)
+                                    cursor: "pointer",
+                                    transition:
+                                      "transform 0.3s ease, color 0.3s ease",
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
+                                    e.target.style.transform =
+                                      "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
+                                    e.target.style.transform =
+                                      "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
+                                  }}
+                                ></i>
+                              </th>
+                            </tr>
+                          </>
+                        ))}
+                      </>
+                    )}
+                  </tbody>
+                </table>
+              </>
+            )}
 
             <div className="row mt-4">
               <div className="col-12">
                 <h5 className="text-muted mb-3">العروض المقدمة</h5>
                 <Table striped bordered hover>
                   <thead>
-                    <tr key={'300'} className="text-center">
+                    <tr key={"300"} className="text-center">
                       <th>رقم المعرف</th>
+                      <th>عدد الطلبات الناجحه</th>
+
                       <th>التقييم</th>
                       <th>سعر العرض</th>
                       <th>الحاله</th>
                     </tr>
                   </thead>
-                    {allOrders.length == 0 ? (
-                      <></>
-                    ) : (
-                      <>
-                        {allOrders.map((item,i) => (
-                          <>
-                        <tbody>
-
+                  {allOrders.length == 0 ? (
+                    <></>
+                  ) : (
+                    <>
+                      {allOrders.map((item, i) => (
+                        <>
+                          <tbody>
                             <tr key={i}>
                               <td>{item.brokerID}</td>
+                              <td>{item.count}</td>
+
                               <td>
                                 <span className="text-warning">
                                   <i className="fas fa-star"></i>
@@ -289,7 +296,7 @@ export default function OrderDetailsForUser() {
                               <td>
                                 <Button
                                   onClick={() => {
-                                    SendId(data.id, item.brokerID,item.value);
+                                    SendId(data.id, item.brokerID, item.value);
                                   }}
                                   className="w-100 m-0"
                                   variant="success"
@@ -299,27 +306,18 @@ export default function OrderDetailsForUser() {
                               </td>
                             </tr>
                             <tr></tr>
-                            </tbody>
-
-                          </>
-                          
-                        ))}
-                        
-                      </>
-                      
-                    )}
-
-
+                          </tbody>
+                        </>
+                      ))}
+                    </>
+                  )}
                 </Table>
-
-
               </div>
             </div>
           </div>
         </div>
       </div>
-<Toaster/>
+      <Toaster />
     </>
-    
   );
 }

@@ -8,15 +8,12 @@ export default function CurrentOffers() {
   const [status, setStatus] = useState("");
   const [orders, setOrders] = useState([]);
 
-
-  const [CustomersOrders, setCustomersOrders] = useState([])
+  const [CustomersOrders, setCustomersOrders] = useState([]);
 
   const [orders2, setOrders2] = useState([]);
 
   const SendIdSuccses = async (ID) => {
-    console.log(ID);
 
-   
     try {
       const req = await axios.post(
         `https://user.runasp.net/api/Change-Statu-Broker`,
@@ -30,9 +27,7 @@ export default function CurrentOffers() {
           },
         }
       );
-      console.log(ID);
 
-      console.log(req);
 
       if (req.status == 200) {
       }
@@ -42,7 +37,6 @@ export default function CurrentOffers() {
   };
   // sadsssssssssssssssssssssssssss//
   const SendIdCancel = async (ID) => {
-    
     try {
       const req = await axios.post(
         `https://user.runasp.net/api/Change-Statu-Broker`,
@@ -56,9 +50,7 @@ export default function CurrentOffers() {
           },
         }
       );
-      console.log(req);
 
-      console.log(ID);
     } catch (error) {
       console.log(error);
     }
@@ -74,15 +66,13 @@ export default function CurrentOffers() {
           },
         }
       );
-      console.log(data);
-      
+
       setOrders2(data);
     } catch (error) {}
   };
 
   const getValue = async () => {
     try {
-      
       const { data } = await axios.get(
         `https://user.runasp.net/api/Current-Offers`,
         {
@@ -91,14 +81,13 @@ export default function CurrentOffers() {
           },
         }
       );
-      
+
       setOrders(data);
     } catch (error) {}
   };
 
   const getCustomersOrders = async () => {
     try {
-    
       const { data } = await axios.get(
         `https://user.runasp.net/api/Order-Transfer-From-CustomerService`,
         {
@@ -107,8 +96,7 @@ export default function CurrentOffers() {
           },
         }
       );
-      console.log(data);
-      
+
       setCustomersOrders(data);
     } catch (error) {}
   };
@@ -118,12 +106,12 @@ export default function CurrentOffers() {
   };
 
   useEffect(() => {
-    getCustomersOrders()
+    getCustomersOrders();
     GetValueCurrentOffers();
     getValue();
     const t = moment();
-    setDate(t.format("MMM Do YYYY | h:mm"));
-  }, []);
+    setDate(new Date().toLocaleString());
+  }, [orders2]);
 
   return (
     <>
@@ -172,11 +160,12 @@ export default function CurrentOffers() {
           </thead>
           <tbody>
             {orders.map((order) => (
+
               <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
                 <td>{order.date}</td>
                 <td>{order.location}</td>
                 <td>{order.id}</td>
-                {order.statuOrder === "تحت الإجراء" && (
+                {order.statuOrder === "قيد الإنتظار" && (
                   <button
                     onClick={() => setStatus("تحت الإجراء")}
                     className={`btn bg-primary w-100 ${
@@ -267,36 +256,42 @@ export default function CurrentOffers() {
             </tr>
           </thead>
           <tbody>
+            {orders2 ? (
+              <>
+                {orders2.map((order) => (
+                  <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
+                    <td>{order.date}</td>
+                    <td>{order.location}</td>
+                    <td>{order.notes}</td>
 
-            {orders2 ? <>
-              {orders2.map((order) => (
-              <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
-                <td>{order.date}</td>
-                <td>{order.location}</td>
-                <td>{order.notes}</td>
-
-                <td>{order.id}</td>
-                <button
-                  onClick={() => SendIdSuccses(order.id)}
-                  className="btn bg-success w-50"
-                >
-                  تنفيذ
-                </button>
-                <button
-                  onClick={() => SendIdCancel(order.id)}
-                  className="btn bg-danger w-50"
-                >
-                  ألغاء
-                </button>
-              </tr>
-            ))}
-            </>:<>
-            <h1>waitingFor data</h1>
-            </>}
-
+                    <td>{order.id}</td>
+                    <button
+                      onClick={() => SendIdSuccses(order.id)}
+                      className="btn bg-success w-50"
+                    >
+                      تنفيذ
+                    </button>
+                    <button
+                      onClick={() => SendIdCancel(order.id)}
+                      className="btn bg-danger w-50"
+                    >
+                      ألغاء
+                    </button>
+                  </tr>
+                ))}
+              </>
+            ) : (
+              <>
+                <tr>
+                  <td colSpan="5" className="text-center">
+                    لا توجد عروض جارية
+                  </td>
+                </tr>
+              </>
+            )}
           </tbody>
         </Table>
-        
+
         <hr
           style={{
             border: "1px solid #3498db",
@@ -333,7 +328,7 @@ export default function CurrentOffers() {
             },
           }}
         >
-         عروض تم تحويلها من خدمه العملاء{" "}
+          عروض تم تحويلها من خدمه العملاء{" "}
         </h3>
         <Table striped bordered hover>
           <thead>
@@ -346,35 +341,41 @@ export default function CurrentOffers() {
             </tr>
           </thead>
           <tbody>
-
-            {CustomersOrders ? <>
-              {CustomersOrders.map((order) => (
-              <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
-                <td>{order.date}</td>
-                <td>{order.notes}</td>
-                <td>{order.location}</td>
-                <td>{order.id}</td>
-                <button
-                  onClick={() => SendIdSuccses(order.id)}
-                  className="btn bg-success w-50"
-                >
-                  تنفيذ
-                </button>
-                <button
-                  onClick={() => SendIdCancel(order.id)}
-                  className="btn bg-danger w-50"
-                >
-                  ألغاء
-                </button>
-
-              </tr>
-            ))}</> :<><h1>
-              not availableOrders</h1></>}
-       
+            {CustomersOrders ? (
+              <>
+                {CustomersOrders.map((order) => (
+                  <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
+                    <td>{order.date}</td>
+                    <td>{order.notes}</td>
+                    <td>{order.location}</td>
+                    <td>{order.id}</td>
+                    <button
+                      onClick={() => SendIdSuccses(order.id)}
+                      className="btn bg-success w-50"
+                    >
+                      تنفيذ
+                    </button>
+                    <button
+                      onClick={() => SendIdCancel(order.id)}
+                      className="btn bg-danger w-50"
+                    >
+                      ألغاء
+                    </button>
+                  </tr>
+                ))}
+              </>
+            ) : (
+              <>
+                {" "}
+                <tr>
+                  <td colSpan="5" className="text-center">
+                    لا توجد عروض تم تحويلها من خدمه العملاء
+                  </td>
+                </tr>
+              </>
+            )}
           </tbody>
         </Table>
-
-
       </div>
     </>
   );

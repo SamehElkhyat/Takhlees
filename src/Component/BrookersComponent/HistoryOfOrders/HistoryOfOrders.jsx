@@ -29,7 +29,7 @@ export default function HistoryOfOrders() {
     HistoryOfAllOrders()
  
 
-  },[])
+  },[order])
   return (
     <>
       <div className="container mt-5 text-center">
