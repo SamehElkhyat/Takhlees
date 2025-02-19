@@ -76,12 +76,11 @@ const CurrentOrdersForUsers = () => {
             </tr>
           )}
 
-          {!error === null || !orders.length ===0 &&
+          {!error === null || !orders.length === 0 &&
           
             orders.map((order) => (
            
               <tr key={order.id}>
-
                 <td>{order.id}</td>
                 <td>{order.location}</td>
                 <td>{order.typeOrder}</td>

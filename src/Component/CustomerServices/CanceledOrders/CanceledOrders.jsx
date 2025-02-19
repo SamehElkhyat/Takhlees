@@ -259,14 +259,14 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   onClick={() => toggleNoteField2(customer.id)}
-                  className="bg-danger text-white"
+                  className="bg-success text-white"
                   sx={{ marginRight: "10px" }}
                 >
                    ارسال الطلب للمخلص
                 </Button>
                 <Button
                   onClick={() => ChangetoDelete(customer.id)}
-                  className="bg-danger text-white"
+                  className="bg-primary text-white"
                   sx={{ marginRight: "10px" }}
                 >
                    ارسال الي الطلبات المتاحه 
