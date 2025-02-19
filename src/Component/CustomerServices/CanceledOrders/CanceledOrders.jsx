@@ -86,7 +86,6 @@ setSelectedOrder(data)
           },
         }
       );
-      console.log(data);
       setCustomers(data);
     } catch (error) {
       console.log(error);
@@ -109,7 +108,7 @@ setSelectedOrder(data)
   );
   useEffect(() => {
     getCustomers();
-  }, [customers]);
+  }, []);
 
   return (
     <Box width="100%" textAlign="center" p={4}>
