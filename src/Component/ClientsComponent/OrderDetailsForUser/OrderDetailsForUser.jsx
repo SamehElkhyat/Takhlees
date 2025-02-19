@@ -7,6 +7,8 @@ export default function OrderDetailsForUser() {
   const [data, setdata] = useState([]);
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
+  const [error, seterror] = useState(null);
+
 
   const FilesName = {
     commerce: [
@@ -65,7 +67,7 @@ export default function OrderDetailsForUser() {
 
   const SendValue = async () => {
     try {
-      const { data } = await axios.get(
+      const data = await axios.get(
         `https://user.runasp.net/api/Get-all-Values`,
 
         {
@@ -74,8 +76,16 @@ export default function OrderDetailsForUser() {
           },
         }
       );
-      setallOrders(data);
+      if (JSON.stringify(data.data) !== JSON.stringify(allOrders)) {
+        setallOrders(data.data);
+      }
+
+
+      setallOrders(data.data);
+
     } catch (error) {
+      seterror(data.status)
+
       console.log(error);
     }
   };
@@ -126,6 +136,8 @@ export default function OrderDetailsForUser() {
   const handleChange = (value) => {
     setcost(value.target.value);
   };
+
+
 
   useEffect(() => {
     SendValue();
@@ -213,14 +225,16 @@ export default function OrderDetailsForUser() {
                 <table className="table table-bordered">
                   <tbody>
                     {data.length == 0 ? (
-                      <>
-                        <p>no data</p>
-                      </>
+                      <tr>
+                        <td colSpan="5" className="text-center">
+                          لا توجد طلبات
+                        </td>
+                      </tr>
                     ) : (
                       <>
                         {NewAllfile[0].map((AllFilesHere, i) => (
                           <>
-                            {}
+                            { }
                             <tr>
                               <th>{FilesName.commerce[i]}</th>
                               <td>{AllFilesHere}</td>
@@ -271,9 +285,12 @@ export default function OrderDetailsForUser() {
                       <th>الحاله</th>
                     </tr>
                   </thead>
-                  {allOrders.length == 0 ? (
-                    <></>
-                  ) : (
+                  {allOrders.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center">
+                        لا توجد عروض مقدمه
+                      </td>
+                    </tr>) : (
                     <>
                       {allOrders.map((item, i) => (
                         <>

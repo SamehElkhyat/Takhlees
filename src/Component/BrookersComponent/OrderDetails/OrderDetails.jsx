@@ -7,6 +7,9 @@ export default function OrderDetails() {
   const [data, setdata] = useState([]);
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
+  const [error, seterror] = useState([]);
+
+
 
   const FilesName = {
     commerce: ["السجل التجاري", "السجل الضريبي","البوليصه","شهاده المنشأ","ملفات اخري",]
