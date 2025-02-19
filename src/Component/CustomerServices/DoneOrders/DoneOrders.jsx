@@ -59,34 +59,49 @@ setSelectedOrder(data)
   };
 
   // دالة تغيير الحالة إلى "تم التحويل"
-
   const handleNoteChange = (id, value) => {
     setNotes((prevNotes) => ({ ...prevNotes, [id]: value }));
   };
 
-  const ChangeStateNotDone = async (id) => {
-
+  const toggleNoteField = (id) => {
     setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
 
-    const request = await axios.post(
-      `https://user.runasp.net/api/Change-Statu-CustomerService`,{
-        statuOrder:'false',
-        ID:id
-
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+  const ChangeStateNotDone = async (id) => {
+    try {
+      const request = await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService`,{
+  
+          statuOrder:'false',
+          ID:id,
+          Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
+  
+  
         },
-      }
-    );
-    console.log(request);
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+
+      alert("تم تحديث الطلب بنجاح");
+      getAllAcceptedOrders();
+   
+      console.log(request);
+    } catch (error) {
+
+      console.log(error);
+      
+      
+    }
+
+
+
   };
 
 
-  const ChangeStateDone = async (values) => {
-    console.log(values);
-    
+  const ChangeStateDone = async (values) => {    
 
     try {
       const request = await axios.post(
@@ -245,7 +260,7 @@ setSelectedOrder(data)
                 className="p-3"
                 align="center"
               >
-                <Button onClick={()=>ChangeStateNotDone(customer.id)} className="m-1 bg-danger text-white">
+                <Button onClick={()=>toggleNoteField(customer.id)} className="m-1 bg-danger text-white">
                   لم يتم التنفيذ
                 </Button>
                 <Button onClick={()=>ChangeStateDone(customer.id)} className="m-1 bg-success text-white">

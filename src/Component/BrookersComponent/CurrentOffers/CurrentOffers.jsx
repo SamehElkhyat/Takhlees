@@ -29,8 +29,8 @@ export default function CurrentOffers() {
       );
 
 
-      if (req.status == 200) {
-      }
+ console.log(req);
+ 
     } catch (error) {
       console.log(error);
     }
@@ -50,6 +50,8 @@ export default function CurrentOffers() {
           },
         }
       );
+      console.log(req);
+      
 
     } catch (error) {
       console.log(error);
@@ -68,7 +70,10 @@ export default function CurrentOffers() {
       );
 
       setOrders2(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
 
   const getValue = async () => {
@@ -82,6 +87,8 @@ export default function CurrentOffers() {
         }
       );
 
+      console.log(data);
+      
       setOrders(data);
     } catch (error) {}
   };
@@ -96,6 +103,7 @@ export default function CurrentOffers() {
           },
         }
       );
+console.log(data);
 
       setCustomersOrders(data);
     } catch (error) {}
@@ -111,7 +119,7 @@ export default function CurrentOffers() {
     getValue();
     const t = moment();
     setDate(new Date().toLocaleString());
-  }, [orders2]);
+  }, []);
 
   return (
     <>

@@ -16,6 +16,8 @@ import { Modal } from "react-bootstrap";
 
 export default function CanceledOrders() {
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
+  const [showNoteField2, setShowNoteField2] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
+  const [showNoteField3, setShowNoteField3] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
 
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
@@ -56,6 +58,26 @@ setSelectedOrder(data)
     }
   };
 
+  const sendToBroker=async(id)=>{
+
+    try {
+      await axios.post(`https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        {
+          ID: id,
+          Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
+          statuOrder:'transfer'
+
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+        }
+      )
+      alert("تم تحديث الطلب بنجاح");
+      getCustomers(); // تحديث القائمة بعد الإرسال
+    } catch (error) {
+      
+    }
+  }
 
   const ChangeStateNot = async (id) => {
     try {
@@ -75,6 +97,53 @@ setSelectedOrder(data)
       console.error("حدث خطأ أثناء تحديث الحالة:", error);
     }
   };
+
+
+
+  const ChangeStatueNot = async (id) => {
+    try {
+      await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        {
+          ID: id,
+          Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
+          statuOrder:'delete',
+
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+        }
+      );
+      alert("تم تحديث الطلب بنجاح");
+      getCustomers(); // تحديث القائمة بعد الإرسال
+    } catch (error) {
+      console.error("حدث خطأ أثناء تحديث الحالة:", error);
+    }
+  };
+
+
+  const ChangetoDelete = async (id) => {
+    try {
+      await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        {
+          ID: id,
+          Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
+          statuOrder:'send',
+
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+        }
+      );
+      alert("تم تحديث الطلب بنجاح");
+      getCustomers(); // تحديث القائمة بعد الإرسال
+    } catch (error) {
+      console.error("حدث خطأ أثناء تحديث الحالة:", error);
+    }
+  };
+
+
 
   const getCustomers = async () => {
     try {
@@ -102,6 +171,10 @@ setSelectedOrder(data)
   const toggleNoteField = (id) => {
     setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+  const toggleNoteField2 = (id) => {
+    setShowNoteField2((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
   
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
@@ -185,11 +258,25 @@ setSelectedOrder(data)
 
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
+                  onClick={() => toggleNoteField2(customer.id)}
+                  className="bg-danger text-white"
+                  sx={{ marginRight: "10px" }}
+                >
+                   ارسال الطلب للمخلص
+                </Button>
+                <Button
+                  onClick={() => ChangetoDelete(customer.id)}
+                  className="bg-danger text-white"
+                  sx={{ marginRight: "10px" }}
+                >
+                   ارسال الي الطلبات المتاحه 
+                </Button>
+                <Button
                   onClick={() => toggleNoteField(customer.id)}
                   className="bg-danger text-white"
                   sx={{ marginRight: "10px" }}
                 >
-                  لم يتم التحويل
+                     إلغاء
                 </Button>
                 {showNoteField[customer.id] && (
                   <Box mt={1}>
@@ -204,7 +291,49 @@ setSelectedOrder(data)
                       sx={{ marginBottom: "10px" }}
                     />
                     <Button
-                      onClick={() => ChangeStateNot(customer.id)}
+                      onClick={() => ChangeStatueNot(customer.id)}
+                      className="bg-danger text-white"
+                    >
+                      إرسال الملاحظة
+                    </Button>
+                  </Box>
+                )}
+
+{showNoteField2[customer.id] && (
+                  <Box mt={1}>
+                    <TextField
+                      label="اكتب ملاحظة"
+                      variant="outlined"
+                      fullWidth
+                      value={notes[customer.id] || ""}
+                      onChange={(e) =>
+                        handleNoteChange(customer.id, e.target.value)
+                      }
+                      sx={{ marginBottom: "10px" }}
+                    />
+                    <Button
+                      onClick={() => sendToBroker(customer.id)}
+                      className="bg-danger text-white"
+                    >
+                      إرسال الملاحظة
+                    </Button>
+                  </Box>
+                )}
+
+{showNoteField3[customer.id] && (
+                  <Box mt={1}>
+                    <TextField
+                      label="اكتب ملاحظة"
+                      variant="outlined"
+                      fullWidth
+                      value={notes[customer.id] || ""}
+                      onChange={(e) =>
+                        handleNoteChange(customer.id, e.target.value)
+                      }
+                      sx={{ marginBottom: "10px" }}
+                    />
+                    <Button
+                      onClick={() => sendToBroker(customer.id)}
                       className="bg-danger text-white"
                     >
                       إرسال الملاحظة
@@ -214,6 +343,7 @@ setSelectedOrder(data)
               </TableCell>
             </TableRow>
           ))}
+          
 
 <Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
             <Modal.Header closeButton>
