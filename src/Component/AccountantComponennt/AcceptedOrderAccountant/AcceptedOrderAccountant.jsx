@@ -35,12 +35,6 @@ export default function AcceptedOrderAccountant() {
     setIndexCutome(items);
     setOrderId(orderId);
     setBar(items);
-
-    if (OrderId == null) {
-      console.log("سشيشي");
-    } else {
-      GetFileName();
-    }
   };
   const handleCloseBar = () => {
     setBar(null);
@@ -54,10 +48,8 @@ export default function AcceptedOrderAccountant() {
     setSelectedOrder(null);
   };
 
-  let AllFilesHere = [];
 
   const GetFileName = async () => {
-    setIsLoading(true);
     try {
       const { data } = await axios.post(
         `https://user.runasp.net/api/Get-Name-File-From-CustomerService`,
@@ -70,7 +62,7 @@ export default function AcceptedOrderAccountant() {
           },
         }
       );
-      
+
 
       setIsLoading(false);
       setImageName(data);
@@ -82,9 +74,6 @@ export default function AcceptedOrderAccountant() {
   };
 
   const DownloadFilesApi = async () => {
-    setIsLoading(true);
-    console.log(OrderId);
-
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles-From-Account`,
@@ -119,6 +108,8 @@ export default function AcceptedOrderAccountant() {
       // تنظيف الرابط المؤقت من الذاكرة
       window.URL.revokeObjectURL(url);
     } catch (error) {
+      setIsLoading(false);
+
       console.error("حدث خطأ أثناء تحميل الملف:", error);
     }
   };
@@ -139,7 +130,9 @@ export default function AcceptedOrderAccountant() {
 
       setSelectedOrder(data);
     } catch (error) {
+
       console.log(error);
+
     }
   };
 
@@ -210,10 +203,10 @@ export default function AcceptedOrderAccountant() {
         }
       );
       if (JSON.stringify(data) !== JSON.stringify(customers)) {
-        console.log(data);
 
-        setCustomers(data);      }
-   
+        setCustomers(data);
+      }
+
     } catch (error) {
       console.error("حدث خطأ أثناء جلب البيانات:", error);
       seterror(error.status);
@@ -221,12 +214,31 @@ export default function AcceptedOrderAccountant() {
   };
 
   useEffect(() => {
-     getAllAcceptedOrders();
+    if (OrderId == null ){
+      console.log("waiting");
+      
+    
+    }else{
+       GetFileName();
+
+
+    }
+
+
+  }, [OrderId]);
+
+  useEffect(() => {
+    getAllAcceptedOrders();
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
 
-     GetFileName();
-  }, [OrderId, customers]);
+  }, []);
+
+  useEffect(() => {
+    getAllAcceptedOrders();
+
+    
+ }, [customers]);
 
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
@@ -396,6 +408,7 @@ export default function AcceptedOrderAccountant() {
               {/* عرض تفاصيل الملاحظات */}
               <div className="mb-4">
                 <h5 className="text-success fw-bold">الملاحظات</h5>
+
                 <p className="text-muted fs-6">{ImageName.notes}</p>
               </div>
 
@@ -404,7 +417,6 @@ export default function AcceptedOrderAccountant() {
                 <h5 className="text-success mb-3">
                   تحميل الملف
                   <span style={{ color: "red", margin: "10px" }}>
-                    {console.log(ImageName)}
                     {ImageName.fileName}
                   </span>
                 </h5>
@@ -444,7 +456,7 @@ export default function AcceptedOrderAccountant() {
               </Button>
             </Modal.Footer>
           </Modal>
-        
+
         </TableBody>
       </Table>
     </Box>

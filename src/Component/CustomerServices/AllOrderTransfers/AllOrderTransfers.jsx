@@ -179,7 +179,7 @@ toast.success('تم التنفيذ بنجاح')
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
     getAllAcceptedOrders();
-  }, []);
+  }, [customers]);
 
   let formik = useFormik({
     initialValues: {

@@ -130,7 +130,7 @@ setSelectedOrder(data)
 
   useEffect(() => {
     getAllAcceptedOrders();
-  }, []);
+  }, [customers]);
 
   return (
     <Box width="100%" textAlign="center" p={4}>

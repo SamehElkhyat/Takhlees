@@ -109,7 +109,7 @@ setSelectedOrder(data)
   );
   useEffect(() => {
     getCustomers();
-  }, []);
+  }, [customers]);
 
   return (
     <Box width="100%" textAlign="center" p={4}>
