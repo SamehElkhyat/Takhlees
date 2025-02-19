@@ -109,17 +109,26 @@ setSelectedOrder(data)
   };
 
   const getAllAcceptedOrders = async () => {
-    const { data } = await axios.get(
-      `https://user.runasp.net/api/Get-All-Accept-Orders`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-        },
-      }
-    );
-   console.log(data);
-   
-    setCustomers(data);
+    try {
+      const { data } = await axios.get(
+        `https://user.runasp.net/api/Get-All-Accept-Orders`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+
+        setCustomers(data);
+        console.log(data);
+        
+
+     
+    } catch (error) {
+      console.log(error);
+      
+    }
+ 
   };
 
   const sortedCustomers = [...customers].sort((a, b) =>
@@ -130,7 +139,7 @@ setSelectedOrder(data)
 
   useEffect(() => {
     getAllAcceptedOrders();
-  }, [customers]);
+  }, []);
 
   return (
     <Box width="100%" textAlign="center" p={4}>
