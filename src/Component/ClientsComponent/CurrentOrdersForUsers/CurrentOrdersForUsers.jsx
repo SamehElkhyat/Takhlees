@@ -39,9 +39,9 @@ const CurrentOrdersForUsers = () => {
           },
         }
       );
-      if (JSON.stringify(res.data) !== JSON.stringify(orders)) {
+      console.log(res);
+      
         setOrder(res.data);
-      }      
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +49,7 @@ const CurrentOrdersForUsers = () => {
 
   useEffect(() => {
     GetOrder();
-  }, [orders]);
+  }, []);
 
   useEffect(() => {
     if (id == 'null') return SendId();
@@ -76,7 +76,7 @@ const CurrentOrdersForUsers = () => {
             </tr>
           )}
 
-          {!error === null || !orders.length !==0 &&
+          {!error === null || !orders.length ===0 &&
           
             orders.map((order) => (
            
