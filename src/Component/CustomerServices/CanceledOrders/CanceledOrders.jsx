@@ -86,6 +86,8 @@ setSelectedOrder(data)
           },
         }
       );
+      console.log(data);
+      
       setCustomers(data);
     } catch (error) {
       console.log(error);
@@ -143,7 +145,7 @@ setSelectedOrder(data)
           <TableRow>
             <TableCell align="center">رقم الطلب</TableCell>
             <TableCell align="center">الاسم</TableCell>
-            <TableCell align="center">المسؤول</TableCell>
+            <TableCell align="center">الموقع</TableCell>
 
             <TableCell align="center">الهاتف</TableCell>
             <TableCell align="center">التاريخ</TableCell>
@@ -159,6 +161,9 @@ setSelectedOrder(data)
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.fullName}
+              </TableCell>
+              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                {customer.location}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.accountManager}
