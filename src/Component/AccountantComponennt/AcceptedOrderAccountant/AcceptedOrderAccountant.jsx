@@ -70,6 +70,7 @@ export default function AcceptedOrderAccountant() {
           },
         }
       );
+      
 
       setIsLoading(false);
       setImageName(data);
@@ -208,8 +209,11 @@ export default function AcceptedOrderAccountant() {
           },
         }
       );
+      if (JSON.stringify(data) !== JSON.stringify(customers)) {
+        console.log(data);
 
-      setCustomers(data);
+        setCustomers(data);      }
+   
     } catch (error) {
       console.error("حدث خطأ أثناء جلب البيانات:", error);
       seterror(error.status);
@@ -217,11 +221,11 @@ export default function AcceptedOrderAccountant() {
   };
 
   useEffect(() => {
-    if (!error === null) getAllAcceptedOrders();
+     getAllAcceptedOrders();
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
 
-    if (!error === null) GetFileName();
+     GetFileName();
   }, [OrderId, customers]);
 
   const sortedCustomers = [...customers].sort((a, b) =>
@@ -440,7 +444,7 @@ export default function AcceptedOrderAccountant() {
               </Button>
             </Modal.Footer>
           </Modal>
-          ;
+        
         </TableBody>
       </Table>
     </Box>

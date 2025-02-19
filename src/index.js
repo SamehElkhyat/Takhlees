@@ -18,7 +18,6 @@ import ConfirmPassword from "./Component/ResetPassword/ConfirmPassowrd/ConfirmPa
 import Clients from "./Component/AdminComponent/Clients/Clients.jsx";
 import Blacklist from "./Component/AdminComponent/blacklist/blacklist.jsx";
 import Brookers from "./Component/AdminComponent/Brookers/Brookers";
-import CustomService from "./Component/CustomService/CustomService";
 import Permissions from "./Component/AdminComponent/Permissions/Permissions.jsx";
 import HistoryDoneOrder from "./Component/AccountantComponennt/HistoryOfDoneOrdersAccountant/HistoryDoneOrder.jsx";
 import Statistics from "./Component/AdminComponent/statistics/statistics.jsx";
@@ -69,7 +68,6 @@ const router = createBrowserRouter([
       { path: "Cart", element: <Cart /> },
       { path: "permissions", element: <Permissions /> },
       { path: "statistics", element: <Statistics /> },
-      { path: "customService", element: <CustomService /> },
       {path:"canceledOrders", element :<CanceledOrders/>},
       {path:"DoneOrders", element:<DoneOrders/>},
       { path: "IntorSignUp", element: <IntorSignUp /> },

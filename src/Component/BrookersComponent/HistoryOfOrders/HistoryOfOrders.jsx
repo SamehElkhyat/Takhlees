@@ -17,7 +17,10 @@ export default function HistoryOfOrders() {
         }
       );
 
-      setorder(data);
+      if (JSON.stringify(data) !== JSON.stringify(order)) {
+        setorder(data);
+      }
+
       console.log(data);
       
     } catch (error) {
@@ -82,6 +85,9 @@ export default function HistoryOfOrders() {
 
                 <td>{order.date}</td>
                 <td>
+                {order.statuOrder === "منفذ" && (
+                    <button className="btn bg-success w-100">منفذ</button>
+                  )}
                   {order.statuOrder === "لم يتم التنفيذ" && (
                     <button className="btn bg-success w-100">تم التنفيذ</button>
                   )}

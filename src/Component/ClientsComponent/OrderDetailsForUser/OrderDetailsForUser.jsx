@@ -81,7 +81,6 @@ export default function OrderDetailsForUser() {
       }
 
 
-      setallOrders(data.data);
 
     } catch (error) {
       seterror(data.status)

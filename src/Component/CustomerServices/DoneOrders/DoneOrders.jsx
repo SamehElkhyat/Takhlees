@@ -85,19 +85,27 @@ setSelectedOrder(data)
 
 
   const ChangeStateDone = async (values) => {
+    console.log(values);
+    
 
-    const request = await axios.post(
-      `https://user.runasp.net/api/Change-Statu-CustomerService`,{
-        statuOrder:'true',
-        ID:values
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+    try {
+      const request = await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService`,{
+          statuOrder:'true',
+          ID:values
         },
-      }
-    );
-    console.log(request);
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      console.log(request);
+    } catch (error) {
+      console.log(error);
+      
+    }
+
   };
 
   const getAllAcceptedOrders = async () => {
