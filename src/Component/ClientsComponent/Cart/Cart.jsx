@@ -139,20 +139,35 @@ const Portfolio = () => {
               </div>
             </div>
           </div>
-
           {/* MONEY FELLOWS */}
-
           <h3
-            style={{
-              fontSize: "2.2rem",
-              fontWeight: "bold",
-              marginBottom: "10px",
-            }}
+          style={{
+            fontSize: "2rem",
+            fontWeight: "700",
+            color: "#2c3e50",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+            borderBottom: "3px solid #3498db",
+            paddingBottom: "10px",
+            margin: "0 auto 2rem auto",
+            borderRadius: "10px",
+            backgroundColor: "#f0f0f0",
+            padding: "10px",
+            border: "1px solid #3498db",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              transform: "scale(1.05)",
+              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+            },
+            "&:active": {
+              transform: "scale(0.95)",
+              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            },
+          }}
             className="mb-4 text-center"
           >
             التحويلات
           </h3>
-
           <div className="col-12 col-md-4">
             <div
               className="card text-white bg-danger mb-3 shadow-lg rounded-4"
@@ -190,7 +205,6 @@ const Portfolio = () => {
               </div>
             </div>
           </div>
-
           <div className="col-12 col-md-4">
             <div
               className="card text-white bg-warning mb-3 shadow-lg rounded-4"
@@ -265,6 +279,7 @@ const Portfolio = () => {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     );
@@ -296,11 +311,29 @@ const Portfolio = () => {
   return (
     <div className="container mt-5">
       <h3
-        style={{
-          fontSize: "2.2rem",
-          fontWeight: "bold",
-          marginBottom: "10px",
-        }}
+          style={{
+            fontSize: "2rem",
+            fontWeight: "700",
+            color: "#2c3e50",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+            borderBottom: "3px solid #3498db",
+            paddingBottom: "10px",
+            margin: "0 auto 2rem auto",
+            borderRadius: "10px",
+            backgroundColor: "#f0f0f0",
+            padding: "10px",
+            border: "1px solid #3498db",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              transform: "scale(1.05)",
+              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+            },
+            "&:active": {
+              transform: "scale(0.95)",
+              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            },
+          }}
         className="mb-4 text-center"
       >
         عدد الطلبات
@@ -325,6 +358,7 @@ const Portfolio = () => {
             <th>موقع الطلب</th>
             <th>نوع الطلب</th>
             <th>الحالة</th>
+            <th>الملاحظات</th>
             <th>المبلغ</th>
             <th>التفاصيل</th>
           </tr>
@@ -332,13 +366,15 @@ const Portfolio = () => {
         <tbody>
           {orders
             .filter((order) => {
-              return searchTerm === "" || order.iDstring.includes(searchTerm);
+              return searchTerm === "" || order.id.includes(searchTerm);
             })
             .map((order) => (
-              <tr key={order.iDstring}>
-                <td>{order.iDstring}</td>
+              <tr key={order.id}>
+                <td>{order.id}</td>
                 <td>{order.location}</td>
                 <td>{order.typeOrder}</td>
+                <td>{order.notes} ريال</td>
+
                 <td>{order.statuOrder}</td>
                 <td>{order.value} ريال</td>
                 <td>

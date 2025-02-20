@@ -11,7 +11,7 @@ const LandingPageForUsers = () => {
   const [Ishovered3, setIshovered3] = useState(false);
   const [Ishovered4, setIshovered4] = useState(false);
   const [Ishovered5, setIshovered5] = useState(false);
-
+  const [Ishovered6, setIshovered6] = useState(false);
 
   const [DecodedTokken, setDecodedTokken] = useState();
 
@@ -62,19 +62,23 @@ const LandingPageForUsers = () => {
       transition: "all 0.3s ease",
       boxShadow: Ishovered3 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
-    cards4:{
+    cards4: {
       backgroundColor: Ishovered4 ? "#1ea9e2" : "white",
       transform: Ishovered4 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered4 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
-
     },
-    cards5:{
+    cards5: {
       backgroundColor: Ishovered5 ? "#1ea9e2" : "white",
       transform: Ishovered5 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered5 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
-
+    },
+    cards6: {
+      backgroundColor: Ishovered6 ? "#1ea9e2" : "white",
+      transform: Ishovered6 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered6 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
     icons: {
       fontSize: "50px",
@@ -99,7 +103,35 @@ const LandingPageForUsers = () => {
           )}
         </span>
       </h1>
-      <h5 className="text-muted mb-4">اختر ما تريد القيام به:</h5>
+      <h5
+        className="text-muted mb-4"
+        style={{
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "#2c3e50",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          width: "fit-content",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#f0f0f0",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          },
+        }}
+      >
+        اختر ما تريد القيام به:
+      </h5>
       <Row className="justify-content-center">
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
@@ -159,14 +191,17 @@ const LandingPageForUsers = () => {
               <Card.Title>الطلبات الجاريه</Card.Title>
               <Card.Text>إدارة الطلبات الجاريه.</Card.Text>
               <Button variant="primary">
-                <Link className="text-white text-decoration-none" to="/CurrentOrdersForUsers">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/CurrentOrdersForUsers"
+                >
                   لذهاب إلى الطلبات الجاريه
                 </Link>
               </Button>
             </Card.Body>
           </Card>
         </Col>
-         <Col md={3} sm={6} xs={12} className="mb-3">
+        <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards5}
             onMouseEnter={() => setIshovered5(true)}
@@ -174,11 +209,14 @@ const LandingPageForUsers = () => {
             className="shadow-lg"
           >
             <Card.Body>
-            <i style={styles.icons} className="fa-solid fa-square-check"></i>
+              <i style={styles.icons} className="fa-solid fa-square-check"></i>
               <Card.Title>الطلبات المنفذه</Card.Title>
               <Card.Text>عرض الطلبات المنفذه الخاص بك.</Card.Text>
-              <Button className="bg-black" >
-                <Link className="text-white text-decoration-none" to="/DoneOrdersForUser">
+              <Button className="bg-black">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/DoneOrdersForUser"
+                >
                   الذهاب الي الطلبات المنفذه
                 </Link>
               </Button>
@@ -204,8 +242,31 @@ const LandingPageForUsers = () => {
             </Card.Body>
           </Card>
         </Col>
-
- 
+        <Col md={3} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards6}
+            onMouseEnter={() => setIshovered6(true)}
+            onMouseLeave={() => setIshovered6(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+              <i
+                style={styles.icons}
+                className="fa-solid fa-clock-rotate-left"
+              ></i>
+              <Card.Title>سجل الطلبات</Card.Title>
+              <Card.Text>إدارة السجل وجميع الطلبات الخاص بك.</Card.Text>
+              <Button variant="danger">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/HistoryOfOrdersUsers"
+                >
+                  الذهاب إلى السجل
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
     </Container>
   );

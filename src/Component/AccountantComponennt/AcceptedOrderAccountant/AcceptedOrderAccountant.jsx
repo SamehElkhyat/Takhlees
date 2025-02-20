@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  Button,
   Select,
   MenuItem,
   Table,
@@ -12,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import { Modal, Spinner } from "react-bootstrap";
+import { Form, Modal, Spinner , Button } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
 
 export default function AcceptedOrderAccountant() {
@@ -28,6 +27,7 @@ export default function AcceptedOrderAccountant() {
   const [IndexCutome, setIndexCutome] = useState(false);
   const [ImageName, setImageName] = useState({});
   const [error, seterror] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // onClick={() => DownloadFilesApi(customer[index],customer.id)}
 
@@ -48,7 +48,6 @@ export default function AcceptedOrderAccountant() {
     setSelectedOrder(null);
   };
 
-
   const GetFileName = async () => {
     try {
       const { data } = await axios.post(
@@ -62,7 +61,6 @@ export default function AcceptedOrderAccountant() {
           },
         }
       );
-
 
       setIsLoading(false);
       setImageName(data);
@@ -130,9 +128,7 @@ export default function AcceptedOrderAccountant() {
 
       setSelectedOrder(data);
     } catch (error) {
-
       console.log(error);
-
     }
   };
 
@@ -203,10 +199,8 @@ export default function AcceptedOrderAccountant() {
         }
       );
       if (JSON.stringify(data) !== JSON.stringify(customers)) {
-
         setCustomers(data);
       }
-
     } catch (error) {
       console.error("حدث خطأ أثناء جلب البيانات:", error);
       seterror(error.status);
@@ -214,31 +208,22 @@ export default function AcceptedOrderAccountant() {
   };
 
   useEffect(() => {
-    if (OrderId == null ){
+    if (OrderId == null) {
       console.log("waiting");
-      
-    
-    }else{
-       GetFileName();
-
-
+    } else {
+      GetFileName();
     }
-
-
   }, [OrderId]);
 
   useEffect(() => {
     getAllAcceptedOrders();
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
-
   }, []);
 
   useEffect(() => {
     getAllAcceptedOrders();
-
-    
- }, [customers]);
+  }, [customers]);
 
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
@@ -259,10 +244,18 @@ export default function AcceptedOrderAccountant() {
       >
         قائمه الحوالات للمخلصين
       </h1>
-      <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-        <MenuItem value="newest">الأحدث</MenuItem>
-        <MenuItem value="oldest">الأقدم</MenuItem>
-      </Select>
+      <Form className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="ابحث عن طلب (الموقع، النوع، الحالة)"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <Button className="mt-2" variant="primary">
+          بحث
+        </Button>
+      </Form>
+
       <Table style={{ marginTop: "20px", width: "100%" }}>
         <TableHead
           sx={{
@@ -284,71 +277,75 @@ export default function AcceptedOrderAccountant() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedCustomers.map((customer, index) => (
-            <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell align="center">{customer.id}</TableCell>
-              <TableCell align="center">{customer.location}</TableCell>
-              <TableCell align="center">{customer.fullName}</TableCell>
-              <TableCell align="center">{customer.typeOrder}</TableCell>
-              <TableCell align="center">{customer.phoneNumber}</TableCell>
-              <TableCell align="center">{customer.date}</TableCell>
+          {sortedCustomers
+            .filter((order) => {
+              return searchTerm === "" || order.iDstring.includes(searchTerm);
+            })
+            .map((customer, index) => (
+              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+                <TableCell align="center">{customer.id}</TableCell>
+                <TableCell align="center">{customer.location}</TableCell>
+                <TableCell align="center">{customer.fullName}</TableCell>
+                <TableCell align="center">{customer.typeOrder}</TableCell>
+                <TableCell align="center">{customer.phoneNumber}</TableCell>
+                <TableCell align="center">{customer.date}</TableCell>
 
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order, customer.brokerID)}
-                >
-                  عرض التفاصيل
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                {/* زر "لم يتم التحويل" */}
-                <Button
-                  onClick={() => toggleNoteField(customer.id)}
-                  className="bg-danger text-white"
-                  sx={{ marginRight: "10px" }}
-                >
-                  لم يتم التحويل
-                </Button>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowDetails(order, customer.brokerID)}
+                  >
+                    عرض التفاصيل
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    onClick={() => toggleNoteField(customer.id)}
+                    className="bg-danger text-white"
+                    sx={{ marginRight: "10px" }}
+                  >
+                    لم يتم التحويل
+                  </Button>
 
-                {showNoteField[customer.id] && (
-                  <Box mt={1}>
-                    <TextField
-                      label="اكتب ملاحظة"
-                      variant="outlined"
-                      fullWidth
-                      value={notes[customer.id] || ""}
-                      onChange={(e) =>
-                        handleNoteChange(customer.id, e.target.value)
-                      }
-                      sx={{ marginBottom: "10px" }}
-                    />
-                    <Button
-                      onClick={() => ChangeStateNot(customer.id)}
-                      className="bg-danger text-white"
-                    >
-                      إرسال الملاحظة
-                    </Button>
-                  </Box>
-                )}
+                  {showNoteField[customer.id] && (
+                    <Box mt={1}>
+                      <TextField
+                        label="اكتب ملاحظة"
+                        variant="outlined"
+                        fullWidth
+                        value={notes[customer.id] || ""}
+                        onChange={(e) =>
+                          handleNoteChange(customer.id, e.target.value)
+                        }
+                        sx={{ marginBottom: "10px" }}
+                      />
+                      <Button
+                        onClick={() => ChangeStateNot(customer.id)}
+                        className="bg-danger text-white"
+                      >
+                        {" "}
+                        إرسال الملاحظة
+                      </Button>
+                    </Box>
+                  )}
 
-                <Button
-                  onClick={() => ChangeStatedone(customer.id)}
-                  className="bg-success text-white"
-                >
-                  تم التحويل
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowBar(index, customer.id)}
-                >
-                  عرض تفاصيل الملاحظات
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+                  <Button
+                    onClick={() => ChangeStatedone(customer.id)}
+                    className="bg-success text-white"
+                  >
+                    تم التحويل
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowBar(index, customer.id)}
+                  >
+                    عرض تفاصيل الملاحظات
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           <Modal
             className="text-end"
             show={selectedOrder !== null}
@@ -456,7 +453,6 @@ export default function AcceptedOrderAccountant() {
               </Button>
             </Modal.Footer>
           </Modal>
-
         </TableBody>
       </Table>
     </Box>

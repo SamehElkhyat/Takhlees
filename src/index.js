@@ -46,6 +46,7 @@ import DoneOrdersForUser from "./Component/ClientsComponent/DoneOrdersforUSer/Do
 import AllOrderTransfers from "./Component/CustomerServices/AllOrderTransfers/AllOrderTransfers.jsx";
 import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
 import AllOrderDeleted from "./Component/CustomerServices/AllOrderDeleted/AllOrderDeleted.jsx";
+import HistoryOfOrdersUsers from "./Component/ClientsComponent/HistoryOfOrdersUsers/HistoryOfOrdersUsers.jsx";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,7 @@ const router = createBrowserRouter([
       { path: "statistics", element: <Statistics /> },
       {path:"canceledOrders", element :<CanceledOrders/>},
       {path:"AllOrderDeleted", element :<AllOrderDeleted/>},
+      {path:"HistoryOfOrdersUsers", element :<HistoryOfOrdersUsers/>},
 
       {path:"DoneOrders", element:<DoneOrders/>},
       { path: "IntorSignUp", element: <IntorSignUp /> },

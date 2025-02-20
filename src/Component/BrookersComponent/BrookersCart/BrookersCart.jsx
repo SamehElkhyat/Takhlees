@@ -137,14 +137,32 @@ const BrookersCart = () => {
               </div>
             </div>
           </div>
-    
+
           {/* MONEY FELLOWS */}
 
           <h3
             style={{
-              fontSize: "2.2rem",
-              fontWeight: "bold",
-              marginBottom: "10px",
+              fontSize: "2rem",
+              fontWeight: "700",
+              color: "#2c3e50",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+              borderBottom: "3px solid #3498db",
+              paddingBottom: "10px",
+              margin: "0 auto 2rem auto",
+              borderRadius: "10px",
+              backgroundColor: "#f0f0f0",
+              padding: "10px",
+              border: "1px solid #3498db",
+              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "scale(1.05)",
+                boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+              },
+              "&:active": {
+                transform: "scale(0.95)",
+                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+              },
             }}
             className="mb-4 text-center"
           >
@@ -296,14 +314,34 @@ const BrookersCart = () => {
   }, []);
   return (
     <div className="container mt-5">
-      <h3 
-         style={{
-          fontSize: "2.2rem",
-          fontWeight: "bold",
-          marginBottom: "10px",
+      <h3
+        style={{
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "#2c3e50",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#f0f0f0",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          },
         }}
-      
-      className="mb-4 text-center">عدد الطلبات</h3>
+        className="mb-4 text-center"
+      >
+        عدد الطلبات
+      </h3>
 
       <WalletInfo />
       <Form className="mb-3">

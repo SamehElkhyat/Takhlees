@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  Button,
   Select,
   MenuItem,
   Table,
@@ -11,17 +10,19 @@ import {
   Box,
   TextField,
 } from "@mui/material";
-import { Modal } from "react-bootstrap";
+import { Form, Modal ,Button } from "react-bootstrap";
 
 import axios from "axios";
 
 export default function HistoryDoneOrder() {
+
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
@@ -30,8 +31,6 @@ export default function HistoryDoneOrder() {
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
-
-
 
   const getAllInformationBroker = async (BrokerId) => {
     try {
@@ -95,6 +94,17 @@ export default function HistoryDoneOrder() {
       >
         سجل الحوالات المنفذه
       </h1>
+      <Form className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="ابحث عن طلب (الموقع، النوع، الحالة)"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <Button className="mt-2" variant="primary">
+          بحث
+        </Button>
+      </Form>
       <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <MenuItem value="newest">الأحدث</MenuItem>
         <MenuItem value="oldest">الأقدم</MenuItem>
@@ -119,7 +129,11 @@ export default function HistoryDoneOrder() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedCustomers.map((customer, index) => (
+          {sortedCustomers.filter((order)=>
+            {
+              return searchTerm === "" || order.iDstring.includes(searchTerm)
+
+            }).map((customer, index) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell align="center">{customer.id}</TableCell>
               <TableCell align="center">{customer.location}</TableCell>
@@ -140,7 +154,6 @@ export default function HistoryDoneOrder() {
                   {customer.statuOrder}{" "}
                 </Button>
               </TableCell>
-
             </TableRow>
           ))}
 

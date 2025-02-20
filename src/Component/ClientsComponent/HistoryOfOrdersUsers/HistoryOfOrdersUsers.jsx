@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 
-export default function HistoryOfOrders() {
+export default function HistoryOfOrdersUsers() {
 
   const [order, setorder] = useState([])
   const [searchTerm, setSearchTerm] = useState("");
@@ -63,7 +63,7 @@ export default function HistoryOfOrders() {
             },
           }}
         >
-          سجل العروض
+          سجل الطلبات
         </h3>
 
         <Form className="mb-3">
