@@ -39,9 +39,9 @@ const CurrentOrdersForUsers = () => {
           },
         }
       );
-      console.log(res);
+      console.log(res.data);
       
-        setOrder(res.data);
+    setOrder(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +59,7 @@ const CurrentOrdersForUsers = () => {
       <h3 className="text-center">الطلبات الجاريه</h3>
       <Table striped bordered hover>
         <thead>
-          <tr>
+          <tr className="text-center">
             <th>رقم الطلب</th>
             <th>موقع الطلب</th>
             <th>نوع الطلب</th>
@@ -68,39 +68,41 @@ const CurrentOrdersForUsers = () => {
           </tr>
         </thead>
         <tbody>
-          {error == 'null' || orders.length ==0 &&(
-            <tr>
-              <td colSpan="5" className="text-center">
-                لا توجد عروض جارية
-              </td>
-            </tr>
-          )}
+            { orders.length === 0 ? (
 
-          {!error === null || !orders.length === 0 &&
-          
-            orders.map((order) => (
+<tr>
+<td colSpan="5" className="text-center">
+  لا توجد عروض جارية
+</td>
+</tr>
+
+            ) : (
+
+              orders.map((order) => (
            
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.location}</td>
-                <td>{order.typeOrder}</td>
-                <td>{order.date}</td>
-                <td>{order.statuOrder}</td>
+                <tr className="text-center" key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.location}</td>
+                  <td>{order.typeOrder}</td>
+                  <td>{order.date}</td>
+                  <td>{order.statuOrder}</td>
+  
+                  {order.statuOrder === "قيد الإنتظار" && (
+                    <td>
+                      <button className="btn bg-primary w-100">
+                        انتظار الرد
+                      </button>
+                    </td>
+                  )}
+                  {order.statuOrder === "مقبول" && (
+                    <td>
+                      <button className="btn bg-success w-100">مقبول</button>
+                    </td>
+                  )}
+                </tr>
+              ))
 
-                {order.statuOrder === "قيد الإنتظار" && (
-                  <td>
-                    <button className="btn bg-primary w-100">
-                      انتظار الرد
-                    </button>
-                  </td>
-                )}
-                {order.statuOrder === "مقبول" && (
-                  <td>
-                    <button className="btn bg-success w-100">مقبول</button>
-                  </td>
-                )}
-              </tr>
-            ))}
+            )}
         </tbody>
       </Table>
     </div>

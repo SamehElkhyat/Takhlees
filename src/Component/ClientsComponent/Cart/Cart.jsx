@@ -139,7 +139,7 @@ const Portfolio = () => {
               </div>
             </div>
           </div>
-    
+
           {/* MONEY FELLOWS */}
 
           <h3
@@ -296,14 +296,15 @@ const Portfolio = () => {
   return (
     <div className="container mt-5">
       <h3
-         style={{
+        style={{
           fontSize: "2.2rem",
           fontWeight: "bold",
           marginBottom: "10px",
         }}
-      
-      
-      className="mb-4 text-center">عدد الطلبات</h3>
+        className="mb-4 text-center"
+      >
+        عدد الطلبات
+      </h3>
       <WalletInfo />
       <Form className="mb-3">
         <Form.Control
