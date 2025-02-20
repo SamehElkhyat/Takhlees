@@ -8,6 +8,8 @@ export default function LandingPageCustomService() {
     const [Ishovered1, setIshovered1] = useState(false);
     const [Ishovered2, setIshovered2] = useState(false);
     const [Ishovered3, setIshovered3] = useState(false);
+    const [Ishovered4, setIshovered4] = useState(false);
+
     const [Tokken, setTokken] = useState(null);
     const [DecodedTokken, setDecodedTokken] = useState();
   
@@ -29,6 +31,12 @@ export default function LandingPageCustomService() {
           transform: Ishovered3 ? "scale(1.1)" : "scale(1)",
           transition: "all 0.3s ease",
           boxShadow: Ishovered3 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+        },
+        cards4: {
+          backgroundColor: Ishovered4 ? "#1ea9e2" : "white",
+          transform: Ishovered4 ? "scale(1.1)" : "scale(1)",
+          transition: "all 0.3s ease",
+          boxShadow: Ishovered4 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
         },
         icons: {
           fontSize: "50px",
@@ -148,6 +156,26 @@ export default function LandingPageCustomService() {
               <Button variant="success">
                 <Link className="text-white text-decoration-none" to="/AllOrderTransfers">
                   الذهاب إلى الطلبات المحوله
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col md={4} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards4}
+            onMouseEnter={() => setIshovered4(true)}
+            onMouseLeave={() => setIshovered4(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+            <i className="fa-solid fa-money-bill-transfer" style={styles.icons}></i>
+              <Card.Title>الطلبات المحذوفه</Card.Title>
+              <Card.Text>عرض وإدارة الطلبات المحذوفه .</Card.Text>
+              <Button variant="success">
+                <Link className="text-white text-decoration-none" to="/AllOrderDeleted">
+                  الذهاب إلى الطلبات المحذوفه
                 </Link>
               </Button>
             </Card.Body>

@@ -4,58 +4,307 @@ import { Table, Form, Button, Modal } from "react-bootstrap";
 
 const Portfolio = () => {
   const [orders, setOrders] = useState([]);
-  const [filteredOrders, setFilteredOrders] = useState(orders);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [balance, setBalance] = useState(1500); // مثال على الرصيد
+  const [balance, setBalance] = useState(150023223);
 
+  function WalletInfo() {
+    const [InfoOrders, setInfoOrders] = useState({});
+    const InformationAboutOrder = async () => {
+      try {
+        const { data } = await axios.get(
+          `https://user.runasp.net/api/Get-Count-Accept-Failed-Wait-Orders-Broker`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+            },
+          }
+        );
+        setInfoOrders(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const allOrders = async ()=>{
-    try {
-      const {data}= await axios.get(`https://user.runasp.net/api/Wallet`,{
+    useEffect(() => {
+      InformationAboutOrder();
+    }, []);
+
+    return (
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-4">
+            <div
+              className="card text-white bg-danger mb-3 shadow-lg rounded-4"
+              style={{
+                transition:
+                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                backdropFilter: "blur(10px)",
+                background: "rgba(255, 0, 0, 0.2)",
+                border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-10px)";
+                e.currentTarget.style.boxShadow =
+                  "0px 10px 20px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div className="card-body text-center">
+                <p
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  عدد الطلبات الملغاه
+                </p>
+                <i className="fa-3x mb-2 fas fa-times-circle"></i>
+                <p className="display-5 fw-bold">{InfoOrders.failedOrder}</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-4">
+            <div
+              className="card text-white bg-warning mb-3 shadow-lg rounded-4"
+              style={{
+                transition:
+                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                backdropFilter: "blur(10px)",
+                background: "rgba(255, 255, 0, 0.2)",
+                border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-10px)";
+                e.currentTarget.style.boxShadow =
+                  "0px 10px 20px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div className="card-body text-center">
+                <p
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  عدد الطلبات المنتظره
+                </p>
+                <i className="fa-3x mb-2 fas fa-clock"></i>
+                <p className="display-5 fw-bold">{InfoOrders.waitOrder}</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-4">
+            <div
+              className="card text-white bg-success mb-3 shadow-lg rounded-4"
+              style={{
+                transition:
+                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                backdropFilter: "blur(10px)",
+                background: "rgba(0, 255, 0, 0.2)",
+                border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-10px)";
+                e.currentTarget.style.boxShadow =
+                  "0px 10px 20px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div className="card-body text-center">
+                <p
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  عدد الطلبات الناجحه
+                </p>
+                <i className="fas fa-check-circle fa-3x mb-2"></i>
+                <p className="display-5 fw-bold">{InfoOrders.acceptOrder}</p>
+              </div>
+            </div>
+          </div>
     
-        headers:{
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-    
-       }})
-       console.log(data.response);
-       
-       setOrders(data);
-    } catch (error) {
-      
-      console.log(error.response.data.message);
-      
-    }
-  
+          {/* MONEY FELLOWS */}
 
+          <h3
+            style={{
+              fontSize: "2.2rem",
+              fontWeight: "bold",
+              marginBottom: "10px",
+            }}
+            className="mb-4 text-center"
+          >
+            التحويلات
+          </h3>
+
+          <div className="col-12 col-md-4">
+            <div
+              className="card text-white bg-danger mb-3 shadow-lg rounded-4"
+              style={{
+                transition:
+                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                backdropFilter: "blur(10px)",
+                background: "rgba(255, 0, 0, 0.2)",
+                border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-10px)";
+                e.currentTarget.style.boxShadow =
+                  "0px 10px 20px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div className="card-body text-center">
+                <p
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  المبالغ التي لم يتم تحويلها
+                </p>
+                <i class=" fa-3x fa-solid mb-2 fa-sack-dollar"></i>
+                <p className="display-5 fw-bold">
+                  {InfoOrders.totalFailedRequests}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 col-md-4">
+            <div
+              className="card text-white bg-warning mb-3 shadow-lg rounded-4"
+              style={{
+                transition:
+                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                backdropFilter: "blur(10px)",
+                background: "rgba(255, 255, 0, 0.2)",
+                border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-10px)";
+                e.currentTarget.style.boxShadow =
+                  "0px 10px 20px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div className="card-body text-center">
+                <p
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  المبالغ المنتظره{" "}
+                </p>
+                <i class=" fa-3x fa-solid mb-2 fa-sack-dollar"></i>
+                <p className="display-5 fw-bold">
+                  {InfoOrders.totalWaitRequests}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-4">
+            <div
+              className="card text-white bg-success mb-3 shadow-lg rounded-4"
+              style={{
+                transition:
+                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+                backdropFilter: "blur(10px)",
+                background: "rgba(0, 255, 0, 0.2)",
+                border: "none",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-10px)";
+                e.currentTarget.style.boxShadow =
+                  "0px 10px 20px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div className="card-body text-center">
+                <p
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  المبالغ التي تم تحويلها{" "}
+                </p>
+                <i class=" fa-3x fa-solid mb-2 fa-sack-dollar"></i>
+                <p className="display-5 fw-bold">
+                  {InfoOrders.totalSuccessfulRequests}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
+  const allOrders = async () => {
+    try {
+      const { data } = await axios.get(`https://user.runasp.net/api/Wallet`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+        },
+      });
+      setOrders(data);
+      console.log();
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
 
-
-  // فلترة الطلبات بناءً على البحث
-
-
-  // فتح تفاصيل الطلب
   const handleShowDetails = (order) => {
     setSelectedOrder(order);
   };
 
-  // إغلاق نافذة التفاصيل
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
-useEffect(()=>{
-  allOrders()
-},[])
+  useEffect(() => {
+    allOrders();
+  }, []);
   return (
     <div className="container mt-5">
-      <h3 className="mb-4">المحفظة</h3>
-
-      {/* الرصيد */}
-      <div className="mb-4">
-        <h5>الرصيد الحالي: {balance} ريال</h5>
-      </div>
-
-      {/* البحث */}
+      <h3
+         style={{
+          fontSize: "2.2rem",
+          fontWeight: "bold",
+          marginBottom: "10px",
+        }}
+      
+      
+      className="mb-4 text-center">عدد الطلبات</h3>
+      <WalletInfo />
       <Form className="mb-3">
         <Form.Control
           type="text"
@@ -68,7 +317,6 @@ useEffect(()=>{
         </Button>
       </Form>
 
-      {/* قائمة الطلبات المنجزة */}
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -81,30 +329,31 @@ useEffect(()=>{
           </tr>
         </thead>
         <tbody>
-          {console.log(filteredOrders)
-          }
-          {orders.map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.location}</td>
-              <td>{order.typeOrder}</td>
-              <td>{order.statuOrder}</td>
-              <td>{order.value} ريال</td>
-              <td>
-                <Button
-                  variant="info"
-                  size="sm"
-                  onClick={() => handleShowDetails(order)}
-                >
-                  عرض التفاصيل
-                </Button>
-              </td>
-            </tr>
-          ))}
+          {orders
+            .filter((order) => {
+              return searchTerm === "" || order.iDstring.includes(searchTerm);
+            })
+            .map((order) => (
+              <tr key={order.iDstring}>
+                <td>{order.iDstring}</td>
+                <td>{order.location}</td>
+                <td>{order.typeOrder}</td>
+                <td>{order.statuOrder}</td>
+                <td>{order.value} ريال</td>
+                <td>
+                  <Button
+                    variant="info"
+                    size="sm"
+                    onClick={() => handleShowDetails(order)}
+                  >
+                    عرض التفاصيل
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
 
-      {/* نافذة تفاصيل الطلب */}
       <Modal show={selectedOrder !== null} onHide={handleCloseDetails}>
         <Modal.Header closeButton>
           <Modal.Title>تفاصيل الطلب</Modal.Title>
@@ -127,7 +376,6 @@ useEffect(()=>{
               <p>
                 <strong>المبلغ:</strong> {selectedOrder.value} ريال
               </p>
-
             </>
           )}
         </Modal.Body>
@@ -140,5 +388,4 @@ useEffect(()=>{
     </div>
   );
 };
-
 export default Portfolio;
