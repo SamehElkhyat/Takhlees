@@ -29,8 +29,8 @@ export default function AllOrderTransfers() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
   const [Bar, setBar] = useState(null);
-  const [OrderId, setOrderId] = useState(null)
-  const [IsLoading, setIsLoading] = useState(false)
+  const [OrderId, setOrderId] = useState(null);
+  const [IsLoading, setIsLoading] = useState(false);
 
   const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
@@ -40,8 +40,7 @@ export default function AllOrderTransfers() {
     setSelectedOrder(null);
   };
   //>>>>>>>>>>>>>>>>BAR>>>>>>>>>>>//
-  const handleShowBar = (items,orderId) => {
-
+  const handleShowBar = (items, orderId) => {
     setOrderId(orderId);
     setBar(items);
   };
@@ -98,7 +97,6 @@ export default function AllOrderTransfers() {
   };
 
   const handleFileChange = (e) => {
-
     console.log(e);
 
     if (e.target.files.length > 0) {
@@ -107,16 +105,14 @@ export default function AllOrderTransfers() {
   };
 
   const SendFile = async (values) => {
-
-    setIsLoading(true)
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("formFile", values.formFile); // تعيين الملف الصحيح
     formData.append("Notes", values.Notes);
-    formData.append("newOrderId", OrderId); 
+    formData.append("newOrderId", OrderId);
     // التأكد من إرسال OrderId الصحيح
-  console.log(values);
+    console.log(values);
 
-  
     try {
       const { data } = await axios.post(
         `https://user.runasp.net/api/Notes-From-CustomerService`,
@@ -128,14 +124,13 @@ export default function AllOrderTransfers() {
           },
         }
       );
-      setIsLoading(false)
-       toast.success("تم تقديم الملاحظات بنجاح")
-       setBar(null);
-       console.log("نجاح:", data);
+      setIsLoading(false);
+      toast.success("تم تقديم الملاحظات بنجاح");
+      setBar(null);
+      console.log("نجاح:", data);
     } catch (error) {
       console.log("خطأ:", error);
-      setIsLoading(false)
-
+      setIsLoading(false);
     }
   };
 
@@ -152,8 +147,7 @@ export default function AllOrderTransfers() {
         },
       }
     );
-toast.success('تم التنفيذ بنجاح')
-
+    toast.success("تم التنفيذ بنجاح");
   };
 
   const getAllAcceptedOrders = async () => {
@@ -185,7 +179,6 @@ toast.success('تم التنفيذ بنجاح')
     initialValues: {
       Notes: "",
       formFile: "",
-
     },
     onSubmit: SendFile,
   });
@@ -250,7 +243,7 @@ toast.success('تم التنفيذ بنجاح')
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
-                  onClick={() => handleShowBar(customer.notes,customer.id)}
+                  onClick={() => handleShowBar(customer.notes, customer.id)}
                 >
                   اضافه ملفات
                 </Button>
@@ -304,13 +297,7 @@ toast.success('تم التنفيذ بنجاح')
                   onClick={() => ChangeStateNotDone(customer.id)}
                   className="m-1 bg-danger text-white"
                 >
-                  لم يتم التنفيذ
-                </Button>
-                <Button
-                  onClick={() => ChangeStateDone(customer.id)}
-                  className="m-1 bg-success text-white"
-                >
-                  تم التنفيذ
+                  تحويل الي المحاسب{" "}
                 </Button>
               </TableCell>
             </TableRow>
@@ -367,7 +354,10 @@ toast.success('تم التنفيذ بنجاح')
             >
               <Modal.Title className="w-100 fs-5">تقديم الملاحظات</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="p-4 bg-light" style={{ borderRadius: "0 0 8px 8px" }}>
+            <Modal.Body
+              className="p-4 bg-light"
+              style={{ borderRadius: "0 0 8px 8px" }}
+            >
               <Box
                 sx={{
                   maxWidth: 400,
@@ -378,12 +368,18 @@ toast.success('تم التنفيذ بنجاح')
                   backgroundColor: "white",
                 }}
               >
-                <Typography variant="h6" gutterBottom className="text-primary fw-bold text-center">
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  className="text-primary fw-bold text-center"
+                >
                   إضافة ملاحظات وملف
                 </Typography>
                 <Form onSubmit={formik.handleSubmit}>
                   <Form.Group className="mt-4 text-center" controlId="Notes">
-                    <Form.Label className="fw-bold text-secondary">ملاحظات الطلب</Form.Label>
+                    <Form.Label className="fw-bold text-secondary">
+                      ملاحظات الطلب
+                    </Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="أدخل ملاحظاتك هنا..."
@@ -394,7 +390,9 @@ toast.success('تم التنفيذ بنجاح')
                     />
                   </Form.Group>
                   <Form.Group controlId="formData" className="mt-4 text-center">
-                    <Form.Label className="fw-bold text-secondary">الإبانه</Form.Label>
+                    <Form.Label className="fw-bold text-secondary">
+                      الإبانه
+                    </Form.Label>
                     <InputGroup className="shadow-sm border-primary">
                       <FormControl
                         type="file"
@@ -409,7 +407,10 @@ toast.success('تم التنفيذ بنجاح')
                       className="w-100 mt-4 d-flex justify-content-center align-items-center  text-black border-0 shadow-sm"
                       disabled
                     >
-                      <i className="fa-solid fa-gear fa-spin" style={{ fontSize: "30px" }}></i>
+                      <i
+                        className="fa-solid fa-gear fa-spin"
+                        style={{ fontSize: "30px" }}
+                      ></i>
                     </Button>
                   ) : (
                     <Button
@@ -433,11 +434,9 @@ toast.success('تم التنفيذ بنجاح')
               </Button>
             </Modal.Footer>
           </Modal>
-
         </TableBody>
       </Table>
-      <Toaster/>
-
+      <Toaster />
     </Box>
   );
 }

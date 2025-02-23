@@ -9,20 +9,23 @@ export default function OrderDetails() {
   const [allOrders, setallOrders] = useState([]);
   const [error, seterror] = useState([]);
 
-
-
   const FilesName = {
-    commerce: ["السجل التجاري", "السجل الضريبي","البوليصه","شهاده المنشأ","ملفات اخري",]
+    commerce: [
+      "السجل التجاري",
+      "السجل الضريبي",
+      "البوليصه",
+      "شهاده المنشأ",
+      "ملفات اخري",
+    ],
   };
 
   let AllFilesHere = [];
 
   let NewId = [];
 
-  let NewAllfile =[];
+  let NewAllfile = [];
 
-  const DownloadFilesApi = async (index) => {    
-    
+  const DownloadFilesApi = async (index) => {
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles`,
@@ -37,7 +40,6 @@ export default function OrderDetails() {
           responseType: "blob", // تحديد نوع الاستجابة كـ Blob
         }
       );
-
 
       // استخراج اسم الملف من Content-Disposition (إذا كان متوفرًا)
       const contentDisposition = response.headers["content-disposition"];
@@ -58,15 +60,13 @@ export default function OrderDetails() {
 
       // تنظيف الرابط المؤقت من الذاكرة
       window.URL.revokeObjectURL(url);
-      toast.success("تم التحميل")
-
+      toast.success("تم التحميل");
     } catch (error) {
       console.error("حدث خطأ أثناء تحميل الملف:", error);
     }
   };
 
   const SendValue = async (cost, orderValue) => {
-    
     try {
       const { data } = await axios.post(
         `https://user.runasp.net/api/Apply-Order`,
@@ -82,9 +82,8 @@ export default function OrderDetails() {
         }
       );
 
-      toast.success("تم تقديم الطلب بنجاح")
-      getValue()
-
+      toast.success("تم تقديم الطلب بنجاح");
+      getValue();
     } catch (error) {}
   };
 
@@ -103,8 +102,6 @@ export default function OrderDetails() {
       if (JSON.stringify(data) !== JSON.stringify(allOrders)) {
         setallOrders(data);
       }
-
-
     } catch (error) {
       console.log(error);
     }
@@ -143,20 +140,23 @@ export default function OrderDetails() {
             <h3 className="mb-0 text-center">تفاصيل الطلب</h3>
           </div>
           <div className="card-body">
-          {data.length === 0  || error === 'null' ? <>
-            <tr>
-      <td colSpan="5" className="text-center">لا توجد تفاصيل للطلب </td>
-    </tr>            
-            </>:<>
-            
-              {data.map((data,i) => (
+            {data.length === 0 || error === "null" ? (
+              <>
+                <tr>
+                  <td colSpan="5" className="text-center">
+                    لا توجد تفاصيل للطلب{" "}
+                  </td>
+                </tr>
+              </>
+            ) : (
+              <>
+                {data.map((data, i) => (
                   <>
-<p style={{display:"none"}} className="">
-
-{NewId.push(data.id)}
-                     {AllFilesHere.push(data)}
-                     {NewAllfile.push(AllFilesHere[0].fileName)}
-</p>
+                    <p style={{ display: "none" }} className="">
+                      {NewId.push(data.id)}
+                      {AllFilesHere.push(data)}
+                      {NewAllfile.push(AllFilesHere[0].fileName)}
+                    </p>
 
                     <div className="row">
                       <div className="col-md-6">
@@ -193,10 +193,17 @@ export default function OrderDetails() {
                               <td>{data.numberOflicense}</td>
                             </tr>
 
- {data.size == null ? <></>:<>                           <tr>
-                              <th>وزن الشحنة</th>
-                              <td>{data.size}</td>
-                            </tr></>}
+                            {data.size == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                {" "}
+                                <tr>
+                                  <th>وزن الشحنة</th>
+                                  <td>{data.size}</td>
+                                </tr>
+                              </>
+                            )}
                             <tr>
                               <th>عدد القطع</th>
                               <td>{data.number}</td>
@@ -206,53 +213,55 @@ export default function OrderDetails() {
                       </div>
                     </div>
                     <hr className="h-50" />
-                    
                   </>
                 ))}
-            
 
-            <table className="table table-bordered">
-                    <tbody>
-      {data.length == 0 ? <>
-      <p>no data</p>
-      </>:<>
-      
-      {NewAllfile[0].map((AllFilesHere,i)=><>
-
-                          {}
-                        <tr>
-                        <th>{FilesName.commerce[i]}</th>
-                        <td>{AllFilesHere}</td>
-                        <th>
-                        <i
-  onClick={() => DownloadFilesApi(i, NewId[i])}
-  className="fa-solid fa-download"
-  style={{
-    fontSize: "1.5rem", // حجم الأيقونة
-    color: "#007bff", // لون افتراضي (أزرق)
-    cursor: "pointer",
-    transition: "transform 0.3s ease, color 0.3s ease",
-  }}
-  onMouseEnter={(e) => {
-    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
-    e.target.style.transform = "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
-  }}
-  onMouseLeave={(e) => {
-    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
-    e.target.style.transform = "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
-  }}
-></i>
-                        </th>
-                      </tr>
-                      
-                      
-                      </>)}
-      </>}
-
-                    </tbody>
-                  </table>
-
-            </>}
+                <table className="table table-bordered">
+                  <tbody>
+                    {data.length == 0 ? (
+                      <>
+                        <p>no data</p>
+                      </>
+                    ) : (
+                      <>
+                        {NewAllfile[0].map((AllFilesHere, i) => (
+                          <>
+                            {}
+                            <tr>
+                              <th>{FilesName.commerce[i]}</th>
+                              <td>{AllFilesHere}</td>
+                              <th>
+                                <i
+                                  onClick={() => DownloadFilesApi(i, NewId[i])}
+                                  className="fa-solid fa-download"
+                                  style={{
+                                    fontSize: "1.5rem", // حجم الأيقونة
+                                    color: "#007bff", // لون افتراضي (أزرق)
+                                    cursor: "pointer",
+                                    transition:
+                                      "transform 0.3s ease, color 0.3s ease",
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
+                                    e.target.style.transform =
+                                      "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
+                                    e.target.style.transform =
+                                      "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
+                                  }}
+                                ></i>
+                              </th>
+                            </tr>
+                          </>
+                        ))}
+                      </>
+                    )}
+                  </tbody>
+                </table>
+              </>
+            )}
 
             <div className="row mt-4">
               <div className="col-12">
@@ -260,7 +269,7 @@ export default function OrderDetails() {
                 <Table striped bordered hover>
                   <thead>
                     <tr className="text-center">
-                    <th>رقم المعرف</th>
+                      <th>رقم المعرف</th>
 
                       <th>التقييم</th>
                       <th>سعر العرض</th>
@@ -271,13 +280,11 @@ export default function OrderDetails() {
                       <></>
                     ) : (
                       <>
-                        {allOrders.map((item,i) => (
- <>
- {console.log(
- item)
- }
+                        {allOrders.map((item, i) => (
+                          <>
+                            {console.log(item)}
                             <tr>
-                            <td>{item.brokerID}</td>
+                              <td>{item.brokerID}</td>
 
                               <td>
                                 <span className="text-warning">
@@ -325,10 +332,8 @@ export default function OrderDetails() {
           </div>
         </div>
       </div>
-      <Toaster/>
-      <Toaster/>
-
-
+      <Toaster />
+      <Toaster />
     </>
   );
 }
