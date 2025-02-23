@@ -105,7 +105,6 @@ export default function AllOrderTransfers() {
   };
 
   const handleFileChange = (e) => {
-    console.log(e);
 
     if (e.target.files.length > 0) {
       formik.setFieldValue("formFile", e.target.files[0]); // تعيين الملف مباشرة

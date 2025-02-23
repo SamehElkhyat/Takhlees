@@ -287,11 +287,12 @@ export default function OrderDetails() {
                               <td>{item.brokerID}</td>
 
                               <td>
+                                {}
                                 <span className="text-warning">
                                   <i className="fas fa-star"></i>
                                   <i className="fas fa-star"></i>
                                   <i className="fas fa-star"></i>
-                                  <i className="fas fa-star"></i>
+                                  <i className="far fa-star"></i>
                                   <i className="far fa-star"></i>
                                 </span>
                               </td>
