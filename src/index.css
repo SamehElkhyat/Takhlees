@@ -12,6 +12,13 @@ code {
     monospace;
 }
 
+.Badge-React-bootStrap{
+position: absolute;
+padding: 10px;
+right: 0;
+top: 0;
+
+}
 .background-img-frame {
   position: absolute;
   width: 100%;

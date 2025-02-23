@@ -46,7 +46,7 @@ const NewOrderForm = () => {
 
       uploadFile: Yup.array()
         .required("يجب رفع كل الملفات") // تأكيد وجود ملفات
-        .max(5, "ghdl;k vtu h;ev lk `g;") // يضمن وجود ملف واحد على الأقل
+        .min(5, "يجب رفع جميع الملفات") // يضمن وجود ملف واحد على الأقل
         .test("fileSize", "أحد الملفات يتجاوز الحجم المسموح (5MB)", (files) =>
           files && files.length ? files.every((file) => file.size <= 5 * 1024 * 1024) : false
         )

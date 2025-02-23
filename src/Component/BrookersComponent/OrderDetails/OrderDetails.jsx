@@ -99,9 +99,12 @@ export default function OrderDetails() {
           },
         }
       );
-      console.log(data);
 
-      setallOrders(data);
+      if (JSON.stringify(data) !== JSON.stringify(allOrders)) {
+        setallOrders(data);
+      }
+
+
     } catch (error) {
       console.log(error);
     }
@@ -131,7 +134,7 @@ export default function OrderDetails() {
   useEffect(() => {
     getValue();
     getOrders();
-  }, [allOrders]);
+  }, []);
   return (
     <>
       <div className="container mt-5">

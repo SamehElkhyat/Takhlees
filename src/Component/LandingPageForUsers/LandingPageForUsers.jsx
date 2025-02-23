@@ -1,7 +1,8 @@
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { string } from "yup";
 
@@ -14,6 +15,24 @@ const LandingPageForUsers = () => {
   const [Ishovered6, setIshovered6] = useState(false);
 
   const [DecodedTokken, setDecodedTokken] = useState();
+  const [State, setState] = useState({});
+
+  const GetState = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://user.runasp.net/api/Number-Of-Operations-User`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      console.log(data);
+      setState(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const AnimatedName = ({ name }) => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -88,6 +107,7 @@ const LandingPageForUsers = () => {
   useEffect(() => {
     const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
     setDecodedTokken(decodedTokken);
+    GetState();
   }, []);
 
   return (
@@ -167,6 +187,9 @@ const LandingPageForUsers = () => {
             className="shadow-lg"
           >
             <Card.Body>
+              <Badge className="Badge-React-bootStrap">
+                {State.numberOfCurrentOffers}
+              </Badge>
               <i style={styles.icons} className="fa-solid fa-arrows-spin"></i>
               <Card.Title>الطلبات القائمة</Card.Title>
               <Card.Text>عرض وإدارة طلباتك الحالية.</Card.Text>
@@ -187,6 +210,9 @@ const LandingPageForUsers = () => {
             className="shadow-lg"
           >
             <Card.Body>
+              <Badge className="Badge-React-bootStrap">
+                {State.numberOfRequestOrders}
+              </Badge>
               <i style={styles.icons} className="fa-solid fa-cart-shopping"></i>
               <Card.Title>الطلبات الجاريه</Card.Title>
               <Card.Text>إدارة الطلبات الجاريه.</Card.Text>
@@ -209,6 +235,10 @@ const LandingPageForUsers = () => {
             className="shadow-lg"
           >
             <Card.Body>
+              <Badge className="Badge-React-bootStrap">
+                {State.numberOfSuccessfulOrders}
+              </Badge>
+
               <i style={styles.icons} className="fa-solid fa-square-check"></i>
               <Card.Title>الطلبات المنفذه</Card.Title>
               <Card.Text>عرض الطلبات المنفذه الخاص بك.</Card.Text>
@@ -231,6 +261,7 @@ const LandingPageForUsers = () => {
             className="shadow-lg"
           >
             <Card.Body>
+
               <i style={styles.icons} className="fa-solid fa-cart-shopping"></i>
               <Card.Title>المحفظة</Card.Title>
               <Card.Text>إدارة الأموال والرصيد الخاص بك.</Card.Text>
@@ -250,6 +281,7 @@ const LandingPageForUsers = () => {
             className="shadow-lg"
           >
             <Card.Body>
+
               <i
                 style={styles.icons}
                 className="fa-solid fa-clock-rotate-left"

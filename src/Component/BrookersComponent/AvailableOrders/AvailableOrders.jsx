@@ -57,7 +57,7 @@ export default function AvailableOrders() {
     SendId();
     GetOrder();
     setDate(t.format("MMM Do YYYY | h:mm"));
-  }, []);
+  }, [id]);
 
   return (
     <>
