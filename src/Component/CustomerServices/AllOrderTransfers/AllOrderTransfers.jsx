@@ -297,6 +297,12 @@ export default function AllOrderTransfers() {
                   onClick={() => ChangeStateNotDone(customer.id)}
                   className="m-1 bg-danger text-white"
                 >
+                  تحويل الي المخلص
+                </Button>
+                <Button
+                  onClick={() => ChangeStateDone(customer.id)}
+                  className="m-1 bg-success text-white"
+                >
                   تحويل الي المحاسب{" "}
                 </Button>
               </TableCell>
