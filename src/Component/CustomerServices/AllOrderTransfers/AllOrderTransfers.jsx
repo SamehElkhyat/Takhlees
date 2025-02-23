@@ -78,22 +78,30 @@ export default function AllOrderTransfers() {
   };
 
   const ChangeStateNotDone = async (id) => {
-    setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
 
-    const request = await axios.post(
-      `https://user.runasp.net/api/Change-Statu-CustomerService`,
-      {
-        statuOrder: "false",
-        ID: id,
-        Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+    try {
+      const request = await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        {
+          statuOrder: "false",
+          ID: id,
+          Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
         },
-      }
-    );
-    console.log(request);
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      alert('تم ارسال الملاحظات')
+      getAllAcceptedOrders()
+    } catch (error) {
+
+      console.log(error);
+      
+      
+    }
+
   };
 
   const handleFileChange = (e) => {
@@ -147,7 +155,8 @@ export default function AllOrderTransfers() {
         },
       }
     );
-    toast.success("تم التنفيذ بنجاح");
+    alert('تم ارسال الملاحظات')
+    getAllAcceptedOrders()
   };
 
   const getAllAcceptedOrders = async () => {
@@ -294,7 +303,7 @@ export default function AllOrderTransfers() {
                 align="center"
               >
                 <Button
-                  onClick={() => ChangeStateNotDone(customer.id)}
+                  onClick={() => toggleNoteField(customer.id)}
                   className="m-1 bg-danger text-white"
                 >
                   تحويل الي المخلص
