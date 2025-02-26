@@ -14,6 +14,11 @@ import * as Yup from "yup";
 const NewOrderForm = () => {
   const [IsLoading, setIsLoading] = useState(false);
   const [fileInputs, setFileInputs] = useState([0]); // تبدأ بحقل واحد فقط
+  const [ShowInputs, setShowInputs] = useState(false);
+
+  const handelShowInputs = (e) => {
+    setShowInputs(e.target.value);
+  };
 
   const validationSchema = Yup.object().shape({
     location: Yup.string().required("موقع الطلب مطلوب"),
@@ -76,7 +81,9 @@ const NewOrderForm = () => {
     // أضف الحقول النصية إلى FormData
     formData.append("Location", values.location);
     formData.append("numberOfLicense", values.numberOfLicense);
-    formData.append("Delivery", values.Delivery);
+    formData.append("City", values.City);
+    formData.append("zipCode", values.zipCode);
+    formData.append("Town", values.Town);
     formData.append("Notes", values.Notes);
     values.numberOfTypeOrders.forEach((order, index) => {
       formData.append(`numberOfTypeOrders[${index}][Number]`, order.Number);
@@ -113,7 +120,7 @@ const NewOrderForm = () => {
       setIsLoading(false);
 
       setTimeout(() => {
-       window.location.href = "/Orders";
+        window.location.href = "/Orders";
       }, 1000);
     } catch (error) {
       setIsLoading(false);
@@ -132,10 +139,10 @@ const NewOrderForm = () => {
       location: "",
       numberOfLicense: "",
       Notes: "",
-      Delivery: "",
-      numberOfTypeOrders: [
-        { Number: "", typeOrder: "", Weight: "", Size: ""},
-      ],
+      City: "",
+      zipCode: "",
+      Town: "",
+      numberOfTypeOrders: [{ Number: "", typeOrder: "", Weight: "", Size: "" }],
       uploadFile: [],
     },
     validationSchema,
@@ -146,7 +153,7 @@ const NewOrderForm = () => {
   const addOrder = () => {
     formik.setFieldValue("numberOfTypeOrders", [
       ...formik.values.numberOfTypeOrders,
-      { Number: "", typeOrder: "", Weight: "", Size: "", Delivery: "" },
+      { Number: "", typeOrder: "", Weight: "", Size: "" },
     ]);
   };
 
@@ -315,18 +322,6 @@ const NewOrderForm = () => {
           )}
         </Form.Group>
 
-        <Form.Group
-              controlId="Delivery"
-            >
-              <Form.Label>الموقع بالتفصيل</Form.Label>
-              <Form.Control
-                type="text"
-                value={formik.values.Delivery}
-                onChange={formik.handleChange}
-
-              />
-            </Form.Group>
-
         <Form.Group controlId="Notes">
           <Form.Label>ملاحظات الطلب</Form.Label>
           <Form.Control
@@ -340,6 +335,50 @@ const NewOrderForm = () => {
             <div className="error-message">{formik.errors.Notes}</div>
           )}
         </Form.Group>
+
+        {/* الموقع بالتفصيل */}
+
+        <Form.Group>
+          <Form.Label>نوع الطلب</Form.Label>
+          <Form.Control onClick={(e) => handelShowInputs(e)} as="select">
+            <option value="">اختر نوع الطلب</option>
+            <option value="true">خدمه توصيل</option>
+            <option value="false">بدون خدمه توصيل</option>
+          </Form.Control>
+        </Form.Group>
+
+        {ShowInputs && (
+          <>
+            <div className=" d-flex justify-content-center m-5">
+              <Form.Group className="Inputs-New-Order" controlId="City">
+                <Form.Label>المدينه</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={formik.values.City}
+                  onChange={formik.handleChange}
+                />
+              </Form.Group>
+
+              <Form.Group className="Inputs-New-Order" controlId="Town">
+                <Form.Label>الحي</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={formik.values.Town}
+                  onChange={formik.handleChange}
+                />
+              </Form.Group>
+
+              <Form.Group className="Inputs-New-Order" controlId="zipCode">
+                <Form.Label>الرمز البريدي</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={formik.values.zipCode}
+                  onChange={formik.handleChange}
+                />
+              </Form.Group>
+            </div>
+          </>
+        )}
 
         {/* الحقول الديناميكية */}
         <h5>تفاصيل الطلبات</h5>
@@ -556,7 +595,11 @@ const NewOrderForm = () => {
           </>
         ) : (
           <>
-            <Button variant="primary" type="submit" className="mt-4">
+            <Button
+              variant="primary"
+              type="submit"
+              className="d-flex justify-content-end"
+            >
               إرسال الطلب
             </Button>
           </>

@@ -188,11 +188,36 @@ export default function OrderDetails() {
                               <th>نوع الشحنة</th>
                               <td>{data.typeOrder}</td>
                             </tr>
-                            {data.delivery == null ? <></> : <>
-                              <tr>
-                              <th>الموقع التفصيلي</th>
-                              <td>{data.delivery}</td>
-                            </tr></>}
+                            {data.town == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr>
+                                  <th>الحي</th>
+                                  <td>{data.town}</td>
+                                </tr>
+                              </>
+                            )}
+                            {data.zipCode == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr>
+                                  <th> الرمز البريدي</th>
+                                  <td>{data.zipCode}</td>
+                                </tr>
+                              </>
+                            )}{" "}
+                            {data.city == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr>
+                                  <th>المدينه</th>
+                                  <td>{data.city}</td>
+                                </tr>
+                              </>
+                            )}
                           </tbody>
                         </table>
                       </div>

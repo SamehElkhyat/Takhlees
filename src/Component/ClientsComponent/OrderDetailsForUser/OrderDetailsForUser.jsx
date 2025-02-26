@@ -44,7 +44,9 @@ export default function OrderDetailsForUser() {
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
-        : `${index < 4 ?(FilesName.commerce[index]):(`ملفات إضافيه`)}.${response.data.type.split("/")[1]}`; // اسم افتراضي
+        : `${index < 4 ? FilesName.commerce[index] : `ملفات إضافيه`}.${
+            response.data.type.split("/")[1]
+          }`; // اسم افتراضي
 
       const blob = response.data; // البيانات كـ Blob
       const url = window.URL.createObjectURL(blob);
@@ -123,7 +125,6 @@ export default function OrderDetailsForUser() {
       );
 
       console.log(data);
-      
 
       setdata(data);
     } catch (error) {
@@ -173,17 +174,40 @@ export default function OrderDetailsForUser() {
                               <th>تاريخ الطلب</th>
                               <td>{data.date}</td>
                             </tr>
-
                             <tr>
                               <th>نوع الشحنة</th>
                               <td>{data.typeOrder}</td>
                             </tr>
-                            {data.delivery == null ? <></> : <>
-                              <tr>
-                              <th>الموقع التفصيلي</th>
-                              <td>{data.delivery}</td>
-                            </tr></>}
-                         
+                            {data.town == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr>
+                                  <th>الحي</th>
+                                  <td>{data.town}</td>
+                                </tr>
+                              </>
+                            )}
+                            {data.zipCode == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr>
+                                  <th> الرمز البريدي</th>
+                                  <td>{data.zipCode}</td>
+                                </tr>
+                              </>
+                            )}{" "}
+                            {data.city == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr>
+                                  <th>المدينه</th>
+                                  <td>{data.city}</td>
+                                </tr>
+                              </>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -236,14 +260,15 @@ export default function OrderDetailsForUser() {
                       <>
                         {NewAllfile[0].map((AllFilesHere, i) => (
                           <>
-                        
                             <tr>
                               <th>
+                                {i <= 4 ? (
+                                  <>{FilesName.commerce[i]}</>
+                                ) : (
+                                  <>ملفات اخري</>
+                                )}
+                              </th>
 
-                                {i<=4 ?<>{FilesName.commerce[i]}</>:<>ملفات اخري</>}
-                                
-                                </th>
-                              
                               <td>{AllFilesHere}</td>
                               <th>
                                 <i
@@ -268,8 +293,6 @@ export default function OrderDetailsForUser() {
                                   }}
                                 ></i>
                               </th>
-
-                              
                             </tr>
                           </>
                         ))}
@@ -280,24 +303,24 @@ export default function OrderDetailsForUser() {
               </>
             )}
 
-{NewAllfile.length > 3 && ( // استبدل 3 بالعدد الذي تريده
-  <tr>
-    <td colSpan="3">
-      <button 
-        style={{
-          padding: "10px 15px",
-          backgroundColor: "#28a745",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        ➕ إضافة ملف إضافي
-      </button>
-    </td>
-  </tr>
-)}
+            {NewAllfile.length > 3 && ( // استبدل 3 بالعدد الذي تريده
+              <tr>
+                <td colSpan="3">
+                  <button
+                    style={{
+                      padding: "10px 15px",
+                      backgroundColor: "#28a745",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    ➕ إضافة ملف إضافي
+                  </button>
+                </td>
+              </tr>
+            )}
 
             <div className="row mt-4">
               <div className="col-12">
