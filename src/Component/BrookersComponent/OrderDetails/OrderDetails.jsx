@@ -8,6 +8,7 @@ export default function OrderDetails() {
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
   const [error, seterror] = useState([]);
+  const [Rating, setRating] = useState();
 
   const FilesName = {
     commerce: [
@@ -26,6 +27,8 @@ export default function OrderDetails() {
   let NewAllfile = [];
 
   const DownloadFilesApi = async (index) => {
+    console.log(index);
+    
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles`,
@@ -45,7 +48,7 @@ export default function OrderDetails() {
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
-        : `${FilesName.commerce[index]}.${response.data.type.split("/")[1]}`; // اسم افتراضي
+        : `${index < 4 ?(FilesName.commerce[index]):(`ملفات إضافيه`)}.${response.data.type.split("/")[1]}`; // اسم افتراضي
 
       const blob = response.data; // البيانات كـ Blob
       const url = window.URL.createObjectURL(blob);
@@ -87,6 +90,10 @@ export default function OrderDetails() {
     } catch (error) {}
   };
 
+  const mathmatecis = () => {
+    console.log(Rating);
+  };
+
   const getValue = async () => {
     try {
       const { data } = await axios.get(
@@ -101,6 +108,7 @@ export default function OrderDetails() {
 
       if (JSON.stringify(data) !== JSON.stringify(allOrders)) {
         setallOrders(data);
+        console.log(data);
       }
     } catch (error) {
       console.log(error);
@@ -132,6 +140,10 @@ export default function OrderDetails() {
     getValue();
     getOrders();
   }, []);
+
+  useEffect(() => {
+    mathmatecis();
+  }, [Rating]);
   return (
     <>
       <div className="container mt-5">
@@ -176,6 +188,11 @@ export default function OrderDetails() {
                               <th>نوع الشحنة</th>
                               <td>{data.typeOrder}</td>
                             </tr>
+                            {data.delivery == null ? <></> : <>
+                              <tr>
+                              <th>الموقع التفصيلي</th>
+                              <td>{data.delivery}</td>
+                            </tr></>}
                           </tbody>
                         </table>
                       </div>
@@ -228,8 +245,8 @@ export default function OrderDetails() {
                           <>
                             {}
                             <tr>
-                              <th>{FilesName.commerce[i]}</th>
-                              <td>{AllFilesHere}</td>
+                            {i<=4 ?<>{FilesName.commerce[i]}</>:<>ملفات اخري</>}
+                            <td>{AllFilesHere}</td>
                               <th>
                                 <i
                                   onClick={() => DownloadFilesApi(i, NewId[i])}
@@ -282,20 +299,70 @@ export default function OrderDetails() {
                       <>
                         {allOrders.map((item, i) => (
                           <>
-                            {console.log(item)}
-                            <tr>
+                            <tr className="text-center">
                               <td>{item.brokerID}</td>
-
                               <td>
-                                {}
-                                <span className="text-warning">
-                                  <i className="fas fa-star"></i>
-                                  <i className="fas fa-star"></i>
-                                  <i className="fas fa-star"></i>
-                                  <i className="far fa-star"></i>
-                                  <i className="far fa-star"></i>
-                                </span>
+                                {item.count == 0 && (
+                                  <span className="text-warning">
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                  </span>
+                                )}
+
+                                {item.count == 5 && (
+                                  <span className="text-warning">
+                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                  </span>
+                                )}
+
+                                {item.count >= 25 && (
+                                  <span className="text-warning">
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                  </span>
+                                )}
+
+                                {item.count >= 50 && (
+                                  <span className="text-warning">
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                  </span>
+                                )}
+
+                                {item.count == 100 && (
+                                  <span className="text-warning">
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                  </span>
+                                )}
+
+                                {item.count < 100 && (
+                                  <span className="text-warning">
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                  </span>
+                                )}
                               </td>
+
                               <td>{item.value}</td>
                             </tr>
                             <tr></tr>

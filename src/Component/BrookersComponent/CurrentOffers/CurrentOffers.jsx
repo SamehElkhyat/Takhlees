@@ -1,7 +1,17 @@
+import { Box, Typography } from "@mui/material";
 import axios from "axios";
+import { useFormik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Table } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  FormControl,
+  InputGroup,
+  Modal,
+  Table,
+} from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function CurrentOffers() {
   const [date, setDate] = useState("");
@@ -12,6 +22,19 @@ export default function CurrentOffers() {
   const [searchTerm3, setSearchTerm3] = useState("");
   const [CustomersOrders, setCustomersOrders] = useState([]);
   const [orders2, setOrders2] = useState([]);
+  const [OrderId, setOrderId] = useState(null);
+
+  const [Bar, setBar] = useState(null);
+  const [IsLoading, setIsLoading] = useState(false);
+
+
+  const handleShowBar = (items,orderdid) => {
+    setOrderId(orderdid)
+    setBar(items);
+  };
+  const handleCloseBar = () => {
+    setBar(null);
+  };
 
   const SendIdSuccses = async (ID) => {
     try {
@@ -28,8 +51,9 @@ export default function CurrentOffers() {
         }
       );
 
-      console.log(req);
-    } catch (error) {
+      toast("تم التنفيذ")
+      getCustomersOrders()
+        } catch (error) {
       console.log(error);
     }
   };
@@ -48,7 +72,9 @@ export default function CurrentOffers() {
           },
         }
       );
-      console.log(req);
+toast("تم الالغاء")
+getCustomersOrders()
+
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +133,47 @@ export default function CurrentOffers() {
   const handleOrderClick = (id) => {
     console.log(id);
   };
+  const handleFileChange = (e) => {
+    if (e.target.files.length > 0) {
+      formik.setFieldValue("formFile", e.target.files[0]); // تعيين الملف مباشرة
+    }
+  };
+  const SendFile = async (values) => {
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("formFile", values.formFile); // تعيين الملف الصحيح
+    formData.append("Notes", values.Notes);
+    formData.append("newOrderId", OrderId);
+    // التأكد من إرسال OrderId الصحيح
 
+    try {
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Notes-From-CustomerService`,
+        formData, // إرسال formData مباشرة بدون وضعه داخل كائن
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      setIsLoading(false);
+      toast.success("تم تقديم الملاحظات بنجاح");
+      setBar(null);
+      console.log("نجاح:", data);
+    } catch (error) {
+      console.log("خطأ:", error);
+      setIsLoading(false);
+    }
+  };
+
+  let formik = useFormik({
+    initialValues: {
+      Notes: "",
+      formFile: "",
+    },
+    onSubmit: SendFile,
+  });
   useEffect(() => {
     getCustomersOrders();
     GetValueCurrentOffers();
@@ -412,6 +478,7 @@ export default function CurrentOffers() {
               <th>اسم (الميناء/المطار)</th>
               <th>رقم الطلب</th>
               <th>الحالة</th>
+              <th>إضافه ملاحظات</th>
             </tr>
           </thead>
           <tbody>
@@ -437,6 +504,15 @@ export default function CurrentOffers() {
                     >
                       ألغاء
                     </button>
+                    <td>
+                      {" "}
+                      <button
+                        onClick={() => handleShowBar(order.notes, order.id)}
+                        className="btn bg-primary w-100"
+                      >
+                        إضافه ملاحظات
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </>
@@ -451,7 +527,101 @@ export default function CurrentOffers() {
               </>
             )}
           </tbody>
+
+          <Modal
+            className="text-end"
+            show={Bar !== null}
+            onHide={handleCloseBar}
+          >
+            <Modal.Header
+              closeButton
+              className="bg-primary text-white text-center"
+              style={{ borderRadius: "8px 8px 0 0", padding: "15px" }}
+            >
+              <Modal.Title className="w-100 fs-5">تقديم الملاحظات</Modal.Title>
+            </Modal.Header>
+            <Modal.Body
+              className="p-4 bg-light"
+              style={{ borderRadius: "0 0 8px 8px" }}
+            >
+              <Box
+                sx={{
+                  maxWidth: 400,
+                  mx: "auto",
+                  p: 3,
+                  boxShadow: 4,
+                  borderRadius: 3,
+                  backgroundColor: "white",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  className="text-primary fw-bold text-center"
+                >
+                  إضافة ملاحظات وملف
+                </Typography>
+                <Form onSubmit={formik.handleSubmit}>
+                  <Form.Group className="mt-4 text-center" controlId="Notes">
+                    <Form.Label className="fw-bold text-secondary">
+                      ملاحظات الطلب
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="أدخل ملاحظاتك هنا..."
+                      name="Notes"
+                      value={formik.values.Notes}
+                      onChange={formik.handleChange}
+                      className="shadow-sm border-primary"
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formData" className="mt-4 text-center">
+                    <Form.Label className="fw-bold text-secondary">
+                      الإبانه
+                    </Form.Label>
+                    <InputGroup className="shadow-sm border-primary">
+                      <FormControl
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                        className="p-2"
+                      />
+                    </InputGroup>
+                  </Form.Group>
+                  {IsLoading ? (
+                    <Button
+                      className="w-100 mt-4 d-flex justify-content-center align-items-center  text-black border-0 shadow-sm"
+                      disabled
+                    >
+                      <i
+                        className="fa-solid fa-gear fa-spin"
+                        style={{ fontSize: "30px" }}
+                      ></i>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="w-100 mt-4 d-flex justify-content-center align-items-center fw-bold shadow-sm"
+                    >
+                      إرسال الملاحظات
+                    </Button>
+                  )}
+                </Form>
+              </Box>
+            </Modal.Body>
+            <Modal.Footer className="bg-light d-flex justify-content-center">
+              <Button
+                variant="secondary"
+                onClick={handleCloseBar}
+                className="fw-bold shadow-sm px-4"
+              >
+                إغلاق
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Table>
+      <Toaster/>
       </div>
     </>
   );

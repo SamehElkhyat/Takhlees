@@ -20,13 +20,92 @@ export default function DoneOrders() {
   let [Counter, setCounter] = useState(1);
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
-
-
+  const [Bar, setBar] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
+  const [ImageName, setImageName] = useState({});
+  const [IsLoading, setIsLoading] = useState(false);
+  const [OrderId, setOrderId] = useState(null);
 
 
+
+  const handleShowBar = (items, orderId) => {
+    setOrderId(orderId);
+    setBar(items);
+  };
+  const handleCloseBar = () => {
+    setBar(null);
+  };
+
+
+  const GetFileName = async () => {
+    try {
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Get-Name-File-From-CustomerService`,
+        {
+          newOrderId: OrderId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+
+      setIsLoading(false);
+      setImageName(data);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const DownloadFilesApi = async () => {
+    try {
+      const response = await axios.post(
+        `https://user.runasp.net/api/DownloadFiles-From-Account`,
+        {
+          newOrderId: OrderId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+          responseType: "blob",
+        }
+      );
+      setIsLoading(false);
+
+      const contentDisposition = response.headers["content-disposition"];
+      const fileName = contentDisposition
+        ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
+        : `${ImageName.fileName}.${response.data.type.split("/")[1]}`; // اسم افتراضي
+
+      const blob = response.data; // البيانات كـ Blob
+      const url = window.URL.createObjectURL(blob);
+
+      // إنشاء رابط تنزيل تلقائي
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName; // تعيين اسم الملف
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // تنظيف الرابط المؤقت من الذاكرة
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      setIsLoading(false);
+
+      console.error("حدث خطأ أثناء تحميل الملف:", error);
+    }
+  };
+
+  ///files |||||||///////////
+  
   const handleShowDetails = (order,BrokerId) => {
+    console.log(order,BrokerId);
+    
     setSelectedOrder(order);
     getAllInformationBroker(BrokerId)
     
@@ -153,8 +232,10 @@ setSelectedOrder(data)
   );
 
   useEffect(() => {
+
+  GetFileName()
     getAllAcceptedOrders();
-  }, []);
+  }, [OrderId]);
 
   return (
     <Box width="100%" textAlign="center" p={4}>
@@ -202,7 +283,7 @@ setSelectedOrder(data)
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedCustomers.map((customer) => (
+          {sortedCustomers.map((customer,index) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
               {customer.id}
@@ -228,11 +309,19 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order,customer.brokerID)}
+                  onClick={() =>  handleShowDetails(order,customer.brokerID)}
                 >
                   عرض التفاصيل
                 </Button>
               </TableCell>
+              <TableCell align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowBar(index, customer.id)}
+                  >
+                    عرض تفاصيل الملاحظات
+                  </Button>
+                </TableCell>
 
               {showNoteField[customer.id] && (
                   <Box mt={1}>
@@ -301,6 +390,76 @@ setSelectedOrder(data)
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseDetails}>
+                إغلاق
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal
+            className="text-center"
+            show={Bar !== null}
+            onHide={handleCloseBar}
+          >
+            {/* رأس المودال مع تصميم مميز */}
+            <Modal.Header
+              closeButton
+              className="bg-light rounded-top shadow-sm text-center"
+            >
+              <Modal.Title className="fs-3 fw-bold text-primary d-block">
+                تفاصيل الطلب
+                <small className="d-block text-muted fs-6">إدارة الطلبات</small>
+              </Modal.Title>
+            </Modal.Header>
+
+            {/* جسم المودال مع تنسيق أفضل */}
+            <Modal.Body className="p-4 bg-light rounded-bottom text-center">
+              {/* عرض تفاصيل الملاحظات */}
+              <div className="mb-4">
+                <h5 className="text-success fw-bold">الملاحظات</h5>
+
+                <p className="text-muted fs-6">{ImageName.notes}</p>
+              </div>
+
+              {/* قسم التحميل مع زر مميز */}
+              <div className="d-inline-block">
+                <h5 className="text-success mb-3">
+                  تحميل الملف
+                  <span style={{ color: "red", margin: "10px" }}>
+                    {ImageName.fileName}
+                  </span>
+                </h5>
+                <Button
+                  variant="success"
+                  onClick={() => DownloadFilesApi()}
+                  disabled={IsLoading}
+                  className="px-4 py-2 rounded-pill shadow"
+                >
+                  {IsLoading ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-2"
+                      />
+                      جارٍ التحميل...
+                    </>
+                  ) : (
+                    "تحميل"
+                  )}
+                </Button>
+              </div>
+            </Modal.Body>
+
+            {/* قدم المودال مع زر إغلاق مميز */}
+            <Modal.Footer className="bg-light border-0 text-center">
+              <Button
+                variant="danger"
+                onClick={handleCloseBar}
+                className="px-4 py-2 rounded-pill shadow"
+              >
                 إغلاق
               </Button>
             </Modal.Footer>

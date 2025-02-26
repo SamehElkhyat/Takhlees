@@ -42,6 +42,8 @@ const PendingOrders = () => {
         }
       );
 
+      console.log(res.data);
+      
       setOrder(res.data);
     } catch (error) {
       console.log(error);

@@ -224,6 +224,7 @@ setSelectedOrder(data)
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الإجراء</TableCell>
+
           </TableRow>
         </TableHead>
         <TableBody>
@@ -238,9 +239,7 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
               </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.accountManager}
-              </TableCell>
+       
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.phoneNumber}
               </TableCell>
