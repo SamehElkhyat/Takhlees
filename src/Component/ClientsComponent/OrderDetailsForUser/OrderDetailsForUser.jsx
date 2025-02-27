@@ -197,7 +197,7 @@ export default function OrderDetailsForUser() {
                                   <td>{data.zipCode}</td>
                                 </tr>
                               </>
-                            )}{" "}
+                            )}
                             {data.city == null ? (
                               <></>
                             ) : (

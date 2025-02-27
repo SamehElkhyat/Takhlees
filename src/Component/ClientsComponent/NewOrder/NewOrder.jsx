@@ -339,7 +339,7 @@ const NewOrderForm = () => {
         {/* الموقع بالتفصيل */}
 
         <Form.Group>
-          <Form.Label>نوع الطلب</Form.Label>
+          <Form.Label>نوع النقل</Form.Label>
           <Form.Control onClick={(e) => handelShowInputs(e)} as="select">
             <option value="">اختر نوع الطلب</option>
             <option value="true">خدمه توصيل</option>
@@ -380,7 +380,9 @@ const NewOrderForm = () => {
           </>
         )}
 
+
         {/* الحقول الديناميكية */}
+        
         <h5>تفاصيل الطلبات</h5>
         {formik.values.numberOfTypeOrders.map((order, index) => (
           <div key={index} className="border p-3 mb-3">
