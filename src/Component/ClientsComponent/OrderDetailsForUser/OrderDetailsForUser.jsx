@@ -352,66 +352,69 @@ export default function OrderDetailsForUser() {
 
                               <td>{item.count}</td>
                               <td>
-                                {item.count == 0 && (
-                                  <span className="text-warning">
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                <span className="text-warning">
+                                  {item.count === 0 && (
+                                    <>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count == 5 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 0 && item.count <= 5 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count <= 25 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 5 && item.count <= 25 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count <= 50 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 25 && item.count <= 50 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count == 100 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 50 && item.count <= 100 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count > 100 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 100 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                    </>
+                                  )}
+                                </span>
                               </td>
+
                               <td>{item.value}</td>
 
                               <td>

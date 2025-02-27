@@ -179,9 +179,9 @@ const GetState = async ()=>{
         }}
       >
         اختر ما تريد القيام به:
-      </h5>{" "}
+      </h5>
       <Row className="justify-content-center">
-        <Col md={4} sm={6} xs={12} className="mb-3">
+        <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards1}
             onMouseLeave={() => setIshovered1(false)}
@@ -210,7 +210,7 @@ const GetState = async ()=>{
           </Card>
         </Col>
 
-        <Col md={4} sm={6} xs={12} className="mb-3">
+        <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards2}
             onMouseEnter={() => setIshovered2(true)}
@@ -237,7 +237,7 @@ const GetState = async ()=>{
           </Card>
         </Col>
 
-        <Col md={4} sm={6} xs={12} className="mb-3">
+        <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards3}
             onMouseEnter={() => setIshovered3(true)}
@@ -265,7 +265,7 @@ const GetState = async ()=>{
           </Card>
         </Col>
 
-        <Col md={4} sm={6} xs={12} className="mb-3">
+        <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards4}
             onMouseEnter={() => setIshovered4(true)}

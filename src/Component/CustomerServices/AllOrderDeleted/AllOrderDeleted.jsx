@@ -85,11 +85,28 @@ setCustomers(data)
       <h1
         className="text-xl font-bold mb-4"
         style={{
-          fontSize: "40px",
-          fontWeight: "bold",
-          marginBottom: "20px",
-          color: "black",
-          backgroundColor: "transparent",
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "#2c3e50",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          width: "fit-content",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#f0f0f0",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          },
         }}
       >
         الطلبات المحذوفه

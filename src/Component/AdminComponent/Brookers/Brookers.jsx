@@ -1,140 +1,181 @@
-import React, { useEffect, useState } from "react";
-import "../Brookers/Brookers.css";
-import TotalCancled from "../Brookers/Icon_Order (1).jpg";
-import TotalOffres from "../Brookers/Icon_Order (2).jpg";
-import TotalClients from "../Brookers/Icon_Order.jpg";
-import TotalMoney from "../Brookers/icon Delivered.jpg";
-import Client from "../Brookers/One Client/Group 10.png";
-import ClientMoney from "../Brookers/One Client/Group 10 (1).png";
-import ClientOffers from "../Brookers/One Client/Group 10.png";
-
-import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-} from "@mui/material";
 import axios from "axios";
-import toast from "react-hot-toast";
+import React, { useEffect, useState } from "react";
+import {
+  Select,
+  MenuItem,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Box,
+} from "@mui/material";
+import { Toaster } from "react-hot-toast";
+import { Button } from "react-bootstrap";
 
 export default function Brookers() {
-  const [Clients, setClients] = useState([]);
-  const [query, setQuery] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState([]);
 
-  const GetClients = async () => {
+  const Block = async (email) => {
+    
     try {
-      const response = await axios.get(
-        "https://takhleesak.runasp.net/api/Get-User",
+      const { data } = await axios.post(
+        `https://takhleesak.runasp.net/api/Blocked`,
+        {
+          Email: email,
+        },
+
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
-      setClients(response.data);
-      console.log(response.data);
+      CustomerService();
+
     } catch (error) {
-      toast(error);
+      console.log(error);
+    }
+  };
+
+  const UnBlock = async (email) => {
+
+    try {
+      const { data } = await axios.post(
+        `https://takhleesak.runasp.net/api/Unblocked`,
+        {
+          Email: email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      CustomerService();
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const CustomerService = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://takhleesak.runasp.net/api/Get-Broker`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      console.log(data);
+      
+      setSelectedOrder(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    GetClients();
-  }, [query]);
+    CustomerService();
+
+  }, []);
+
   return (
     <>
-      <div id="Brookers-container" className="container">
-        <div className="row d-flex justify-content-center align-items-center">
-          <div className="Content-Total-Clients col-md-2 d-flex align-item-center justify-content-center">
-            <img src={TotalClients} alt="" />
-            <p>30</p>
-          </div>
-          <div className="Total-Offers-Content col-md-2 d-flex align-item-center justify-content-center">
-            <img src={TotalOffres} alt="" />
-            <p>367$</p>
-          </div>
-          <div className="Total-Cancled-Order d-flex align-item-center justify-content-center col-md-2">
-            <img src={TotalCancled} alt="" />
-            <p>367$</p>
-          </div>
-          <div className="Total-Money col-md-2 d-flex justify-content-center align-item-center">
-            <img src={TotalMoney} alt="" />
-            <p>367$</p>
-          </div>
-        </div>
+      <Box width="100%" textAlign="center" p={4}>
+        <h1
+          className="text-xl font-bold mb-4"
+          style={{
+            fontSize: "2rem",
+            fontWeight: "700",
+            color: "#2c3e50",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+            borderBottom: "3px solid #3498db",
+            paddingBottom: "10px",
+            width: "fit-content",
+            margin: "0 auto 2rem auto",
+            borderRadius: "10px",
+            backgroundColor: "#f0f0f0",
+            padding: "10px",
+            border: "1px solid #3498db",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              transform: "scale(1.05)",
+              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+            },
+            "&:active": {
+              transform: "scale(0.95)",
+              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            },
+          }}
+        >
+            المخلصين
+        </h1>
 
-        <div className="row mb-5 mt-5 d-flex justify-content-center align-items-center">
-          <div className="Content-Clients col-md-1 d-flex align-item-center justify-content-center">
-            <div className="item-clients d-flex align-items-center justify-content-center">
-              <img src={Client} alt="" />
-
-              <p>30</p>
-            </div>
-            <hr className="bg-dark" />
-            <div className="item-clients d-flex align-items-center justify-content-center">
-              <img src={ClientMoney} alt="" />
-              <p>367$</p>
-            </div>
-
-            <hr className="bg-dark" />
-            <div className="item-clients d-flex align-items-center justify-content-center">
-              <img src={ClientOffers} alt="" />
-              <p>367$</p>
-            </div>
-          </div>
-        </div>
-
-        <TableContainer component={Paper}>
-          <TextField
-            onChange={(event) => setQuery(event.target.value)}
-            id="searchbar"
-            className="outlined "
-            label="البحث"
-            variant="outlined"
-          />
-          <Table className="w-100" aria-label="simple table">
-            <TableHead>
-              <TableRow className="text-center">
-                <TableCell>الاسم</TableCell>
-                <TableCell align="right">البريد الالكتروني</TableCell>
-                <TableCell align="right">رقم الهاتف</TableCell>
-                <TableCell align="right">رقم الهويه</TableCell>
+        <Table style={{ marginTop: "20px", width: "100%" }}>
+          <TableHead
+            sx={{
+              backgroundColor: "white",
+              borderTop: "1px solid #e0e0e0",
+              borderBottom: "1px solid #e0e0e0",
+              borderLeft: "1px solid #e0e0e0",
+              borderRight: "1px solid #e0e0e0",
+              borderRight: "1px solid #e0e0e0",
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <TableRow>
+              <TableCell align="center">الاسم</TableCell>
+              <TableCell align="center">البريد الالكتروني</TableCell>
+              <TableCell align="center">رقم الهويه</TableCell>
+              <TableCell align="center">الهاتف</TableCell>
+              <TableCell align="center">حظر</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {selectedOrder.map((customer,index) => (
+              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.fullName}
+                </TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.email}
+                </TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.identity}
+                </TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.phoneNumber}
+                </TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.isBlocked ? (
+                    <>
+                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
+                        فك الحظر
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <Button
+                        onClick={() => Block(customer.email)}
+                        className="bg-danger text-black"
+                      >
+                        حظر
+                      </Button>
+                    </>
+                  )}
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-            {Clients.filter((item) => {              
-        if (query === "") {
-          return item.fullName;
-        } else if (item.fullName.toLowerCase().includes(query.toLowerCase())) {
-          return item;
-        }
-      }).map((client) => (
-                <TableRow
-                  className="text-center"
-                  key={client.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  onClick={() => {
-                    console.log(client.email);
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    {client.fullName}
-                  </TableCell>
-                  <TableCell align="right">{client.email}</TableCell>
-                  <TableCell align="right">{client.phoneNumber}</TableCell>
-                  <TableCell align="right">{client.identity}</TableCell>
-                  <Button className="bg-danger text-black">حظر</Button>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+            ))}
+          </TableBody>
+        </Table>
+        <Toaster />
+      </Box>
     </>
   );
 }

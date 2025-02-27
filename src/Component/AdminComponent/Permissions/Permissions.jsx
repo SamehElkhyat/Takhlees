@@ -1,135 +1,70 @@
-import {
-  Button,
-  Checkbox,
-  ListItemText,
-  MenuItem,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { Table, Form, Card } from "react-bootstrap";
+
+const roles = ["محاسب", "خدمة عملاء", "مدير", "مسؤول"];
+
+const initialUsers = [
+  { id: 1, name: "أحمد علي", role: "محاسب" },
+  { id: 2, name: "سارة محمد", role: "خدمة عملاء" },
+  { id: 3, name: "كريم حسن", role: "مدير" },
+  { id: 4, name: "ليلى محمود", role: "مسؤول" },
+];
 
 export default function Permissions() {
-  const [Clients, setClients] = useState([]);
-  const [selectedRoles, setSelectedRoles] = useState({}); // إدارة الأدوار لكل مستخدم
+  const [users, setUsers] = useState(initialUsers);
 
-  const roles = ["المدير", "المسؤول", "المخلص", "المستخدم", "خدمة العملاء"];
-
-  // دالة لتحديث الأدوار لكل مستخدم
-  const handleRoleChange = (event, userId) => {
-    const {
-      target: { value },
-    } = event;
-
-    setSelectedRoles((prev) => ({
-      ...prev,
-      [userId]: typeof value === "string" ? value.split(",") : value, // تحديث أدوار المستخدم المحدد
-    }));
-  };
-
-  // جلب البيانات من API
-  const GetClients = async () => {
+  
+  const CustomerService = async () => {
     try {
-      const response = await axios.get("https://takhleesak.runasp.net/api/Get-User", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-        },
-      });
-      setClients(response.data);
-
-      // تهيئة الأدوار للمستخدمين عند تحميل البيانات
-      const initialRoles = response.data.reduce((acc, user) => {
-        acc[user.id] = []; // تعيين مصفوفة فارغة لكل مستخدم
-        return acc;
-      }, {});
-      setSelectedRoles(initialRoles);
+      const { data } = await axios.get(
+        `https://takhleesak.runasp.net/api/Get-User`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      setUsers(data);
     } catch (error) {
-      console.error("Error fetching clients:", error);
+      console.log(error);
     }
   };
 
+  const handleRoleChange = (id, newRole) => {
+    setUsers(users.map(user => user.id === id ? { ...user, role: newRole } : user));
+  };
+
   useEffect(() => {
-    GetClients();
-  }, []);
+    CustomerService()
+  }, [])
+  
 
   return (
-    <>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <h2 className="text-center mb-4">إدارة الصلاحيات</h2>
-            <TableContainer>
-              <Table className="w-100" aria-label="permissions table">
-                <TableHead>
-                  <TableRow className="text-center">
-                    <TableCell>اسم المستخدم</TableCell>
-                    <TableCell>البريد الإلكتروني</TableCell>
-                    <TableCell>الأدوار</TableCell>
-                    <TableCell>المسمى الوظيفي</TableCell>
-                    <TableCell align="right">حفظ</TableCell>
-                    <TableCell align="right">تخصيص الصلاحيات</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Clients.map((user) => (
-                    <TableRow key={user.id} className="text-center">
-                      <TableCell>{user.fullName}</TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>
-                        <Select
-                          labelId={`role-select-label-${user.id}`}
-                          id={`role-select-${user.id}`}
-                          multiple
-                          value={selectedRoles[user.id] || []} // الأدوار الخاصة بهذا المستخدم
-                          onChange={(event) => handleRoleChange(event, user.id)}
-                          renderValue={(selected) => selected.join(", ")}
-                        >
-                          {roles.map((roleName) => (
-                            <MenuItem key={roleName} value={roleName}>
-                              <Checkbox
-                                checked={selectedRoles[user.id]?.includes(roleName) || false}
-                              />
-                              <ListItemText primary={roleName} />
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </TableCell>
-                      <TableCell>{user.jobTitle}</TableCell>
-                      <TableCell align="right">
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          size="small"
-                          onClick={() => {
-                            console.log(
-                              `تم حفظ الصلاحيات للمستخدم ${user.fullName}:`,
-                              selectedRoles[user.id] || []
-                            );
-                            toast(`تم حفظ الصلاحيات للمستخدم ${user.fullName}`);
-                          }}
-                        >
-                          حفظ
-                        </Button>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button variant="contained" color="success" size="small">
-                          تخصيص الصلاحيات
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+    <Card className="p-4 shadow-lg rounded text-center">
+      <h2 className="text-xl font-bold mb-4 text-center">إدارة الصلاحيات</h2>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>الصلاحية</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map(user => (
+            <tr key={user.id}>
+              <td>{user.fullName}</td>
+              <td>
+                <Form.Select value={user.role} onChange={(e) => handleRoleChange(user.id, e.target.value)}>
+                  {roles.map(role => (
+                    <option key={role} value={role}>{role}</option>
                   ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        </div>
-      </div>
-    </>
+                </Form.Select>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </Card>
   );
 }

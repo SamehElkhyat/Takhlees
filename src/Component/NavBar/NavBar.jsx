@@ -33,6 +33,8 @@ const NavBar = () => {
   };
   useEffect(() => {
     let ApiToken = localStorage.getItem("Tokken");
+    console.log(ApiToken);
+    
 
     setApiToken(true);
 

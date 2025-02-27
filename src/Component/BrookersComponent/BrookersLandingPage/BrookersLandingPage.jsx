@@ -111,7 +111,7 @@ const Dashboard = () => {
       </h5>
 
       <Row className="justify-content-center">
-        <Col md={3}>
+        <Col md={3} sm={6} xs={12}>
           <Card
           style={styles.cards1}
             className="text-center mb-3"
@@ -137,7 +137,7 @@ const Dashboard = () => {
           </Card>
         </Col>
 
-        <Col md={3}>
+        <Col md={3} sm={6} xs={12}>
           <Card
                     style={styles.cards2}
 
@@ -162,7 +162,7 @@ const Dashboard = () => {
           </Card>
         </Col>
 
-        <Col md={3}>
+        <Col md={3} sm={6} xs={12}>
           <Card
                     style={styles.cards3}
 
@@ -187,7 +187,7 @@ const Dashboard = () => {
           </Card>
         </Col>
 
-        <Col md={3}>
+        <Col md={3} sm={6} xs={12}>
           <Card
                     style={styles.cards4}
 

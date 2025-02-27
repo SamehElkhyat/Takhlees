@@ -47,6 +47,8 @@ import AllOrderTransfers from "./Component/CustomerServices/AllOrderTransfers/Al
 import LandingPageAdmin from "./Component/LandingPageAdmin/LandingPageAdmin.jsx";
 import AllOrderDeleted from "./Component/CustomerServices/AllOrderDeleted/AllOrderDeleted.jsx";
 import HistoryOfOrdersUsers from "./Component/ClientsComponent/HistoryOfOrdersUsers/HistoryOfOrdersUsers.jsx";
+import CPanelCustomerService from "./Component/AdminComponent/CPanelCustomeService/CPanelCustomerService.jsx";
+import CpanelAccountant from "./Component/AdminComponent/CpanelAccountant/CpanelAccountant.jsx";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +57,8 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <LandingPage /> },
       { path: "OrderDetailsForUser", element: <OrderDetailsForUser /> },
+      { path: "CPanelCustomerService", element: <CPanelCustomerService /> },
+      { path: "CpanelAccountant", element: <CpanelAccountant /> },
       { path: "availableOrders", element: <AvailableOrders /> },
       { path: "brookersCart", element: <BrookersCart /> },
       { path: "currentOffers", element: <CurrentOffers /> },
@@ -64,20 +68,23 @@ const router = createBrowserRouter([
       { path: "mokhalseen", element: <Mokhalseen /> },
       { path: "orders", element: <Orders /> },
       { path: "HistoryDoneOrder", element: <HistoryDoneOrder /> },
-      {path: "AllOrderTransfers", element: <AllOrderTransfers /> },
+      { path: "AllOrderTransfers", element: <AllOrderTransfers /> },
       { path: "brookersLandingPage", element: <BrookersLandingPage /> },
-      {  path: "LandingPageAdmin", element: <LandingPageAdmin />},
+      { path: "LandingPageAdmin", element: <LandingPageAdmin /> },
       { path: "Cart", element: <Cart /> },
       { path: "permissions", element: <Permissions /> },
       { path: "statistics", element: <Statistics /> },
-      {path:"canceledOrders", element :<CanceledOrders/>},
-      {path:"AllOrderDeleted", element :<AllOrderDeleted/>},
-      {path:"HistoryOfOrdersUsers", element :<HistoryOfOrdersUsers/>},
+      { path: "canceledOrders", element: <CanceledOrders /> },
+      { path: "AllOrderDeleted", element: <AllOrderDeleted /> },
+      { path: "HistoryOfOrdersUsers", element: <HistoryOfOrdersUsers /> },
 
-      {path:"DoneOrders", element:<DoneOrders/>},
+      { path: "DoneOrders", element: <DoneOrders /> },
       { path: "IntorSignUp", element: <IntorSignUp /> },
       { path: "IntorSignIn", element: <IntorSignIn /> },
-      { path: "LandingPageCustomeService", element: <LandingPageCustomeService /> },
+      {
+        path: "LandingPageCustomeService",
+        element: <LandingPageCustomeService />,
+      },
       { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
       { path: "NewOrder", element: <NewOrderForm /> },
       { path: "Orders", element: <PendingOrders /> },
@@ -94,7 +101,6 @@ const router = createBrowserRouter([
       { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
       { path: "AcceptedOrderAccountant", element: <AcceptedOrderAccountant /> },
       { path: "DoneOrdersForUser", element: <DoneOrdersForUser /> },
-
 
       { path: "brookers", element: <Brookers /> },
     ],

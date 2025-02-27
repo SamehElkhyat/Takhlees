@@ -8,6 +8,8 @@ export default function LandingPageAdmin() {
   const [Ishovered2, setIshovered2] = useState(false);
   const [Ishovered3, setIshovered3] = useState(false);
   const [Ishovered4, setIshovered4] = useState(false);
+  const [Ishovered5, setIshovered5] = useState(false);
+  const [Ishovered6, setIshovered6] = useState(false);
 
   const [Tokken, setTokken] = useState(null);
   const [DecodedTokken, setDecodedTokken] = useState();
@@ -32,11 +34,23 @@ export default function LandingPageAdmin() {
       boxShadow: Ishovered3 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
     cards4: {
-        backgroundColor: Ishovered4 ? "#1ea9e2" : "white",
-        transform: Ishovered4 ? "scale(1.1)" : "scale(1)",
-        transition: "all 0.3s ease",
-        boxShadow: Ishovered4 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
-      },
+      backgroundColor: Ishovered4 ? "#1ea9e2" : "white",
+      transform: Ishovered4 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered4 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards5: {
+      backgroundColor: Ishovered5 ? "#1ea9e2" : "white",
+      transform: Ishovered5 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered5 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards6: {
+      backgroundColor: Ishovered6 ? "#1ea9e2" : "white",
+      transform: Ishovered6 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered6 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
     icons: {
       fontSize: "50px",
       padding: "20px",
@@ -100,11 +114,14 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-              <i className="fa-solid fa-tty text-success" style={styles.icons}></i>
+              <i
+                className="fa-solid fa-tty text-success"
+                style={styles.icons}
+              ></i>
 
               <Card.Title>المخلصين</Card.Title>
               <Card.Text>الذهاب الي المخلصين.</Card.Text>
-              <Button variant="primary">
+              <Button variant="success">
                 <Link
                   className="text-white text-decoration-none"
                   to="/brookers"
@@ -124,15 +141,60 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-            <i style={styles.icons} className="fa-solid fa-user"></i>
+              <i style={styles.icons} className="fa-solid fa-user text-warning"></i>
               <Card.Title>العملاء</Card.Title>
               <Card.Text>عرض وإدارة العملاء .</Card.Text>
-              <Button variant="success">
+              <Button variant="warning">
+                <Link className="text-white text-decoration-none" to="/clients">
+                  الذهاب إلى العملاء
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col md={3} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards5}
+            onMouseEnter={() => setIshovered5(true)}
+            onMouseLeave={() => setIshovered5(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+              <i
+                style={styles.icons}
+                className="fa-solid fa-users-gear text-primary"
+              ></i>
+              <Card.Title>خدمه العملاء</Card.Title>
+              <Card.Text>عرض وإدارة خدمه العملاء .</Card.Text>
+              <Button variant="primary">
                 <Link
                   className="text-white text-decoration-none"
-                  to="/clients"
+                  to="/CPanelCustomerService"
                 >
-                  الذهاب إلى العملاء
+                  الذهاب إلى قائمه خدمه العملاء
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards6}
+            onMouseEnter={() => setIshovered6(true)}
+            onMouseLeave={() => setIshovered6(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+              <i style={styles.icons} className="fa-solid fa-file-invoice text-info"></i>
+              <Card.Title>المحاسبين</Card.Title>
+              <Card.Text>عرض وإدارة المحاسبين .</Card.Text>
+              <Button variant="info">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/CpanelAccountant"
+                >
+                  الذهاب إلى قائمه المحاسبين
                 </Link>
               </Button>
             </Card.Body>
@@ -147,10 +209,13 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-            <i style={styles.icons} className="fa-solid fa-chart-line text-primary"></i>
+              <i
+                style={styles.icons}
+                className="fa-solid fa-chart-line text-dark"
+              ></i>
               <Card.Title>الاحصائيات </Card.Title>
               <Card.Text>عرض أحصائيات الموقع .</Card.Text>
-              <Button variant="success">
+              <Button variant="dark">
                 <Link
                   className="text-white text-decoration-none"
                   to="/statistics"
@@ -170,10 +235,13 @@ export default function LandingPageAdmin() {
             className="shadow-lg"
           >
             <Card.Body>
-              <i style={styles.icons} className="fa-solid fa-ban text-danger"></i>
+              <i
+                style={styles.icons}
+                className="fa-solid fa-ban text-danger"
+              ></i>
               <Card.Title>المحظورين</Card.Title>
               <Card.Text>عرض وإدارة المحظورين .</Card.Text>
-              <Button variant="success">
+              <Button variant="danger">
                 <Link
                   className="text-white text-decoration-none"
                   to="/blackList"

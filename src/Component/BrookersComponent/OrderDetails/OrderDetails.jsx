@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function OrderDetails() {
@@ -9,6 +9,7 @@ export default function OrderDetails() {
   const [allOrders, setallOrders] = useState([]);
   const [error, seterror] = useState([]);
   const [Rating, setRating] = useState();
+  const [IsLoading, setIsLoading] = useState(false);
 
   const FilesName = {
     commerce: [
@@ -28,7 +29,7 @@ export default function OrderDetails() {
 
   const DownloadFilesApi = async (index) => {
     console.log(index);
-    
+
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles`,
@@ -48,7 +49,9 @@ export default function OrderDetails() {
       const contentDisposition = response.headers["content-disposition"];
       const fileName = contentDisposition
         ? contentDisposition.split("filename=")[1]?.replace(/['"]/g, "") // استخراج الاسم
-        : `${index < 4 ?(FilesName.commerce[index]):(`ملفات إضافيه`)}.${response.data.type.split("/")[1]}`; // اسم افتراضي
+        : `${index < 4 ? FilesName.commerce[index] : `ملفات إضافيه`}.${
+            response.data.type.split("/")[1]
+          }`; // اسم افتراضي
 
       const blob = response.data; // البيانات كـ Blob
       const url = window.URL.createObjectURL(blob);
@@ -176,6 +179,24 @@ export default function OrderDetails() {
                         <table className="table table-bordered">
                           <tbody>
                             <tr>
+                              <th>طريقه النقل</th>
+                              <td>
+                                {data.town == null ? (
+                                  <>
+                                    <Button className="bg-danger">
+                                      يوجد نقل
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button className="bg-success">
+                                      يوجد نقل
+                                    </Button>
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
                               <th>رقم الطلب</th>
                               <td>{data.id}</td>
                             </tr>
@@ -183,7 +204,22 @@ export default function OrderDetails() {
                               <th>تاريخ الطلب</th>
                               <td>{data.date}</td>
                             </tr>
+                            <tr>
+                              <th>الميناء/المطار</th>
+                              <td>{data.location}</td>
+                            </tr>
+                            <tr>
+                              <th>رقم البوليصة</th>
+                              <td>{data.numberOflicense}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
 
+                      <div className="col-md-6">
+                        <h5 className="text-muted mb-3">معلومات الشحن</h5>
+                        <table className="table table-bordered">
+                          <tbody>
                             <tr>
                               <th>نوع الشحنة</th>
                               <td>{data.typeOrder}</td>
@@ -218,23 +254,6 @@ export default function OrderDetails() {
                                 </tr>
                               </>
                             )}
-                          </tbody>
-                        </table>
-                      </div>
-
-                      <div className="col-md-6">
-                        <h5 className="text-muted mb-3">معلومات الشحن</h5>
-                        <table className="table table-bordered">
-                          <tbody>
-                            <tr>
-                              <th>الميناء/المطار</th>
-                              <td>{data.location}</td>
-                            </tr>
-                            <tr>
-                              <th>رقم البوليصة</th>
-                              <td>{data.numberOflicense}</td>
-                            </tr>
-
                             {data.size == null ? (
                               <></>
                             ) : (
@@ -270,8 +289,12 @@ export default function OrderDetails() {
                           <>
                             {}
                             <tr>
-                            {i<=4 ?<>{FilesName.commerce[i]}</>:<>ملفات اخري</>}
-                            <td>{AllFilesHere}</td>
+                              {i <= 4 ? (
+                                <>{FilesName.commerce[i]}</>
+                              ) : (
+                                <>ملفات اخري</>
+                              )}
+                              <td>{AllFilesHere}</td>
                               <th>
                                 <i
                                   onClick={() => DownloadFilesApi(i, NewId[i])}
@@ -327,65 +350,67 @@ export default function OrderDetails() {
                             <tr className="text-center">
                               <td>{item.brokerID}</td>
                               <td>
-                                {item.count == 0 && (
-                                  <span className="text-warning">
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                <span className="text-warning">
+                                  {item.count === 0 && (
+                                    <>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count == 5 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 0 && item.count <= 5 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count >= 25 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 5 && item.count <= 25 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count >= 50 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 25 && item.count <= 50 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count == 100 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="far fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 50 && item.count <= 100 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="far fa-star"></i>
+                                    </>
+                                  )}
 
-                                {item.count < 100 && (
-                                  <span className="text-warning">
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                    <i className="fas fa-star"></i>
-                                  </span>
-                                )}
+                                  {item.count > 100 && (
+                                    <>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                      <i className="fas fa-star"></i>
+                                    </>
+                                  )}
+                                </span>
                               </td>
 
                               <td>{item.value}</td>
