@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const SignIn = () => {
+
   const validationSchema = Yup.object({
     Email: Yup.string()
       .email("بريد إلكتروني غير صالح")
@@ -23,10 +24,8 @@ const SignIn = () => {
         Email: values.Email,
         Password: values.Password,
       });
-      console.log(data.data.message);
       if (data.data.message === "تم تسجيل الدخول بنجاح") {
         toast(data.data.message);
-        console.log(data);
         localStorage.setItem("Tokken", data.data.data);
         localStorage.setItem("Code", data.data.state);
         const decodedCode= jwtDecode(localStorage.getItem("Tokken"))
@@ -52,16 +51,9 @@ const SignIn = () => {
         toast(data.data.message);
       }
     } catch (error) {
-      if (error.response) {
-         if (error.response.data.status==401) {
+      
           toast(error.response.data.message)
           
-         }
-      } else if (error.request) {
-        console.error("Request error:", error.request); // مشكلة في الطلب
-      } else {
-        console.error("Axios error:", error.message); // خطأ عام
-      }
     }
   }
 
@@ -73,6 +65,7 @@ const SignIn = () => {
     validationSchema,
     onSubmit: handelesignin,
   });
+
   return (
     <>
       <div className="background-img-frame"></div>

@@ -10,6 +10,7 @@ export default function LandingPageAdmin() {
   const [Ishovered4, setIshovered4] = useState(false);
   const [Ishovered5, setIshovered5] = useState(false);
   const [Ishovered6, setIshovered6] = useState(false);
+  const [Ishovered7, setIshovered7] = useState(false);
 
   const [Tokken, setTokken] = useState(null);
   const [DecodedTokken, setDecodedTokken] = useState();
@@ -50,6 +51,12 @@ export default function LandingPageAdmin() {
       transform: Ishovered6 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered6 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards7: {
+      backgroundColor: Ishovered7 ? "#1ea9e2" : "white",
+      transform: Ishovered7 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered7 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
     icons: {
       fontSize: "50px",
@@ -106,6 +113,7 @@ export default function LandingPageAdmin() {
       </h1>
       <h5 className="text-muted mb-4">اختر ما تريد القيام به:</h5>
       <Row className="justify-content-center">
+
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards1}
@@ -132,7 +140,6 @@ export default function LandingPageAdmin() {
             </Card.Body>
           </Card>
         </Col>
-
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards2}
@@ -152,7 +159,6 @@ export default function LandingPageAdmin() {
             </Card.Body>
           </Card>
         </Col>
-
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards5}
@@ -200,7 +206,6 @@ export default function LandingPageAdmin() {
             </Card.Body>
           </Card>
         </Col>
-
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards3}
@@ -226,7 +231,6 @@ export default function LandingPageAdmin() {
             </Card.Body>
           </Card>
         </Col>
-
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards4}
@@ -247,6 +251,28 @@ export default function LandingPageAdmin() {
                   to="/blackList"
                 >
                   الذهاب إلى قائمه المحظورين
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards7}
+            onMouseEnter={() => setIshovered7(true)}
+            onMouseLeave={() => setIshovered7(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+              <i style={styles.icons} className="fa-solid fa-file-invoice text-info"></i>
+              <Card.Title>الصلاحيات</Card.Title>
+              <Card.Text>عرض وإدارة الصلاحيات .</Card.Text>
+              <Button variant="info">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/permissions"
+                >
+                  الذهاب إلى قائمه الصلاحيات
                 </Link>
               </Button>
             </Card.Body>

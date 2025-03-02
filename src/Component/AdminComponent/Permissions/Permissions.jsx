@@ -2,18 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, Form, Card, Modal, Button, Spinner } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
-
-const roles = ["محاسب", "خدمة عملاء", "مدير", "مسؤول"];
-
-const initialUsers = [
-  { id: 1, name: "أحمد علي", role: "محاسب" },
-  { id: 2, name: "سارة محمد", role: "خدمة عملاء" },
-  { id: 3, name: "كريم حسن", role: "مدير" },
-  { id: 4, name: "ليلى محمود", role: "مسؤول" },
-];
-
 export default function Permissions() {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [Bar, setBar] = useState(null);
   const [OrderId, setOrderId] = useState(null);
   const [Premetions, setPremetions] = useState(null);
@@ -44,10 +34,9 @@ export default function Permissions() {
           },
         }
       );
-      {
-        console.log(data);
-      }
-      toast(data.message)
+      toast(data.message);
+      CustomerService()
+
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -56,23 +45,20 @@ export default function Permissions() {
 
   const HandlePremetions = async (e) => {
     setPremetions(e.target.value);
-       
   };
 
   const CustomerService = async () => {
     setIsLoading(true);
     try {
       const { data } = await axios.get(
-        `https://takhleesak.runasp.net/api/Get-User`,
+        `https://takhleesak.runasp.net/api/Get-All-Peaple-Admin`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
-      {
-        console.log(data);
-      }
+
       setIsLoading(false);
 
       setUsers(data);
@@ -97,10 +83,6 @@ export default function Permissions() {
             <th>رقم الهويه</th>
             <th>التخصيص</th>
             <th>الصلاحية</th>
-
-
-
-
           </tr>
         </thead>
         <tbody>
@@ -144,19 +126,16 @@ export default function Permissions() {
           <div className="d-inline-block w-100 text-center">
             <Form.Control onClick={(e) => HandlePremetions(e)} as="select">
               <option value="">اختر نوع الطلب</option>
-              <option value="Accountant">محاسب</option>
+              <option value="Account">محاسب</option>
               <option value="Manager">مدير</option>
               <option value="CustomerService">خدمه عملاء</option>
               <option value="User">عميل</option>
             </Form.Control>
-    
           </div>
-          
         </Modal.Body>
-        
 
         <Modal.Footer className="bg-light border-0 text-center">
-        <Button
+          <Button
             variant="success"
             onClick={changePremetions}
             className="px-4 py-2 rounded-pill shadow"
@@ -172,7 +151,7 @@ export default function Permissions() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Toaster/>
+      <Toaster />
     </Card>
   );
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -8,9 +9,7 @@ const Dashboard = () => {
   const [Ishovered2, setIshovered2] = useState(false);
   const [Ishovered3, setIshovered3] = useState(false);
   const [Ishovered4, setIshovered4] = useState(false);
-
-
-  
+  const [DecodedTokken, setDecodedTokken] = useState();
   const [State, setState] = useState({});
 
   const GetState = async () => {
@@ -59,10 +58,11 @@ const Dashboard = () => {
       padding: "20px",
     },
   };
-  useEffect(()=>{
-
-    GetState()
-  },[])
+  useEffect(() => {
+    GetState();
+       const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
+        setDecodedTokken(decodedTokken);
+  }, []);
 
   return (
     <Container className="mt-5 text-center">
@@ -113,13 +113,13 @@ const Dashboard = () => {
       <Row className="justify-content-center">
         <Col md={3} sm={6} xs={12}>
           <Card
-          style={styles.cards1}
+            style={styles.cards1}
             className="text-center mb-3"
             onMouseEnter={() => setIshovered1(true)}
             onMouseLeave={() => setIshovered1(false)}
           >
             <Card.Body>
-            <Badge className="Badge-React-bootStrap">
+              <Badge className="Badge-React-bootStrap">
                 {State.numberOfAllOrders}
               </Badge>
               <i
@@ -131,7 +131,9 @@ const Dashboard = () => {
                 استعرض العروض المتاحة وقم بتقديم عروضك للعملاء بكل سهولة
               </p>
               <Link to="/availableOrders">
-                <Button style={{ backgroundColor: "#1ea9e2" }}>استعرض العروض</Button>
+                <Button style={{ backgroundColor: "#1ea9e2" }}>
+                  استعرض العروض
+                </Button>
               </Link>
             </Card.Body>
           </Card>
@@ -139,14 +141,13 @@ const Dashboard = () => {
 
         <Col md={3} sm={6} xs={12}>
           <Card
-                    style={styles.cards2}
-
+            style={styles.cards2}
             className="text-center mb-3"
             onMouseEnter={() => setIshovered2(true)}
             onMouseLeave={() => setIshovered2(false)}
           >
             <Card.Body>
-            <Badge className="Badge-React-bootStrap">
+              <Badge className="Badge-React-bootStrap">
                 {State.listOfOrders}
               </Badge>
               <i
@@ -154,63 +155,80 @@ const Dashboard = () => {
                 style={{ fontSize: "40px", padding: "20px", color: "#71c241" }}
               ></i>
               <h5 className="card-title">العروض القائمة</h5>
-              <p className="card-text">قم بإنشاء عروض جديدة ومتابعة حالة العروض الموجودة</p>
+              <p className="card-text">
+                قم بإنشاء عروض جديدة ومتابعة حالة العروض الموجودة
+              </p>
               <Link to="/currentoffers">
-                <Button style={{ backgroundColor: "#1ea9e2" }}>استعرض العروض</Button>
+                <Button style={{ backgroundColor: "#1ea9e2" }}>
+                  استعرض العروض
+                </Button>
               </Link>
             </Card.Body>
           </Card>
         </Col>
+{DecodedTokken ? <>
+  {DecodedTokken.Role === "Broker" ?  <>
 
-        <Col md={3} sm={6} xs={12}>
-          <Card
-                    style={styles.cards3}
-
-            className="text-center mb-3"
-            onMouseEnter={() => setIshovered3(true)}
-            onMouseLeave={() => setIshovered3(false)}
-          >
-            <Card.Body>
+<Col md={3} sm={6} xs={12}>
+        <Card
+          style={styles.cards3}
+          className="text-center mb-3"
+          onMouseEnter={() => setIshovered3(true)}
+          onMouseLeave={() => setIshovered3(false)}
+        >
+          <Card.Body>
             <Badge className="Badge-React-bootStrap">
-                {State.listForBroker}
-              </Badge>
-              <i
-                className="fa-solid fa-clock-rotate-left"
-                style={{ fontSize: "40px", padding: "20px", color: "#1ea9e2" }}
-              ></i>
-              <h5 className="card-title"> سجل العروض</h5>
-              <p className="card-text">استعرض سجل العروض السابقة وتاريخ التعاملات</p>
-              <Link to="/HistoryOfOrders">
-                <Button style={{ backgroundColor: "#1ea9e2" }}>استعرض السجل</Button>
-              </Link>
-            </Card.Body>
-          </Card>
-        </Col>
+              {State.listForBroker}
+            </Badge>
+            <i
+              className="fa-solid fa-clock-rotate-left"
+              style={{ fontSize: "40px", padding: "20px", color: "#1ea9e2" }}
+            ></i>
+            <h5 className="card-title"> سجل العروض</h5>
+            <p className="card-text">
+              استعرض سجل العروض السابقة وتاريخ التعاملات
+            </p>
+            <Link to="/HistoryOfOrders">
+              <Button style={{ backgroundColor: "#1ea9e2" }}>
+                استعرض السجل
+              </Button>
+            </Link>
+          </Card.Body>
+        </Card>
+      </Col>
 
-        <Col md={3} sm={6} xs={12}>
-          <Card
-                    style={styles.cards4}
-
-            className="text-center mb-3"
-            onMouseEnter={() => setIshovered4(true)}
-            onMouseLeave={() => setIshovered4(false)}
-          >
-            <Card.Body>
+<Col md={3} sm={6} xs={12}>
+        <Card
+          style={styles.cards4}
+          className="text-center mb-3"
+          onMouseEnter={() => setIshovered4(true)}
+          onMouseLeave={() => setIshovered4(false)}
+        >
+          <Card.Body>
             <Badge className="Badge-React-bootStrap">
-                {State.listForBroker}
-              </Badge>
-              <i
-                className="fa-solid fa-cart-shopping"
-                style={{ fontSize: "40px", padding: "20px", color: "#1A39A0" }}
-              ></i>
-              <h5 className="card-title">المحفظة</h5>
-              <p className="card-text">استعرض محفظتك الرقمية وقم بإدارة المالية</p>
-              <Link to="/BrookersCart">
-                <Button style={{ backgroundColor: "#1ea9e2" }}>استعرض المحفظة</Button>
-              </Link>
-            </Card.Body>
-          </Card>
-        </Col>
+              {State.listForBroker}
+            </Badge>
+            <i
+              className="fa-solid fa-cart-shopping"
+              style={{ fontSize: "40px", padding: "20px", color: "#1A39A0" }}
+            ></i>
+            <h5 className="card-title">المحفظة</h5>
+            <p className="card-text">
+              استعرض محفظتك الرقمية وقم بإدارة المالية
+            </p>
+            <Link to="/BrookersCart">
+              <Button style={{ backgroundColor: "#1ea9e2" }}>
+                استعرض المحفظة
+              </Button>
+            </Link>
+          </Card.Body>
+        </Card>
+      </Col></>:<></>}
+
+</>:<></>}
+
+
+
       </Row>
     </Container>
   );

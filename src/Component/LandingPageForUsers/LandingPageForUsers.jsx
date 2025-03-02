@@ -179,126 +179,144 @@ const LandingPageForUsers = () => {
           </Card>
         </Col>
 
-        <Col md={3} sm={6} xs={12} className="mb-3">
-          <Card
-            style={styles.cards2}
-            onMouseEnter={() => setIshovered2(true)}
-            onMouseLeave={() => setIshovered2(false)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <Badge className="Badge-React-bootStrap">
-                {State.numberOfCurrentOffers}
-              </Badge>
-              <i style={styles.icons} className="fa-solid fa-arrows-spin"></i>
-              <Card.Title>الطلبات القائمة</Card.Title>
-              <Card.Text>عرض وإدارة طلباتك الحالية.</Card.Text>
-              <Button variant="success">
-                <Link className="text-white text-decoration-none" to="/Orders">
-                  الذهاب إلى الطلبات القائمة
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
+  
+                <Col md={3} sm={6} xs={12} className="mb-3">
+                  <Card
+                    style={styles.cards2}
+                    onMouseEnter={() => setIshovered2(true)}
+                    onMouseLeave={() => setIshovered2(false)}
+                    className="shadow-lg"
+                  >
+                    <Card.Body>
+                      <Badge className="Badge-React-bootStrap">
+                        {State.numberOfCurrentOffers}
+                      </Badge>
+                      <i
+                        style={styles.icons}
+                        className="fa-solid fa-arrows-spin"
+                      ></i>
+                      <Card.Title>الطلبات القائمة</Card.Title>
+                      <Card.Text>عرض وإدارة طلباتك الحالية.</Card.Text>
+                      <Button variant="success">
+                        <Link
+                          className="text-white text-decoration-none"
+                          to="/Orders"
+                        >
+                          الذهاب إلى الطلبات القائمة
+                        </Link>
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
 
-        <Col md={3} sm={6} xs={12} className="mb-3">
-          <Card
-            style={styles.cards3}
-            onMouseEnter={() => setIshovered3(true)}
-            onMouseLeave={() => setIshovered3(false)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <Badge className="Badge-React-bootStrap">
-                {State.numberOfRequestOrders}
-              </Badge>
-              <i style={styles.icons} className="fa-solid fa-cart-shopping"></i>
-              <Card.Title>الطلبات الجاريه</Card.Title>
-              <Card.Text>إدارة الطلبات الجاريه.</Card.Text>
-              <Button variant="primary">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/CurrentOrdersForUsers"
-                >
-                  لذهاب إلى الطلبات الجاريه
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3">
-          <Card
-            style={styles.cards5}
-            onMouseEnter={() => setIshovered5(true)}
-            onMouseLeave={() => setIshovered5(false)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <Badge className="Badge-React-bootStrap">
-                {State.numberOfSuccessfulOrders}
-              </Badge>
+                <Col md={3} sm={6} xs={12} className="mb-3">
+                  <Card
+                    style={styles.cards3}
+                    onMouseEnter={() => setIshovered3(true)}
+                    onMouseLeave={() => setIshovered3(false)}
+                    className="shadow-lg"
+                  >
+                    <Card.Body>
+                      <Badge className="Badge-React-bootStrap">
+                        {State.numberOfRequestOrders}
+                      </Badge>
+                      <i
+                        style={styles.icons}
+                        className="fa-solid fa-cart-shopping"
+                      ></i>
+                      <Card.Title>الطلبات الجاريه</Card.Title>
+                      <Card.Text>إدارة الطلبات الجاريه.</Card.Text>
+                      <Button variant="primary">
+                        <Link
+                          className="text-white text-decoration-none"
+                          to="/CurrentOrdersForUsers"
+                        >
+                          لذهاب إلى الطلبات الجاريه
+                        </Link>
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col md={3} sm={6} xs={12} className="mb-3">
+                  <Card
+                    style={styles.cards5}
+                    onMouseEnter={() => setIshovered5(true)}
+                    onMouseLeave={() => setIshovered5(false)}
+                    className="shadow-lg"
+                  >
+                    <Card.Body>
+                      <Badge className="Badge-React-bootStrap">
+                        {State.numberOfSuccessfulOrders}
+                      </Badge>
 
-              <i style={styles.icons} className="fa-solid fa-square-check"></i>
-              <Card.Title>الطلبات المنفذه</Card.Title>
-              <Card.Text>عرض الطلبات المنفذه الخاص بك.</Card.Text>
-              <Button className="bg-black">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/DoneOrdersForUser"
-                >
-                  الذهاب الي الطلبات المنفذه
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3">
-          <Card
-            style={styles.cards4}
-            onMouseEnter={() => setIshovered4(true)}
-            onMouseLeave={() => setIshovered4(false)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-
-              <i style={styles.icons} className="fa-solid fa-cart-shopping"></i>
-              <Card.Title>المحفظة</Card.Title>
-              <Card.Text>إدارة الأموال والرصيد الخاص بك.</Card.Text>
-              <Button variant="warning">
-                <Link className="text-white text-decoration-none" to="/Cart">
-                  لذهاب إلى المحفظة
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3">
-          <Card
-            style={styles.cards6}
-            onMouseEnter={() => setIshovered6(true)}
-            onMouseLeave={() => setIshovered6(false)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-
-              <i
-                style={styles.icons}
-                className="fa-solid fa-clock-rotate-left"
-              ></i>
-              <Card.Title>سجل الطلبات</Card.Title>
-              <Card.Text>إدارة السجل وجميع الطلبات الخاص بك.</Card.Text>
-              <Button variant="danger">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/HistoryOfOrdersUsers"
-                >
-                  الذهاب إلى السجل
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
+                      <i
+                        style={styles.icons}
+                        className="fa-solid fa-square-check"
+                      ></i>
+                      <Card.Title>الطلبات المنفذه</Card.Title>
+                      <Card.Text>عرض الطلبات المنفذه الخاص بك.</Card.Text>
+                      <Button className="bg-black">
+                        <Link
+                          className="text-white text-decoration-none"
+                          to="/DoneOrdersForUser"
+                        >
+                          الذهاب الي الطلبات المنفذه
+                        </Link>
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col md={3} sm={6} xs={12} className="mb-3">
+                  <Card
+                    style={styles.cards4}
+                    onMouseEnter={() => setIshovered4(true)}
+                    onMouseLeave={() => setIshovered4(false)}
+                    className="shadow-lg"
+                  >
+                    <Card.Body>
+                      <i
+                        style={styles.icons}
+                        className="fa-solid fa-cart-shopping"
+                      ></i>
+                      <Card.Title>المحفظة</Card.Title>
+                      <Card.Text>إدارة الأموال والرصيد الخاص بك.</Card.Text>
+                      <Button variant="warning">
+                        <Link
+                          className="text-white text-decoration-none"
+                          to="/Cart"
+                        >
+                          لذهاب إلى المحفظة
+                        </Link>
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col md={3} sm={6} xs={12} className="mb-3">
+                  <Card
+                    style={styles.cards6}
+                    onMouseEnter={() => setIshovered6(true)}
+                    onMouseLeave={() => setIshovered6(false)}
+                    className="shadow-lg"
+                  >
+                    <Card.Body>
+                      <i
+                        style={styles.icons}
+                        className="fa-solid fa-clock-rotate-left"
+                      ></i>
+                      <Card.Title>سجل الطلبات</Card.Title>
+                      <Card.Text>إدارة السجل وجميع الطلبات الخاص بك.</Card.Text>
+                      <Button variant="danger">
+                        <Link
+                          className="text-white text-decoration-none"
+                          to="/HistoryOfOrdersUsers"
+                        >
+                          الذهاب إلى السجل
+                        </Link>
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+             
       </Row>
     </Container>
   );

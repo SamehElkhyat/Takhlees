@@ -11,10 +11,26 @@ import {
   Box,
 } from "@mui/material";
 import { Toaster } from "react-hot-toast";
-import { Button } from "react-bootstrap";
+import { Button, Card, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function Brookers() {
   const [selectedOrder, setSelectedOrder] = useState([]);
+  const [Ishovered1, setIshovered1] = useState(false);
+
+
+  const styles = {
+    cards1: {
+      backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
+      transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+  
+    icons: {
+      fontSize: "50px",
+      padding: "20px",
+    },}
 
   const Block = async (email) => {
     
@@ -85,7 +101,10 @@ export default function Brookers() {
 
   return (
     <>
+  
       <Box width="100%" textAlign="center" p={4}>
+  
+        
         <h1
           className="text-xl font-bold mb-4"
           style={{
@@ -115,6 +134,33 @@ export default function Brookers() {
         >
             المخلصين
         </h1>
+
+        <Col md={12} sm={12} xs={12} className="mb-3 d-flex justify-content-center w-100">
+          <Card
+            style={styles.cards1}
+            onMouseLeave={() => setIshovered1(false)}
+            onMouseEnter={() => setIshovered1(true)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+              <i
+                className="fa-solid fa-tty text-success"
+                style={styles.icons}
+              ></i>
+
+              <Card.Title>تفاصيل المخلصين</Card.Title>
+              <Card.Text>الذهاب الي المخلصين.</Card.Text>
+              <Button variant="success">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/brookersLandingPage"
+                >
+                  الذهاب إلى جميع تفاصيل المخلصين
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
 
         <Table style={{ marginTop: "20px", width: "100%" }}>
           <TableHead

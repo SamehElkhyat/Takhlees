@@ -77,7 +77,6 @@ const router = createBrowserRouter([
       { path: "canceledOrders", element: <CanceledOrders /> },
       { path: "AllOrderDeleted", element: <AllOrderDeleted /> },
       { path: "HistoryOfOrdersUsers", element: <HistoryOfOrdersUsers /> },
-
       { path: "DoneOrders", element: <DoneOrders /> },
       { path: "IntorSignUp", element: <IntorSignUp /> },
       { path: "IntorSignIn", element: <IntorSignIn /> },

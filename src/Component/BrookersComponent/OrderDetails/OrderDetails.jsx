@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
@@ -10,6 +11,7 @@ export default function OrderDetails() {
   const [error, seterror] = useState([]);
   const [Rating, setRating] = useState();
   const [IsLoading, setIsLoading] = useState(false);
+  const [DecodedTokken, setDecodedTokken] = useState();
 
   const FilesName = {
     commerce: [
@@ -142,6 +144,8 @@ export default function OrderDetails() {
   useEffect(() => {
     getValue();
     getOrders();
+    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
+    setDecodedTokken(decodedTokken);
   }, []);
 
   useEffect(() => {
@@ -424,7 +428,18 @@ export default function OrderDetails() {
                   </tbody>
                 </Table>
 
-                <div className="mt-4">
+
+
+                {DecodedTokken ? (
+          <>
+            {DecodedTokken.Role === "Admin" ? (
+              <>
+
+              </>
+            ) : (
+              <>
+              
+              <div className="mt-4">
                   <h5 className="text-muted mb-3">تقديم عرض جديد</h5>
                   <div className="input-group mb-3">
                     <input
@@ -445,6 +460,12 @@ export default function OrderDetails() {
                     </button>
                   </div>
                 </div>
+              </>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
               </div>
             </div>
           </div>

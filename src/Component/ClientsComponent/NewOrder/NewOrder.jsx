@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -15,6 +16,7 @@ const NewOrderForm = () => {
   const [IsLoading, setIsLoading] = useState(false);
   const [fileInputs, setFileInputs] = useState([0]); // تبدأ بحقل واحد فقط
   const [ShowInputs, setShowInputs] = useState(false);
+  const [DecodedTokken, setDecodedTokken] = useState();
 
   const handelShowInputs = (e) => {
     setShowInputs(e.target.value);
@@ -119,8 +121,16 @@ const NewOrderForm = () => {
 
       setIsLoading(false);
 
+      console.log(DecodedTokken);
+      
       setTimeout(() => {
-        window.location.href = "/Orders";
+        if (DecodedTokken.Role === "Admin") {
+           window.location.href = "/availableOrders";
+
+        }else{
+         window.location.href = "/Orders";
+
+        }
       }, 1000);
     } catch (error) {
       setIsLoading(false);
@@ -211,6 +221,14 @@ const NewOrderForm = () => {
       ...newFiles,
     ]);
   };
+
+  useEffect(() => {
+    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
+    setDecodedTokken(decodedTokken);
+    console.log(DecodedTokken);
+    
+  }, []);
+
   return (
     <div className="container text-center d-flex flex-column gap-3 mt-5">
       <Toaster
@@ -380,9 +398,8 @@ const NewOrderForm = () => {
           </>
         )}
 
-
         {/* الحقول الديناميكية */}
-        
+
         <h5>تفاصيل الطلبات</h5>
         {formik.values.numberOfTypeOrders.map((order, index) => (
           <div key={index} className="border p-3 mb-3">

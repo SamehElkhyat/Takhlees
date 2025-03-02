@@ -270,6 +270,7 @@ export default function AcceptedOrderAccountant() {
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">نوع الطلب</TableCell>
             <TableCell align="center">الهاتف</TableCell>
+            <TableCell align="center">المبلغ</TableCell>
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الحالة</TableCell>
@@ -288,6 +289,7 @@ export default function AcceptedOrderAccountant() {
                 <TableCell align="center">{customer.fullName}</TableCell>
                 <TableCell align="center">{customer.typeOrder}</TableCell>
                 <TableCell align="center">{customer.phoneNumber}</TableCell>
+                <TableCell align="center">{customer.value}</TableCell>
                 <TableCell align="center">{customer.date}</TableCell>
 
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
