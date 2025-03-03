@@ -133,7 +133,7 @@ export default function HistoryDoneOrder() {
         <TableBody>
           {sortedCustomers.filter((order)=>
             {
-              return searchTerm === "" || order.iDstring.includes(searchTerm)
+              return searchTerm === "" || order.id.includes(searchTerm)
 
             }).map((customer, index) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
