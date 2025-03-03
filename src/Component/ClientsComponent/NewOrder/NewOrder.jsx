@@ -15,10 +15,16 @@ import * as Yup from "yup";
 const NewOrderForm = () => {
   const [IsLoading, setIsLoading] = useState(false);
   const [fileInputs, setFileInputs] = useState([0]); // تبدأ بحقل واحد فقط
-  const [ShowInputs, setShowInputs] = useState(false);
+  const [ShowInputs, setShowInputs] = useState("null");
   const [DecodedTokken, setDecodedTokken] = useState();
 
   const handelShowInputs = (e) => {
+    
+    setShowInputs(e.target.value);
+  };
+
+  const handelCloseInput = (e) => {
+    
     setShowInputs(e.target.value);
   };
 
@@ -121,15 +127,12 @@ const NewOrderForm = () => {
 
       setIsLoading(false);
 
-      console.log(DecodedTokken);
-      
+
       setTimeout(() => {
         if (DecodedTokken.Role === "Admin") {
-           window.location.href = "/availableOrders";
-
-        }else{
-         window.location.href = "/Orders";
-
+          window.location.href = "/availableOrders";
+        } else {
+          window.location.href = "/Orders";
         }
       }, 1000);
     } catch (error) {
@@ -225,8 +228,6 @@ const NewOrderForm = () => {
   useEffect(() => {
     const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
     setDecodedTokken(decodedTokken);
-    console.log(DecodedTokken);
-    
   }, []);
 
   return (
@@ -359,15 +360,17 @@ const NewOrderForm = () => {
         <Form.Group>
           <Form.Label>نوع النقل</Form.Label>
           <Form.Control onClick={(e) => handelShowInputs(e)} as="select">
-            <option value="">اختر نوع الطلب</option>
+            <option value="null">اختر نوع الطلب</option>
             <option value="true">خدمه توصيل</option>
-            <option value="false">بدون خدمه توصيل</option>
+            <option value="null">بدون خدمه توصيل</option>
           </Form.Control>
         </Form.Group>
 
-        {ShowInputs && (
+        {ShowInputs === "null" ? (
           <>
-            <div className=" d-flex justify-content-center m-5">
+          </>
+        ):<>
+               <div className=" d-flex justify-content-center m-5">
               <Form.Group className="Inputs-New-Order" controlId="City">
                 <Form.Label>المدينه</Form.Label>
                 <Form.Control
@@ -395,8 +398,7 @@ const NewOrderForm = () => {
                 />
               </Form.Group>
             </div>
-          </>
-        )}
+        </>}
 
         {/* الحقول الديناميكية */}
 

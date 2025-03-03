@@ -11,14 +11,14 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import { Form, Modal, Spinner , Button } from "react-bootstrap";
+import { Form, Modal, Spinner, Button } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
 
 export default function AcceptedOrderAccountant() {
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
-  const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
-  const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
+  const [notes, setNotes] = useState({});
+  const [showNoteField, setShowNoteField] = useState({});
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
   const [Bar, setBar] = useState(null);
@@ -28,8 +28,7 @@ export default function AcceptedOrderAccountant() {
   const [ImageName, setImageName] = useState({});
   const [error, seterror] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
-  // onClick={() => DownloadFilesApi(customer[index],customer.id)}
+  const [DecodedTokken, setDecodedTokken] = useState();
 
   const handleShowBar = (items, orderId) => {
     setIndexCutome(items);
@@ -198,6 +197,8 @@ export default function AcceptedOrderAccountant() {
           },
         }
       );
+      console.log(data);
+
       if (JSON.stringify(data) !== JSON.stringify(customers)) {
         setCustomers(data);
       }
@@ -219,6 +220,8 @@ export default function AcceptedOrderAccountant() {
     getAllAcceptedOrders();
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
+
+    setDecodedTokken(DecodedToken);
   }, []);
 
   useEffect(() => {
@@ -269,8 +272,23 @@ export default function AcceptedOrderAccountant() {
             <TableCell align="center">موقع الطلب</TableCell>
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">نوع الطلب</TableCell>
-            <TableCell align="center">الهاتف</TableCell>
+            <TableCell align="center">البريد الالكتروني</TableCell>
             <TableCell align="center">المبلغ</TableCell>
+            {DecodedTokken ? (
+              <>
+                {DecodedTokken.Role === "Admin" ? (
+                  <>
+                    <TableCell align="center">خدمه العملاء</TableCell>
+                    <TableCell align="center">بريد خدمه العملاء</TableCell>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
+
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الحالة</TableCell>
@@ -288,8 +306,27 @@ export default function AcceptedOrderAccountant() {
                 <TableCell align="center">{customer.location}</TableCell>
                 <TableCell align="center">{customer.fullName}</TableCell>
                 <TableCell align="center">{customer.typeOrder}</TableCell>
-                <TableCell align="center">{customer.phoneNumber}</TableCell>
+                <TableCell align="center">{customer.email}</TableCell>
                 <TableCell align="center">{customer.value}</TableCell>
+                {DecodedTokken ? (
+                  <>
+                    {DecodedTokken.Role === "Admin" ? (
+                      <>
+                        <TableCell align="center">
+                          {customer.customerServiceName}
+                        </TableCell>
+                        <TableCell align="center">
+                          {customer.customerServiceEmail}
+                        </TableCell>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
+
                 <TableCell align="center">{customer.date}</TableCell>
 
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">

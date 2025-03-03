@@ -14,26 +14,25 @@ import { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function Clients() {
+export default function AllClients() {
   const [selectedOrder, setSelectedOrder] = useState([]);
-    const [Ishovered1, setIshovered1] = useState(false);
-  
-  
-    const styles = {
-      cards1: {
-        backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
-        transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
-        transition: "all 0.3s ease",
-        boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
-      },
-    
-      icons: {
-        fontSize: "50px",
-        padding: "20px",
-      },}
+  const [Ishovered1, setIshovered1] = useState(false);
+
+  const styles = {
+    cards1: {
+      backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
+      transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+
+    icons: {
+      fontSize: "50px",
+      padding: "20px",
+    },
+  };
 
   const Block = async (email) => {
-    
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Blocked`,
@@ -48,14 +47,12 @@ export default function Clients() {
         }
       );
       CustomerService();
-
     } catch (error) {
       console.log(error);
     }
   };
 
   const UnBlock = async (email) => {
-
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Unblocked`,
@@ -69,8 +66,6 @@ export default function Clients() {
         }
       );
       CustomerService();
-
-
     } catch (error) {
       console.log(error);
     }
@@ -79,7 +74,7 @@ export default function Clients() {
   const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `https://takhleesak.runasp.net/api/Get-User`,
+        `https://user.runasp.net/api/Get-Orders-Admin`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
@@ -94,14 +89,10 @@ export default function Clients() {
 
   useEffect(() => {
     CustomerService();
-
   }, []);
 
   return (
     <>
-
-   
-
       <Box width="100%" textAlign="center" p={4}>
         <h1
           className="text-xl font-bold mb-4"
@@ -130,34 +121,8 @@ export default function Clients() {
             },
           }}
         >
-            العملاء
+          تفاصيل العملاء
         </h1>
-        <Col md={12} sm={6} xs={12} className="mb-3 d-flex justify-content-center w-100">
-          <Card
-            style={styles.cards1}
-            onMouseLeave={() => setIshovered1(false)}
-            onMouseEnter={() => setIshovered1(true)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <i
-                className="fa-solid fa-tty text-success"
-                style={styles.icons}
-              ></i>
-
-              <Card.Title>تفاصيل العملاء</Card.Title>
-              <Card.Text>الذهاب الي العملاء.</Card.Text>
-              <Button variant="success">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/AllClients"
-                >
-                  الذهاب إلى جميع تفاصيل العملاء
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
 
         <Table style={{ marginTop: "20px", width: "100%" }}>
           <TableHead
@@ -174,13 +139,13 @@ export default function Clients() {
             <TableRow>
               <TableCell align="center">الاسم</TableCell>
               <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">رقم الهويه</TableCell>
-              <TableCell align="center">الهاتف</TableCell>
+              <TableCell align="center">المخلص</TableCell>
+              <TableCell align="center">البريد الخاص بالمخلص</TableCell>
               <TableCell align="center">حظر</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {selectedOrder.map((customer,index) => (
+            {selectedOrder.map((customer, index) => (
               <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.fullName}
@@ -189,15 +154,26 @@ export default function Clients() {
                   {customer.email}
                 </TableCell>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.identity}
+                  {customer.brokerName == null ? (
+                    <>لايوجد مخلص الان</>
+                  ) : (
+                    <>{customer.brokerName}</>
+                  )}
                 </TableCell>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.phoneNumber}
+                  {customer.brokerEmail == null ? (
+                    <>لايوجد مخلص الان</>
+                  ) : (
+                    <>{customer.brokerEmail}</>
+                  )}
                 </TableCell>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.isBlocked ? (
                     <>
-                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
+                      <Button
+                        onClick={() => UnBlock(customer.email)}
+                        className="bg-success text-black"
+                      >
                         فك الحظر
                       </Button>
                     </>

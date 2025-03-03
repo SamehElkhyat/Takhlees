@@ -10,12 +10,12 @@ import {
   Box,
   TextField,
 } from "@mui/material";
-import { Form, Modal ,Button } from "react-bootstrap";
+import { Form, Modal, Button } from "react-bootstrap";
 
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 export default function HistoryDoneOrder() {
-
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
@@ -23,6 +23,7 @@ export default function HistoryDoneOrder() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [DecodedTokken, setDecodedTokken] = useState();
 
   const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
@@ -45,7 +46,6 @@ export default function HistoryDoneOrder() {
           },
         }
       );
-      console.log(data);
 
       setSelectedOrder(data);
     } catch (error) {
@@ -63,7 +63,6 @@ export default function HistoryDoneOrder() {
           },
         }
       );
-      console.log(data);
 
       setCustomers(data);
     } catch (error) {
@@ -72,6 +71,10 @@ export default function HistoryDoneOrder() {
   };
 
   useEffect(() => {
+    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
+
+    setDecodedTokken(DecodedToken);
+
     getAllAcceptedOrders();
   }, []);
 
@@ -122,43 +125,74 @@ export default function HistoryDoneOrder() {
             <TableCell align="center">موقع الطلب</TableCell>
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">نوع الطلب</TableCell>
-            <TableCell align="center">الهاتف</TableCell>
+            <TableCell align="center">البريد الالكتروني</TableCell>
             <TableCell align="center">المبلغ</TableCell>
-
+            {DecodedTokken ? (
+              <>
+                {DecodedTokken.Role === "Admin" ? (
+                  <>
+                    <TableCell align="center">المحاسب</TableCell>
+                    <TableCell align="center">بريد المحاسب</TableCell>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الحالة</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedCustomers.filter((order)=>
-            {
-              return searchTerm === "" || order.id.includes(searchTerm)
-
-            }).map((customer, index) => (
-            <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell align="center">{customer.id}</TableCell>
-              <TableCell align="center">{customer.location}</TableCell>
-              <TableCell align="center">{customer.fullName}</TableCell>
-              <TableCell align="center">{customer.typeOrder}</TableCell>
-              <TableCell align="center">{customer.phoneNumber}</TableCell>
-              <TableCell align="center">{customer.value}</TableCell>
-              <TableCell align="center">{customer.date}</TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order, customer.brokerID)}
-                >
-                  عرض التفاصيل
-                </Button>
-              </TableCell>
-              <TableCell align="center" className="bg-succsses">
-                <Button className="bg-success text-white p-2">
-                  {customer.statuOrder}{" "}
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {sortedCustomers
+            .filter((order) => {
+              return searchTerm === "" || order.id.includes(searchTerm);
+            })
+            .map((customer) => (
+              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+                <TableCell align="center">{customer.id}</TableCell>
+                <TableCell align="center">{customer.location}</TableCell>
+                <TableCell align="center">{customer.fullName}</TableCell>
+                <TableCell align="center">{customer.typeOrder}</TableCell>
+                <TableCell align="center">{customer.email}</TableCell>
+                <TableCell align="center">{customer.value}</TableCell>
+                {DecodedTokken ? (
+                  <>
+                    {DecodedTokken.Role === "Admin" ? (
+                      <>
+                        <TableCell align="center">
+                          {customer.accountName}
+                        </TableCell>
+                        <TableCell align="center">
+                          {customer.accountEmail}
+                        </TableCell>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
+                <TableCell align="center">{customer.date}</TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowDetails(order, customer.brokerID)}
+                  >
+                    عرض التفاصيل
+                  </Button>
+                </TableCell>
+                <TableCell align="center" className="bg-succsses">
+                  <Button className="bg-success text-white p-2">
+                    {customer.statuOrder}{" "}
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
 
           <Modal
             className="text-end"
@@ -169,7 +203,6 @@ export default function HistoryDoneOrder() {
               <Modal.Title>تفاصيل الطلب</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {console.log(selectedOrder)}
               {selectedOrder && (
                 <>
                   <p>

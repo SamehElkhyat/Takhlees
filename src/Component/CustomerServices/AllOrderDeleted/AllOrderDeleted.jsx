@@ -13,12 +13,13 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
+import { jwtDecode } from "jwt-decode";
 
 export default function AllOrderDeleted() {
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [showNoteField2, setShowNoteField2] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [showNoteField3, setShowNoteField3] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
-
+  const [DecodedTokken, setDecodedTokken] = useState();
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
   const [notes, setNotes] = useState({})
@@ -78,6 +79,8 @@ setCustomers(data)
   );
   useEffect(() => {
     getAllDeletedOrders();
+    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
+    setDecodedTokken(DecodedToken);
   }, []);
 
   return (
@@ -131,6 +134,24 @@ setCustomers(data)
             <TableCell align="center">رقم الطلب</TableCell>
             <TableCell align="center">الموقع</TableCell>
             <TableCell align="center">الملاحظات</TableCell>
+
+            {DecodedTokken ? (
+                  <>
+                    {DecodedTokken.Role === "Admin" ? (
+                      <>
+                        <TableCell align="center">خدمه العملاء</TableCell>
+                        <TableCell align="center">بريد خدمه العملاء</TableCell>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
+               
+
+
             <TableCell align="center">نوع الطلب</TableCell>
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">حاله الطلب</TableCell>
@@ -149,6 +170,24 @@ setCustomers(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.notes}
               </TableCell>
+              {DecodedTokken ? (
+                  <>
+                    {DecodedTokken.Role === "Admin" ? (
+                      <>
+                        <TableCell align="center">
+                          {customer.customerServiceEmail}
+                        </TableCell>
+                        <TableCell align="center">
+                          {customer.customerServiceName}
+                        </TableCell>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}
               </TableCell>

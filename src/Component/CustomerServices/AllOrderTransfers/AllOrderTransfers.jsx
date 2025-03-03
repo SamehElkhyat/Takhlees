@@ -31,6 +31,7 @@ export default function AllOrderTransfers() {
   const [Bar, setBar] = useState(null);
   const [OrderId, setOrderId] = useState(null);
   const [IsLoading, setIsLoading] = useState(false);
+  const [DecodedTokken, setDecodedTokken] = useState();
 
   const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
@@ -78,7 +79,6 @@ export default function AllOrderTransfers() {
   };
 
   const ChangeStateNotDone = async (id) => {
-
     try {
       const request = await axios.post(
         `https://user.runasp.net/api/Change-Statu-CustomerService`,
@@ -93,19 +93,14 @@ export default function AllOrderTransfers() {
           },
         }
       );
-      alert('تم ارسال الملاحظات')
-      getAllAcceptedOrders()
+      alert("تم ارسال الملاحظات");
+      getAllAcceptedOrders();
     } catch (error) {
-
       console.log(error);
-      
-      
     }
-
   };
 
   const handleFileChange = (e) => {
-
     if (e.target.files.length > 0) {
       formik.setFieldValue("formFile", e.target.files[0]); // تعيين الملف مباشرة
     }
@@ -154,8 +149,8 @@ export default function AllOrderTransfers() {
         },
       }
     );
-    alert('تم ارسال الملاحظات')
-    getAllAcceptedOrders()
+    alert("تم ارسال الملاحظات");
+    getAllAcceptedOrders();
   };
 
   const getAllAcceptedOrders = async () => {
@@ -167,6 +162,7 @@ export default function AllOrderTransfers() {
         },
       }
     );
+    console.log(data);
 
     setCustomers(data);
   };
@@ -181,7 +177,10 @@ export default function AllOrderTransfers() {
     let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
     setorder(DecodedToken);
     getAllAcceptedOrders();
-  }, [customers]);
+    setDecodedTokken(DecodedToken);
+
+
+  }, []);
 
   let formik = useFormik({
     initialValues: {
@@ -247,7 +246,22 @@ export default function AllOrderTransfers() {
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">نوع الطلب</TableCell>
 
-            <TableCell align="center">الهاتف</TableCell>
+            {DecodedTokken ? (
+              <>
+                {DecodedTokken.Role === "Admin" ? (
+                  <>
+                    <TableCell align="center">المحاسب</TableCell>
+                    <TableCell align="center">بريد المحاسب</TableCell>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
+
+            <TableCell align="center">البريد الالكتروني</TableCell>
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الحاله</TableCell>
@@ -279,9 +293,29 @@ export default function AllOrderTransfers() {
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}
               </TableCell>
+              {DecodedTokken ? (
+                  <>
+                    {DecodedTokken.Role === "Admin" ? (
+                      <>
+                        <TableCell align="center">
+                          {customer.accountName}
+                        </TableCell>
+                        <TableCell align="center">
+                          {customer.accountEmail}
+                        </TableCell>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.phoneNumber}
+                {customer.email}
               </TableCell>
+      
+
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
               </TableCell>

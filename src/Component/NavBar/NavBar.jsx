@@ -33,13 +33,8 @@ const NavBar = () => {
   };
   useEffect(() => {
     let ApiToken = localStorage.getItem("Tokken");
-    console.log(ApiToken);
-    
-
     setApiToken(true);
-
-    const path = window.location.pathname;
-
+    const path = window.location.pathname
     if (Token == null) {
       if (ApiToken != null && path !== "/ConfirmPassword") {
         let DecodedToken = jwtDecode(ApiToken);

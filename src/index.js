@@ -49,6 +49,7 @@ import AllOrderDeleted from "./Component/CustomerServices/AllOrderDeleted/AllOrd
 import HistoryOfOrdersUsers from "./Component/ClientsComponent/HistoryOfOrdersUsers/HistoryOfOrdersUsers.jsx";
 import CPanelCustomerService from "./Component/AdminComponent/CPanelCustomeService/CPanelCustomerService.jsx";
 import CpanelAccountant from "./Component/AdminComponent/CpanelAccountant/CpanelAccountant.jsx";
+import AllClients from "./Component/AdminComponent/AllClients/AllClients.jsx";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,7 @@ const router = createBrowserRouter([
       { path: "", element: <LandingPage /> },
       { path: "OrderDetailsForUser", element: <OrderDetailsForUser /> },
       { path: "CPanelCustomerService", element: <CPanelCustomerService /> },
+      { path: "AllClients", element: <AllClients /> },
       { path: "CpanelAccountant", element: <CpanelAccountant /> },
       { path: "availableOrders", element: <AvailableOrders /> },
       { path: "brookersCart", element: <BrookersCart /> },

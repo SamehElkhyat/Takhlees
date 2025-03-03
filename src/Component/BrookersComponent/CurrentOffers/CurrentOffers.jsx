@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
+import { jwtDecode } from "jwt-decode";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import {
@@ -14,7 +15,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 
 export default function CurrentOffers() {
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState();
   const [status, setStatus] = useState("");
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,13 +24,12 @@ export default function CurrentOffers() {
   const [CustomersOrders, setCustomersOrders] = useState([]);
   const [orders2, setOrders2] = useState([]);
   const [OrderId, setOrderId] = useState(null);
-
+  const [DecodedTokken, setDecodedTokken] = useState();
   const [Bar, setBar] = useState(null);
   const [IsLoading, setIsLoading] = useState(false);
 
-
-  const handleShowBar = (items,orderdid) => {
-    setOrderId(orderdid)
+  const handleShowBar = (items, orderdid) => {
+    setOrderId(orderdid);
     setBar(items);
   };
   const handleCloseBar = () => {
@@ -51,9 +51,9 @@ export default function CurrentOffers() {
         }
       );
 
-      toast("تم التنفيذ")
-      getCustomersOrders()
-        } catch (error) {
+      toast("تم التنفيذ");
+      getCustomersOrders();
+    } catch (error) {
       console.log(error);
     }
   };
@@ -72,9 +72,8 @@ export default function CurrentOffers() {
           },
         }
       );
-toast("تم الالغاء")
-getCustomersOrders()
-
+      toast("تم الالغاء");
+      getCustomersOrders();
     } catch (error) {
       console.log(error);
     }
@@ -90,6 +89,7 @@ getCustomersOrders()
           },
         }
       );
+      console.log(data);
 
       setOrders2(data);
     } catch (error) {
@@ -180,6 +180,8 @@ getCustomersOrders()
     getValue();
     const t = moment();
     setDate(new Date().toLocaleString());
+    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
+    setDecodedTokken(decodedTokken);
   }, []);
 
   return (
@@ -262,7 +264,24 @@ getCustomersOrders()
               <th>التاريخ</th>
               <th>اسم (الميناء/المطار)</th>
               <th>رقم الطلب</th>
-              <th>الحالة</th>
+              {DecodedTokken ? (
+                <>
+                  {DecodedTokken.Role === "Admin" ? (
+                    <>
+                      <th>بريد الالكتروني</th>
+                      <th>اسم المخلص</th>
+                    </>
+                  ) : (
+                    <>
+                      <th>الحالة</th>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <th>الحالة</th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -275,41 +294,101 @@ getCustomersOrders()
                   <td>{order.date}</td>
                   <td>{order.location}</td>
                   <td>{order.id}</td>
-                  {order.statuOrder === "قيد الإنتظار" && (
-                    <button
-                      onClick={() => setStatus("تحت الإجراء")}
-                      className={`btn bg-primary w-100 ${
-                        status === "تحت الإجراء"
-                          ? "bg-primary"
-                          : "btn-outline-primary"
-                      }`}
-                    >
-                      تحت الإجراء
-                    </button>
-                  )}
 
-                  {order.statuOrder === "تم التنفيذ" && (
-                    <button
-                      onClick={() => setStatus("تم التنفيذ")}
-                      className={`btn bg-success w-100 ${
-                        status === "تم التنفيذ"
-                          ? "bg-success"
-                          : "btn-outline-success"
-                      }`}
-                    >
-                      تم التنفيذ
-                    </button>
-                  )}
+                  {DecodedTokken ? (
+                    <>
+                      {DecodedTokken.Role === "Admin" ? (
+                        <>
+                          <td>{order.brokerEmail}</td>
+                          <td>{order.brokerName}</td>
+                        </>
+                      ) : (
+                        <>
+                          <td>
+                            {" "}
+                            {order.statuOrder === "قيد الإنتظار" && (
+                              <button
+                                onClick={() => setStatus("تحت الإجراء")}
+                                className={`btn bg-primary w-100 ${
+                                  status === "تحت الإجراء"
+                                    ? "bg-primary"
+                                    : "btn-outline-primary"
+                                }`}
+                              >
+                                تحت الإجراء
+                              </button>
+                            )}
+                            {order.statuOrder === "تم التنفيذ" && (
+                              <button
+                                onClick={() => setStatus("تم التنفيذ")}
+                                className={`btn bg-success w-100 ${
+                                  status === "تم التنفيذ"
+                                    ? "bg-success"
+                                    : "btn-outline-success"
+                                }`}
+                              >
+                                تم التنفيذ
+                              </button>
+                            )}
+                            {order.statuOrder === "ملغي" && (
+                              <button
+                                onClick={() => setStatus("ملغي")}
+                                className={`btn bg-danger w-100 ${
+                                  status === "ملغي"
+                                    ? "bg-danger"
+                                    : "btn-outline-danger"
+                                }`}
+                              >
+                                ملغي
+                              </button>
+                            )}
+                          </td>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <td>
+                        {order.statuOrder === "قيد الإنتظار" && (
+                          <button
+                            onClick={() => setStatus("تحت الإجراء")}
+                            className={`btn bg-primary w-100 ${
+                              status === "تحت الإجراء"
+                                ? "bg-primary"
+                                : "btn-outline-primary"
+                            }`}
+                          >
+                            تحت الإجراء
+                          </button>
+                        )}
 
-                  {order.statuOrder === "ملغي" && (
-                    <button
-                      onClick={() => setStatus("ملغي")}
-                      className={`btn bg-danger w-100 ${
-                        status === "ملغي" ? "bg-danger" : "btn-outline-danger"
-                      }`}
-                    >
-                      ملغي
-                    </button>
+                        {order.statuOrder === "تم التنفيذ" && (
+                          <button
+                            onClick={() => setStatus("تم التنفيذ")}
+                            className={`btn bg-success w-100 ${
+                              status === "تم التنفيذ"
+                                ? "bg-success"
+                                : "btn-outline-success"
+                            }`}
+                          >
+                            تم التنفيذ
+                          </button>
+                        )}
+
+                        {order.statuOrder === "ملغي" && (
+                          <button
+                            onClick={() => setStatus("ملغي")}
+                            className={`btn bg-danger w-100 ${
+                              status === "ملغي"
+                                ? "bg-danger"
+                                : "btn-outline-danger"
+                            }`}
+                          >
+                            ملغي
+                          </button>
+                        )}
+                      </td>
+                    </>
                   )}
                 </tr>
               ))}
@@ -373,7 +452,24 @@ getCustomersOrders()
               <th>اسم (الميناء/المطار)</th>
               <th>الملاحظات</th>
               <th>رقم الطلب</th>
-              <th>الحالة</th>
+              {DecodedTokken ? (
+                <>
+                  {DecodedTokken.Role === "Admin" ? (
+                    <>
+                      <th>بريد منشيء الطلب</th>
+                      <th>اسم المنشيء</th>
+                    </>
+                  ) : (
+                    <>
+                      <th>الحالة</th>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <th>الحالة</th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -390,21 +486,61 @@ getCustomersOrders()
                     >
                       <td>{order.date}</td>
                       <td>{order.location}</td>
-                      <td>{order.notes}</td>
+                      <td>
+                        {order.notes == null ? (
+                          <>لا توجد ملاحظات</>
+                        ) : (
+                          <>{order.notes}</>
+                        )}
+                      </td>
 
                       <td>{order.id}</td>
-                      <button
-                        onClick={() => SendIdSuccses(order.id)}
-                        className="btn bg-success w-50"
-                      >
-                        تنفيذ
-                      </button>
-                      <button
-                        onClick={() => SendIdCancel(order.id)}
-                        className="btn bg-danger w-50"
-                      >
-                        ألغاء
-                      </button>
+                      {DecodedTokken ? (
+                        <>
+                          {DecodedTokken.Role === "Admin" ? (
+                            <>
+                              <td>{order.brokerEmail}</td>
+                              <td>{order.brokerName}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td>
+                                {" "}
+                                <button
+                                  onClick={() => SendIdSuccses(order.id)}
+                                  className="btn bg-success w-50"
+                                >
+                                  تنفيذ
+                                </button>
+                                <button
+                                  onClick={() => SendIdCancel(order.id)}
+                                  className="btn bg-danger w-50"
+                                >
+                                  ألغاء
+                                </button>
+                              </td>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <td>
+                            {" "}
+                            <button
+                              onClick={() => SendIdSuccses(order.id)}
+                              className="btn bg-success w-50"
+                            >
+                              تنفيذ
+                            </button>
+                            <button
+                              onClick={() => SendIdCancel(order.id)}
+                              className="btn bg-danger w-50"
+                            >
+                              ألغاء
+                            </button>
+                          </td>
+                        </>
+                      )}
                     </tr>
                   ))}
               </>
@@ -477,7 +613,24 @@ getCustomersOrders()
               <th>الملاحظات</th>
               <th>اسم (الميناء/المطار)</th>
               <th>رقم الطلب</th>
-              <th>الحالة</th>
+              {DecodedTokken ? (
+                <>
+                  {DecodedTokken.Role === "Admin" ? (
+                    <>
+                      <th>بريد منشيء الطلب</th>
+                      <th>اسم المنشيء</th>
+                    </>
+                  ) : (
+                    <>
+                      <th>الحالة</th>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <th>الحالة</th>
+                </>
+              )}{" "}
               <th>إضافه ملاحظات</th>
             </tr>
           </thead>
@@ -489,23 +642,62 @@ getCustomersOrders()
                 }).map((order) => (
                   <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
                     <td>{order.date}</td>
-                    <td>{order.notes}</td>
+                    <td>
+                      {order.notes == null ? (
+                        <>لا توجد ملاحظات</>
+                      ) : (
+                        <>{order.notes}</>
+                      )}
+                    </td>
                     <td>{order.location}</td>
                     <td>{order.id}</td>
-                    <button
-                      onClick={() => SendIdSuccses(order.id)}
-                      className="btn bg-success w-50"
-                    >
-                      تنفيذ
-                    </button>
-                    <button
-                      onClick={() => SendIdCancel(order.id)}
-                      className="btn bg-danger w-50"
-                    >
-                      ألغاء
-                    </button>
+                    {DecodedTokken ? (
+                      <>
+                        {DecodedTokken.Role === "Admin" ? (
+                          <>
+                            <td>{order.brokerEmail}</td>
+                            <td>{order.brokerName}</td>
+                          </>
+                        ) : (
+                          <>
+                            <td>
+                              {" "}
+                              <button
+                                onClick={() => SendIdSuccses(order.id)}
+                                className="btn bg-success w-50"
+                              >
+                                تنفيذ
+                              </button>
+                              <button
+                                onClick={() => SendIdCancel(order.id)}
+                                className="btn bg-danger w-50"
+                              >
+                                ألغاء
+                              </button>
+                            </td>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <td>
+                          <button
+                            onClick={() => SendIdSuccses(order.id)}
+                            className="btn bg-success w-50"
+                          >
+                            تنفيذ
+                          </button>
+                          <button
+                            onClick={() => SendIdCancel(order.id)}
+                            className="btn bg-danger w-50"
+                          >
+                            ألغاء
+                          </button>
+                        </td>
+                      </>
+                    )}
+
                     <td>
-                      {" "}
                       <button
                         onClick={() => handleShowBar(order.notes, order.id)}
                         className="btn bg-primary w-100"
@@ -621,7 +813,7 @@ getCustomersOrders()
             </Modal.Footer>
           </Modal>
         </Table>
-      <Toaster/>
+        <Toaster />
       </div>
     </>
   );
