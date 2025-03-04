@@ -188,7 +188,7 @@ export default function OrderDetails() {
                                 {data.town == null ? (
                                   <>
                                     <Button className="bg-danger">
-                                      يوجد نقل
+                                     لا يوجد نقل
                                     </Button>
                                   </>
                                 ) : (
