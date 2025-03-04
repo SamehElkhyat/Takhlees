@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
 
 export default function DoneOrders() {
   const [customers, setCustomers] = useState([]);
@@ -245,10 +245,7 @@ export default function DoneOrders() {
       >
         الطلبات المنفذه
       </h1>
-      <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-        <MenuItem value="newest">الأحدث</MenuItem>
-        <MenuItem value="oldest">الأقدم</MenuItem>
-      </Select>
+  
       <Table style={{ marginTop: "20px", width: "100%" }}>
         <TableHead
           sx={{
@@ -287,13 +284,13 @@ export default function DoneOrders() {
                 {customer.fullName}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.notes}
+                {customer.notes ==="" ?<>لا يوجد ملاحظات</>:<>{customer.notes}</>}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.phoneNumber}
+                {customer.email}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
@@ -363,7 +360,7 @@ export default function DoneOrders() {
             onHide={handleCloseDetails}
           >
             <Modal.Header closeButton>
-              <Modal.Title>تفاصيل الطلب</Modal.Title>
+              <Modal.Title className="text-center w-100">تفاصيل المخلص</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {selectedOrder && (
@@ -406,9 +403,9 @@ export default function DoneOrders() {
               closeButton
               className="bg-light rounded-top shadow-sm text-center"
             >
-              <Modal.Title className="fs-3 fw-bold text-primary d-block">
-                تفاصيل الطلب
-                <small className="d-block text-muted fs-6">إدارة الطلبات</small>
+              <Modal.Title className="fs-3 fw-bold text-primary d-block w-100">
+                تفاصيل ملاحظات
+                <small className="d-block text-muted fs-6">إدارة الملاحظات والملفات</small>
               </Modal.Title>
             </Modal.Header>
 
@@ -424,12 +421,21 @@ export default function DoneOrders() {
               {/* قسم التحميل مع زر مميز */}
               <div className="d-inline-block">
                 <h5 className="text-success mb-3">
-                  تحميل الملف
                   <span style={{ color: "red", margin: "10px" }}>
-                    {ImageName.fileName}
+                    {ImageName.fileName ==null ? <>لا يوجد ملف </>:<>{ImageName.fileName}</>}
                   </span>
                 </h5>
-                <Button
+                {ImageName.fileName == null ? <>
+                  <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-2"
+                      />
+                      انتظر قليلا لعرض الملف
+                </>:<>   <Button
                   variant="success"
                   onClick={() => DownloadFilesApi()}
                   disabled={IsLoading}
@@ -450,7 +456,8 @@ export default function DoneOrders() {
                   ) : (
                     "تحميل"
                   )}
-                </Button>
+                </Button></>}
+             
               </div>
             </Modal.Body>
 

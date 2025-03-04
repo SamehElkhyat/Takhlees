@@ -216,10 +216,7 @@ setSelectedOrder(data)
       >
         الطلبات الملغاه
       </h1>
-      <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-        <MenuItem value="newest">الأحدث</MenuItem>
-        <MenuItem value="oldest">الأقدم</MenuItem>
-      </Select>
+
       <Table style={{ marginTop: "20px", width: "100%" }}>
         <TableHead
           sx={{
@@ -237,7 +234,7 @@ setSelectedOrder(data)
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">الموقع</TableCell>
 
-            <TableCell align="center">الهاتف</TableCell>
+            <TableCell align="center">البريد الالكتروني</TableCell>
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الإجراء</TableCell>
@@ -258,7 +255,7 @@ setSelectedOrder(data)
               </TableCell>
        
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.phoneNumber}
+                {customer.email}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}

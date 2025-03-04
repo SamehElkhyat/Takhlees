@@ -130,6 +130,8 @@ export default function Permissions() {
               <option value="Manager">مدير</option>
               <option value="CustomerService">خدمه عملاء</option>
               <option value="User">عميل</option>
+              <option value="Broker">مخلص</option>
+
             </Form.Control>
           </div>
         </Modal.Body>
