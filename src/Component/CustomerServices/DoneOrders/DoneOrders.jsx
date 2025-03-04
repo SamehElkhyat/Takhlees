@@ -27,8 +27,6 @@ export default function DoneOrders() {
   const [IsLoading, setIsLoading] = useState(false);
   const [OrderId, setOrderId] = useState(null);
 
-
-
   const handleShowBar = (items, orderId) => {
     setOrderId(orderId);
     setBar(items);
@@ -36,7 +34,6 @@ export default function DoneOrders() {
   const handleCloseBar = () => {
     setBar(null);
   };
-
 
   const GetFileName = async () => {
     try {
@@ -102,25 +99,23 @@ export default function DoneOrders() {
   };
 
   ///files |||||||///////////
-  
-  const handleShowDetails = (order,BrokerId) => {
-    console.log(order,BrokerId);
-    
+
+  const handleShowDetails = (order, BrokerId) => {
+    console.log(order, BrokerId);
+
     setSelectedOrder(order);
-    getAllInformationBroker(BrokerId)
-    
+    getAllInformationBroker(BrokerId);
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
 
-
-
   const getAllInformationBroker = async (BrokerId) => {
     try {
-      const {data} = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,{
-          BrokerID:BrokerId,
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        {
+          BrokerID: BrokerId,
         },
         {
           headers: {
@@ -128,10 +123,9 @@ export default function DoneOrders() {
           },
         }
       );
-console.log(data);
+      console.log(data);
 
-setSelectedOrder(data)
-      
+      setSelectedOrder(data);
     } catch (error) {
       console.log(error);
     }
@@ -149,13 +143,11 @@ setSelectedOrder(data)
   const ChangeStateNotDone = async (id) => {
     try {
       const request = await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService`,{
-  
-          statuOrder:'false',
-          ID:id,
+        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        {
+          statuOrder: "false",
+          ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
-  
-  
         },
         {
           headers: {
@@ -166,27 +158,20 @@ setSelectedOrder(data)
 
       alert("تم تحديث الطلب بنجاح");
       getAllAcceptedOrders();
-   
+
       console.log(request);
     } catch (error) {
-
       console.log(error);
-      
-      
     }
-
-
-
   };
 
-
-  const ChangeStateDone = async (values) => {    
-
+  const ChangeStateDone = async (values) => {
     try {
       const request = await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService`,{
-          statuOrder:'true',
-          ID:values
+        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        {
+          statuOrder: "true",
+          ID: values,
         },
         {
           headers: {
@@ -197,9 +182,7 @@ setSelectedOrder(data)
       console.log(request);
     } catch (error) {
       console.log(error);
-      
     }
-
   };
 
   const getAllAcceptedOrders = async () => {
@@ -213,16 +196,11 @@ setSelectedOrder(data)
         }
       );
 
-        setCustomers(data);
-        console.log(data);
-        
-
-     
+      setCustomers(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
-      
     }
- 
   };
 
   const sortedCustomers = [...customers].sort((a, b) =>
@@ -232,8 +210,7 @@ setSelectedOrder(data)
   );
 
   useEffect(() => {
-
-  GetFileName()
+    GetFileName();
     getAllAcceptedOrders();
   }, [OrderId]);
 
@@ -266,7 +243,7 @@ setSelectedOrder(data)
           },
         }}
       >
-     الطلبات المنفذه
+        الطلبات المنفذه
       </h1>
       <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
         <MenuItem value="newest">الأحدث</MenuItem>
@@ -287,23 +264,21 @@ setSelectedOrder(data)
           <TableRow>
             <TableCell align="center">رقم الطلب</TableCell>
             <TableCell align="center">موقع الطلب</TableCell>
-
             <TableCell align="center">الاسم</TableCell>
             <TableCell align="center">الملاحظات</TableCell>
-
             <TableCell align="center">نوع الطلب</TableCell>
-
             <TableCell align="center">الهاتف</TableCell>
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
+            <TableCell align="center">تفاصيل الملاحظات</TableCell>
             <TableCell align="center">الحاله</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedCustomers.map((customer,index) => (
+          {sortedCustomers.map((customer, index) => (
             <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-              {customer.id}
+                {customer.id}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
@@ -326,66 +301,75 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
-                  onClick={() =>  handleShowDetails(order,customer.brokerID)}
+                  onClick={() => handleShowDetails(order, customer.brokerID)}
                 >
                   عرض التفاصيل
                 </Button>
               </TableCell>
               <TableCell align="center">
-                  <Button
-                    className="bg-primary text-white p-2"
-                    onClick={() => handleShowBar(index, customer.id)}
-                  >
-                    عرض تفاصيل الملاحظات
-                  </Button>
-                </TableCell>
+                <Button
+                  className="bg-primary text-white p-2"
+                  onClick={() => handleShowBar(index, customer.id)}
+                >
+                  عرض تفاصيل الملاحظات
+                </Button>
+              </TableCell>
 
               {showNoteField[customer.id] && (
-                  <Box mt={1}>
-                    <TextField
-                      label="اكتب ملاحظة"
-                      variant="outlined"
-                      fullWidth
-                      value={notes[customer.id] || ""}
-                      onChange={(e) =>
-                        handleNoteChange(customer.id, e.target.value)
-                      }
-                      sx={{ marginBottom: "10px" }}
-                    />
-                    <Button
-                      onClick={() => ChangeStateNotDone(customer.id)}
-                      className="bg-danger text-white"
-                    >
-                      إرسال الملاحظة
-                    </Button>
-                  </Box>
-                )}
+                <Box mt={1}>
+                  <TextField
+                    label="اكتب ملاحظة"
+                    variant="outlined"
+                    fullWidth
+                    value={notes[customer.id] || ""}
+                    onChange={(e) =>
+                      handleNoteChange(customer.id, e.target.value)
+                    }
+                    sx={{ marginBottom: "10px" }}
+                  />
+                  <Button
+                    onClick={() => ChangeStateNotDone(customer.id)}
+                    className="bg-danger text-white"
+                  >
+                    إرسال الملاحظة
+                  </Button>
+                </Box>
+              )}
 
               <TableCell
                 sx={{ backgroundColor: "#f0f0f0" }}
                 className="p-3"
                 align="center"
               >
-                <Button onClick={()=>toggleNoteField(customer.id)} className="m-1 bg-danger text-white">
+                <Button
+                  onClick={() => toggleNoteField(customer.id)}
+                  className="m-1 bg-danger text-white"
+                >
                   لم يتم التنفيذ
                 </Button>
-                <Button onClick={()=>ChangeStateDone(customer.id)} className="m-1 bg-success text-white">
+                <Button
+                  onClick={() => ChangeStateDone(customer.id)}
+                  className="m-1 bg-success text-white"
+                >
                   تم التنفيذ
                 </Button>
               </TableCell>
             </TableRow>
           ))}
 
-<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+          <Modal
+            className="text-end"
+            show={selectedOrder !== null}
+            onHide={handleCloseDetails}
+          >
             <Modal.Header closeButton>
               <Modal.Title>تفاصيل الطلب</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {selectedOrder && (
                 <>
-              
                   <p>
-                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
                   </p>
                   <p>
                     <strong>الاسم:</strong> {selectedOrder.fullName}

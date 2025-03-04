@@ -22,25 +22,21 @@ export default function AllOrderDeleted() {
   const [DecodedTokken, setDecodedTokken] = useState();
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
-  const [notes, setNotes] = useState({})
+  const [notes, setNotes] = useState({});
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
 
-
-  const handleShowDetails = (order,BrokerId) => {
+  const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
-    getAllInformationBroker(BrokerId)
-    
+    getAllInformationBroker(BrokerId);
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
 
-
-
   const getAllDeletedOrders = async (BrokerId) => {
     try {
-      const {data} = await axios.get(
+      const { data } = await axios.get(
         `https://user.runasp.net/api/Get-Deleted-Orders`,
         {
           headers: {
@@ -48,21 +44,17 @@ export default function AllOrderDeleted() {
           },
         }
       );
-console.log(data);
+      console.log(data);
 
-setCustomers(data)
-
-      
+      setCustomers(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-
   const handleNoteChange = (id, value) => {
     setNotes((prevNotes) => ({ ...prevNotes, [id]: value }));
   };
-
 
   const toggleNoteField = (id) => {
     setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -71,7 +63,6 @@ setCustomers(data)
     setShowNoteField2((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
       ? new Date(b.date) - new Date(a.date)
@@ -136,26 +127,23 @@ setCustomers(data)
             <TableCell align="center">الملاحظات</TableCell>
 
             {DecodedTokken ? (
+              <>
+                {DecodedTokken.Role === "Admin" ? (
                   <>
-                    {DecodedTokken.Role === "Admin" ? (
-                      <>
-                        <TableCell align="center">خدمه العملاء</TableCell>
-                        <TableCell align="center">بريد خدمه العملاء</TableCell>
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    <TableCell align="center">خدمه العملاء</TableCell>
+                    <TableCell align="center">بريد خدمه العملاء</TableCell>
                   </>
                 ) : (
                   <></>
                 )}
-               
-
+              </>
+            ) : (
+              <></>
+            )}
 
             <TableCell align="center">نوع الطلب</TableCell>
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">حاله الطلب</TableCell>
-
           </TableRow>
         </TableHead>
         <TableBody>
@@ -171,23 +159,23 @@ setCustomers(data)
                 {customer.notes}
               </TableCell>
               {DecodedTokken ? (
-                  <>
-                    {DecodedTokken.Role === "Admin" ? (
-                      <>
-                        <TableCell align="center">
-                          {customer.customerServiceEmail}
-                        </TableCell>
-                        <TableCell align="center">
-                          {customer.customerServiceName}
-                        </TableCell>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </>
-                ) : (
-                  <></>
-                )}
+                <>
+                  {DecodedTokken.Role === "Admin" ? (
+                    <>
+                      <TableCell align="center">
+                        {customer.customerServiceEmail}
+                      </TableCell>
+                      <TableCell align="center">
+                        {customer.customerServiceName}
+                      </TableCell>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}
               </TableCell>
@@ -196,30 +184,26 @@ setCustomers(data)
                 {customer.date}
               </TableCell>
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button 
-                                  className="bg-danger text-white p-2"
-
-                >
-                {customer.statuOrder}
-
+                <Button className="bg-danger text-white p-2">
+                  {customer.statuOrder}
                 </Button>
               </TableCell>
-    
-
             </TableRow>
           ))}
-          
 
-<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+          <Modal
+            className="text-end"
+            show={selectedOrder !== null}
+            onHide={handleCloseDetails}
+          >
             <Modal.Header closeButton>
               <Modal.Title>تفاصيل الطلب</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {selectedOrder && (
                 <>
-              
                   <p>
-                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
                   </p>
                   <p>
                     <strong>الاسم:</strong> {selectedOrder.fullName}

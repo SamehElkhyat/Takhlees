@@ -301,6 +301,7 @@ export default function CurrentOffers() {
                         <>
                           <td>{order.brokerEmail}</td>
                           <td>{order.brokerName}</td>
+    
                         </>
                       ) : (
                         <>
@@ -456,8 +457,9 @@ export default function CurrentOffers() {
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>
-                      <th>بريد منشيء الطلب</th>
-                      <th>اسم المنشيء</th>
+                      <th>بريد المخلص</th>
+                      <th>اسم المخلص</th>
+                 
                     </>
                   ) : (
                     <>
@@ -613,12 +615,14 @@ export default function CurrentOffers() {
               <th>الملاحظات</th>
               <th>اسم (الميناء/المطار)</th>
               <th>رقم الطلب</th>
-              {DecodedTokken ? (
+                      {DecodedTokken ? (
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>
-                      <th>بريد منشيء الطلب</th>
-                      <th>اسم المنشيء</th>
+                      <th>بريد المخلص</th>
+                      <th>اسم المخلص</th>
+                      <th>بريد خدمه العملاء</th>
+                      <th>خدمه العملاء</th>
                     </>
                   ) : (
                     <>
@@ -630,7 +634,7 @@ export default function CurrentOffers() {
                 <>
                   <th>الحالة</th>
                 </>
-              )}{" "}
+              )}
               <th>إضافه ملاحظات</th>
             </tr>
           </thead>
@@ -657,6 +661,8 @@ export default function CurrentOffers() {
                           <>
                             <td>{order.brokerEmail}</td>
                             <td>{order.brokerName}</td>
+                            <td>{order.customerServiceEmail}</td>
+                            <td>{order.customerServiceName}</td>
                           </>
                         ) : (
                           <>
