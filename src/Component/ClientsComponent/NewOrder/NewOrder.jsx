@@ -19,12 +19,10 @@ const NewOrderForm = () => {
   const [DecodedTokken, setDecodedTokken] = useState();
 
   const handelShowInputs = (e) => {
-    
     setShowInputs(e.target.value);
   };
 
   const handelCloseInput = (e) => {
-    
     setShowInputs(e.target.value);
   };
 
@@ -33,7 +31,48 @@ const NewOrderForm = () => {
     numberOfLicense: Yup.string()
       .required("رقم البوليصة مطلوب")
       .matches(/^\d+$/, "يجب أن يكون رقمًا فقط"),
+
     Notes: Yup.string().required("الملاحظات مطلوبه"),
+
+    Town: Yup.string()
+    .nullable()
+    .test(
+      "required-if-showInputs-not-null",
+      "الحي مطلوب",
+      function (value) {
+        if (ShowInputs !== "null") {
+          return !!value && value.trim() !== ""; // التأكد من أن القيمة ليست فارغة
+        }
+        return true; // إذا كان ShowInputs يساوي null، لا يتم التحقق
+      }
+    ),
+
+  zipCode: Yup.string()
+    .nullable()
+    .test(
+      "required-if-showInputs-not-null",
+      "الرمز البريدي مطلوب",
+      function (value) {
+        if (ShowInputs !== "null") {
+          return !!value && value.trim() !== "";
+        }
+        return true;
+      }
+    ),
+
+  City: Yup.string()
+    .nullable()
+    .test(
+      "required-if-showInputs-not-null",
+      "المدينة مطلوبة",
+      function (value) {
+        if (ShowInputs !== "null") {
+          return !!value && value.trim() !== "";
+        }
+        return true;
+      }
+    ),
+
     numberOfTypeOrders: Yup.array()
       .of(
         Yup.object().shape({
@@ -127,12 +166,11 @@ const NewOrderForm = () => {
 
       setIsLoading(false);
 
-
       setTimeout(() => {
         if (DecodedTokken.Role === "Admin") {
           window.location.href = "/availableOrders";
         } else {
-          window.location.href = "/Orders";
+          // window.location.href = "/Orders";
         }
       }, 1000);
     } catch (error) {
@@ -367,10 +405,10 @@ const NewOrderForm = () => {
         </Form.Group>
 
         {ShowInputs === "null" ? (
+          <></>
+        ) : (
           <>
-          </>
-        ):<>
-               <div className=" d-flex justify-content-center m-5">
+            <div className=" d-flex justify-content-center m-5">
               <Form.Group className="Inputs-New-Order" controlId="City">
                 <Form.Label>المدينه</Form.Label>
                 <Form.Control
@@ -378,6 +416,9 @@ const NewOrderForm = () => {
                   value={formik.values.City}
                   onChange={formik.handleChange}
                 />
+                {formik.touched.City && formik.errors.City && (
+                  <div className="error-message">{formik.errors.City}</div>
+                )}
               </Form.Group>
 
               <Form.Group className="Inputs-New-Order" controlId="Town">
@@ -387,6 +428,9 @@ const NewOrderForm = () => {
                   value={formik.values.Town}
                   onChange={formik.handleChange}
                 />
+                {formik.touched.Town && formik.errors.Town && (
+                  <div className="error-message">{formik.errors.Town}</div>
+                )}
               </Form.Group>
 
               <Form.Group className="Inputs-New-Order" controlId="zipCode">
@@ -396,9 +440,13 @@ const NewOrderForm = () => {
                   value={formik.values.zipCode}
                   onChange={formik.handleChange}
                 />
+                {formik.touched.zipCode && formik.errors.zipCode && (
+                  <div className="error-message">{formik.errors.zipCode}</div>
+                )}
               </Form.Group>
             </div>
-        </>}
+          </>
+        )}
 
         {/* الحقول الديناميكية */}
 

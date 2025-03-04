@@ -57,7 +57,7 @@ const PendingOrders = () => {
   useEffect(() => {
     GetOrder();
     SendId();
-  }, [orders]);
+  }, []);
   return (
     <div className="container mt-5">
       <h3 

@@ -81,6 +81,8 @@ export default function AllClients() {
           },
         }
       );
+      console.log(data);
+
       setSelectedOrder(data);
     } catch (error) {
       console.log(error);
@@ -139,9 +141,12 @@ export default function AllClients() {
             <TableRow>
               <TableCell align="center">الاسم</TableCell>
               <TableCell align="center">البريد الالكتروني</TableCell>
+              <TableCell align="center">موقع الطلب</TableCell>
+              <TableCell align="center">نوع الطلب</TableCell>
               <TableCell align="center">المخلص</TableCell>
               <TableCell align="center">البريد الخاص بالمخلص</TableCell>
               <TableCell align="center">حظر</TableCell>
+              <TableCell align="center">الحاله</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -153,6 +158,13 @@ export default function AllClients() {
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.email}
                 </TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.location}
+                </TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.typeOrder}
+                </TableCell>
+
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.brokerName == null ? (
                     <>لايوجد مخلص الان</>
@@ -188,6 +200,12 @@ export default function AllClients() {
                       </Button>
                     </>
                   )}
+                </TableCell>
+                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button className="btn bg-success">
+                    {" "}
+                    {customer.statuOrder}
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

@@ -268,7 +268,7 @@ export default function CurrentOffers() {
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>
-                      <th>بريد الالكتروني</th>
+                      <th>بريد المخلص</th>
                       <th>اسم المخلص</th>
                     </>
                   ) : (
@@ -457,8 +457,8 @@ export default function CurrentOffers() {
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>
-                      <th>بريد المخلص</th>
-                      <th>اسم المخلص</th>
+                      <th>بريد صاحب الطلب</th>
+                      <th>اسم صاحب الطلب</th>
                  
                     </>
                   ) : (
@@ -501,8 +501,8 @@ export default function CurrentOffers() {
                         <>
                           {DecodedTokken.Role === "Admin" ? (
                             <>
-                              <td>{order.brokerEmail}</td>
-                              <td>{order.brokerName}</td>
+                              <td>{order.email}</td>
+                              <td>{order.fullName}</td>
                             </>
                           ) : (
                             <>
