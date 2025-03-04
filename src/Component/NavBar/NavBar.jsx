@@ -273,7 +273,7 @@ const NavBar = () => {
                 </>
               ) : Token.Role === "Manager" ? (
                 <>
-                  <Link to="/Admin" className="nav-link">
+                  <Link to="/LandingPageManger" className="nav-link">
                     {Token.fullName}
                     <i className="m-2 fa-solid fa-toolbox"></i>
                   </Link>

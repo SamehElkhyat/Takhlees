@@ -137,34 +137,40 @@ export default function AllOrderTransfers() {
   };
 
   const ChangeStateDone = async (values) => {
-    const request = await axios.post(
-      `https://user.runasp.net/api/Change-Statu-CustomerService`,
-      {
-        statuOrder: "true",
-        ID: values,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+    try {
+      const request = await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        {
+          statuOrder: "true",
+          ID: values,
         },
-      }
-    );
-    alert("تم ارسال الملاحظات");
-    getAllAcceptedOrders();
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      alert("تم ارسال الملاحظات");
+      getAllAcceptedOrders();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getAllAcceptedOrders = async () => {
-    const { data } = await axios.get(
-      `https://user.runasp.net/api/Get-All-Transfer-From-Account`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-        },
-      }
-    );
-    console.log(data);
-
-    setCustomers(data);
+    try {
+      const { data } = await axios.get(
+        `https://user.runasp.net/api/Get-All-Transfer-From-Account`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      setCustomers(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const sortedCustomers = [...customers].sort((a, b) =>
@@ -178,8 +184,6 @@ export default function AllOrderTransfers() {
     setorder(DecodedToken);
     getAllAcceptedOrders();
     setDecodedTokken(DecodedToken);
-
-
   }, []);
 
   let formik = useFormik({
@@ -294,28 +298,26 @@ export default function AllOrderTransfers() {
                 {customer.typeOrder}
               </TableCell>
               {DecodedTokken ? (
-                  <>
-                    {DecodedTokken.Role === "Admin" ? (
-                      <>
-                        <TableCell align="center">
-                          {customer.accountName}
-                        </TableCell>
-                        <TableCell align="center">
-                          {customer.accountEmail}
-                        </TableCell>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </>
-                ) : (
-                  <></>
-                )}
+                <>
+                  {DecodedTokken.Role === "Admin" ? (
+                    <>
+                      <TableCell align="center">
+                        {customer.accountName}
+                      </TableCell>
+                      <TableCell align="center">
+                        {customer.accountEmail}
+                      </TableCell>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.email}
               </TableCell>
-      
-
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
               </TableCell>

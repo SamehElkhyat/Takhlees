@@ -21,8 +21,6 @@ import Brookers from "./Component/AdminComponent/Brookers/Brookers";
 import Permissions from "./Component/AdminComponent/Permissions/Permissions.jsx";
 import HistoryDoneOrder from "./Component/AccountantComponennt/HistoryOfDoneOrdersAccountant/HistoryDoneOrder.jsx";
 import Statistics from "./Component/AdminComponent/statistics/statistics.jsx";
-import NewOrder from "./Component/ClientsComponent/NewOrder/NewOrder.jsx";
-import Orders from "./Component/ClientsComponent/Orders/Orders.jsx";
 import Cart from "./Component/ClientsComponent/Cart/Cart.jsx";
 import Mokhalseen from "./Component/Mokhalseen/Mokhalseen.jsx";
 import SignUpForMokhalseen from "./Component/SignUpForMokhalseen/SignUpForMokhalseen.jsx";
@@ -50,60 +48,102 @@ import HistoryOfOrdersUsers from "./Component/ClientsComponent/HistoryOfOrdersUs
 import CPanelCustomerService from "./Component/AdminComponent/CPanelCustomeService/CPanelCustomerService.jsx";
 import CpanelAccountant from "./Component/AdminComponent/CpanelAccountant/CpanelAccountant.jsx";
 import AllClients from "./Component/AdminComponent/AllClients/AllClients.jsx";
+import AllClientsManger from "./Component/MangerComponennt/AllClientsManger/AllClientsManger.jsx";
+import BrookersManger from "./Component/MangerComponennt/BrookersManger/BrookersManger.jsx";
+import ClientsManger from "./Component/MangerComponennt/ClientsManger/ClientsManger.jsx";
+import CpanelAccountantManger from "./Component/MangerComponennt/CpanelAccountantManger/CpanelAccountantManger.jsx";
+import CPanelCustomerServiceManger from "./Component/MangerComponennt/CPanelCustomeServiceManger/CPanelCustomerServiceManger.jsx";
+import LandingPageManger from "./Component/MangerComponennt/LandingPageManger/LandingPageManger.jsx";
+import BlacklistManger from "./Component/MangerComponennt/blacklistManger/blacklistManger.jsx";
+import StatisticsManger from "./Component/MangerComponennt/statisticsManger/statisticsManger.jsx";
+
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <Layout />,
     children: [
+      // main //
       { path: "", element: <LandingPage /> },
-      { path: "OrderDetailsForUser", element: <OrderDetailsForUser /> },
-      { path: "CPanelCustomerService", element: <CPanelCustomerService /> },
-      { path: "AllClients", element: <AllClients /> },
-      { path: "CpanelAccountant", element: <CpanelAccountant /> },
-      { path: "availableOrders", element: <AvailableOrders /> },
-      { path: "brookersCart", element: <BrookersCart /> },
-      { path: "currentOffers", element: <CurrentOffers /> },
-      { path: "historyOfOrders", element: <HistoryOfOrders /> },
-      { path: "orderDetails", element: <OrderDetails /> },
-      { path: "newOrder", element: <NewOrder /> },
-      { path: "mokhalseen", element: <Mokhalseen /> },
-      { path: "orders", element: <Orders /> },
-      { path: "HistoryDoneOrder", element: <HistoryDoneOrder /> },
-      { path: "AllOrderTransfers", element: <AllOrderTransfers /> },
-      { path: "brookersLandingPage", element: <BrookersLandingPage /> },
-      { path: "LandingPageAdmin", element: <LandingPageAdmin /> },
-      { path: "Cart", element: <Cart /> },
-      { path: "permissions", element: <Permissions /> },
-      { path: "statistics", element: <Statistics /> },
-      { path: "canceledOrders", element: <CanceledOrders /> },
-      { path: "AllOrderDeleted", element: <AllOrderDeleted /> },
-      { path: "HistoryOfOrdersUsers", element: <HistoryOfOrdersUsers /> },
-      { path: "DoneOrders", element: <DoneOrders /> },
-      { path: "IntorSignUp", element: <IntorSignUp /> },
-      { path: "IntorSignIn", element: <IntorSignIn /> },
+      // //
+
+      // Manger//
+      { path: "blacklistManger", element: <BlacklistManger /> },
+      { path: "AllClientsManger", element: <AllClientsManger /> },
+      { path: "BrookersManger", element: <BrookersManger /> },
+      { path: "ClientsManger", element: <ClientsManger /> },
+      { path: "CpanelAccountantManger", element: <CpanelAccountantManger /> },
       {
-        path: "LandingPageCustomeService",
-        element: <LandingPageCustomeService />,
+        path: "CPanelCustomeServiceManger",
+        element: <CPanelCustomerServiceManger />,
       },
-      { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
-      { path: "NewOrder", element: <NewOrderForm /> },
-      { path: "Orders", element: <PendingOrders /> },
-      { path: "Clients", element: <Clients /> },
-      { path: "blackList", element: <Blacklist /> },
+      { path: "LandingPageManger", element: <LandingPageManger/> },
+      { path: "StatisticsManger", element: <StatisticsManger/> },
+
+
+      // //
+
+      // make Account//
       { path: "SignIn", element: <SignIn /> },
       { path: "SignUp", element: <SignUp /> },
       { path: "SignUpForCompany", element: <SignUpForCompany /> },
       { path: "SignUpForMokhalseen", element: <SignUpForMokhalseen /> },
       { path: "ResetPassword", element: <ResetPassword /> },
       { path: "ConfirmPassword", element: <ConfirmPassword /> },
-      { path: "AccountantLandingPage", element: <AccountantLandingPage /> },
-      { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
-      { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
-      { path: "AcceptedOrderAccountant", element: <AcceptedOrderAccountant /> },
-      { path: "DoneOrdersForUser", element: <DoneOrdersForUser /> },
+      { path: "mokhalseen", element: <Mokhalseen /> },
+      { path: "IntorSignUp", element: <IntorSignUp /> },
+      { path: "IntorSignIn", element: <IntorSignIn /> },
+      // //
 
+      // Accountant //
+      { path: "AccountantLandingPage", element: <AccountantLandingPage /> },
+      { path: "AcceptedOrderAccountant", element: <AcceptedOrderAccountant /> },
+      { path: "HistoryDoneOrder", element: <HistoryDoneOrder /> },
+
+      // //
+
+      // CustomeServices//
+      { path: "DoneOrders", element: <DoneOrders /> },
+      { path: "canceledOrders", element: <CanceledOrders /> },
+      { path: "AllOrderTransfers", element: <AllOrderTransfers /> },
+      { path: "AllOrderDeleted", element: <AllOrderDeleted /> },
+      {
+        path: "LandingPageCustomeService",
+        element: <LandingPageCustomeService />,
+      },
+      // //
+
+      //Brooker //
+      { path: "historyOfOrders", element: <HistoryOfOrders /> },
+      { path: "orderDetails", element: <OrderDetails /> },
+      { path: "brookersLandingPage", element: <BrookersLandingPage /> },
+      { path: "availableOrders", element: <AvailableOrders /> },
+      { path: "brookersCart", element: <BrookersCart /> },
+      { path: "currentOffers", element: <CurrentOffers /> },
+      // //
+
+      //*USER//
+      { path: "Cart", element: <Cart /> },
+      { path: "NewOrder", element: <NewOrderForm /> },
+      { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
+      { path: "Orders", element: <PendingOrders /> },
+      { path: "OrderDetailsForUser", element: <OrderDetailsForUser /> },
+      { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
+      { path: "DoneOrdersForUser", element: <DoneOrdersForUser /> },
+      { path: "HistoryOfOrdersUsers", element: <HistoryOfOrdersUsers /> },
+      //*//
+
+      //* Admin//
+      { path: "CPanelCustomerService", element: <CPanelCustomerService /> },
+      { path: "CpanelAccountant", element: <CpanelAccountant /> },
+      { path: "permissions", element: <Permissions /> },
+      { path: "statistics", element: <Statistics /> },
+      { path: "Clients", element: <Clients /> },
+      { path: "blackList", element: <Blacklist /> },
       { path: "brookers", element: <Brookers /> },
+      { path: "AllClients", element: <AllClients /> },
+      { path: "LandingPageAdmin", element: <LandingPageAdmin /> },
+      //*//
     ],
   },
 ]);

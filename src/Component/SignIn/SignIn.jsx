@@ -43,7 +43,7 @@ const SignIn = () => {
             } else if (decodedCode.Role == "Broker") {
               return (window.location.href ="/BrookersLandingPage")
             } else if (decodedCode.Role == "Manager") {
-              console.log("Manager");
+              return (window.location.href ="/LandingPageManger")
             }
 
              

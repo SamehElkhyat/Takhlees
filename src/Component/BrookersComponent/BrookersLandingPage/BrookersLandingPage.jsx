@@ -138,7 +138,6 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-
         <Col md={3} sm={6} xs={12}>
           <Card
             style={styles.cards2}
@@ -223,7 +222,9 @@ const Dashboard = () => {
             </Link>
           </Card.Body>
         </Card>
-      </Col></>:<></>}
+      </Col></>
+      
+      :<></>}
 
 </>:<></>}
 
