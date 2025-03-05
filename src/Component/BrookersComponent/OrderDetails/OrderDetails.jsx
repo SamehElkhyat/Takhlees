@@ -188,16 +188,17 @@ export default function OrderDetails() {
                             <tr>
                               <th>طريقه النقل</th>
                               <td>
-                                {data.town == null ? (
+                                {data.town == null && data.town !== null ? (
                                   <>
-                                    <Button className="bg-danger">
-                                     لا يوجد نقل
+                                      <Button className="bg-success">
+                                      يوجد نقل
                                     </Button>
+                             
                                   </>
                                 ) : (
                                   <>
-                                    <Button className="bg-success">
-                                      يوجد نقل
+                                       <Button className="bg-danger">
+                                     لا يوجد نقل
                                     </Button>
                                   </>
                                 )}

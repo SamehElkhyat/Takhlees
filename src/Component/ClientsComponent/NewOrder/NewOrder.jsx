@@ -166,7 +166,7 @@ const NewOrderForm = () => {
         if (DecodedTokken.Role === "Admin") {
           window.location.href = "/availableOrders";
         } else {
-          // window.location.href = "/Orders";
+          window.location.href = "/Orders";
         }
       }, 1000);
     } catch (error) {
@@ -260,7 +260,6 @@ const NewOrderForm = () => {
 
   return (
     <div
-      id="New-Order"
       className="container text-center d-flex flex-column gap-3 mt-5"
     >
       <Toaster
@@ -268,7 +267,12 @@ const NewOrderForm = () => {
         position="top-center"
         reverseOrder={false}
       />
-      <h3
+
+      <Form 
+            id="New-Order-form"
+
+  onSubmit={formik.handleSubmit}>
+          <h3
         style={{
           fontSize: "30px",
           fontWeight: "700",
@@ -296,10 +300,6 @@ const NewOrderForm = () => {
       >
         طلب جديد
       </h3>
-      <Form 
-            id="New-Order-form"
-
-  onSubmit={formik.handleSubmit}>
         {/* موقع الطلب */}
         <Form.Group controlId="location">
           <Form.Label>موقع الطلب</Form.Label>
