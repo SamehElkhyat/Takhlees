@@ -49,7 +49,7 @@ export default function HistoryDoneOrder() {
 
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -66,7 +66,7 @@ export default function HistoryDoneOrder() {
 
       setCustomers(data);
     } catch (error) {
-      console.error("حدث خطأ أثناء جلب البيانات:", error);
+      toast.error(error.response.data.message);
     }
   };
 

@@ -10,14 +10,13 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function CPanelCustomerService() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
-
 
   const styles = {
     cards1: {
@@ -26,13 +25,13 @@ export default function CPanelCustomerService() {
       transition: "all 0.3s ease",
       boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
-  
+
     icons: {
       fontSize: "50px",
       padding: "20px",
-    },}
+    },
+  };
   const Block = async (email) => {
-    
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Blocked`,
@@ -47,14 +46,12 @@ export default function CPanelCustomerService() {
         }
       );
       CustomerService();
-
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   const UnBlock = async (email) => {
-
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Unblocked`,
@@ -68,10 +65,8 @@ export default function CPanelCustomerService() {
         }
       );
       CustomerService();
-
-
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -87,13 +82,12 @@ export default function CPanelCustomerService() {
       );
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   useEffect(() => {
     CustomerService();
-
   }, []);
 
   return (
@@ -126,10 +120,15 @@ export default function CPanelCustomerService() {
             },
           }}
         >
-           خدمه العملاء
+          خدمه العملاء
         </h1>
 
-        <Col md={12} sm={12} xs={12} className="mb-3 d-flex justify-content-center w-100">
+        <Col
+          md={12}
+          sm={12}
+          xs={12}
+          className="mb-3 d-flex justify-content-center w-100"
+        >
           <Card
             style={styles.cards1}
             onMouseLeave={() => setIshovered1(false)}
@@ -177,7 +176,7 @@ export default function CPanelCustomerService() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {selectedOrder.map((customer,index) => (
+            {selectedOrder.map((customer, index) => (
               <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.fullName}
@@ -194,7 +193,10 @@ export default function CPanelCustomerService() {
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.isBlocked ? (
                     <>
-                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
+                      <Button
+                        onClick={() => UnBlock(customer.email)}
+                        className="bg-success text-black"
+                      >
                         فك الحظر
                       </Button>
                     </>

@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 
 export default function HistoryOfOrders() {
-
-  const [order, setorder] = useState([])
+  const [order, setorder] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const HistoryOfAllOrders = async () => {
     try {
-      const {data} = await axios.get(
+      const { data } = await axios.get(
         `https://user.runasp.net/api/Get-All-Orders-Brokers`,
         {
           headers: {
@@ -23,16 +22,14 @@ export default function HistoryOfOrders() {
       }
 
       console.log(data);
-      
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
-  useEffect(()=>{
-    HistoryOfAllOrders()
-
-  },[])
+  useEffect(() => {
+    HistoryOfAllOrders();
+  }, []);
   return (
     <>
       <div className="container mt-5 text-center">
@@ -67,16 +64,16 @@ export default function HistoryOfOrders() {
         </h3>
 
         <Form className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="ابحث عن طلب (الموقع، النوع، الحالة)"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Button className="mt-2" variant="primary">
-          بحث
-        </Button>
-      </Form>
+          <Form.Control
+            type="text"
+            placeholder="ابحث عن طلب (الموقع، النوع، الحالة)"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Button className="mt-2" variant="primary">
+            بحث
+          </Button>
+        </Form>
 
         <Table striped bordered hover>
           <thead>
@@ -89,52 +86,64 @@ export default function HistoryOfOrders() {
             </tr>
           </thead>
           <tbody>
-            {order.filter((order)=>
-            {
-              return searchTerm === "" || order.id.includes(searchTerm)
+            {order
+              .filter((order) => {
+                return searchTerm === "" || order.id.includes(searchTerm);
+              })
+              .map((order) => (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.location}</td>
+                  <td>{order.notes}</td>
 
-            }).map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.location}</td>
-                <td>{order.notes}</td>
+                  <td>{order.date}</td>
+                  <td>
+                    {order.statuOrder === "منفذ" && (
+                      <button className="btn bg-success w-100">منفذ</button>
+                    )}
 
-                <td>{order.date}</td>
-                <td>
-                {order.statuOrder === "منفذ" && (
-                    <button className="btn bg-success w-100">منفذ</button>
-                  )}
-
-{order.statuOrder === "محذوفة" && (
-                    <button className="btn bg-danger w-100">محذوفة</button>
-                  )}
-                  {order.statuOrder === "لم يتم التنفيذ" && (
-                    <button className="btn bg-success w-100">تم التنفيذ</button>
-                  )}
+                    {order.statuOrder === "محذوفة" && (
+                      <button className="btn bg-danger w-100">محذوفة</button>
+                    )}
+                    {order.statuOrder === "لم يتم التنفيذ" && (
+                      <button className="btn bg-success w-100">
+                        تم التنفيذ
+                      </button>
+                    )}
                     {order.statuOrder === "ملغى" && (
-                    <button className="btn bg-danger w-100">ملغي</button>
-                  )}
-                  {order.statuOrder === "تم التحويل" && (
-                    <button className="btn bg-success w-100">تم التحويل</button>
-                  )}
-                  {order.statuOrder === "محولة" && (
-                    <button className="btn bg-success w-100">محولة</button>
-                  )}
-                   {order.statuOrder === "لم يتم التحويل" && (
-                    <button className="btn bg-danger w-100">لم يتم التحويل</button>
-                  )}
+                      <button className="btn bg-danger w-100">ملغي</button>
+                    )}
+                    {order.statuOrder === "تم التحويل" && (
+                      <button className="btn bg-success w-100">
+                        تم التحويل
+                      </button>
+                    )}
+                    {order.statuOrder === "محولة" && (
+                      <button className="btn bg-success w-100">محولة</button>
+                    )}
+                    {order.statuOrder === "لم يتم التحويل" && (
+                      <button className="btn bg-danger w-100">
+                        لم يتم التحويل
+                      </button>
+                    )}
                     {order.statuOrder === "قيد الإنتظار" && (
-                    <button className="btn bg-secondary w-100">قيد الإنتظار</button>
-                  )}
+                      <button className="btn bg-secondary w-100">
+                        قيد الإنتظار
+                      </button>
+                    )}
                     {order.statuOrder === "تحت الإجراء" && (
-                    <button className="btn bg-primary w-100">تحت الإجراء</button>
-                  )}
+                      <button className="btn bg-primary w-100">
+                        تحت الإجراء
+                      </button>
+                    )}
                     {order.statuOrder === "تم التنفيذ" && (
-                    <button className="btn bg-success w-100">تم التنفيذ</button>
-                  )}
-                </td>
-              </tr>
-            ))}
+                      <button className="btn bg-success w-100">
+                        تم التنفيذ
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </Table>
       </div>

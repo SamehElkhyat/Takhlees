@@ -10,7 +10,7 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -50,7 +50,7 @@ export default function Brookers() {
       CustomerService();
 
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -72,7 +72,7 @@ export default function Brookers() {
 
 
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -90,7 +90,7 @@ export default function Brookers() {
       
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

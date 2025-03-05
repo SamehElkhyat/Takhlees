@@ -64,7 +64,7 @@ export default function AcceptedOrderAccountant() {
       setIsLoading(false);
       setImageName(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
       seterror(error.status);
       setIsLoading(false);
     }
@@ -107,7 +107,7 @@ export default function AcceptedOrderAccountant() {
     } catch (error) {
       setIsLoading(false);
 
-      console.error("حدث خطأ أثناء تحميل الملف:", error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -127,7 +127,7 @@ export default function AcceptedOrderAccountant() {
 
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -160,7 +160,7 @@ export default function AcceptedOrderAccountant() {
       alert("تم تحديث الطلب بنجاح");
       getAllAcceptedOrders(); // تحديث القائمة بعد الإرسال
     } catch (error) {
-      console.error("حدث خطأ أثناء تحديث الحالة:", error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -182,7 +182,7 @@ export default function AcceptedOrderAccountant() {
       alert("تم تحويل الطلب بنجاح");
       getAllAcceptedOrders(); // تحديث القائمة بعد الإرسال
     } catch (error) {
-      console.error("حدث خطأ أثناء تحديث الحالة:", error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -203,7 +203,7 @@ export default function AcceptedOrderAccountant() {
         setCustomers(data);
       }
     } catch (error) {
-      console.error("حدث خطأ أثناء جلب البيانات:", error);
+      toast.error(error.response.data.message);
       seterror(error.status);
     }
   };

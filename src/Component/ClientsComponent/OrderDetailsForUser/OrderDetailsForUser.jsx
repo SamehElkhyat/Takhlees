@@ -62,7 +62,7 @@ export default function OrderDetailsForUser() {
       // تنظيف الرابط المؤقت من الذاكرة
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("حدث خطأ أثناء تحميل الملف:", error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -83,7 +83,7 @@ export default function OrderDetailsForUser() {
     } catch (error) {
       seterror(data.status);
 
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   const SendId = async (OrderId, BrokerId, value) => {
@@ -109,7 +109,7 @@ export default function OrderDetailsForUser() {
         }, 1000);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -128,7 +128,7 @@ export default function OrderDetailsForUser() {
 
       setdata(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

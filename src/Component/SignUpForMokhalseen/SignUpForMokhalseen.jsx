@@ -8,7 +8,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const SignUpForMokhalseen = () => {
-
   const validationSchema = Yup.object({
     Email: Yup.string()
       .email("بريد إلكتروني غير صالح")
@@ -17,41 +16,31 @@ const SignUpForMokhalseen = () => {
       .required("تأكيد كلمة المرور مطلوب")
       .min(8, "و تحتوي علي حروف و ارقام و حروف كبيره و صغيره")
       .oneOf([Yup.ref("Confirm")], "كلمات المرور غير متطابقة"),
-    fullName: Yup.string()
-      .required(" الاسم الكامل مطلوب"),
+    fullName: Yup.string().required(" الاسم الكامل مطلوب"),
     Confirm: Yup.string()
       .required("تأكيد كلمة المرور مطلوب")
       .oneOf([Yup.ref("Password")], "كلمات المرور غير متطابقة"),
-    Identity: Yup.string()
-      .required("رقم الهويه مطلوب"),
-    phoneNumber: Yup.string()
-      .required("رقم الهاتف مطلوب"),
-    taxRecord: Yup.string()
-      .required("السجل التجاري مطلوب"),
-      InsuranceNumber: Yup.string()
-      .required("رقم الضريبي مطلوب"),
-      license: Yup.string()
-      .required("رقم المفاوض مطلوب"),
-      
+    Identity: Yup.string().required("رقم الهويه مطلوب"),
+    phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
+    taxRecord: Yup.string().required("السجل التجاري مطلوب"),
+    InsuranceNumber: Yup.string().required("رقم الضريبي مطلوب"),
+    license: Yup.string().required("رقم المفاوض مطلوب"),
   });
   const handelSignUpForMokhalseen = async (values) => {
     try {
-
       const data = await axios.post(
         `https://takhleesak.runasp.net/api/Register-Broker`,
         values
       );
 
       if (data.data.message === "تم تسجيل حساب المخلصين بنجاح") {
-
         toast("sucsses");
         window.location.href = "/SignIn";
-    
       } else {
         toast(data.data.message);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -66,7 +55,8 @@ const SignUpForMokhalseen = () => {
       InsuranceNumber: "",
       license: "",
       taxRecord: "",
-    },validationSchema,
+    },
+    validationSchema,
     onSubmit: handelSignUpForMokhalseen,
   });
 
@@ -95,8 +85,8 @@ const SignUpForMokhalseen = () => {
                 required
               />
               {formik.touched.fullName && formik.errors.fullName && (
-              <div className="error-message">{formik.errors.fullName}</div>
-            )}  
+                <div className="error-message">{formik.errors.fullName}</div>
+              )}
               <hr />
 
               <input
@@ -107,10 +97,10 @@ const SignUpForMokhalseen = () => {
                 id="Email"
                 name="Email"
                 required
-                  />
+              />
               {formik.touched.Email && formik.errors.Email && (
-              <div className="error-message">{formik.errors.Email}</div>
-            )}
+                <div className="error-message">{formik.errors.Email}</div>
+              )}
               <hr />
               <input
                 value={formik.values.taxRecord}
@@ -122,8 +112,8 @@ const SignUpForMokhalseen = () => {
                 required
               />
               {formik.touched.taxRecord && formik.errors.taxRecord && (
-              <div className="error-message">{formik.errors.taxRecord}</div>
-            )}
+                <div className="error-message">{formik.errors.taxRecord}</div>
+              )}
               <hr />
 
               <input
@@ -135,13 +125,15 @@ const SignUpForMokhalseen = () => {
                 name="InsuranceNumber"
                 required
               />
-              {formik.touched.InsuranceNumber && formik.errors.InsuranceNumber && (
-              <div className="error-message">{formik.errors.InsuranceNumber}</div>
-            )}
-                          <hr />
+              {formik.touched.InsuranceNumber &&
+                formik.errors.InsuranceNumber && (
+                  <div className="error-message">
+                    {formik.errors.InsuranceNumber}
+                  </div>
+                )}
+              <hr />
 
-
-<input
+              <input
                 onChange={formik.handleChange}
                 value={formik.values.license}
                 placeholder="رخصه المفاوض"
@@ -151,8 +143,8 @@ const SignUpForMokhalseen = () => {
                 required
               />
               {formik.touched.license && formik.errors.license && (
-              <div className="error-message">{formik.errors.license}</div>
-            )}
+                <div className="error-message">{formik.errors.license}</div>
+              )}
             </div>
 
             <div className="SignUpCompany-form-group2 col-md-6">
@@ -168,8 +160,8 @@ const SignUpForMokhalseen = () => {
                 required
               />
               {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-              <div className="error-message">{formik.errors.phoneNumber}</div>
-            )}
+                <div className="error-message">{formik.errors.phoneNumber}</div>
+              )}
               <hr />
 
               <input
@@ -182,8 +174,8 @@ const SignUpForMokhalseen = () => {
                 required
               />
               {formik.touched.Password && formik.errors.Password && (
-              <div className="error-message">{formik.errors.Password}</div>
-            )}
+                <div className="error-message">{formik.errors.Password}</div>
+              )}
               <hr />
 
               <input
@@ -196,8 +188,8 @@ const SignUpForMokhalseen = () => {
                 required
               />
               {formik.touched.Confirm && formik.errors.Confirm && (
-              <div className="error-message">{formik.errors.Confirm}</div>
-            )}
+                <div className="error-message">{formik.errors.Confirm}</div>
+              )}
               <hr />
 
               <input
@@ -210,11 +202,9 @@ const SignUpForMokhalseen = () => {
                 required
               />
               {formik.touched.Identity && formik.errors.Identity && (
-              <div className="error-message">{formik.errors.Identity}</div>
-            )}
+                <div className="error-message">{formik.errors.Identity}</div>
+              )}
             </div>
-
-          
           </div>
 
           <div className="SignUpForMokhalseen-button-group">

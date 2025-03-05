@@ -52,7 +52,7 @@ export default function DoneOrders() {
       setIsLoading(false);
       setImageName(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
       setIsLoading(false);
     }
   };
@@ -94,7 +94,7 @@ export default function DoneOrders() {
     } catch (error) {
       setIsLoading(false);
 
-      console.error("حدث خطأ أثناء تحميل الملف:", error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -127,7 +127,7 @@ export default function DoneOrders() {
 
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -161,7 +161,7 @@ export default function DoneOrders() {
 
       console.log(request);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -181,7 +181,7 @@ export default function DoneOrders() {
       );
       console.log(request);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -199,7 +199,7 @@ export default function DoneOrders() {
       setCustomers(data);
       console.log(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

@@ -25,7 +25,7 @@ const Dashboard = () => {
       console.log(data);
       setState(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   const styles = {

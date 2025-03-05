@@ -30,7 +30,6 @@ export default function OrderDetails() {
   let NewAllfile = [];
 
   const DownloadFilesApi = async (index) => {
-    console.log(index);
 
     try {
       const response = await axios.post(
@@ -70,7 +69,7 @@ export default function OrderDetails() {
       window.URL.revokeObjectURL(url);
       toast.success("تم التحميل");
     } catch (error) {
-      console.error("حدث خطأ أثناء تحميل الملف:", error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -92,7 +91,11 @@ export default function OrderDetails() {
 
       toast.success("تم تقديم الطلب بنجاح");
       getValue();
-    } catch (error) {}
+    } catch (error) {
+
+      toast.error(error.response.data.message);
+
+    }
   };
 
   const mathmatecis = () => {
@@ -116,7 +119,7 @@ export default function OrderDetails() {
         console.log(data);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -134,7 +137,7 @@ export default function OrderDetails() {
       setdata(data);
       console.log(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

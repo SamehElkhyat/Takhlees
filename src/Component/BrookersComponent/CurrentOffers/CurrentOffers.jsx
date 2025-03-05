@@ -54,7 +54,7 @@ export default function CurrentOffers() {
       toast("تم التنفيذ");
       getCustomersOrders();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   // sadsssssssssssssssssssssssssss//
@@ -75,7 +75,7 @@ export default function CurrentOffers() {
       toast("تم الالغاء");
       getCustomersOrders();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -93,7 +93,7 @@ export default function CurrentOffers() {
 
       setOrders2(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -111,7 +111,10 @@ export default function CurrentOffers() {
       console.log(data);
 
       setOrders(data);
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error.response.data.message);
+
+    }
   };
 
   const getCustomersOrders = async () => {
@@ -127,17 +130,23 @@ export default function CurrentOffers() {
       console.log(data);
 
       setCustomersOrders(data);
-    } catch (error) {}
+    } catch (error) {
+
+      toast.error(error.response.data.message);
+
+    }
   };
 
   const handleOrderClick = (id) => {
     console.log(id);
   };
+
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
       formik.setFieldValue("formFile", e.target.files[0]); // تعيين الملف مباشرة
     }
   };
+
   const SendFile = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -162,7 +171,7 @@ export default function CurrentOffers() {
       setBar(null);
       console.log("نجاح:", data);
     } catch (error) {
-      console.log("خطأ:", error);
+      toast.error(error.response.data.message);
       setIsLoading(false);
     }
   };
@@ -301,95 +310,19 @@ export default function CurrentOffers() {
                         <>
                           <td>{order.brokerEmail}</td>
                           <td>{order.brokerName}</td>
-    
                         </>
                       ) : (
                         <>
                           <td>
-                            {" "}
-                            {order.statuOrder === "قيد الإنتظار" && (
-                              <button
-                                onClick={() => setStatus("تحت الإجراء")}
-                                className={`btn bg-primary w-100 ${
-                                  status === "تحت الإجراء"
-                                    ? "bg-primary"
-                                    : "btn-outline-primary"
-                                }`}
-                              >
-                                تحت الإجراء
-                              </button>
-                            )}
-                            {order.statuOrder === "تم التنفيذ" && (
-                              <button
-                                onClick={() => setStatus("تم التنفيذ")}
-                                className={`btn bg-success w-100 ${
-                                  status === "تم التنفيذ"
-                                    ? "bg-success"
-                                    : "btn-outline-success"
-                                }`}
-                              >
-                                تم التنفيذ
-                              </button>
-                            )}
-                            {order.statuOrder === "ملغي" && (
-                              <button
-                                onClick={() => setStatus("ملغي")}
-                                className={`btn bg-danger w-100 ${
-                                  status === "ملغي"
-                                    ? "bg-danger"
-                                    : "btn-outline-danger"
-                                }`}
-                              >
-                                ملغي
-                              </button>
-                            )}
+                            <button className="btn bg-success w-100">
+                              {order.statuOrder}
+                            </button>
                           </td>
                         </>
                       )}
                     </>
                   ) : (
-                    <>
-                      <td>
-                        {order.statuOrder === "قيد الإنتظار" && (
-                          <button
-                            onClick={() => setStatus("تحت الإجراء")}
-                            className={`btn bg-primary w-100 ${
-                              status === "تحت الإجراء"
-                                ? "bg-primary"
-                                : "btn-outline-primary"
-                            }`}
-                          >
-                            تحت الإجراء
-                          </button>
-                        )}
-
-                        {order.statuOrder === "تم التنفيذ" && (
-                          <button
-                            onClick={() => setStatus("تم التنفيذ")}
-                            className={`btn bg-success w-100 ${
-                              status === "تم التنفيذ"
-                                ? "bg-success"
-                                : "btn-outline-success"
-                            }`}
-                          >
-                            تم التنفيذ
-                          </button>
-                        )}
-
-                        {order.statuOrder === "ملغي" && (
-                          <button
-                            onClick={() => setStatus("ملغي")}
-                            className={`btn bg-danger w-100 ${
-                              status === "ملغي"
-                                ? "bg-danger"
-                                : "btn-outline-danger"
-                            }`}
-                          >
-                            ملغي
-                          </button>
-                        )}
-                      </td>
-                    </>
+                    <></>
                   )}
                 </tr>
               ))}
@@ -459,7 +392,6 @@ export default function CurrentOffers() {
                     <>
                       <th>بريد صاحب الطلب</th>
                       <th>اسم صاحب الطلب</th>
-                 
                     </>
                   ) : (
                     <>
@@ -615,7 +547,7 @@ export default function CurrentOffers() {
               <th>الملاحظات</th>
               <th>اسم (الميناء/المطار)</th>
               <th>رقم الطلب</th>
-                      {DecodedTokken ? (
+              {DecodedTokken ? (
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>

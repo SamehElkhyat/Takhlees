@@ -26,7 +26,7 @@ export default function AvailableOrders() {
 
       setData(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -48,7 +48,7 @@ export default function AvailableOrders() {
           window.location.href = "/OrderDetails";
         }
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.message);
       }
     }
   };

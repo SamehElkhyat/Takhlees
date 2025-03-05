@@ -21,27 +21,24 @@ export default function CanceledOrders() {
 
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
-  const [notes, setNotes] = useState({})
+  const [notes, setNotes] = useState({});
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
 
-
-  const handleShowDetails = (order,BrokerId) => {
+  const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
-    getAllInformationBroker(BrokerId)
-    
+    getAllInformationBroker(BrokerId);
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
 
-
-
   const getAllInformationBroker = async (BrokerId) => {
     try {
-      const {data} = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,{
-          BrokerID:BrokerId,
+      const { data } = await axios.post(
+        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        {
+          BrokerID: BrokerId,
         },
         {
           headers: {
@@ -49,35 +46,35 @@ export default function CanceledOrders() {
           },
         }
       );
-console.log(data);
+      console.log(data);
 
-setSelectedOrder(data)
-      
+      setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
-  const sendToBroker=async(id)=>{
-
+  const sendToBroker = async (id) => {
     try {
-      await axios.post(`https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+      await axios.post(
+        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
         {
           ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
-          statuOrder:'transfer'
-
+          statuOrder: "transfer",
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
         }
-      )
+      );
       alert("تم تحديث الطلب بنجاح");
       getCustomers(); // تحديث القائمة بعد الإرسال
     } catch (error) {
-      
+      toast.error(error.response.data.message);
     }
-  }
+  };
 
   const ChangeStateNot = async (id) => {
     try {
@@ -88,17 +85,17 @@ setSelectedOrder(data)
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
         }
       );
       alert("تم تحديث الطلب بنجاح");
       getCustomers(); // تحديث القائمة بعد الإرسال
     } catch (error) {
-      console.error("حدث خطأ أثناء تحديث الحالة:", error);
+      toast.error(error.response.data.message);
     }
   };
-
-
 
   const ChangeStatueNot = async (id) => {
     try {
@@ -107,20 +104,20 @@ setSelectedOrder(data)
         {
           ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
-          statuOrder:'delete',
-
+          statuOrder: "delete",
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
         }
       );
       alert("تم تحديث الطلب بنجاح");
       getCustomers(); // تحديث القائمة بعد الإرسال
     } catch (error) {
-      console.error("حدث خطأ أثناء تحديث الحالة:", error);
+      toast.error(error.response.data.message);
     }
   };
-
 
   const ChangetoDelete = async (id) => {
     try {
@@ -129,21 +126,20 @@ setSelectedOrder(data)
         {
           ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
-          statuOrder:'send',
-
+          statuOrder: "send",
         },
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem("Tokken")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
         }
       );
       alert("تم تحديث الطلب بنجاح");
       getCustomers(); // تحديث القائمة بعد الإرسال
     } catch (error) {
-      console.error("حدث خطأ أثناء تحديث الحالة:", error);
+      toast.error(error.response.data.message);
     }
   };
-
-
 
   const getCustomers = async () => {
     try {
@@ -156,17 +152,16 @@ setSelectedOrder(data)
         }
       );
       console.log(data);
-      
+
       setCustomers(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   const handleNoteChange = (id, value) => {
     setNotes((prevNotes) => ({ ...prevNotes, [id]: value }));
   };
-
 
   const toggleNoteField = (id) => {
     setShowNoteField((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -175,7 +170,6 @@ setSelectedOrder(data)
     setShowNoteField2((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  
   const sortedCustomers = [...customers].sort((a, b) =>
     sortOrder === "newest"
       ? new Date(b.date) - new Date(a.date)
@@ -238,7 +232,6 @@ setSelectedOrder(data)
             <TableCell align="center">التاريخ</TableCell>
             <TableCell align="center">تفاصيل المخلص</TableCell>
             <TableCell align="center">الإجراء</TableCell>
-
           </TableRow>
         </TableHead>
         <TableBody>
@@ -253,7 +246,7 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
               </TableCell>
-       
+
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.email}
               </TableCell>
@@ -263,7 +256,7 @@ setSelectedOrder(data)
               <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order,customer.brokerID)}
+                  onClick={() => handleShowDetails(order, customer.brokerID)}
                 >
                   عرض التفاصيل
                 </Button>
@@ -275,21 +268,21 @@ setSelectedOrder(data)
                   className="bg-success text-white"
                   sx={{ marginRight: "10px" }}
                 >
-                   ارسال الطلب للمخلص
+                  ارسال الطلب للمخلص
                 </Button>
                 <Button
                   onClick={() => ChangetoDelete(customer.id)}
                   className="bg-primary text-white"
                   sx={{ marginRight: "10px" }}
                 >
-                   ارسال الي الطلبات المتاحه 
+                  ارسال الي الطلبات المتاحه
                 </Button>
                 <Button
                   onClick={() => toggleNoteField(customer.id)}
                   className="bg-danger text-white"
                   sx={{ marginRight: "10px" }}
                 >
-                     إلغاء
+                  إلغاء
                 </Button>
                 {showNoteField[customer.id] && (
                   <Box mt={1}>
@@ -312,7 +305,7 @@ setSelectedOrder(data)
                   </Box>
                 )}
 
-{showNoteField2[customer.id] && (
+                {showNoteField2[customer.id] && (
                   <Box mt={1}>
                     <TextField
                       label="اكتب ملاحظة"
@@ -333,7 +326,7 @@ setSelectedOrder(data)
                   </Box>
                 )}
 
-{showNoteField3[customer.id] && (
+                {showNoteField3[customer.id] && (
                   <Box mt={1}>
                     <TextField
                       label="اكتب ملاحظة"
@@ -356,18 +349,20 @@ setSelectedOrder(data)
               </TableCell>
             </TableRow>
           ))}
-          
 
-<Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+          <Modal
+            className="text-end"
+            show={selectedOrder !== null}
+            onHide={handleCloseDetails}
+          >
             <Modal.Header closeButton>
               <Modal.Title>تفاصيل الطلب</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {selectedOrder && (
                 <>
-              
                   <p>
-                  {selectedOrder.email} <strong>:البريد الإكتروني</strong> 
+                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
                   </p>
                   <p>
                     <strong>الاسم:</strong> {selectedOrder.fullName}

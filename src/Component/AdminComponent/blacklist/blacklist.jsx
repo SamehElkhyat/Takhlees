@@ -10,7 +10,7 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Button } from "react-bootstrap";
 
 export default function Blacklist() {
@@ -34,7 +34,7 @@ export default function Blacklist() {
       CustomerService();
 
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -56,22 +56,28 @@ export default function Blacklist() {
 
 
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   const GetBlackList = async () => {
-    const response = await axios.get(
-      "https://takhleesak.runasp.net/api/Black-List",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-        },
-      }
-    );
-  
-    setSelectedOrder(response.data);
-    console.log(response.data);
+
+    try {
+      const response = await axios.get(
+        "https://takhleesak.runasp.net/api/Black-List",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+    
+      setSelectedOrder(response.data);
+    } catch (error) {
+      toast.error(error.response.data.message);
+
+    }
+ 
   };
   useEffect(() => {
     GetBlackList();

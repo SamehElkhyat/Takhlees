@@ -9,13 +9,11 @@ import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const SignIn = () => {
-
   const validationSchema = Yup.object({
     Email: Yup.string()
       .email("بريد إلكتروني غير صالح")
       .required("البريد الإلكتروني مطلوب"),
-    Password: Yup.string()
-      .required("تأكيد كلمة المرور مطلوب")
+    Password: Yup.string().required("تأكيد كلمة المرور مطلوب"),
   });
 
   async function handelesignin(values) {
@@ -28,37 +26,32 @@ const SignIn = () => {
         toast(data.data.message);
         localStorage.setItem("Tokken", data.data.data);
         localStorage.setItem("Code", data.data.state);
-        const decodedCode= jwtDecode(localStorage.getItem("Tokken"))
-             console.log(decodedCode);
-             if (decodedCode.Role == "User") {
-              return (window.location.href = "/LandingPageForUsers");
-            } else if (decodedCode.Role == "Admin") {
-              return (window.location.href = "/LandingPageAdmin");
-            } else if (decodedCode.Role == "Company") {
-              return (window.location.href = "/LandingPageForUsers");
-            } else if (decodedCode.Role == "Account") {
-             return (window.location.href = "/AccountantLandingPage");
-            } else if (decodedCode.Role == "CustomerService") {
-              return (window.location.href = "/LandingPageCustomeService");
-            } else if (decodedCode.Role == "Broker") {
-              return (window.location.href ="/BrookersLandingPage")
-            } else if (decodedCode.Role == "Manager") {
-              return (window.location.href ="/LandingPageManger")
-            }
-
-             
+        const decodedCode = jwtDecode(localStorage.getItem("Tokken"));
+        if (decodedCode.Role == "User") {
+          return (window.location.href = "/LandingPageForUsers");
+        } else if (decodedCode.Role == "Admin") {
+          return (window.location.href = "/LandingPageAdmin");
+        } else if (decodedCode.Role == "Company") {
+          return (window.location.href = "/LandingPageForUsers");
+        } else if (decodedCode.Role == "Account") {
+          return (window.location.href = "/AccountantLandingPage");
+        } else if (decodedCode.Role == "CustomerService") {
+          return (window.location.href = "/LandingPageCustomeService");
+        } else if (decodedCode.Role == "Broker") {
+          return (window.location.href = "/BrookersLandingPage");
+        } else if (decodedCode.Role == "Manager") {
+          return (window.location.href = "/LandingPageManger");
+        }
       } else {
         toast(data.data.message);
       }
     } catch (error) {
-      
-          toast(error.response.data.message)
-          
+      toast.error(error.response.data.message);
     }
   }
 
   let formik = useFormik({
-    initialValues:{
+    initialValues: {
       Email: "",
       Password: "",
     },
@@ -74,9 +67,7 @@ const SignIn = () => {
         <div className="SignIn-Frame"></div>
       </div>
 
-
       <div className="sign-in-container">
-
         <h2>تسجيل الدخول</h2>
         <form onSubmit={formik.handleSubmit} noValidate>
           <div className="form-group-company">
@@ -111,14 +102,12 @@ const SignIn = () => {
           </div>
           <p>
             <Link className="to-ResetPassword" to="/ResetPassword">
-            
               هل نسيت كلمة السر؟
             </Link>
           </p>
 
           <div className="button-group">
-            <button className="signin-button"
-            type="submit">
+            <button className="signin-button" type="submit">
               تسجيل الدخول
             </button>
             <p>

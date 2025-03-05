@@ -35,43 +35,39 @@ const NewOrderForm = () => {
     Notes: Yup.string().required("الملاحظات مطلوبه"),
 
     Town: Yup.string()
-    .nullable()
-    .test(
-      "required-if-showInputs-not-null",
-      "الحي مطلوب",
-      function (value) {
+      .nullable()
+      .test("required-if-showInputs-not-null", "الحي مطلوب", function (value) {
         if (ShowInputs !== "null") {
           return !!value && value.trim() !== ""; // التأكد من أن القيمة ليست فارغة
         }
         return true; // إذا كان ShowInputs يساوي null، لا يتم التحقق
-      }
-    ),
+      }),
 
-  zipCode: Yup.string()
-    .nullable()
-    .test(
-      "required-if-showInputs-not-null",
-      "الرمز البريدي مطلوب",
-      function (value) {
-        if (ShowInputs !== "null") {
-          return !!value && value.trim() !== "";
+    zipCode: Yup.string()
+      .nullable()
+      .test(
+        "required-if-showInputs-not-null",
+        "الرمز البريدي مطلوب",
+        function (value) {
+          if (ShowInputs !== "null") {
+            return !!value && value.trim() !== "";
+          }
+          return true;
         }
-        return true;
-      }
-    ),
+      ),
 
-  City: Yup.string()
-    .nullable()
-    .test(
-      "required-if-showInputs-not-null",
-      "المدينة مطلوبة",
-      function (value) {
-        if (ShowInputs !== "null") {
-          return !!value && value.trim() !== "";
+    City: Yup.string()
+      .nullable()
+      .test(
+        "required-if-showInputs-not-null",
+        "المدينة مطلوبة",
+        function (value) {
+          if (ShowInputs !== "null") {
+            return !!value && value.trim() !== "";
+          }
+          return true;
         }
-        return true;
-      }
-    ),
+      ),
 
     numberOfTypeOrders: Yup.array()
       .of(
@@ -175,13 +171,7 @@ const NewOrderForm = () => {
       }, 1000);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
-
-      toast.error("error 404", {
-        style: {
-          fontWeight: "700",
-        },
-      });
+      toast.error(error.response.data.message);
     }
   };
 
@@ -269,7 +259,10 @@ const NewOrderForm = () => {
   }, []);
 
   return (
-    <div className="container text-center d-flex flex-column gap-3 mt-5">
+    <div
+      id="New-Order"
+      className="container text-center d-flex flex-column gap-3 mt-5"
+    >
       <Toaster
         className="bg-dark position-absolute"
         position="top-center"
@@ -277,18 +270,18 @@ const NewOrderForm = () => {
       />
       <h3
         style={{
-          fontSize: "2rem",
+          fontSize: "30px",
           fontWeight: "700",
           color: "#2c3e50",
           textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-          borderBottom: "3px solid #3498db",
+          borderBottom: "3px solidrgb(255, 255, 255)",
           paddingBottom: "10px",
           width: "fit-content",
           margin: "0 auto 2rem auto",
           borderRadius: "10px",
           backgroundColor: "#f0f0f0",
           padding: "10px",
-          border: "1px solid #3498db",
+          border: "1px solid green",
           boxShadow: "0 0 10px rgba(0,0,0,0.1)",
           transition: "all 0.3s ease",
           "&:hover": {
@@ -303,7 +296,10 @@ const NewOrderForm = () => {
       >
         طلب جديد
       </h3>
-      <Form onSubmit={formik.handleSubmit}>
+      <Form 
+            id="New-Order-form"
+
+  onSubmit={formik.handleSubmit}>
         {/* موقع الطلب */}
         <Form.Group controlId="location">
           <Form.Label>موقع الطلب</Form.Label>
@@ -450,7 +446,35 @@ const NewOrderForm = () => {
 
         {/* الحقول الديناميكية */}
 
-        <h5>تفاصيل الطلبات</h5>
+        <h5
+          style={{
+            fontSize: "30px",
+            marginTop: "20px",
+            fontWeight: "700",
+            color: "#2c3e50",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+            borderBottom: "3px solidrgb(255, 255, 255)",
+            paddingBottom: "10px",
+            width: "fit-content",
+            margin: "0 auto 2rem auto",
+            borderRadius: "10px",
+            backgroundColor: "#f0f0f0",
+            padding: "10px",
+            border: "1px solid green",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+            "&:hover": {
+              transform: "scale(1.05)",
+              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+            },
+            "&:active": {
+              transform: "scale(0.95)",
+              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            },
+          }}
+        >
+          تفاصيل الطلبات
+        </h5>
         {formik.values.numberOfTypeOrders.map((order, index) => (
           <div key={index} className="border p-3 mb-3">
             <Form.Group controlId={`numberOfTypeOrders[${index}][typeOrder]`}>
@@ -564,10 +588,37 @@ const NewOrderForm = () => {
           إضافة طلب جديد
         </Button>
 
+        <h5
+          style={{
+            fontSize: "30px",
+            fontWeight: "700",
+            color: "#2c3e50",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+            borderBottom: "3px solidrgb(255, 255, 255)",
+            width: "fit-content",
+            margin: "50px auto 5px auto",
+            borderRadius: "10px",
+            backgroundColor: "#f0f0f0",
+            padding: "10px",
+            border: "1px solid green",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+          }}
+        >
+          {" "}
+          الملفات
+        </h5>
         <Form.Group controlId="orderFiles" className="mt-4">
-          <Form.Label>سجل التجاري</Form.Label>
-          <InputGroup>
-            <FormControl type="file" multiple onChange={handleFileChange} />
+          <Form.Label className="fw-semibold text-secondary">
+            سجل التجاري
+          </Form.Label>
+          <InputGroup className="border rounded-3 shadow-sm bg-white overflow-hidden">
+            <FormControl
+              className="border rounded-3 shadow-sm bg-white overflow-hidden"
+              type="file"
+              multiple
+              onChange={handleFileChange}
+            />
           </InputGroup>
           {formik.touched.uploadFile && formik.errors.uploadFile && (
             <div className="error-message text-danger mt-2">
@@ -577,9 +628,16 @@ const NewOrderForm = () => {
         </Form.Group>
 
         <Form.Group controlId="orderFiles" className="mt-4">
-          <Form.Label>السجل الضريبي</Form.Label>
-          <InputGroup>
-            <FormControl type="file" multiple onChange={handleFileChange} />
+          <Form.Label className="fw-semibold text-secondary">
+            السجل الضريبي
+          </Form.Label>
+          <InputGroup className="border rounded-3 shadow-sm bg-white overflow-hidden">
+            <FormControl
+              className="border rounded-3 shadow-sm bg-white overflow-hidden"
+              type="file"
+              multiple
+              onChange={handleFileChange}
+            />
           </InputGroup>
           {formik.touched.uploadFile && formik.errors.uploadFile && (
             <div className="error-message text-danger mt-2">
@@ -589,9 +647,35 @@ const NewOrderForm = () => {
         </Form.Group>
 
         <Form.Group controlId="orderFiles" className="mt-4">
-          <Form.Label>البوليصه</Form.Label>
-          <InputGroup>
-            <FormControl type="file" multiple onChange={handleFileChange} />
+          <Form.Label className="fw-semibold text-secondary">
+             البوليصة
+          </Form.Label>
+          <InputGroup className="border rounded-3 shadow-sm bg-white overflow-hidden">
+            <FormControl
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              className="border rounded-3 shadow-sm bg-white overflow-hidden"
+            />
+          </InputGroup>
+          {formik.touched.uploadFile && formik.errors.uploadFile && (
+            <div className="error-message text-danger mt-2 small">
+              {formik.errors.uploadFile}
+            </div>
+          )}
+        </Form.Group>
+
+        <Form.Group controlId="orderFiles" className="mt-4">
+          <Form.Label className="fw-semibold text-secondary">
+            شهاده المنشأ
+          </Form.Label>
+          <InputGroup className="border rounded-3 shadow-sm bg-white overflow-hidden">
+            <FormControl
+              className="border rounded-3 shadow-sm bg-white overflow-hidden"
+              type="file"
+              multiple
+              onChange={handleFileChange}
+            />
           </InputGroup>
           {formik.touched.uploadFile && formik.errors.uploadFile && (
             <div className="error-message text-danger mt-2">
@@ -601,19 +685,7 @@ const NewOrderForm = () => {
         </Form.Group>
 
         <Form.Group controlId="orderFiles" className="mt-4">
-          <Form.Label>شهاده المنشأ</Form.Label>
-          <InputGroup>
-            <FormControl type="file" multiple onChange={handleFileChange} />
-          </InputGroup>
-          {formik.touched.uploadFile && formik.errors.uploadFile && (
-            <div className="error-message text-danger mt-2">
-              {formik.errors.uploadFile}
-            </div>
-          )}
-        </Form.Group>
-
-        <Form.Group controlId="orderFiles" className="mt-4">
-          <Form.Label>
+          <Form.Label className="fw-semibold text-secondary">
             ملفات اخري
             <span className="text-danger">
               (اي رخص او شهادات تتعلق بالطلب)
@@ -625,14 +697,21 @@ const NewOrderForm = () => {
             </div>
           )}
           <InputGroup>
-            <FormControl type="file" multiple onChange={handleFileChange} />
+            <FormControl
+              className="border rounded-3 shadow-sm bg-white overflow-hidden"
+              type="file"
+              multiple
+              onChange={handleFileChange}
+            />
           </InputGroup>
         </Form.Group>
 
         <div>
           {fileInputs.map((id) => (
             <Form.Group controlId="orderFiles" className="mt-4" key={id}>
-              <Form.Label>ملفات إضافية </Form.Label>
+              <Form.Label className="fw-semibold text-secondary">
+                ملفات إضافية{" "}
+              </Form.Label>
               <InputGroup>
                 <FormControl type="file" multiple onChange={handleFileChange} />
               </InputGroup>
@@ -645,27 +724,33 @@ const NewOrderForm = () => {
           ))}
         </div>
 
-        <Button variant="secondary" onClick={() => addFiles()}>
-          إضافة ملف
+        <Button
+          style={{ marginTop: "20px" }}
+          variant="secondary"
+          onClick={() => addFiles()}
+        >
+          إضافة ملف أخر
         </Button>
 
         {IsLoading ? (
           <>
             {" "}
-            <Spinner
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-              className="me-2 "
-            />
-            جارٍ التحميل...
+            <Button variant="primary" className="d-flex justify-content-end">
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                className="me-2 text-danger d-flex justify-content-end mt-1"
+              />
+              جارٍ تنفيذ الطلب...
+            </Button>
           </>
         ) : (
           <>
             <Button
-              variant="primary"
+              variant="success"
               type="submit"
               className="d-flex justify-content-end"
             >

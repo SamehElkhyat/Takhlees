@@ -34,7 +34,7 @@ const ConfirmPassword = () => {
         },1000)
       }
     } catch (error) {
-      toast("حدث خطأ في إعادة تعيين كلمة المرور");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -84,7 +84,7 @@ const ConfirmPassword = () => {
                 value={formik.values.newPassword}
                 type="password"
                 name="newPassword"
-                placeholder="رمز التحقق"
+                placeholder="كلمه المرور الجديده"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
@@ -99,7 +99,7 @@ const ConfirmPassword = () => {
                 value={formik.values.Confirm}
                 type="password"
                 name="Confirm"
-                placeholder="رمز التحقق"
+                placeholder="تأكيد كلمه المرور"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />

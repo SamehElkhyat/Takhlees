@@ -24,7 +24,7 @@ const PendingOrders = () => {
           window.location.href = "/OrderDetailsForUser";
         }
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.message);
       }
     }
 
@@ -46,7 +46,7 @@ const PendingOrders = () => {
       
       setOrder(res.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   const handleChangeId = (value) => {

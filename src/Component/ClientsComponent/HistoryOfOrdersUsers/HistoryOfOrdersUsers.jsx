@@ -25,7 +25,7 @@ export default function HistoryOfOrdersUsers() {
       console.log(data);
       
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

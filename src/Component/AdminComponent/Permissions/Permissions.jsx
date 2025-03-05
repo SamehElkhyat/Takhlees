@@ -35,11 +35,11 @@ export default function Permissions() {
         }
       );
       toast(data.message);
-      CustomerService()
+      CustomerService();
 
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -63,7 +63,7 @@ export default function Permissions() {
 
       setUsers(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -131,7 +131,6 @@ export default function Permissions() {
               <option value="CustomerService">خدمه عملاء</option>
               <option value="User">عميل</option>
               <option value="Broker">مخلص</option>
-
             </Form.Control>
           </div>
         </Modal.Body>

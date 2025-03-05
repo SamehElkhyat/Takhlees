@@ -16,10 +16,9 @@ export default function statistics() {
           },
         }
       );
-      console.log(data);
       setStatics(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   const GetBrookers = async () => {
@@ -33,9 +32,8 @@ export default function statistics() {
         }
       );
       setBrookers(data);
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   useEffect(() => {

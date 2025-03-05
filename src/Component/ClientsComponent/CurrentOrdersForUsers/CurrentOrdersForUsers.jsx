@@ -25,7 +25,7 @@ const CurrentOrdersForUsers = () => {
         console.log("حدث خطأ في عرض البايانات");
       }
     } catch (error) {
-      console.log(error.status);
+      toast.error(error.response.data.message);
       seterror(error.status);
     }
   };
@@ -44,7 +44,7 @@ const CurrentOrdersForUsers = () => {
 
       setOrder(res.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

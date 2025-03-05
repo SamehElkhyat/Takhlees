@@ -16,24 +16,23 @@ import { Link } from "react-router-dom";
 
 export default function Clients() {
   const [selectedOrder, setSelectedOrder] = useState([]);
-    const [Ishovered1, setIshovered1] = useState(false);
-  
-  
-    const styles = {
-      cards1: {
-        backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
-        transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
-        transition: "all 0.3s ease",
-        boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
-      },
-    
-      icons: {
-        fontSize: "50px",
-        padding: "20px",
-      },}
+  const [Ishovered1, setIshovered1] = useState(false);
+
+  const styles = {
+    cards1: {
+      backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
+      transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+
+    icons: {
+      fontSize: "50px",
+      padding: "20px",
+    },
+  };
 
   const Block = async (email) => {
-    
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Blocked`,
@@ -48,14 +47,12 @@ export default function Clients() {
         }
       );
       CustomerService();
-
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   const UnBlock = async (email) => {
-
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Unblocked`,
@@ -69,10 +66,8 @@ export default function Clients() {
         }
       );
       CustomerService();
-
-
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -88,20 +83,16 @@ export default function Clients() {
       );
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   useEffect(() => {
     CustomerService();
-
   }, []);
 
   return (
     <>
-
-   
-
       <Box width="100%" textAlign="center" p={4}>
         <h1
           className="text-xl font-bold mb-4"
@@ -130,9 +121,14 @@ export default function Clients() {
             },
           }}
         >
-            العملاء
+          العملاء
         </h1>
-        <Col md={12} sm={6} xs={12} className="mb-3 d-flex justify-content-center w-100">
+        <Col
+          md={12}
+          sm={6}
+          xs={12}
+          className="mb-3 d-flex justify-content-center w-100"
+        >
           <Card
             style={styles.cards1}
             onMouseLeave={() => setIshovered1(false)}
@@ -180,7 +176,7 @@ export default function Clients() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {selectedOrder.map((customer,index) => (
+            {selectedOrder.map((customer, index) => (
               <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.fullName}
@@ -197,7 +193,10 @@ export default function Clients() {
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.isBlocked ? (
                     <>
-                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
+                      <Button
+                        onClick={() => UnBlock(customer.email)}
+                        className="bg-success text-black"
+                      >
                         فك الحظر
                       </Button>
                     </>

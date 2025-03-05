@@ -28,6 +28,7 @@ const SignUp = () => {
   });
 
   const handelSignUp = async (values) => {
+    
     try {
       const data = await axios.post(
         `https://takhleesak.runasp.net/api/Register-user`,
@@ -39,8 +40,8 @@ const SignUp = () => {
       } else {
         toast(data.data.message);
       }
-    } catch (error) {
-      alert(error);
+    } catch (error) {      
+      toast.error(error.response.data.message);
     }
   };
 

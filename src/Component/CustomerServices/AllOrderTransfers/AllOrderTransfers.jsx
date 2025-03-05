@@ -62,11 +62,10 @@ export default function AllOrderTransfers() {
           },
         }
       );
-      console.log(data);
 
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -96,7 +95,7 @@ export default function AllOrderTransfers() {
       alert("تم ارسال الملاحظات");
       getAllAcceptedOrders();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -113,7 +112,6 @@ export default function AllOrderTransfers() {
     formData.append("Notes", values.Notes);
     formData.append("newOrderId", OrderId);
     // التأكد من إرسال OrderId الصحيح
-    console.log(values);
 
     try {
       const { data } = await axios.post(
@@ -129,9 +127,8 @@ export default function AllOrderTransfers() {
       setIsLoading(false);
       toast.success("تم تقديم الملاحظات بنجاح");
       setBar(null);
-      console.log("نجاح:", data);
     } catch (error) {
-      console.log("خطأ:", error);
+      toast.error(error.response.data.message);
       setIsLoading(false);
     }
   };
@@ -153,7 +150,7 @@ export default function AllOrderTransfers() {
       alert("تم ارسال الملاحظات");
       getAllAcceptedOrders();
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -169,7 +166,7 @@ export default function AllOrderTransfers() {
       );
       setCustomers(data);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

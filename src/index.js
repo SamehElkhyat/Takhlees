@@ -56,6 +56,7 @@ import CPanelCustomerServiceManger from "./Component/MangerComponennt/CPanelCust
 import LandingPageManger from "./Component/MangerComponennt/LandingPageManger/LandingPageManger.jsx";
 import BlacklistManger from "./Component/MangerComponennt/blacklistManger/blacklistManger.jsx";
 import StatisticsManger from "./Component/MangerComponennt/statisticsManger/statisticsManger.jsx";
+import DetailsForAdmin from "./Component/DetailsForAdmin/DetailsForAdmin.jsx";
 
 
 const router = createBrowserRouter([
@@ -134,6 +135,7 @@ const router = createBrowserRouter([
       //*//
 
       //* Admin//
+      { path: "DetailsForAdmin", element: <DetailsForAdmin /> },
       { path: "CPanelCustomerService", element: <CPanelCustomerService /> },
       { path: "CpanelAccountant", element: <CpanelAccountant /> },
       { path: "permissions", element: <Permissions /> },

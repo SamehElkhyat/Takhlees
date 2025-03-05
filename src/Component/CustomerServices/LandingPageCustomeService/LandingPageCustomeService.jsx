@@ -14,27 +14,22 @@ export default function LandingPageCustomService() {
   const [DecodedTokken, setDecodedTokken] = useState();
   const [State, setState] = useState({});
 
-
-const GetState = async ()=>{
-
-  try {
-    const {data} = await axios.get(`https://user.runasp.net/api/Number-Of-Operations-CustomerService`,{
-     headers:{
-      Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+  const GetState = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://user.runasp.net/api/Number-Of-Operations-CustomerService`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      setState(data);
+      console.log(data);
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
-
-    })
-    setState(data);
-    console.log(data);
-    
-    
-  } catch (error) {
-    
-  }
-
-
-
-}
+  };
 
   const styles = {
     cards1: {
@@ -78,10 +73,7 @@ const GetState = async ()=>{
       return () => clearInterval(interval); // تنظيف التايمر عند إزالة المكون
     }, [name]);
 
-    useEffect(()=>{
-
-
-    },[])
+    useEffect(() => {}, []);
 
     return (
       <h1>
@@ -105,8 +97,7 @@ const GetState = async ()=>{
     const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
     setDecodedTokken(decodedTokken);
     console.log(decodedTokken.fullName.split(" ")[0]);
-    GetState()
-
+    GetState();
   }, []);
   return (
     <Container className="text-center mt-5">
@@ -189,7 +180,9 @@ const GetState = async ()=>{
             className="shadow-lg"
           >
             <Card.Body>
-            <Badge className="Badge-React-bootStrap">{State.numberOfDoneOrders}</Badge>
+              <Badge className="Badge-React-bootStrap">
+                {State.numberOfDoneOrders}
+              </Badge>
 
               <i
                 on
@@ -218,7 +211,9 @@ const GetState = async ()=>{
             className="shadow-lg"
           >
             <Card.Body>
-            <Badge className="Badge-React-bootStrap">{State.numberOfRefuseOrders}</Badge>
+              <Badge className="Badge-React-bootStrap">
+                {State.numberOfRefuseOrders}
+              </Badge>
               <i
                 style={styles.icons}
                 className="fa-solid fa-ban text-danger"
@@ -245,7 +240,9 @@ const GetState = async ()=>{
             className="shadow-lg"
           >
             <Card.Body>
-            <Badge className="Badge-React-bootStrap">{State.numberOfNotDoneOrders}</Badge>
+              <Badge className="Badge-React-bootStrap">
+                {State.numberOfNotDoneOrders}
+              </Badge>
 
               <i
                 className="fa-solid fa-money-bill-transfer"
@@ -273,7 +270,9 @@ const GetState = async ()=>{
             className="shadow-lg"
           >
             <Card.Body>
-            <Badge className="Badge-React-bootStrap">{State.numberOfDoneOrders}</Badge>
+              <Badge className="Badge-React-bootStrap">
+                {State.numberOfDoneOrders}
+              </Badge>
               <i
                 className="fa-solid fa-money-bill-transfer"
                 style={styles.icons}
