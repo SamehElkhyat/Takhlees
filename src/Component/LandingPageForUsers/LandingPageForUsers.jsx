@@ -36,33 +36,6 @@ const LandingPageForUsers = () => {
     }
   };
 
-  const AnimatedName = ({ name }) => {
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setActiveIndex((prevIndex) => (prevIndex + 1) % name.length);
-      }, 300); // تغيير اللون كل 300 مللي ثانية
-
-      return () => clearInterval(interval); // تنظيف التايمر عند إزالة المكون
-    }, [name]);
-
-    return (
-      <h1>
-        {name.split("").map((char, index) => (
-          <span
-            key={index}
-            style={{
-              color: index === activeIndex ? "red" : "#000",
-              transition: "color 0.3s ease",
-            }}
-          >
-            {char}
-          </span>
-        ))}
-      </h1>
-    );
-  };
 
   const styles = {
     cards1: {
@@ -128,53 +101,77 @@ const LandingPageForUsers = () => {
 
   return (
     <Container className="text-center mt-5">
- <div className="container text-center py-5">
+    <div className="container text-center py-5">
   <h1
-    className="mb-4 p-4 text-white fw-bold shadow-lg rounded"
+    className="mb-4 p-4 text-white fw-bold shadow-lg "
     style={{
-      background: "linear-gradient(135deg, #3498db, #4A6785)",
+      backgroundImage: "linear-gradient(60deg, #89CFF0,rgb(185, 210, 172),rgb(217, 209, 217))",
       display: "inline-block",
-      borderRadius: "15px",
+      borderRadius:"25px", 
       textShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
       transition: "transform 0.3s ease-in-out",
     }}
   >
-    <span className="d-inline-block p-2">
+    <span className="text-black d-inline-block p-2">
       {DecodedTokken?.fullName ? (
-        <AnimatedName
-          name={`${DecodedTokken.fullName.split(" ")[0]} مرحباً بك!`}
-        />
+     <>مرحبًا بك!{DecodedTokken.fullName.split(" ")[0]}</>
       ) : (
-        "مرحبًا بك!"
+       <></> 
       )}
     </span>
   </h1>
 </div>
-
       <h5
         className="mb-4"
         style={{
-          fontSize: "2rem",
+          fontSize: "2.2rem",
           fontWeight: "700",
-          color: "white",
-          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-          borderBottom: "3px solid #3498db",
-          paddingBottom: "10px",
+          color: "transparent",
+          backgroundClip: "text",
+          backgroundImage:
+            "linear-gradient(60deg, #89CFF0,rgb(95, 111, 87), #D8BFD8)",
+          textShadow:
+            "1px 1px 3px rgba(0,0,0,0.1), 0 0 15px rgba(137, 207, 240, 0.3)",
+          borderBottom: "3px solid transparent",
+          borderImage: "linear-gradient(60deg, #89CFF0, #B6D7A8) 1",
+          paddingBottom: "12px",
           width: "fit-content",
           margin: "0 auto 2rem auto",
-          borderRadius: "10px",
-          backgroundColor: "#4A6785",
-          padding: "10px",
-          border: "1px solid #3498db",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-          transition: "all 0.3s ease",
+          borderRadius: "12px",
+          padding: "12px 25px",
+          boxShadow:
+            "0 5px 20px rgba(0,0,0,0.08), 0 0 8px rgba(182, 215, 168, 0.2)",
+          transition: "all 0.4s cubic-bezier(0.08, 0.52, 0.52, 1)",
+          position: "relative",
+          overflow: "hidden",
           "&:hover": {
-            transform: "scale(1.05)",
-            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+            transform: "scale(1.06) rotate(-1deg)",
+            boxShadow:
+              "0 8px 25px rgba(0,0,0,0.12), 0 0 12px rgba(137, 207, 240, 0.3)",
+            textShadow:
+              "1px 1px 3px rgba(0,0,0,0.1), 0 0 20px rgba(137, 207, 240, 0.4)",
           },
           "&:active": {
-            transform: "scale(0.95)",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            transform: "scale(0.99) rotate(0.5deg)",
+            transitionDuration: "0.15s",
+            boxShadow: "0 3px 8px rgba(0,0,0,0.06)",
+          },
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: "-15%",
+            left: "-15%",
+            width: "130%",
+            height: "130%",
+            background:
+              "radial-gradient(circle, rgba(137,207,240,0.15) 20%, transparent 60%)",
+            transform: "rotate(30deg)",
+            opacity: 0.4,
+            transition: "all 0.5s ease",
+          },
+          "&:hover::before": {
+            transform: "rotate(30deg) scale(1.1)",
+            opacity: 0.6,
           },
         }}
       >

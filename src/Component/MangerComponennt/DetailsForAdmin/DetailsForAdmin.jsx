@@ -67,6 +67,7 @@ export default function OrderDetails() {
           <th>رقم الطلب</th>
           <th>الاسم</th>
           <th>الريد الالكتروني</th>
+          <th>الملاحظات</th>
           <th>سجل الطلب</th>
           <th>التاريخ</th>
         </tr>
@@ -77,6 +78,7 @@ export default function OrderDetails() {
             <td>{customer.newOrderId}</td>
             <td>{customer.fullName}</td>
             <td>{customer.email}</td>
+            <td>{customer.notes}</td>
             <td>{customer.message}</td>
             <td>{customer.timeStamp}</td>
 
