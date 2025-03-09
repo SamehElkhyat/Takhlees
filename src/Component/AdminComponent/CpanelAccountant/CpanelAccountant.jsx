@@ -13,6 +13,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function CpanelAccountant() {
   const [selectedOrder, setSelectedOrder] = useState([]);
@@ -20,7 +21,7 @@ export default function CpanelAccountant() {
 
   const styles = {
     cards1: {
-      backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
+      backgroundColor: "#B3D4FF",
       transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
@@ -122,12 +123,19 @@ export default function CpanelAccountant() {
         >
           المحاسبين
         </h1>
+
+        <div className=" d-flex justify-content-center">
+
         <Col
-          md={12}
-          sm={12}
-          xs={12}
-          className="mb-3 d-flex justify-content-center w-100"
+          md={3}
+          sm={3}
+          xs={3}
+          className="Col1 mb-3 "
         >
+            <Link
+                className="text-white text-decoration-none"
+                to="/AccountantLandingPage"
+              >
           <Card
             style={styles.cards1}
             onMouseLeave={() => setIshovered1(false)}
@@ -139,81 +147,67 @@ export default function CpanelAccountant() {
                 className="fa-solid fa-tty text-success"
                 style={styles.icons}
               ></i>
+                   <div className="content">
+                  <p>قم باداره المحاسبين</p>
+                </div>
 
               <Card.Title>تفاصيل المحاسبين</Card.Title>
               <Card.Text>الذهاب الي المحاسبين.</Card.Text>
-              <Button variant="success">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/AccountantLandingPage"
-                >
-                  الذهاب إلى جميع تفاصيل المحاسبين
-                </Link>
-              </Button>
+            
+                الذهاب إلى جميع تفاصيل المحاسبين
+              <div className="info d-flex justify-content-end">
+                <Button className="bg-black text-white border-none ">
+                  <ArrowRightAltIcon />
+                </Button>
+              </div>
             </Card.Body>
           </Card>
+          </Link>
+
         </Col>
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">رقم الهويه</TableCell>
-              <TableCell align="center">الهاتف</TableCell>
-              <TableCell align="center">حظر</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedOrder.map((customer, index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.identity}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.phoneNumber}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.isBlocked ? (
-                    <>
-                      <Button
+        </div>
+    
+        <div className="table-responsive mt-3">
+          <table className="table table-bordered text-center shadow-sm">
+            <thead className="bg-white border">
+              <tr>
+                <th>الاسم</th>
+                <th>البريد الالكتروني</th>
+                <th>رقم الهوية</th>
+                <th>الهاتف</th>
+                <th>حظر</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedOrder.map((customer, index) => (
+                <tr key={index} className="bg-light">
+                  <td>{customer.fullName}</td>
+                  <td>{customer.email}</td>
+                  <td>{customer.identity}</td>
+                  <td>{customer.phoneNumber}</td>
+                  <td>
+                    {customer.isBlocked ? (
+                      <button
                         onClick={() => UnBlock(customer.email)}
-                        className="bg-success text-black"
+                        className="btn btn-success text-black"
                       >
                         فك الحظر
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <Button
+                      </button>
+                    ) : (
+                      <button
                         onClick={() => Block(customer.email)}
-                        className="bg-danger text-black"
+                        className="btn btn-danger text-black"
                       >
                         حظر
-                      </Button>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
         <Toaster />
       </Box>
     </>

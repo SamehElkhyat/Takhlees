@@ -186,14 +186,14 @@ export default function CanceledOrders() {
         style={{
           fontSize: "2rem",
           fontWeight: "700",
-          color: "#2c3e50",
+          color: "white",
           textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
           borderBottom: "3px solid #3498db",
           paddingBottom: "10px",
           width: "fit-content",
           margin: "0 auto 2rem auto",
           borderRadius: "10px",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "#0A6785",
           padding: "10px",
           border: "1px solid #3498db",
           boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -211,185 +211,178 @@ export default function CanceledOrders() {
         الطلبات الملغاه
       </h1>
 
-      <Table style={{ marginTop: "20px", width: "100%" }}>
-        <TableHead
-          sx={{
-            backgroundColor: "white",
-            borderTop: "1px solid #e0e0e0",
-            borderBottom: "1px solid #e0e0e0",
-            borderLeft: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <TableRow>
-            <TableCell align="center">رقم الطلب</TableCell>
-            <TableCell align="center">الاسم</TableCell>
-            <TableCell align="center">الموقع</TableCell>
 
-            <TableCell align="center">البريد الالكتروني</TableCell>
-            <TableCell align="center">التاريخ</TableCell>
-            <TableCell align="center">تفاصيل المخلص</TableCell>
-            <TableCell align="center">الإجراء</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedCustomers.map((customer) => (
-            <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.id}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.fullName}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.location}
-              </TableCell>
+      <div className="table-responsive mt-3">
+        <table className="table table-bordered text-center shadow-sm">
+          <thead className="bg-white border">
+            <tr>
+              <th>رقم الطلب</th>
+              <th>الاسم</th>
+              <th>الموقع</th>
 
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.email}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.date}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order, customer.brokerID)}
-                >
-                  عرض التفاصيل
-                </Button>
-              </TableCell>
+              <th>البريد الالكتروني</th>
+              <th>التاريخ</th>
+              <th>تفاصيل المخلص</th>
+              <th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedCustomers.map((customer) => (
+              <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.id}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.fullName}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.location}
+                </td>
 
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button
-                  onClick={() => toggleNoteField2(customer.id)}
-                  className="bg-success text-white"
-                  sx={{ marginRight: "10px" }}
-                >
-                  ارسال الطلب للمخلص
-                </Button>
-                <Button
-                  onClick={() => ChangetoDelete(customer.id)}
-                  className="bg-primary text-white"
-                  sx={{ marginRight: "10px" }}
-                >
-                  ارسال الي الطلبات المتاحه
-                </Button>
-                <Button
-                  onClick={() => toggleNoteField(customer.id)}
-                  className="bg-danger text-white"
-                  sx={{ marginRight: "10px" }}
-                >
-                  إلغاء
-                </Button>
-                {showNoteField[customer.id] && (
-                  <Box mt={1}>
-                    <TextField
-                      label="اكتب ملاحظة"
-                      variant="outlined"
-                      fullWidth
-                      value={notes[customer.id] || ""}
-                      onChange={(e) =>
-                        handleNoteChange(customer.id, e.target.value)
-                      }
-                      sx={{ marginBottom: "10px" }}
-                    />
-                    <Button
-                      onClick={() => ChangeStatueNot(customer.id)}
-                      className="bg-danger text-white"
-                    >
-                      إرسال الملاحظة
-                    </Button>
-                  </Box>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.email}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.date}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowDetails(order, customer.brokerID)}
+                  >
+                    عرض التفاصيل
+                  </Button>
+                </td>
+
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button
+                    onClick={() => toggleNoteField2(customer.id)}
+                    className="bg-success text-white"
+                    sx={{ marginRight: "10px" }}
+                  >
+                    ارسال الطلب للمخلص
+                  </Button>
+                  <Button
+                    onClick={() => ChangetoDelete(customer.id)}
+                    className="bg-primary text-white"
+                    sx={{ marginRight: "10px" }}
+                  >
+                    ارسال الي الطلبات المتاحه
+                  </Button>
+                  <Button
+                    onClick={() => toggleNoteField(customer.id)}
+                    className="bg-danger text-white"
+                    sx={{ marginRight: "10px" }}
+                  >
+                    إلغاء
+                  </Button>
+                  {showNoteField[customer.id] && (
+                    <Box mt={1}>
+                      <TextField
+                        label="اكتب ملاحظة"
+                        variant="outlined"
+                        fullWidth
+                        value={notes[customer.id] || ""}
+                        onChange={(e) =>
+                          handleNoteChange(customer.id, e.target.value)
+                        }
+                        sx={{ marginBottom: "10px" }}
+                      />
+                      <Button
+                        onClick={() => ChangeStatueNot(customer.id)}
+                        className="bg-danger text-white"
+                      >
+                        إرسال الملاحظة
+                      </Button>
+                    </Box>
+                  )}
+
+                  {showNoteField2[customer.id] && (
+                    <Box mt={1}>
+                      <TextField
+                        label="اكتب ملاحظة"
+                        variant="outlined"
+                        fullWidth
+                        value={notes[customer.id] || ""}
+                        onChange={(e) =>
+                          handleNoteChange(customer.id, e.target.value)
+                        }
+                        sx={{ marginBottom: "10px" }}
+                      />
+                      <Button
+                        onClick={() => sendToBroker(customer.id)}
+                        className="bg-danger text-white"
+                      >
+                        إرسال الملاحظة
+                      </Button>
+                    </Box>
+                  )}
+
+                  {showNoteField3[customer.id] && (
+                    <Box mt={1}>
+                      <TextField
+                        label="اكتب ملاحظة"
+                        variant="outlined"
+                        fullWidth
+                        value={notes[customer.id] || ""}
+                        onChange={(e) =>
+                          handleNoteChange(customer.id, e.target.value)
+                        }
+                        sx={{ marginBottom: "10px" }}
+                      />
+                      <Button
+                        onClick={() => sendToBroker(customer.id)}
+                        className="bg-danger text-white"
+                      >
+                        إرسال الملاحظة
+                      </Button>
+                    </Box>
+                  )}
+                </td>
+              </tr>
+            ))}
+
+            <Modal
+              className="text-end"
+              show={selectedOrder !== null}
+              onHide={handleCloseDetails}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>تفاصيل الطلب</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {selectedOrder && (
+                  <>
+                    <p>
+                      {selectedOrder.email} <strong>:البريد الإكتروني</strong>
+                    </p>
+                    <p>
+                      <strong>الاسم:</strong> {selectedOrder.fullName}
+                    </p>
+                    <p>
+                      <strong>رقم الهويه:</strong> {selectedOrder.identity}
+                    </p>
+                    <p>
+                      <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
+                    </p>
+                    <p>
+                      <strong>رخصه المخلص:</strong> {selectedOrder.license}
+                    </p>
+                    <p>
+                      <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
+                    </p>
+                  </>
                 )}
-
-                {showNoteField2[customer.id] && (
-                  <Box mt={1}>
-                    <TextField
-                      label="اكتب ملاحظة"
-                      variant="outlined"
-                      fullWidth
-                      value={notes[customer.id] || ""}
-                      onChange={(e) =>
-                        handleNoteChange(customer.id, e.target.value)
-                      }
-                      sx={{ marginBottom: "10px" }}
-                    />
-                    <Button
-                      onClick={() => sendToBroker(customer.id)}
-                      className="bg-danger text-white"
-                    >
-                      إرسال الملاحظة
-                    </Button>
-                  </Box>
-                )}
-
-                {showNoteField3[customer.id] && (
-                  <Box mt={1}>
-                    <TextField
-                      label="اكتب ملاحظة"
-                      variant="outlined"
-                      fullWidth
-                      value={notes[customer.id] || ""}
-                      onChange={(e) =>
-                        handleNoteChange(customer.id, e.target.value)
-                      }
-                      sx={{ marginBottom: "10px" }}
-                    />
-                    <Button
-                      onClick={() => sendToBroker(customer.id)}
-                      className="bg-danger text-white"
-                    >
-                      إرسال الملاحظة
-                    </Button>
-                  </Box>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-
-          <Modal
-            className="text-end"
-            show={selectedOrder !== null}
-            onHide={handleCloseDetails}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>تفاصيل الطلب</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {selectedOrder && (
-                <>
-                  <p>
-                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
-                  </p>
-                  <p>
-                    <strong>الاسم:</strong> {selectedOrder.fullName}
-                  </p>
-                  <p>
-                    <strong>رقم الهويه:</strong> {selectedOrder.identity}
-                  </p>
-                  <p>
-                    <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
-                  </p>
-                  <p>
-                    <strong>رخصه المخلص:</strong> {selectedOrder.license}
-                  </p>
-                  <p>
-                    <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
-                  </p>
-                </>
-              )}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseDetails}>
-                إغلاق
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </TableBody>
-      </Table>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseDetails}>
+                  إغلاق
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </tbody>
+        </table>
+      </div>
     </Box>
   );
 }

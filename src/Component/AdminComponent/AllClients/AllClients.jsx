@@ -52,6 +52,20 @@ export default function AllClients() {
     }
   };
 
+  const HistoryOrders = async (id) => {
+    try {
+      const { data } = await axios.post(
+        `https://adminlogs.runasp.net/api/Logs`,
+        { newOrderId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+    } catch (error) {}
+  };
+
   const UnBlock = async (email) => {
     try {
       const { data } = await axios.post(
@@ -89,6 +103,9 @@ export default function AllClients() {
   };
 
   useEffect(() => {
+    console.log(localStorage.getItem("Tokken")
+  );
+    
     CustomerService();
   }, []);
 
@@ -100,14 +117,14 @@ export default function AllClients() {
           style={{
             fontSize: "2rem",
             fontWeight: "700",
-            color: "#2c3e50",
+            color: "white",
             textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
             borderBottom: "3px solid #3498db",
             paddingBottom: "10px",
             width: "fit-content",
             margin: "0 auto 2rem auto",
             borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "#4A6785",
             padding: "10px",
             border: "1px solid #3498db",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -125,60 +142,55 @@ export default function AllClients() {
           تفاصيل العملاء
         </h1>
 
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">موقع الطلب</TableCell>
-              <TableCell align="center">نوع الطلب</TableCell>
-              <TableCell align="center">المخلص</TableCell>
-              <TableCell align="center">البريد الخاص بالمخلص</TableCell>
-              <TableCell align="center">حظر</TableCell>
-              <TableCell align="center">الحاله</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedOrder.map((customer, index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.location}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.typeOrder}
-                </TableCell>
 
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+
+        <div className="table-responsive mt-3">
+      <table className="table table-bordered text-center shadow-sm">
+        <thead className="bg-white border">
+          <tr>
+            <th >الاسم</th>
+              <th >البريد الالكتروني</th>
+              <th >موقع الطلب</th>
+              <th >نوع الطلب</th>
+              <th >المخلص</th>
+              <th >البريد الخاص بالمخلص</th>
+              <th >حظر</th>
+              <th >الحاله</th>
+              <th >سجل الطلبات</th>
+
+          </tr>
+        </thead>
+        <tbody>
+
+        {selectedOrder.map((customer, index) => (
+            <tr key={index} className="bg-light">
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.fullName}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.email}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.location}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.typeOrder}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.brokerName == null ? (
                     <>لايوجد مخلص الان</>
                   ) : (
                     <>{customer.brokerName}</>
                   )}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.brokerEmail == null ? (
                     <>لايوجد مخلص الان</>
                   ) : (
                     <>{customer.brokerEmail}</>
                   )}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.isBlocked ? (
                     <>
                       <Button
@@ -199,17 +211,27 @@ export default function AllClients() {
                       </Button>
                     </>
                   )}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   <Button className="btn bg-success">
                     {" "}
                     {customer.statuOrder}
                   </Button>
-                </TableCell>
-              </TableRow>
+                </td>{" "}
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button
+                    onClick={() => HistoryOrders(customer.id)}
+                    className="btn bg-success"
+                  >
+                    عرض سجل الطلب
+                  </Button>
+                </td>
+                </tr>
             ))}
-          </TableBody>
-        </Table>
+    
+        </tbody>
+      </table>
+    </div>
         <Toaster />
       </Box>
     </>

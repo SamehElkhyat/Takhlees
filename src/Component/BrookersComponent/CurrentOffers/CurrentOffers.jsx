@@ -113,7 +113,6 @@ export default function CurrentOffers() {
       setOrders(data);
     } catch (error) {
       toast.error(error.response.data.message);
-
     }
   };
 
@@ -131,9 +130,7 @@ export default function CurrentOffers() {
 
       setCustomersOrders(data);
     } catch (error) {
-
       toast.error(error.response.data.message);
-
     }
   };
 
@@ -243,14 +240,6 @@ export default function CurrentOffers() {
             border: "1px solid #3498db",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
             transition: "all 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-            },
-            "&:active": {
-              transform: "scale(0.95)",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            },
           }}
         >
           قائمة العروض المقدمة

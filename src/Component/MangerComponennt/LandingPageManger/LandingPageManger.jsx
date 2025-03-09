@@ -12,6 +12,8 @@ export default function LandingPageManger() {
   const [Ishovered5, setIshovered5] = useState(false);
   const [Ishovered6, setIshovered6] = useState(false);
   const [Ishovered7, setIshovered7] = useState(false);
+  const [Ishovered8, setIshovered8] = useState(false);
+
 
   const [Tokken, setTokken] = useState(null);
   const [DecodedTokken, setDecodedTokken] = useState();
@@ -160,6 +162,57 @@ export default function LandingPageManger() {
             </Card.Body>
           </Card>
         </Col>
+
+        <Col md={3} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards3}
+            onMouseEnter={() => setIshovered3(true)}
+            onMouseLeave={() => setIshovered3(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+              <i
+                style={styles.icons}
+                className="fa-solid fa-chart-line text-dark"
+              ></i>
+              <Card.Title>الاحصائيات </Card.Title>
+              <Card.Text>عرض أحصائيات الموقع .</Card.Text>
+              <Button variant="dark">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/statisticsManger"
+                >
+                  الذهاب إلى ألاحصائيات
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={3} sm={6} xs={12} className="mb-3">
+          <Card
+            style={styles.cards4}
+            onMouseEnter={() => setIshovered4(true)}
+            onMouseLeave={() => setIshovered4(false)}
+            className="shadow-lg"
+          >
+            <Card.Body>
+              <i
+                style={styles.icons}
+                className="fa-solid fa-ban text-danger"
+              ></i>
+              <Card.Title>المحظورين</Card.Title>
+              <Card.Text>عرض وإدارة المحظورين .</Card.Text>
+              <Button variant="danger">
+                <Link
+                  className="text-white text-decoration-none"
+                  to="/blacklistManger"
+                >
+                  الذهاب إلى قائمه المحظورين
+                </Link>
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
             style={styles.cards5}
@@ -207,51 +260,24 @@ export default function LandingPageManger() {
             </Card.Body>
           </Card>
         </Col>
+
         <Col md={3} sm={6} xs={12} className="mb-3">
           <Card
-            style={styles.cards3}
-            onMouseEnter={() => setIshovered3(true)}
-            onMouseLeave={() => setIshovered3(false)}
+            style={styles.cards7}
+            onMouseEnter={() => setIshovered7(true)}
+            onMouseLeave={() => setIshovered7(false)}
             className="shadow-lg"
           >
             <Card.Body>
-              <i
-                style={styles.icons}
-                className="fa-solid fa-chart-line text-dark"
-              ></i>
-              <Card.Title>الاحصائيات </Card.Title>
-              <Card.Text>عرض أحصائيات الموقع .</Card.Text>
-              <Button variant="dark">
+              <i style={styles.icons} className="fa-solid fa-file-invoice text-info"></i>
+              <Card.Title>متابعه الطلبات</Card.Title>
+              <Card.Text>عرض وإدارة سجل الطلبات .</Card.Text>
+              <Button variant="info">
                 <Link
                   className="text-white text-decoration-none"
-                  to="/statisticsManger"
+                  to="/CpanelAccountantManger"
                 >
-                  الذهاب إلى ألاحصائيات
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3">
-          <Card
-            style={styles.cards4}
-            onMouseEnter={() => setIshovered4(true)}
-            onMouseLeave={() => setIshovered4(false)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <i
-                style={styles.icons}
-                className="fa-solid fa-ban text-danger"
-              ></i>
-              <Card.Title>المحظورين</Card.Title>
-              <Card.Text>عرض وإدارة المحظورين .</Card.Text>
-              <Button variant="danger">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/blacklistManger"
-                >
-                  الذهاب إلى قائمه المحظورين
+                  الذهاب إلى قائمه الطلبات
                 </Link>
               </Button>
             </Card.Body>

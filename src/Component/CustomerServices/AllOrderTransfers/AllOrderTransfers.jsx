@@ -198,14 +198,14 @@ export default function AllOrderTransfers() {
         style={{
           fontSize: "2rem",
           fontWeight: "700",
-          color: "#2c3e50",
+          color: "white",
           textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
           borderBottom: "3px solid #3498db",
           paddingBottom: "10px",
           width: "fit-content",
           margin: "0 auto 2rem auto",
           borderRadius: "10px",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "#0A6785",
           padding: "10px",
           border: "1px solid #3498db",
           boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -222,37 +222,24 @@ export default function AllOrderTransfers() {
       >
         الطلبات المحوله
       </h1>
-      <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-        <MenuItem value="newest">الأحدث</MenuItem>
-        <MenuItem value="oldest">الأقدم</MenuItem>
-      </Select>
-      <Table style={{ marginTop: "20px", width: "100%" }}>
-        <TableHead
-          sx={{
-            backgroundColor: "white",
-            borderTop: "1px solid #e0e0e0",
-            borderBottom: "1px solid #e0e0e0",
-            borderLeft: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <TableRow>
-            <TableCell align="center">رقم الطلب</TableCell>
-            <TableCell align="center">موقع الطلب</TableCell>
-            <TableCell align="center">الملاحظات</TableCell>
-            <TableCell align="center">اضافه مرفقات</TableCell>
+      <div className="table-responsive mt-3">
+        <table className="table table-bordered text-center shadow-sm">
+          <thead className="bg-white border">
+            <tr>
+            <th >رقم الطلب</th>
+            <th >موقع الطلب</th>
+            <th >الملاحظات</th>
+            <th >اضافه مرفقات</th>
 
-            <TableCell align="center">الاسم</TableCell>
-            <TableCell align="center">نوع الطلب</TableCell>
+            <th >الاسم</th>
+            <th >نوع الطلب</th>
 
             {DecodedTokken ? (
               <>
                 {DecodedTokken.Role === "Admin" ? (
                   <>
-                    <TableCell align="center">المحاسب</TableCell>
-                    <TableCell align="center">بريد المحاسب</TableCell>
+                    <th >المحاسب</th>
+                    <th >بريد المحاسب</th>
                   </>
                 ) : (
                   <></>
@@ -262,48 +249,48 @@ export default function AllOrderTransfers() {
               <></>
             )}
 
-            <TableCell align="center">البريد الالكتروني</TableCell>
-            <TableCell align="center">التاريخ</TableCell>
-            <TableCell align="center">تفاصيل المخلص</TableCell>
-            <TableCell align="center">الحاله</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+            <th >البريد الالكتروني</th>
+            <th >التاريخ</th>
+            <th >تفاصيل المخلص</th>
+            <th >الحاله</th>
+            </tr>
+          </thead>
+          <tbody>
           {sortedCustomers.map((customer) => (
-            <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+            <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.id}
-              </TableCell>{" "}
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>{" "}
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.notes}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
                   onClick={() => handleShowBar(customer.notes, customer.id)}
                 >
                   اضافه ملفات
                 </Button>
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.fullName}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}
-              </TableCell>
+              </td>
               {DecodedTokken ? (
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>
-                      <TableCell align="center">
+                      <td align="center">
                         {customer.accountName}
-                      </TableCell>
-                      <TableCell align="center">
+                      </td>
+                      <td align="center">
                         {customer.accountEmail}
-                      </TableCell>
+                      </td>
                     </>
                   ) : (
                     <></>
@@ -312,20 +299,20 @@ export default function AllOrderTransfers() {
               ) : (
                 <></>
               )}
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.email}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
                   onClick={() => handleShowDetails(order, customer.brokerID)}
                 >
                   عرض التفاصيل
                 </Button>
-              </TableCell>
+              </td>
               {showNoteField[customer.id] && (
                 <Box mt={1}>
                   <TextField
@@ -346,7 +333,7 @@ export default function AllOrderTransfers() {
                   </Button>
                 </Box>
               )}
-              <TableCell
+              <td
                 sx={{ backgroundColor: "#f0f0f0" }}
                 className="p-3"
                 align="center"
@@ -363,8 +350,8 @@ export default function AllOrderTransfers() {
                 >
                   تحويل الي المحاسب{" "}
                 </Button>
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           ))}
 
           <Modal
@@ -498,8 +485,9 @@ export default function AllOrderTransfers() {
               </Button>
             </Modal.Footer>
           </Modal>
-        </TableBody>
-      </Table>
+          </tbody>
+        </table>
+      </div>
       <Toaster />
     </Box>
   );

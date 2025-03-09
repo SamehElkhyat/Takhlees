@@ -1,11 +1,55 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function statistics() {
   const [Statics, setStatics] = useState({});
   const [Brookers, setBrookers] = useState([]);
+  const [Ishovered1, setIshovered1] = useState(false);
+  const [Ishovered2, setIshovered2] = useState(false);
+  const [Ishovered3, setIshovered3] = useState(false);
+  const [Ishovered4, setIshovered4] = useState(false);
+  const styles = {
+    cards1: {
+      color: "black",
+      backgroundColor: "#B3D4FF",
 
+      borderRadius: "12px",
+      transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards2: {
+      borderRadius: "12px",
+      backgroundColor: "#CDEDE6",
+      color: "black",
+      transform: Ishovered2 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered2 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards3: {
+      backgroundColor: "#F5E6CC",
+
+      borderRadius: "12px",
+      color: "black",
+      transform: Ishovered3 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered3 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards4: {
+      borderRadius: "12px",
+      backgroundColor: "#E3E4E8",
+      transform: Ishovered4 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered4 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    icons: {
+      fontSize: "50px",
+      padding: "20px",
+    },
+  };
   const GetStatics = async () => {
     try {
       const { data } = await axios.get(
@@ -48,14 +92,14 @@ export default function statistics() {
           style={{
             fontSize: "2rem",
             fontWeight: "700",
-            color: "#2c3e50",
+            color: "white",
             textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
             borderBottom: "3px solid #3498db",
             paddingBottom: "10px",
             width: "fit-content",
             margin: "0 auto 2rem auto",
             borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "#4A6785",
             padding: "10px",
             border: "1px solid #3498db",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -72,66 +116,134 @@ export default function statistics() {
         >
           إحصائيات النظام
         </h2>
+        <Container className="text-center mt-5">
 
-        <div className="row g-4">
-          {/* Total Clients Card */}
-          <div className="col-md-6 col-lg-3">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <div className="display-4 text-primary mb-2">
-                  <i className="fas fa-users"></i>
+        <Row className="justify-content-center">
+          <Col md={3} sm={6} xs={12} className="mb-3 Col1">
+            <Link className="text-white text-decoration-none">
+              <Card
+                style={styles.cards1}
+                onMouseLeave={() => setIshovered1(false)}
+                onMouseEnter={() => setIshovered1(true)}
+                className="shadow-lg"
+              >
+                <Card.Body>
+                  <i style={styles.icons} className="fas fa-users"></i>
+
+                  <Card.Title>إجمالي العملاء</Card.Title>
+                  <Card.Text>الذهاب الي المخلصين.</Card.Text>
+                  <p
+                    style={{
+                      fontSize: "24px", // حجم الخط كبير وواضح
+                      fontWeight: "900", // خط قوي جدًا
+                      color: "red", // اللون الأسود
+                      textAlign: "center", // محاذاة في المنتصف (اختياري)
+                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                    }}
+                  >
+                    عميل {Statics.countAllUsers}
+                  </p>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
+
+          <Col md={3} sm={6} xs={12} className="mb-3 Col2">
+            <Link className="text-white text-decoration-none" >
+              <Card
+                style={styles.cards2}
+                onMouseEnter={() => setIshovered2(true)}
+                onMouseLeave={() => setIshovered2(false)}
+                className="shadow-lg"
+              >
+                <div className="content">
+                  <p>قم بإداره العملاء</p>
                 </div>
-                <h5 className="card-title">إجمالي العملاء</h5>
-                <h3 className="text-primary">{Statics.countAllUsers}</h3>
-                <p className="text-muted small">زيادة 12% عن الشهر السابق</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Active Orders Card */}
-          <div className="col-md-6 col-lg-3">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <div className="display-4 text-success mb-2">
-                  <i className="fas fa-clipboard-list"></i>
+                <Card.Body>
+                  <i style={styles.icons} className="fas fa-clipboard-list"></i>
+                  <Card.Title>الطلبات النشطه</Card.Title>
+                  <Card.Text>في طور المعالجه</Card.Text>
+                  <p
+                    style={{
+                      fontSize: "24px", // حجم الخط كبير وواضح
+                      fontWeight: "900", // خط قوي جدًا
+                      color: "red", // اللون الأسود
+                      textAlign: "center", // محاذاة في المنتصف (اختياري)
+                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                    }}
+                  >
+                    عميل {Statics.countActiveOrders}
+                  </p>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
+          <Col md={3} sm={6} xs={12} className="mb-3 Col5">
+            <Link className="text-white text-decoration-none">
+              <Card
+                style={styles.cards3}
+                onMouseEnter={() => setIshovered3(true)}
+                onMouseLeave={() => setIshovered3(false)}
+                className="shadow-lg"
+              >
+                <div className="content">
+                  <p>عرض إحصائيات الموقع بالكامل</p>
                 </div>
-                <h5 className="card-title">الطلبات النشطة</h5>
-                <h3 className="text-success">{Statics.countActiveOrders}</h3>
-                <p className="text-muted small">في طور المعالجة</p>
-              </div>
-            </div>
-          </div>
+                <Card.Body>
+                  <i style={styles.icons} className="fas fa-check-circle"></i>
+                  <Card.Title>الطلبات المكتمله</Card.Title>
+                  <Card.Text>هذا العام</Card.Text>
+                  <p
+                    style={{
+                      fontSize: "24px", // حجم الخط كبير وواضح
+                      fontWeight: "900", // خط قوي جدًا
+                      color: "red", // اللون الأسود
+                      textAlign: "center", // محاذاة في المنتصف (اختياري)
+                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                    }}
+                  >
+                    {Statics.countDoneOrders}
+                  </p>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
 
-          {/* Completed Orders Card */}
-          <div className="col-md-6 col-lg-3">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <div className="display-4 text-info mb-2">
-                  <i className="fas fa-check-circle"></i>
+          <Col md={3} sm={6} xs={12} className="mb-3 Col6">
+            <Link className="text-white text-decoration-none">
+              <Card
+                style={styles.cards4}
+                onMouseEnter={() => setIshovered4(true)}
+                onMouseLeave={() => setIshovered4(false)}
+                className="shadow-lg"
+              >
+                <div className="content">
+                  <p>عرض وإداره المحظوريين</p>
                 </div>
-                <h5 className="card-title">الطلبات المكتملة</h5>
-                <h3 className="text-info">{Statics.countDoneOrders}</h3>
-                <p className="text-muted small">هذا العام</p>
-              </div>
-            </div>
-          </div>
+                <Card.Body>
+                  <i style={styles.icons} className="fas fa-dollar-sign"></i>
+                  <Card.Title>الايرادات</Card.Title>
+                  <p
+                    style={{
+                      fontSize: "24px", // حجم الخط كبير وواضح
+                      fontWeight: "900", // خط قوي جدًا
+                      color: "red", // اللون الأسود
+                      textAlign: "center", // محاذاة في المنتصف (اختياري)
+                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                    }}
+                  >
+                    {Statics.exports}
+                    <Card.Text>ريال سعودي</Card.Text>
 
-          {/* Revenue Card */}
-          <div className="col-md-6 col-lg-3">
-            <div className="card h-100 border-0 shadow-sm">
-              <div className="card-body text-center">
-                <div className="display-4 text-warning mb-2">
-                  <i className="fas fa-dollar-sign"></i>
-                </div>
-                <h5 className="card-title">الإيرادات</h5>
-                <h3 className="text-warning">{Statics.exports}</h3>
-                <p className="text-muted small">ريال سعودي</p>
-              </div>
-            </div>
-          </div>
-        </div>
+                  </p>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
+        </Row>
+        </Container>
 
-        {/* Additional Statistics */}
+
         <div className="row mt-5">
           <div className="col-md-12">
             <div className="card border-0 shadow-sm">
@@ -140,14 +252,14 @@ export default function statistics() {
                   style={{
                     fontSize: "2rem",
                     fontWeight: "700",
-                    color: "#2c3e50",
+                    color: "white",
                     textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
                     borderBottom: "3px solid #3498db",
                     paddingBottom: "10px",
                     width: "fit-content",
                     margin: "0 auto 2rem auto",
                     borderRadius: "10px",
-                    backgroundColor: "#f0f0f0",
+                    backgroundColor: "#4A6785",
                     padding: "10px",
                     border: "1px solid #3498db",
                     boxShadow: "0 0 10px rgba(0,0,0,0.1)",

@@ -81,14 +81,14 @@ export default function AllOrderDeleted() {
         style={{
           fontSize: "2rem",
           fontWeight: "700",
-          color: "#2c3e50",
+          color: "white",
           textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
           borderBottom: "3px solid #3498db",
           paddingBottom: "10px",
           width: "fit-content",
           margin: "0 auto 2rem auto",
           borderRadius: "10px",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "#0A6785",
           padding: "10px",
           border: "1px solid #3498db",
           boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -105,69 +105,21 @@ export default function AllOrderDeleted() {
       >
         الطلبات المحذوفه
       </h1>
-      <Select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-        <MenuItem value="newest">الأحدث</MenuItem>
-        <MenuItem value="oldest">الأقدم</MenuItem>
-      </Select>
-      <Table style={{ marginTop: "20px", width: "100%" }}>
-        <TableHead
-          sx={{
-            backgroundColor: "white",
-            borderTop: "1px solid #e0e0e0",
-            borderBottom: "1px solid #e0e0e0",
-            borderLeft: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <TableRow>
-            <TableCell align="center">رقم الطلب</TableCell>
-            <TableCell align="center">الموقع</TableCell>
-            <TableCell align="center">الملاحظات</TableCell>
 
-            {DecodedTokken ? (
-              <>
-                {DecodedTokken.Role === "Admin" ? (
-                  <>
-                    <TableCell align="center">خدمه العملاء</TableCell>
-                    <TableCell align="center">بريد خدمه العملاء</TableCell>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </>
-            ) : (
-              <></>
-            )}
+      <div className="table-responsive mt-3">
+        <table className="table table-bordered text-center shadow-sm">
+          <thead className="bg-white border">
+            <tr>
+              <th>رقم الطلب</th>
 
-            <TableCell align="center">نوع الطلب</TableCell>
-            <TableCell align="center">التاريخ</TableCell>
-            <TableCell align="center">حاله الطلب</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedCustomers.map((customer) => (
-            <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.id}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.location}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.notes}
-              </TableCell>
+              <th>الموقع</th>
+              <th>الملاحظات</th>
               {DecodedTokken ? (
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>
-                      <TableCell align="center">
-                        {customer.customerServiceEmail}
-                      </TableCell>
-                      <TableCell align="center">
-                        {customer.customerServiceName}
-                      </TableCell>
+                      <th>خدمه العملاء</th>
+                      <th>بريد خدمه العملاء</th>
                     </>
                   ) : (
                     <></>
@@ -176,61 +128,86 @@ export default function AllOrderDeleted() {
               ) : (
                 <></>
               )}
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.typeOrder}
-              </TableCell>
 
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.date}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button className="bg-danger text-white p-2">
-                  {customer.statuOrder}
+              <th>نوع الطلب</th>
+              <th>التاريخ</th>
+              <th>حاله الطلب</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedCustomers.map((customer, index) => (
+              <tr key={index} className="bg-light">
+                <td>{customer.id}</td>
+                <td>{customer.location}</td>
+                <td>{customer.notes}</td>
+                <td>
+                  {DecodedTokken ? (
+                    <>
+                      {DecodedTokken.Role === "Admin" ? (
+                        <>
+                          <td>{customer.customerServiceEmail}</td>
+                          <td>{customer.customerServiceName}</td>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </td>
+                <td>{customer.typeOrder}</td>
+
+                <td>{customer.date}</td>
+                <td>
+                  <Button className="bg-danger text-white p-2">
+                    {customer.statuOrder}
+                  </Button>
+                </td>
+              </tr>
+            ))}
+
+            <Modal
+              className="text-end"
+              show={selectedOrder !== null}
+              onHide={handleCloseDetails}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>تفاصيل الطلب</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {selectedOrder && (
+                  <>
+                    <p>
+                      {selectedOrder.email} <strong>:البريد الإكتروني</strong>
+                    </p>
+                    <p>
+                      <strong>الاسم:</strong> {selectedOrder.fullName}
+                    </p>
+                    <p>
+                      <strong>رقم الهويه:</strong> {selectedOrder.identity}
+                    </p>
+                    <p>
+                      <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
+                    </p>
+                    <p>
+                      <strong>رخصه المخلص:</strong> {selectedOrder.license}
+                    </p>
+                    <p>
+                      <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
+                    </p>
+                  </>
+                )}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseDetails}>
+                  إغلاق
                 </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-
-          <Modal
-            className="text-end"
-            show={selectedOrder !== null}
-            onHide={handleCloseDetails}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>تفاصيل الطلب</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {selectedOrder && (
-                <>
-                  <p>
-                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
-                  </p>
-                  <p>
-                    <strong>الاسم:</strong> {selectedOrder.fullName}
-                  </p>
-                  <p>
-                    <strong>رقم الهويه:</strong> {selectedOrder.identity}
-                  </p>
-                  <p>
-                    <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
-                  </p>
-                  <p>
-                    <strong>رخصه المخلص:</strong> {selectedOrder.license}
-                  </p>
-                  <p>
-                    <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
-                  </p>
-                </>
-              )}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseDetails}>
-                إغلاق
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </TableBody>
-      </Table>
+              </Modal.Footer>
+            </Modal>
+          </tbody>
+        </table>
+      </div>
     </Box>
   );
 }

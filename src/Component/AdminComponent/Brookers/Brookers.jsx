@@ -13,27 +13,27 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function Brookers() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
 
-
   const styles = {
     cards1: {
-      backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
+      backgroundColor: "#B3D4FF",
       transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
-  
+
     icons: {
       fontSize: "50px",
       padding: "20px",
-    },}
+    },
+  };
 
   const Block = async (email) => {
-    
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Blocked`,
@@ -48,14 +48,12 @@ export default function Brookers() {
         }
       );
       CustomerService();
-
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
 
   const UnBlock = async (email) => {
-
     try {
       const { data } = await axios.post(
         `https://takhleesak.runasp.net/api/Unblocked`,
@@ -69,8 +67,6 @@ export default function Brookers() {
         }
       );
       CustomerService();
-
-
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -87,7 +83,7 @@ export default function Brookers() {
         }
       );
       console.log(data);
-      
+
       setSelectedOrder(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -96,28 +92,24 @@ export default function Brookers() {
 
   useEffect(() => {
     CustomerService();
-
   }, []);
 
   return (
     <>
-  
       <Box width="100%" textAlign="center" p={4}>
-  
-        
         <h1
           className="text-xl font-bold mb-4"
           style={{
             fontSize: "2rem",
             fontWeight: "700",
-            color: "#2c3e50",
+            color: "white",
             textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
             borderBottom: "3px solid #3498db",
             paddingBottom: "10px",
             width: "fit-content",
             margin: "0 auto 2rem auto",
             borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "#4A6785",
             padding: "10px",
             border: "1px solid #3498db",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -132,94 +124,94 @@ export default function Brookers() {
             },
           }}
         >
-            المخلصين
+          المخلصين
         </h1>
+        <div className="d-flex justify-content-center">
+          <Col md={3} sm={12} xs={12} className="Col1 mb-3">
+            {" "}
+            <Link
+              className="text-white text-decoration-none"
+              to="/brookersLandingPage"
+            >
+              <Card
+                style={styles.cards1}
+                onMouseLeave={() => setIshovered1(false)}
+                onMouseEnter={() => setIshovered1(true)}
+                className="shadow-lg"
+              >
+                <Card.Body>
+                  <i
+                    className="fa-solid fa-tty text-success"
+                    style={styles.icons}
+                  ></i>
+                  <div className="content">
+                    <p>قم باداره خدمه العملاء</p>
+                  </div>
+                  <Card.Title>تفاصيل المخلصين</Card.Title>
+                  <Card.Text>الذهاب الي المخلصين.</Card.Text>
+                  <div className="info d-flex justify-content-end">
+                    <Button className="bg-black text-white border-none ">
+                      <ArrowRightAltIcon />
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
+        </div>
 
-        <Col md={12} sm={12} xs={12} className="mb-3 d-flex justify-content-center w-100">
-          <Card
-            style={styles.cards1}
-            onMouseLeave={() => setIshovered1(false)}
-            onMouseEnter={() => setIshovered1(true)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <i
-                className="fa-solid fa-tty text-success"
-                style={styles.icons}
-              ></i>
-
-              <Card.Title>تفاصيل المخلصين</Card.Title>
-              <Card.Text>الذهاب الي المخلصين.</Card.Text>
-              <Button variant="success">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/brookersLandingPage"
-                >
-                  الذهاب إلى جميع تفاصيل المخلصين
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">رقم الهويه</TableCell>
-              <TableCell align="center">الهاتف</TableCell>
-              <TableCell align="center">حظر</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedOrder.map((customer,index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
+        <div className="table-responsive mt-3">
+          <Table className="table table-bordered">
+            <TableHead className="bg-white shadow-sm">
+              <TableRow>
+                <TableCell className="text-center fw-bold">الاسم</TableCell>
+                <TableCell className="text-center fw-bold">
+                  البريد الإلكتروني
                 </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
+                <TableCell className="text-center fw-bold">
+                  رقم الهوية
                 </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.identity}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.phoneNumber}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.isBlocked ? (
-                    <>
-                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
+                <TableCell className="text-center fw-bold">الهاتف</TableCell>
+                <TableCell className="text-center fw-bold">الإجراء</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {selectedOrder.map((customer, index) => (
+                <TableRow className="bg-light" key={index}>
+                  <TableCell className="text-center align-middle">
+                    {customer.fullName}
+                  </TableCell>
+                  <TableCell className="text-center align-middle">
+                    {customer.email}
+                  </TableCell>
+                  <TableCell className="text-center align-middle">
+                    {customer.identity}
+                  </TableCell>
+                  <TableCell className="text-center align-middle">
+                    {customer.phoneNumber}
+                  </TableCell>
+                  <TableCell className="text-center align-middle">
+                    {customer.isBlocked ? (
+                      <Button
+                        onClick={() => UnBlock(customer.email)}
+                        className="btn btn-success text-white"
+                      >
                         فك الحظر
                       </Button>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
+                    ) : (
                       <Button
                         onClick={() => Block(customer.email)}
-                        className="bg-danger text-black"
+                        className="btn btn-danger text-white"
                       >
                         حظر
                       </Button>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
         <Toaster />
       </Box>
     </>

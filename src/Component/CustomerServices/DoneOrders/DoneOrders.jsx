@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Modal, Spinner } from "react-bootstrap";
+import toast from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
 
 export default function DoneOrders() {
   const [customers, setCustomers] = useState([]);
@@ -26,6 +28,7 @@ export default function DoneOrders() {
   const [ImageName, setImageName] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
   const [OrderId, setOrderId] = useState(null);
+  const [DecodedTokken, setDecodedTokken] = useState();
 
   const handleShowBar = (items, orderId) => {
     setOrderId(orderId);
@@ -179,7 +182,8 @@ export default function DoneOrders() {
           },
         }
       );
-      console.log(request);
+      alert("تم تحديث الطلب بنجاح");
+      getAllAcceptedOrders();
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -212,6 +216,8 @@ export default function DoneOrders() {
   useEffect(() => {
     GetFileName();
     getAllAcceptedOrders();
+    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
+    setDecodedTokken(DecodedToken);
   }, [OrderId]);
 
   return (
@@ -221,14 +227,14 @@ export default function DoneOrders() {
         style={{
           fontSize: "2rem",
           fontWeight: "700",
-          color: "#2c3e50",
+          color: "white",
           textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
           borderBottom: "3px solid #3498db",
           paddingBottom: "10px",
           width: "fit-content",
           margin: "0 auto 2rem auto",
           borderRadius: "10px",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "#0A6785",
           padding: "10px",
           border: "1px solid #3498db",
           boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -245,72 +251,68 @@ export default function DoneOrders() {
       >
         الطلبات المنفذه
       </h1>
-  
-      <Table style={{ marginTop: "20px", width: "100%" }}>
-        <TableHead
-          sx={{
-            backgroundColor: "white",
-            borderTop: "1px solid #e0e0e0",
-            borderBottom: "1px solid #e0e0e0",
-            borderLeft: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            borderRight: "1px solid #e0e0e0",
-            boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <TableRow>
-            <TableCell align="center">رقم الطلب</TableCell>
-            <TableCell align="center">موقع الطلب</TableCell>
-            <TableCell align="center">الاسم</TableCell>
-            <TableCell align="center">الملاحظات</TableCell>
-            <TableCell align="center">نوع الطلب</TableCell>
-            <TableCell align="center">الهاتف</TableCell>
-            <TableCell align="center">التاريخ</TableCell>
-            <TableCell align="center">تفاصيل المخلص</TableCell>
-            <TableCell align="center">تفاصيل الملاحظات</TableCell>
-            <TableCell align="center">الحاله</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+
+
+      <div className="table-responsive mt-3">
+        <table className="table table-bordered text-center shadow-sm">
+          <thead className="bg-white border">
+            <tr>
+              <th align="center">رقم الطلب</th>
+              <th align="center">موقع الطلب</th>
+              <th align="center">الاسم</th>
+              <th align="center">الملاحظات</th>
+              <th align="center">نوع الطلب</th>
+              <th align="center">الهاتف</th>
+              <th align="center">التاريخ</th>
+              <th align="center">تفاصيل المخلص</th>
+              <th align="center">تفاصيل الملاحظات</th>
+              <th align="center">الحاله</th>
+            </tr>
+          </thead>
+          <tbody>
           {sortedCustomers.map((customer, index) => (
-            <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+            <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.id}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.location}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.fullName}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.notes ==="" ?<>لا يوجد ملاحظات</>:<>{customer.notes}</>}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                {customer.notes === "" ? (
+                  <>لا يوجد ملاحظات</>
+                ) : (
+                  <>{customer.notes}</>
+                )}
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.typeOrder}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.email}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 {customer.date}
-              </TableCell>
-              <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+              </td>
+              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                 <Button
                   className="bg-primary text-white p-2"
                   onClick={() => handleShowDetails(order, customer.brokerID)}
                 >
                   عرض التفاصيل
                 </Button>
-              </TableCell>
-              <TableCell align="center">
+              </td>
+              <td align="center">
                 <Button
                   className="bg-primary text-white p-2"
                   onClick={() => handleShowBar(index, customer.id)}
                 >
                   عرض تفاصيل الملاحظات
                 </Button>
-              </TableCell>
+              </td>
 
               {showNoteField[customer.id] && (
                 <Box mt={1}>
@@ -351,16 +353,18 @@ export default function DoneOrders() {
                   تم التنفيذ
                 </Button>
               </TableCell>
-            </TableRow>
+            </tr>
           ))}
 
-          <Modal
+<Modal
             className="text-end"
             show={selectedOrder !== null}
             onHide={handleCloseDetails}
           >
             <Modal.Header closeButton>
-              <Modal.Title className="text-center w-100">تفاصيل المخلص</Modal.Title>
+              <Modal.Title className="text-center w-100">
+                تفاصيل المخلص
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {selectedOrder && (
@@ -405,7 +409,9 @@ export default function DoneOrders() {
             >
               <Modal.Title className="fs-3 fw-bold text-primary d-block w-100">
                 تفاصيل ملاحظات
-                <small className="d-block text-muted fs-6">إدارة الملاحظات والملفات</small>
+                <small className="d-block text-muted fs-6">
+                  إدارة الملاحظات والملفات
+                </small>
               </Modal.Title>
             </Modal.Header>
 
@@ -422,42 +428,52 @@ export default function DoneOrders() {
               <div className="d-inline-block">
                 <h5 className="text-success mb-3">
                   <span style={{ color: "red", margin: "10px" }}>
-                    {ImageName.fileName ==null ? <>لا يوجد ملف </>:<>{ImageName.fileName}</>}
+                    {ImageName.fileName == null ? (
+                      <>لا يوجد ملف </>
+                    ) : (
+                      <>{ImageName.fileName}</>
+                    )}
                   </span>
                 </h5>
-                {ImageName.fileName == null ? <>
-                  <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                        className="me-2"
-                      />
-                      انتظر قليلا لعرض الملف
-                </>:<>   <Button
-                  variant="success"
-                  onClick={() => DownloadFilesApi()}
-                  disabled={IsLoading}
-                  className="px-4 py-2 rounded-pill shadow"
-                >
-                  {IsLoading ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                        className="me-2"
-                      />
-                      جارٍ التحميل...
-                    </>
-                  ) : (
-                    "تحميل"
-                  )}
-                </Button></>}
-             
+                {ImageName.fileName == null ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-2"
+                    />
+                    انتظر قليلا لعرض الملف
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <Button
+                      variant="success"
+                      onClick={() => DownloadFilesApi()}
+                      disabled={IsLoading}
+                      className="px-4 py-2 rounded-pill shadow"
+                    >
+                      {IsLoading ? (
+                        <>
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                            className="me-2"
+                          />
+                          جارٍ التحميل...
+                        </>
+                      ) : (
+                        "تحميل"
+                      )}
+                    </Button>
+                  </>
+                )}
               </div>
             </Modal.Body>
 
@@ -472,8 +488,9 @@ export default function DoneOrders() {
               </Button>
             </Modal.Footer>
           </Modal>
-        </TableBody>
-      </Table>
+          </tbody>
+        </table>
+      </div>
     </Box>
   );
 }

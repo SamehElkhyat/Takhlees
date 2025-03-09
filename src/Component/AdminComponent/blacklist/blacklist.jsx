@@ -31,7 +31,7 @@ export default function Blacklist() {
           },
         }
       );
-      CustomerService();
+      GetBlackList();
 
     } catch (error) {
       toast.error(error.response.data.message);
@@ -52,11 +52,12 @@ export default function Blacklist() {
           },
         }
       );
-      CustomerService();
+      GetBlackList();
 
 
     } catch (error) {
       toast.error(error.response.data.message);
+
     }
   };
 
@@ -75,6 +76,7 @@ export default function Blacklist() {
       setSelectedOrder(response.data);
     } catch (error) {
       toast.error(error.response.data.message);
+      
 
     }
  
@@ -117,64 +119,47 @@ export default function Blacklist() {
             المحظورين
         </h1>
 
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">رقم الهويه</TableCell>
-              <TableCell align="center">الهاتف</TableCell>
-              <TableCell align="center">حظر</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedOrder.map((customer,index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.identity}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.phoneNumber}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.isBlocked ? (
-                    <>
-                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
-                        فك الحظر
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <Button
-                        onClick={() => Block(customer.email)}
-                        className="bg-danger text-black"
-                      >
-                        حظر
-                      </Button>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <div className="table-responsive mt-3">
+      <table className="table table-bordered text-center shadow-sm">
+        <thead className="bg-white border">
+          <tr>
+            <th>الاسم</th>
+            <th>البريد الالكتروني</th>
+            <th>رقم الهوية</th>
+            <th>الهاتف</th>
+            <th>حظر</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedOrder.map((customer, index) => (
+            <tr key={index} className="bg-light">
+              <td>{customer.fullName}</td>
+              <td>{customer.email}</td>
+              <td>{customer.identity}</td>
+              <td>{customer.phoneNumber}</td>
+              <td>
+                {customer.isBlocked ? (
+                  <button
+                    onClick={() => UnBlock(customer.email)}
+                    className="btn btn-success text-black"
+                  >
+                    فك الحظر
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => Block(customer.email)}
+                    className="btn btn-danger text-black"
+                  >
+                    حظر
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+ 
         <Toaster />
       </Box>
     </>

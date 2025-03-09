@@ -44,7 +44,7 @@ export default function StatisticsManger() {
   }, []);
   return (
     <>
-      <div className="container py-5">
+      <div className="container-fluid py-5">
         <h2
           className="text-center mb-4"
           style={{

@@ -163,7 +163,7 @@ export default function OrderDetailsForUser() {
                     </p>
                     <div key={i} className="row">
                       <div className="col-md-6">
-                        <h5 className="text-muted mb-3">معلومات الطلب</h5>
+                        <h5 className="text-black mb-3">معلومات الطلب</h5>
                         <table className="table table-bordered">
                           <tbody>
                             <tr>
@@ -182,6 +182,9 @@ export default function OrderDetailsForUser() {
                               <></>
                             ) : (
                               <>
+                                 <h5 className="text-black pt-3 ">
+                                  معلومات النقل
+                                </h5>
                                 <tr>
                                   <th>الحي</th>
                                   <td>{data.town}</td>
@@ -213,7 +216,7 @@ export default function OrderDetailsForUser() {
                       </div>
 
                       <div className="col-md-6">
-                        <h5 className="text-muted mb-3">معلومات الشحن</h5>
+                        <h5 className="text-black mb-3">معلومات الشحن</h5>
                         <table className="table table-bordered">
                           <tbody>
                             <tr>
@@ -276,18 +279,15 @@ export default function OrderDetailsForUser() {
                                   className="fa-solid fa-download"
                                   style={{
                                     fontSize: "1.5rem", // حجم الأيقونة
-                                    color: "#007bff", // لون افتراضي (أزرق)
                                     cursor: "pointer",
                                     transition:
                                       "transform 0.3s ease, color 0.3s ease",
                                   }}
                                   onMouseEnter={(e) => {
-                                    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
                                     e.target.style.transform =
                                       "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
                                   }}
                                   onMouseLeave={(e) => {
-                                    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
                                     e.target.style.transform =
                                       "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
                                   }}
@@ -324,7 +324,7 @@ export default function OrderDetailsForUser() {
 
             <div className="row mt-4">
               <div className="col-12">
-                <h5 className="text-muted mb-3">العروض المقدمة</h5>
+                <h5 className="text-black mb-3">العروض المقدمة</h5>
                 <Table striped bordered hover>
                   <thead>
                     <tr key={"300"} className="text-center">

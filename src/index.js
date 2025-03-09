@@ -56,8 +56,9 @@ import CPanelCustomerServiceManger from "./Component/MangerComponennt/CPanelCust
 import LandingPageManger from "./Component/MangerComponennt/LandingPageManger/LandingPageManger.jsx";
 import BlacklistManger from "./Component/MangerComponennt/blacklistManger/blacklistManger.jsx";
 import StatisticsManger from "./Component/MangerComponennt/statisticsManger/statisticsManger.jsx";
-import DetailsForAdmin from "./Component/DetailsForAdmin/DetailsForAdmin.jsx";
-
+import DetailsForAdmin from "./Component/MangerComponennt/DetailsForAdmin/DetailsForAdmin.jsx";
+import CustomTable from "./Component/Table/Tables.jsx";
+import LogsOrders from "./Component/MangerComponennt/LogsOrders/LogsOrders.jsx";
 
 const router = createBrowserRouter([
   {
@@ -74,13 +75,11 @@ const router = createBrowserRouter([
       { path: "BrookersManger", element: <BrookersManger /> },
       { path: "ClientsManger", element: <ClientsManger /> },
       { path: "CpanelAccountantManger", element: <CpanelAccountantManger /> },
-      {
-        path: "CPanelCustomeServiceManger",
-        element: <CPanelCustomerServiceManger />,
-      },
-      { path: "LandingPageManger", element: <LandingPageManger/> },
-      { path: "StatisticsManger", element: <StatisticsManger/> },
-
+      { path: "CPanelCustomeServiceManger", element: <CPanelCustomerServiceManger />},
+      { path: "LandingPageManger", element: <LandingPageManger /> },
+      { path: "StatisticsManger", element: <StatisticsManger /> },
+      { path: "Tables", element: <CustomTable /> },
+      { path: "LogsOrders", element: <LogsOrders /> },
 
       // //
 

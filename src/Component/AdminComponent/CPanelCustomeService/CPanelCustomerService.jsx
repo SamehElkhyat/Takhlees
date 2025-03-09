@@ -13,6 +13,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function CPanelCustomerService() {
   const [selectedOrder, setSelectedOrder] = useState([]);
@@ -20,8 +21,7 @@ export default function CPanelCustomerService() {
 
   const styles = {
     cards1: {
-      backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
-      transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
+      backgroundColor: "#B3D4FF",      transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
@@ -93,42 +93,52 @@ export default function CPanelCustomerService() {
   return (
     <>
       <Box width="100%" textAlign="center" p={4}>
-        <h1
-          className="text-xl font-bold mb-4"
-          style={{
-            fontSize: "2rem",
-            fontWeight: "700",
-            color: "#2c3e50",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-            borderBottom: "3px solid #3498db",
-            paddingBottom: "10px",
-            width: "fit-content",
-            margin: "0 auto 2rem auto",
-            borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
-            padding: "10px",
-            border: "1px solid #3498db",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-            },
-            "&:active": {
-              transform: "scale(0.95)",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            },
-          }}
-        >
-          خدمه العملاء
-        </h1>
 
-        <Col
-          md={12}
-          sm={12}
-          xs={12}
-          className="mb-3 d-flex justify-content-center w-100"
-        >
+        <h5
+        className=" mb-4"
+        style={{
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "white",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          width: "fit-content",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#4A6785",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          },
+        }}
+      >
+                  خدمه العملاء
+
+      </h5>
+
+        <div className="
+   d-flex justify-content-center
+   ">
+
+<Col
+            md={3}
+            sm={12}
+            xs={12}
+            className="Col1 mb-3"
+          >  
+          <Link
+                  className="text-white text-decoration-none"
+                  to="/LandingPageCustomeService"
+                >
           <Card
             style={styles.cards1}
             onMouseLeave={() => setIshovered1(false)}
@@ -139,83 +149,64 @@ export default function CPanelCustomerService() {
               <i
                 className="fa-solid fa-tty text-success"
                 style={styles.icons}
-              ></i>
+              ></i><div className="content">
+                  <p>قم باداره خدمه العملاء</p>
+                </div>
 
               <Card.Title>تفاصيل خدمه العملاء</Card.Title>
               <Card.Text>الذهاب الي خدمه العملاء.</Card.Text>
-              <Button variant="success">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/LandingPageCustomeService"
-                >
-                  الذهاب إلى جميع تفاصيل خدمه العملاء
-                </Link>
-              </Button>
+              <div className="info d-flex justify-content-end">
+                  <Button className="bg-black text-white border-none ">
+                    <ArrowRightAltIcon />
+                  </Button>
+                </div> 
             </Card.Body>
-          </Card>
+          </Card> 
+            </Link>
         </Col>
 
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">رقم الهويه</TableCell>
-              <TableCell align="center">الهاتف</TableCell>
-              <TableCell align="center">حظر</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedOrder.map((customer, index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.identity}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.phoneNumber}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.isBlocked ? (
-                    <>
-                      <Button
-                        onClick={() => UnBlock(customer.email)}
-                        className="bg-success text-black"
-                      >
-                        فك الحظر
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <Button
-                        onClick={() => Block(customer.email)}
-                        className="bg-danger text-black"
-                      >
-                        حظر
-                      </Button>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+   </div>
+        <div className="table-responsive mt-3">
+      <table className="table table-bordered text-center shadow-sm">
+        <thead className="bg-white border">
+          <tr>
+            <th>الاسم</th>
+            <th>البريد الالكتروني</th>
+            <th>رقم الهوية</th>
+            <th>الهاتف</th>
+            <th>حظر</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedOrder.map((customer, index) => (
+            <tr key={index} className="bg-light">
+              <td>{customer.fullName}</td>
+              <td>{customer.email}</td>
+              <td>{customer.identity}</td>
+              <td>{customer.phoneNumber}</td>
+              <td>
+                {customer.isBlocked ? (
+                  <button
+                    onClick={() => UnBlock(customer.email)}
+                    className="btn btn-success text-black"
+                  >
+                    فك الحظر
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => Block(customer.email)}
+                    className="btn btn-danger text-black"
+                  >
+                    حظر
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
         <Toaster />
       </Box>
     </>

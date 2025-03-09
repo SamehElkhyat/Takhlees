@@ -1,7 +1,8 @@
+import { Button } from "@mui/material";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function OrderDetails() {
@@ -30,7 +31,6 @@ export default function OrderDetails() {
   let NewAllfile = [];
 
   const DownloadFilesApi = async (index) => {
-
     try {
       const response = await axios.post(
         `https://user.runasp.net/api/DownloadFiles`,
@@ -74,6 +74,8 @@ export default function OrderDetails() {
   };
 
   const SendValue = async (cost, orderValue) => {
+    console.log(orderValue);
+
     try {
       const { data } = await axios.post(
         `https://user.runasp.net/api/Apply-Order`,
@@ -92,9 +94,7 @@ export default function OrderDetails() {
       toast.success("تم تقديم الطلب بنجاح");
       getValue();
     } catch (error) {
-
       toast.error(error.response.data.message);
-
     }
   };
 
@@ -116,7 +116,7 @@ export default function OrderDetails() {
 
       if (JSON.stringify(data) !== JSON.stringify(allOrders)) {
         setallOrders(data);
-        console.log(data);
+        getValue();
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -158,8 +158,27 @@ export default function OrderDetails() {
     <>
       <div className="container mt-5">
         <div className="card">
-          <div className="card-header bg-primary text-white">
-            <h3 className="mb-0 text-center">تفاصيل الطلب</h3>
+          <div
+            style={{
+              borderRadius: "15px",
+              fontSize: "26px",
+              fontWeight: "bold",
+              backgroundColor: "green", // لون هادئ
+              textAlign: "center",
+              paddingBottom: "10px",
+            }}
+            className="card-header text-white"
+          >
+            <h3
+              style={{
+                fontSize: "26px",
+                fontWeight: "bold",
+                textAlign: "center",
+                paddingBottom: "10px",
+              }}
+            >
+              تفاصيل الطلب
+            </h3>
           </div>
           <div className="card-body">
             {data.length === 0 || error === "null" ? (
@@ -182,28 +201,24 @@ export default function OrderDetails() {
 
                     <div className="row">
                       <div className="col-md-6">
-                        <h5 className="text-muted mb-3">معلومات الطلب</h5>
+                        <h5 className="text-black mb-3">معلومات الطلب</h5>
                         <table className="table table-bordered">
                           <tbody>
-                            <tr>
-                              <th>طريقه النقل</th>
-                              <td>
-                                {data.town == null && data.town !== null ? (
-                                  <>
-                                      <Button className="bg-success">
+                            {data.town == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr>
+                                  <th>طريقه النقل</th>
+
+                                  <td>
+                                    <Button className="bg-success text-white">
                                       يوجد نقل
                                     </Button>
-                             
-                                  </>
-                                ) : (
-                                  <>
-                                       <Button className="bg-danger">
-                                     لا يوجد نقل
-                                    </Button>
-                                  </>
-                                )}
-                              </td>
-                            </tr>
+                                  </td>
+                                </tr>
+                              </>
+                            )}
                             <tr>
                               <th>رقم الطلب</th>
                               <td>{data.id}</td>
@@ -225,17 +240,39 @@ export default function OrderDetails() {
                       </div>
 
                       <div className="col-md-6">
-                        <h5 className="text-muted mb-3">معلومات الشحن</h5>
+                        <h5 className="text-black mb-3">معلومات الشحن</h5>
                         <table className="table table-bordered">
                           <tbody>
                             <tr>
                               <th>نوع الشحنة</th>
                               <td>{data.typeOrder}</td>
                             </tr>
+
+                            {data.size == null ? (
+                              <></>
+                            ) : (
+                              <>
+                                {" "}
+                                <tr>
+                                  <th>وزن الشحنة</th>
+                                  <td>{data.size}</td>
+                                </tr>
+                              </>
+                            )}
+
+<tr>
+                              <th>عدد القطع</th>
+                              <td>{data.number}</td>
+                            </tr>
+
                             {data.town == null ? (
                               <></>
                             ) : (
                               <>
+                                <h5 className="text-black pt-3 ">
+                                  معلومات النقل
+                                </h5>
+
                                 <tr>
                                   <th>الحي</th>
                                   <td>{data.town}</td>
@@ -251,7 +288,7 @@ export default function OrderDetails() {
                                   <td>{data.zipCode}</td>
                                 </tr>
                               </>
-                            )}{" "}
+                            )}
                             {data.city == null ? (
                               <></>
                             ) : (
@@ -262,21 +299,8 @@ export default function OrderDetails() {
                                 </tr>
                               </>
                             )}
-                            {data.size == null ? (
-                              <></>
-                            ) : (
-                              <>
-                                {" "}
-                                <tr>
-                                  <th>وزن الشحنة</th>
-                                  <td>{data.size}</td>
-                                </tr>
-                              </>
-                            )}
-                            <tr>
-                              <th>عدد القطع</th>
-                              <td>{data.number}</td>
-                            </tr>
+
+            
                           </tbody>
                         </table>
                       </div>
@@ -296,12 +320,21 @@ export default function OrderDetails() {
                         {NewAllfile[0].map((AllFilesHere, i) => (
                           <>
                             {}
-                            <tr>
-                              {i <= 4 ? (
-                                <>{FilesName.commerce[i]}</>
-                              ) : (
-                                <>ملفات اخري</>
-                              )}
+                            <tr
+                              style={{
+                                textAlign: "center",
+
+                                borderColor: "solid",
+                                borderWidth: "1px",
+                              }}
+                            >
+                              <th>
+                                {i <= 4 ? (
+                                  <>{FilesName.commerce[i]}</>
+                                ) : (
+                                  <>ملفات اخري</>
+                                )}
+                              </th>
                               <td>{AllFilesHere}</td>
                               <th>
                                 <i
@@ -309,18 +342,15 @@ export default function OrderDetails() {
                                   className="fa-solid fa-download"
                                   style={{
                                     fontSize: "1.5rem", // حجم الأيقونة
-                                    color: "#007bff", // لون افتراضي (أزرق)
                                     cursor: "pointer",
                                     transition:
                                       "transform 0.3s ease, color 0.3s ease",
                                   }}
                                   onMouseEnter={(e) => {
-                                    e.target.style.color = "#28a745"; // يتحول للأخضر عند التحويم
                                     e.target.style.transform =
                                       "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
                                   }}
                                   onMouseLeave={(e) => {
-                                    e.target.style.color = "#007bff"; // يرجع للون الأصلي عند الخروج
                                     e.target.style.transform =
                                       "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
                                   }}
@@ -338,7 +368,7 @@ export default function OrderDetails() {
 
             <div className="row mt-4">
               <div className="col-12">
-                <h5 className="text-muted mb-3">العروض المقدمة</h5>
+                <h5 className="text-black mb-3">العروض المقدمة</h5>
                 <Table striped bordered hover>
                   <thead>
                     <tr className="text-center">
@@ -432,44 +462,39 @@ export default function OrderDetails() {
                   </tbody>
                 </Table>
 
-
-
                 {DecodedTokken ? (
-          <>
-            {DecodedTokken.Role === "Admin" ? (
-              <>
-
-              </>
-            ) : (
-              <>
-              
-              <div className="mt-4">
-                  <h5 className="text-muted mb-3">تقديم عرض جديد</h5>
-                  <div className="input-group mb-3">
-                    <input
-                      onChange={(e) => handleChange(e)}
-                      type="number"
-                      className="form-control"
-                      placeholder="ادخل سعر العرض بالريال"
-                      aria-label="سعر العرض"
-                    />
-                    <button
-                      onClick={() => {
-                        SendValue(cost, NewId[0]);
-                      }}
-                      className="btn btn-primary"
-                      type="button"
-                    >
-                      تقديم العرض
-                    </button>
-                  </div>
-                </div>
-              </>
-            )}
-          </>
-        ) : (
-          <></>
-        )}
+                  <>
+                    {DecodedTokken.Role === "Admin" ? (
+                      <></>
+                    ) : (
+                      <>
+                        <div className="mt-4">
+                          <h5 className="text-black mb-3">تقديم عرض جديد</h5>
+                          <div className="input-group mb-3">
+                            <input
+                              onChange={(e) => handleChange(e)}
+                              type="number"
+                              className="form-control"
+                              placeholder="ادخل سعر العرض بالريال"
+                              aria-label="سعر العرض"
+                            />
+                            <Button
+                              onClick={() => {
+                                SendValue(cost, NewId[0]);
+                              }}
+                              variant="contained"
+                            >
+                              {" "}
+                              تقديم العرض
+                            </Button>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
