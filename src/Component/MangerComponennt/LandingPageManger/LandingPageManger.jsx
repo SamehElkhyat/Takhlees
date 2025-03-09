@@ -275,7 +275,7 @@ export default function LandingPageManger() {
               <Button variant="info">
                 <Link
                   className="text-white text-decoration-none"
-                  to="/CpanelAccountantManger"
+                  to="/LogsOrders"
                 >
                   الذهاب إلى قائمه الطلبات
                 </Link>
