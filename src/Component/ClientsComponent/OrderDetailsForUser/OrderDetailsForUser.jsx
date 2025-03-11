@@ -124,7 +124,6 @@ export default function OrderDetailsForUser() {
         }
       );
 
-      console.log(data);
 
       setdata(data);
     } catch (error) {
@@ -285,11 +284,11 @@ export default function OrderDetailsForUser() {
                                   }}
                                   onMouseEnter={(e) => {
                                     e.target.style.transform =
-                                      "scale(1.2) rotate(-10deg)"; // تكبير مع دوران خفيف
+                                      "scale(1.2) rotate(-10deg)"; 
                                   }}
                                   onMouseLeave={(e) => {
                                     e.target.style.transform =
-                                      "scale(1) rotate(0deg)"; // يرجع للحجم الطبيعي
+                                      "scale(1) rotate(0deg)"; 
                                   }}
                                 ></i>
                               </th>
@@ -303,7 +302,7 @@ export default function OrderDetailsForUser() {
               </>
             )}
 
-            {NewAllfile.length > 3 && ( // استبدل 3 بالعدد الذي تريده
+            {NewAllfile.length > 3 && ( 
               <tr>
                 <td colSpan="3">
                   <button
@@ -316,7 +315,7 @@ export default function OrderDetailsForUser() {
                       cursor: "pointer",
                     }}
                   >
-                    ➕ إضافة ملف إضافي
+                     إضافة ملف إضافي
                   </button>
                 </td>
               </tr>
