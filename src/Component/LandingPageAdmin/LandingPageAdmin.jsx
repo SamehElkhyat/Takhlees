@@ -2,10 +2,8 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-
 import { jwtDecode } from "jwt-decode";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-
 export default function LandingPageAdmin() {
   const [Ishovered1, setIshovered1] = useState(false);
   const [Ishovered2, setIshovered2] = useState(false);
@@ -15,15 +13,12 @@ export default function LandingPageAdmin() {
   const [Ishovered6, setIshovered6] = useState(false);
   const [Ishovered7, setIshovered7] = useState(false);
   const [Ishovered8, setIshovered8] = useState(false);
-
   const [Tokken, setTokken] = useState(null);
   const [DecodedTokken, setDecodedTokken] = useState();
-
   const styles = {
     cards1: {
       color: "black",
       backgroundColor: "#B3D4FF",
-
       borderRadius: "12px",
       transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
@@ -39,7 +34,6 @@ export default function LandingPageAdmin() {
     },
     cards3: {
       backgroundColor: "#F5E6CC",
-
       borderRadius: "12px",
       color: "black",
       transform: Ishovered3 ? "scale(1.1)" : "scale(1)",
@@ -49,14 +43,12 @@ export default function LandingPageAdmin() {
     cards4: {
       borderRadius: "12px",
       backgroundColor: "#E3E4E8",
-
       transform: Ishovered4 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered4 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
     cards5: {
       backgroundColor: "#F9D99D",
-
       borderRadius: "12px",
       transform: Ishovered5 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
@@ -65,25 +57,20 @@ export default function LandingPageAdmin() {
     cards6: {
       borderRadius: "12px",
       backgroundColor: "#EAEBCB",
-
       transform: Ishovered6 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered6 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
-
     cards7: {
       borderRadius: "12px",
       backgroundColor: "#FAFAF8",
-
       transform: Ishovered7 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered7 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
-
     cards8: {
       borderRadius: "12px",
       backgroundColor: "#FAFAF8",
-
       transform: Ishovered8 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered8 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
@@ -93,18 +80,14 @@ export default function LandingPageAdmin() {
       padding: "20px",
     },
   };
-
   const AnimatedName = ({ name }) => {
     const [activeIndex, setActiveIndex] = useState(0);
-
     useEffect(() => {
       const interval = setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % name.length);
       }, 300); // تغيير اللون كل 300 مللي ثانية
-
       return () => clearInterval(interval); // تنظيف التايمر عند إزالة المكون
     }, [name]);
-
     return (
       <h1>
         {name.split("").map((char, index) => (
@@ -121,7 +104,6 @@ export default function LandingPageAdmin() {
       </h1>
     );
   };
-
   useEffect(() => {
     setTokken(localStorage.getItem("Tokken"));
     const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
@@ -257,7 +239,6 @@ export default function LandingPageAdmin() {
             </Card>
           </Link>
         </Col>
-
         <Col md={3} sm={6} xs={12} className="mb-3 Col5">
           <Link className="text-white text-decoration-none" to="/statistics">
             <Card

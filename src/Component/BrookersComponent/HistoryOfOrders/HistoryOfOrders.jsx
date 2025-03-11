@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form, Modal, Table } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 export default function HistoryOfOrders() {
   const [order, setorder] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [Tracking, setTracking] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  
   const HistoryOfAllOrders = async () => {
     try {
       const { data } = await axios.get(
@@ -16,17 +19,20 @@ export default function HistoryOfOrders() {
           },
         }
       );
-
       if (JSON.stringify(data) !== JSON.stringify(order)) {
         setorder(data);
       }
-
-      console.log(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
-
+  const handleShowDetails = (order) => {
+    setSelectedOrder(order);
+  };
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
+  };
+ 
   useEffect(() => {
     HistoryOfAllOrders();
   }, []);
@@ -62,7 +68,6 @@ export default function HistoryOfOrders() {
         >
           سجل العروض
         </h3>
-
         <Form className="mb-3">
           <Form.Control
             type="text"
@@ -74,7 +79,6 @@ export default function HistoryOfOrders() {
             بحث
           </Button>
         </Form>
-
         <Table striped bordered hover>
           <thead>
             <tr className="text-center">
@@ -83,6 +87,7 @@ export default function HistoryOfOrders() {
               <th>الملاحظات</th>
               <th>التاريخ</th>
               <th>الحالة</th>
+              <th>مراحل الطلب</th>
             </tr>
           </thead>
           <tbody>
@@ -95,57 +100,25 @@ export default function HistoryOfOrders() {
                   <td>{order.id}</td>
                   <td>{order.location}</td>
                   <td>{order.notes}</td>
-
                   <td>{order.date}</td>
                   <td>
-                    {order.statuOrder === "منفذ" && (
-                      <button className="btn bg-success w-100">منفذ</button>
-                    )}
-
-                    {order.statuOrder === "محذوفة" && (
-                      <button className="btn bg-danger w-100">محذوفة</button>
-                    )}
-                    {order.statuOrder === "لم يتم التنفيذ" && (
-                      <button className="btn bg-success w-100">
-                        تم التنفيذ
-                      </button>
-                    )}
-                    {order.statuOrder === "ملغى" && (
-                      <button className="btn bg-danger w-100">ملغي</button>
-                    )}
-                    {order.statuOrder === "تم التحويل" && (
-                      <button className="btn bg-success w-100">
-                        تم التحويل
-                      </button>
-                    )}
-                    {order.statuOrder === "محولة" && (
-                      <button className="btn bg-success w-100">محولة</button>
-                    )}
-                    {order.statuOrder === "لم يتم التحويل" && (
-                      <button className="btn bg-danger w-100">
-                        لم يتم التحويل
-                      </button>
-                    )}
-                    {order.statuOrder === "قيد الإنتظار" && (
-                      <button className="btn bg-secondary w-100">
-                        قيد الإنتظار
-                      </button>
-                    )}
-                    {order.statuOrder === "تحت الإجراء" && (
-                      <button className="btn bg-primary w-100">
-                        تحت الإجراء
-                      </button>
-                    )}
-                    {order.statuOrder === "تم التنفيذ" && (
-                      <button className="btn bg-success w-100">
-                        تم التنفيذ
-                      </button>
-                    )}
+                    <button className="btn bg-success w-100">
+                      {order.statuOrder}
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleShowDetails(order.id)}
+                      className="btn bg-primary w-100"
+                    >
+                      مراحل الطلب
+                    </button>
                   </td>
                 </tr>
               ))}
           </tbody>
         </Table>
+      
       </div>
     </>
   );

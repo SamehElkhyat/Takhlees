@@ -29,7 +29,6 @@ const LandingPageForUsers = () => {
           },
         }
       );
-      console.log(data);
       setState(data);
     } catch (error) {
       console.log(error);

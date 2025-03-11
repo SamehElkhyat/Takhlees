@@ -11,12 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .input-group:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-#Row-Landing-User{
-font-family: cairo;
+#Row-Landing-User {
+  font-family: cairo;
 
 }
 
@@ -30,7 +31,8 @@ font-family: cairo;
 
 /* تنسيق العنوان الرئيسي */
 .card-header {
-  background-color: #2c3e50 !important; /* لون هادئ */
+  background-color: #2c3e50 !important;
+  /* لون هادئ */
   color: #ffffff !important;
   font-size: 24px;
   font-weight: bold;
@@ -60,7 +62,8 @@ font-family: cairo;
 
 /* تحسين زر "تقديم العرض" */
 .button-custom {
-  background-color: #27ae60 !important; /* لون أخضر هادئ */
+  background-color: #27ae60 !important;
+  /* لون أخضر هادئ */
   border: none;
   padding: 10px 20px;
   font-size: 18px;
@@ -97,10 +100,12 @@ i.fa-download:hover {
   border-radius: 12px;
   transition: all 0.3s ease-in-out;
 }
+
 #Row-Landing-User Col {
   padding: 70px;
 
 }
+
 #New-Order-form {
   padding: 70px;
   background: linear-gradient(135deg, #ffffff, #f8f9fa);
@@ -110,7 +115,7 @@ i.fa-download:hover {
   transition: all 0.3s ease-in-out;
 }
 
-.Inputs-New-Order{
+.Inputs-New-Order {
 
   width: 100%;
   padding: 10px;
@@ -165,10 +170,10 @@ i.fa-download:hover {
   z-index: var(--DrawerList);
 }
 
-.sign-in-container h2{
-    color: #020346 !important;
-    font-weight: 900 !important;
-    font-size: 50px;
+.sign-in-container h2 {
+  color: #020346 !important;
+  font-weight: 900 !important;
+  font-size: 50px;
 }
 
 .sign-in-container form {
@@ -197,18 +202,19 @@ i.fa-download:hover {
   padding: 3px;
 }
 
-.to-SignUp{
+.to-SignUp {
   color: #030000 !important;
   display: flex;
   align-items: center;
   font-size: 20px;
   font-weight: 600;
   transition: all 300ms ease-in-out;
-  
+
 }
- .to-SignUp:hover{
+
+.to-SignUp:hover {
   color: #109fff !important;
- 
+
 }
 
 .button-group .signin-button {
@@ -257,7 +263,6 @@ i.fa-download:hover {
   margin-bottom: 0.5rem;
   color: black;
 }
-
 .form-group-company input {
   direction: rtl;
   width: 100%;
@@ -267,13 +272,11 @@ i.fa-download:hover {
   font-size: 1rem;
   background-color: #ffffffb1 !important;
 }
-::placeholder{
-position: absolute;
-right: 10;
+::placeholder {
+  position: absolute;
+  right: 10;
   color: black;
-
 }
-
 .form-group-company input:focus {
   outline: none;
   border-color: #4a90e2;
@@ -289,19 +292,16 @@ right: 10;
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
-
 .register-button:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
-
 .signin-button:disabled {
   background-color: #ffffff;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
-
 .signin-button {
   width: 30% !important;
   height: 50px;
@@ -316,47 +316,38 @@ right: 10;
   letter-spacing: 0.5px;
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
-
 .signin-button:hover {
   background-color: #ffffff;
   color: #000000;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
 }
-
 .signin-button:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
-
 .signin-button:disabled {
   background-color: #93c5fd;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
-
 /*Forget Password********************/
 .forgot-password {
   margin-top: 1rem;
 }
-
 .error-message {
   color: #dc3545;
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
-
 .forgot-password a {
   color: #4a90e2;
   text-decoration: none;
 }
-
 .forgot-password a:hover {
   text-decoration: underline;
 }
-
-
 .info {
   opacity: 0;
   transition: all .3s ease-in-out;
@@ -394,9 +385,7 @@ right: 10;
   opacity: 1;
   transform: scale(1.05);
 }
-
 /*// //*/
-
 .Col1 {
   position: relative;
   overflow: hidden;
@@ -585,7 +574,6 @@ right: 10;
 .Col7:hover .content {
   opacity: 1;
 }
-
 /**/
 .Col8 {
   position: relative;
@@ -612,4 +600,28 @@ right: 10;
 }
 .Col8:hover .content {
   opacity: 1;
+}
+.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+  color: rgb(14, 180, 14) !important;
+}
+
+#payment-Formations{
+  border-radius: 10px;
+  text-align: center;
+  background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+}
+
+#payment-Formation{
+  text-align: center;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
 }

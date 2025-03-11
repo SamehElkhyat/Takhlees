@@ -1,14 +1,22 @@
+import {
+  Box,
+  Step,
+  StepButton,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 const CurrentOrdersForUsers = () => {
   const [orders, setOrder] = useState([]);
-  const [id, setid] = useState(null);
   const [error, seterror] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const SendId = async () => {
+  const SendId = async (id) => {
     try {
       const req = await axios.post(
         `https://user.runasp.net/api/Get-ID`,
@@ -20,7 +28,7 @@ const CurrentOrdersForUsers = () => {
         }
       );
       if (req.status == 200) {
-        window.location.href = "/OrderDetailsForUser";
+         window.location.href = "/Tracking";
       } else if (req.status == 400) {
         console.log("حدث خطأ في عرض البايانات");
       }
@@ -40,7 +48,7 @@ const CurrentOrdersForUsers = () => {
           },
         }
       );
-      console.log(res.data);
+      console.log(res);
 
       setOrder(res.data);
     } catch (error) {
@@ -52,37 +60,38 @@ const CurrentOrdersForUsers = () => {
     GetOrder();
   }, []);
 
-  useEffect(() => {
-    if (id == 'null') return SendId();
-  }, [id]);
+
   return (
     <div className="container mt-5">
-      <h3 className="text-center"  
-          style={{
-            fontSize: "2rem",
-            fontWeight: "700",
-            color: "#2c3e50",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-            borderBottom: "3px solid #3498db",
-            paddingBottom: "10px",
-            width: "fit-content",
-            margin: "0 auto 2rem auto",
-            borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
-            padding: "10px",
-            border: "1px solid #3498db",
+      <h3
+        className="text-center"
+        style={{
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "#2c3e50",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          width: "fit-content",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#f0f0f0",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-            },
-            "&:active": {
-              transform: "scale(0.95)",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            },
-          }}
-      >الطلبات الجاريه</h3>
+          },
+        }}
+      >
+        الطلبات الجاريه
+      </h3>
 
       <Form className="mb-3">
         <Form.Control
@@ -113,35 +122,36 @@ const CurrentOrdersForUsers = () => {
               </td>
             </tr>
           ) : (
-            orders.filter((order)=>
-            {
-              return searchTerm === "" || order.id.includes(searchTerm)
+            orders
+              .filter((order) => {
+                return searchTerm === "" || order.id.includes(searchTerm);
+              })
+              .map((order) => (
+                <tr onClick={()=>SendId(order.id)} className="text-center" key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.location}</td>
+                  <td>{order.typeOrder}</td>
+                  <td>{order.date}</td>
+                  <td>{order.statuOrder}</td>
 
-            }).map((order) => (
-              <tr className="text-center" key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.location}</td>
-                <td>{order.typeOrder}</td>
-                <td>{order.date}</td>
-                <td>{order.statuOrder}</td>
-
-                {order.statuOrder === "قيد الإنتظار" && (
-                  <td>
-                    <button className="btn bg-primary w-100">
-                      انتظار الرد
-                    </button>
-                  </td>
-                )}
-                {order.statuOrder === "مقبول" && (
-                  <td>
-                    <button className="btn bg-success w-100">مقبول</button>
-                  </td>
-                )}
-              </tr>
-            ))
+                  {order.statuOrder === "قيد الإنتظار" && (
+                    <td>
+                      <button className="btn bg-primary w-100">
+                        انتظار الرد
+                      </button>
+                    </td>
+                  )}
+                  {order.statuOrder === "مقبول" && (
+                    <td>
+                      <button className="btn bg-success w-100">مقبول</button>
+                    </td>
+                  )}
+                </tr>
+              ))
           )}
         </tbody>
       </Table>
+
     </div>
   );
 };

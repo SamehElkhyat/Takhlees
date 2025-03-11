@@ -4,6 +4,9 @@ import { useFormik } from "formik";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 import {
   Button,
   Form,
@@ -27,6 +30,27 @@ export default function CurrentOffers() {
   const [DecodedTokken, setDecodedTokken] = useState();
   const [Bar, setBar] = useState(null);
   const [IsLoading, setIsLoading] = useState(false);
+  const [Tracking, setTracking] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [Step1, setStep1] = useState(false);
+  const [Step2, setStep2] = useState(false);
+
+
+
+
+
+const steps = [
+  'Select master blaster campaign settings',
+  'Create an ad group',
+  'Create an ad',
+];
+  const handleShowDetails = (order) => {
+    setSelectedOrder(order);
+  };
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
+  };
+
 
   const handleShowBar = (items, orderdid) => {
     setOrderId(orderdid);
@@ -78,7 +102,6 @@ export default function CurrentOffers() {
       toast.error(error.response.data.message);
     }
   };
-
   const GetValueCurrentOffers = async () => {
     try {
       const { data } = await axios.get(
@@ -90,8 +113,72 @@ export default function CurrentOffers() {
         }
       );
       console.log(data);
-
       setOrders2(data);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+  const GetTrackingstep1 = async () => {
+    try {
+      const {data} = await axios.post(
+        `https://user.runasp.net/api/Trace-Order-Broker`,
+        {
+          newOrderId: selectedOrder,
+          step1: 'step1',
+          step2: null,
+          step3: null,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      setStep1(true)      
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+  const GetTrackingstep2 = async () => {
+    try {
+      const {data} = await axios.post(
+        `https://user.runasp.net/api/Trace-Order-Broker`,
+        {
+          newOrderId: selectedOrder,
+          step1: 'step1',
+          step2: 'step2',
+          step3: null,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      setStep2(true)      
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+  const GetTrackingstep3 = async () => {
+    try {
+      const {data} = await axios.post(
+        `https://user.runasp.net/api/Trace-Order-Broker`,
+        {
+          newOrderId: selectedOrder,
+          step1: 'step1',
+          step2: 'step2',
+          step3: 'step3',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
+      console.log(data);
+      
+      setTracking(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -393,6 +480,7 @@ export default function CurrentOffers() {
                   <th>الحالة</th>
                 </>
               )}
+              <th>مراحل الطلب</th>
             </tr>
           </thead>
           <tbody>
@@ -464,6 +552,12 @@ export default function CurrentOffers() {
                           </td>
                         </>
                       )}
+                      <button
+                        onClick={() => handleShowDetails(order.id)}
+                        className="btn bg-primary w-100"
+                      >
+                        مراحل الطلب
+                      </button>
                     </tr>
                   ))}
               </>
@@ -739,6 +833,34 @@ export default function CurrentOffers() {
               </Button>
             </Modal.Footer>
           </Modal>
+          <Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
+  <Modal.Header closeButton>
+    <Modal.Title>تفاصيل الطلب</Modal.Title>
+  </Modal.Header>
+  <Modal.Body className="d-flex flex-column align-items-center gap-3">
+    <Button variant="warning" className="w-100 py-2" onClick={GetTrackingstep1}>
+      تم إخراج الطلب من الأرضيات
+    </Button>
+
+    {Step1 && (
+      <Button variant="info" className="w-100 py-2" onClick={GetTrackingstep2}>
+        الطلب تحت الفحص
+      </Button>
+    )}
+
+    {Step2 && (
+      <Button variant="success" className="w-100 py-2" onClick={GetTrackingstep3}>
+        تم إنهاء الطلب
+      </Button>
+    )}
+  </Modal.Body>
+  <Modal.Footer className="d-flex justify-content-center">
+    <Button variant="secondary" className="px-4 py-2" onClick={handleCloseDetails}>
+      إغلاق
+    </Button>
+  </Modal.Footer>
+</Modal>
+
         </Table>
         <Toaster />
       </div>
