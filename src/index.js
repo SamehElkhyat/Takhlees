@@ -61,6 +61,7 @@ import CustomTable from "./Component/Table/Tables.jsx";
 import LogsOrders from "./Component/MangerComponennt/LogsOrders/LogsOrders.jsx";
 import Tracking from "./Component/ClientsComponent/Tracking/Tracking.jsx";
 import UserPayment from "./Component/ClientsComponent/UserPayment/UserPayment.jsx";
+import Settings from "./Component/ControlPanel/Settings.jsx";
 
 const router = createBrowserRouter([
   {
@@ -149,6 +150,13 @@ const router = createBrowserRouter([
       { path: "AllClients", element: <AllClients /> },
       { path: "LandingPageAdmin", element: <LandingPageAdmin /> },
       //*//
+
+
+
+            //* cpanel//
+            { path: "Settings", element: <Settings /> },
+            
+            //*//
     ],
   },
 ]);

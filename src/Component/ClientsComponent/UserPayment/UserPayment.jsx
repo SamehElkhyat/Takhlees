@@ -11,25 +11,28 @@ import {
 import axios from "axios";
 import { useFormik } from "formik";
 import { Form } from "react-bootstrap";
+import toast, { Toaster } from "react-hot-toast";
 export default function UserPayment() {
   const SendAmount = async (amount) => {
-console.log(amount);
-
+    console.log(amount);
+    
     try {
-      const  data  = await axios.post(
-        `https://user.runasp.net/api/Payment-Method`,
-        { Amount: amount },
+      const {data} = await axios.post(
+        `https://user.runasp.net/api/Payment`,
+        { Amount: amount.Amount },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
         }
       );
-      console.log(data);
+      toast.success("تم الدفع بنجاح");
+      window.location.href =data.approveUrl;
       
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
+      toast.error("فشلت العمليه");
+
     }
   };
   let formik = useFormik({
@@ -61,27 +64,30 @@ console.log(amount);
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Form.Group controlId="Amount">
-                    <Form.Label>رقم البوليصه</Form.Label>
+                    <Form.Label>المبلغ</Form.Label>
                     <Form.Control
                       type="number"
-                      placeholder="رقم الوليصه"
+                      placeholder="المبلغ"
                       name="Amount"
                       value={formik.values.Amount}
-                      
                       onChange={formik.handleChange}
                     />
                   </Form.Group>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid className="w-100" item xs={12}>
                   <Button
                     type="submit"
+                    className="w-50 d-flex justify-content-center"
                     variant="contained"
                     color="primary"
                     fullWidth
                     sx={{
                       py: 1.5,
                       borderRadius: 4,
+                      width:"50%",
+                      display:"flex",
+                      justifyContent:"center",
                       fontSize: "16px",
                       backgroundColor: "green",
                       "&:hover": { backgroundColor: "white", color: "black" },
@@ -92,6 +98,7 @@ console.log(amount);
                 </Grid>
               </Grid>
             </Form>
+          <Toaster/>
           </CardContent>
         </Card>
       </Box>

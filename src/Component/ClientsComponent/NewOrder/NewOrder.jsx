@@ -143,9 +143,6 @@ const NewOrderForm = () => {
     values.uploadFile.forEach((file) => {
       formData.append("uploadFile", file);
     });
-
-    console.log(values);
-
     try {
       const response = await axios.post(
         "https://user.runasp.net/api/New-Order",
