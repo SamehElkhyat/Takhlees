@@ -126,9 +126,12 @@ const NavBar = () => {
               <Divider />
               <List>
                 <ListItem key={"text6"} disablePadding>
+                  <Link to="/Settings">
                   <ListItemButton>
                     <ListItemText primary={"الاعدادات"} />
                   </ListItemButton>
+                  </Link>
+             
                 </ListItem>
                 <ListItem key={"text7"} disablePadding>
                   <ListItemButton>
@@ -159,10 +162,13 @@ const NavBar = () => {
           ) : (
             <>
               <List>
-                <ListItem key={"text1"} disablePadding>
+              <ListItem key={"text6"} disablePadding>
+                  <Link to="/Settings">
                   <ListItemButton>
                     <ListItemText primary={"الاعدادات"} />
                   </ListItemButton>
+                  </Link>
+             
                 </ListItem>
                 <ListItem key={"text2"} disablePadding>
                   <ListItemButton>
