@@ -23,6 +23,8 @@ const ConfirmPassword = () => {
         }
       );
 
+console.log(response);
+
       toast.success(response.data.message);
 
       if (response.data.message == "تم إعادة تعيين كلمة المرور بنجاح") {

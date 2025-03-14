@@ -31,18 +31,24 @@ const NavBar = () => {
       document.body.classList.toggle("DrawerList");
     };
   };
-  useEffect(() => {
-    let ApiToken = localStorage.getItem("Tokken");
-    setApiToken(true);
-    const path = window.location.pathname
-    if (Token == null) {
-      if (ApiToken != null && path !== "/ConfirmPassword") {
-        let DecodedToken = jwtDecode(ApiToken);
-        setToken(DecodedToken);
+  useEffect(() => {    
+    if (localStorage.getItem("Tokken") == "null") {
+      console.log("helllo");
+    }else{
+      let ApiToken = localStorage.getItem("Tokken");
+      setApiToken(true);
+      const path = window.location.pathname
+      if (Token == null) {
+        if (ApiToken != null && path !== "/ConfirmPassword") {
+          let DecodedToken = jwtDecode(ApiToken);
+          setToken(DecodedToken);
+        }
+      } else {
+        setToken("error decoded token");
       }
-    } else {
-      setToken("error decoded token");
+
     }
+    
   }, []);
   return (
     <>
@@ -81,7 +87,10 @@ const NavBar = () => {
           }}
           role="presentation"
         >
-          {Token?.Role === "Admin" ? (
+
+          {localStorage.getItem("Tokken") !== null ?<>
+          
+            {Token?.Role === "Admin" ? (
             <>
               <List>
                 <ListItem key={"text1"} disablePadding>
@@ -196,6 +205,8 @@ const NavBar = () => {
               </List>
             </>
           )}
+          </>:<></>}
+       
          
           <Divider />
         </Box>

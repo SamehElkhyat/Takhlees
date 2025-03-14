@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SignIn.css";
 import * as Yup from "yup";
 import SignInBackground from "../SignIn/ships.png";
 import axios from "axios";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { Button, Spinner } from "react-bootstrap";
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const [Isloading, setIsloading] = useState(false);
+
   const validationSchema = Yup.object({
     Email: Yup.string()
       .email("بريد إلكتروني غير صالح")
@@ -17,38 +21,74 @@ const SignIn = () => {
   });
 
   async function handelesignin(values) {
+    setIsloading(true);
     try {
-      const data = await axios.post("https://takhleesak.runasp.net/api/Login", {
-        Email: values.Email,
-        Password: values.Password,
-      });
-      if (data.data.message === "تم تسجيل الدخول بنجاح") {
+      const { data } = await axios.post(
+        "https://takhleesak.runasp.net/api/Login",
+        {
+          Email: values.Email,
+          Password: values.PXassword,
+        }
+      );
+      console.log(data.message);
+      
+      if (data.message === "تم تسجيل الدخول بنجاح") {
         toast(data.data.message);
         localStorage.setItem("Tokken", data.data.data);
         localStorage.setItem("Code", data.data.state);
         const decodedCode = jwtDecode(localStorage.getItem("Tokken"));
         if (decodedCode.Role == "User") {
-          return (window.location.href = "/LandingPageForUsers");
+          return (navigate("/LandingPageForUsers"));
         } else if (decodedCode.Role == "Admin") {
-          return (window.location.href = "/LandingPageAdmin");
+          return (navigate("/LandingPageAdmin"));
         } else if (decodedCode.Role == "Company") {
-          return (window.location.href = "/LandingPageForUsers");
+          return (navigate("/LandingPageForUsers"));
         } else if (decodedCode.Role == "Account") {
-          return (window.location.href = "/AccountantLandingPage");
+          return (navigate("/AccountantLandingPage"));
         } else if (decodedCode.Role == "CustomerService") {
-          return (window.location.href = "/LandingPageCustomeService");
+          return (navigate("/LandingPageCustomeService"));
         } else if (decodedCode.Role == "Broker") {
-          return (window.location.href = "/BrookersLandingPage");
+          return (navigate("/BrookersLandingPage"));
         } else if (decodedCode.Role == "Manager") {
-          return (window.location.href = "/LandingPageManger");
+          return (navigate("/LandingPageManger"));
         }
       } else {
-        toast(data.data.message);
+        toast(data.message);
+        setIsloading(false);
+
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      setIsloading(false);
+
+console.log(error);
     }
   }
+
+  const navigationToLandingpage = async () => {
+    try {
+      const data = await axios.get("https://user.runasp.net/api/Profile", {
+        withCredentials: true,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      const data = await axios.get("https://takhleesak.runasp.net/api/Logout", {
+        withCredentials: true,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error.response.data.message);
+    }
+  };
 
   let formik = useFormik({
     initialValues: {
@@ -107,9 +147,34 @@ const SignIn = () => {
           </p>
 
           <div className="button-group">
-            <button className="signin-button" type="submit">
-              تسجيل الدخول
-            </button>
+            {Isloading == true ? (
+              <>
+                <Button
+                  variant=""
+                  className="bg-black d-flex text-white justify-content-end"
+                >
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    className="me-2 text-danger d-flex justify-content-end mt-1"
+                  />
+                  جارٍ تنفيذ الطلب...
+                </Button>
+              </>
+            ) : (
+              <>
+                <button className="signin-button" type="submit">
+                  تسجيل الدخول
+                </button>
+
+                <button className="signin-button" onClick={() => signOut()}>
+                  تسجيل الخروج
+                </button>
+              </>
+            )}
             <p>
               <Link className="to-SignUp" to="/IntorSignUp">
                 انشاء حساب جديد
