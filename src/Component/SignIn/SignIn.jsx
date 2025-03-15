@@ -169,10 +169,6 @@ console.log(error);
                 <button className="signin-button" type="submit">
                   تسجيل الدخول
                 </button>
-
-                <button className="signin-button" onClick={() => signOut()}>
-                  تسجيل الخروج
-                </button>
               </>
             )}
             <p>
