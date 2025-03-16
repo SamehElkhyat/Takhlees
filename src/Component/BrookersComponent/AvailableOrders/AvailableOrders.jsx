@@ -14,7 +14,7 @@ export default function AvailableOrders() {
   const GetOrder = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-All-Orders`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders`,
 
         {
           headers: {
@@ -36,7 +36,7 @@ export default function AvailableOrders() {
     } else {
       try {
         const req = await axios.post(
-          `https://user.runasp.net/api/Get-ID`,
+          `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-ID`,
           { ID: id },
           {
             headers: {

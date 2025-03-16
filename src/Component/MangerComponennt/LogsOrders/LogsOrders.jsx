@@ -11,7 +11,7 @@ function LogsOrders() {
   const AllOrders = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-All-Orders-For-Admin`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders-For-Admin`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
@@ -28,7 +28,7 @@ function LogsOrders() {
   const HistoryOrders = async () => {
     try {
       const { data } = await axios.post(
-        `https://adminlogs.runasp.net/api/Logs`,
+        `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
@@ -45,7 +45,7 @@ function LogsOrders() {
 
     try {
       const  data  = await axios.post(
-        `https://adminlogs.runasp.net/api/Get-ID`,
+        `${REACT_APP_API_URL_MICROSERVICE3}/Get-ID`,
         { newOrderId: id },
         {
           headers: {

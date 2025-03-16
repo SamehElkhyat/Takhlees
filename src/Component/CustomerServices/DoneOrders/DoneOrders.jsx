@@ -41,7 +41,7 @@ export default function DoneOrders() {
   const GetFileName = async () => {
     try {
       const { data } = await axios.post(
-        `https://user.runasp.net/api/Get-Name-File-From-CustomerService`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Name-File-From-CustomerService`,
         {
           newOrderId: OrderId,
         },
@@ -63,7 +63,7 @@ export default function DoneOrders() {
   const DownloadFilesApi = async () => {
     try {
       const response = await axios.post(
-        `https://user.runasp.net/api/DownloadFiles-From-Account`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/DownloadFiles-From-Account`,
         {
           newOrderId: OrderId,
         },
@@ -116,7 +116,7 @@ export default function DoneOrders() {
   const getAllInformationBroker = async (BrokerId) => {
     try {
       const { data } = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Informatiom-From-Broker`,
         {
           BrokerID: BrokerId,
         },
@@ -146,7 +146,7 @@ export default function DoneOrders() {
   const ChangeStateNotDone = async (id) => {
     try {
       const request = await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService`,
         {
           statuOrder: "false",
           ID: id,
@@ -171,7 +171,7 @@ export default function DoneOrders() {
   const ChangeStateDone = async (values) => {
     try {
       const request = await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService`,
         {
           statuOrder: "true",
           ID: values,
@@ -192,7 +192,7 @@ export default function DoneOrders() {
   const getAllAcceptedOrders = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-All-Accept-Orders`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Accept-Orders`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

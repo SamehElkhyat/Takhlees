@@ -28,7 +28,7 @@ export default function OrderDetailsForUser() {
   const DownloadFilesApi = async (index, orderId) => {
     try {
       const response = await axios.post(
-        `https://user.runasp.net/api/DownloadFiles`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/DownloadFiles`,
         {
           newOrderId: NewId[0],
           Id: index,
@@ -69,7 +69,7 @@ export default function OrderDetailsForUser() {
   const SendValue = async () => {
     try {
       const data = await axios.get(
-        `https://user.runasp.net/api/Get-all-Values`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-all-Values`,
 
         {
           headers: {
@@ -89,7 +89,7 @@ export default function OrderDetailsForUser() {
   const SendId = async (OrderId, BrokerId, value) => {
     try {
       const data = await axios.post(
-        `https://user.runasp.net/api/Change-Satue`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Satue`,
         {
           Value: value,
           BrokerID: BrokerId,
@@ -116,7 +116,7 @@ export default function OrderDetailsForUser() {
   const getOrders = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-Details`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Details`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

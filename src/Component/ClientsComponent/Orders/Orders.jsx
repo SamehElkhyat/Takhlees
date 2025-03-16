@@ -12,7 +12,7 @@ const PendingOrders = () => {
     if (id) {
       try {
         const req = await axios.post(
-          `https://user.runasp.net/api/Get-ID`,
+          `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-ID`,
           { ID: id },
           {
             headers: {
@@ -33,7 +33,7 @@ const PendingOrders = () => {
   const GetOrder = async () => {
     try {
       const res = await axios.get(
-        `https://user.runasp.net/api/Get-Orders`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Orders`,
 
         {
           headers: {

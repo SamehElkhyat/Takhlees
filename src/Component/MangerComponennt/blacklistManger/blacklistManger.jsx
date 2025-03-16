@@ -14,14 +14,12 @@ import { Toaster } from "react-hot-toast";
 import { Button } from "react-bootstrap";
 
 export default function blacklistManger() {
-
   const [selectedOrder, setSelectedOrder] = useState([]);
 
   const Block = async (email) => {
-    
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Blocked`,
+        `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
@@ -33,17 +31,15 @@ export default function blacklistManger() {
         }
       );
       CustomerService();
-
     } catch (error) {
       console.log(error);
     }
   };
 
   const UnBlock = async (email) => {
-
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Unblocked`,
+        `${process.env.REACT_APP_API_URL}/Unblocked`,
         {
           Email: email,
         },
@@ -54,8 +50,6 @@ export default function blacklistManger() {
         }
       );
       CustomerService();
-
-
     } catch (error) {
       console.log(error);
     }
@@ -63,20 +57,19 @@ export default function blacklistManger() {
 
   const GetBlackList = async () => {
     const response = await axios.get(
-      "https://takhleesak.runasp.net/api/Black-List",
+      `${process.env.REACT_APP_API_URL}/Black-List`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
         },
       }
     );
-  
+
     setSelectedOrder(response.data);
     console.log(response.data);
   };
   useEffect(() => {
     GetBlackList();
-
   }, []);
 
   return (
@@ -109,7 +102,7 @@ export default function blacklistManger() {
             },
           }}
         >
-            المحظورين
+          المحظورين
         </h1>
 
         <Table style={{ marginTop: "20px", width: "100%" }}>
@@ -133,7 +126,7 @@ export default function blacklistManger() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {selectedOrder.map((customer,index) => (
+            {selectedOrder.map((customer, index) => (
               <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.fullName}
@@ -150,7 +143,10 @@ export default function blacklistManger() {
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.isBlocked ? (
                     <>
-                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
+                      <Button
+                        onClick={() => UnBlock(customer.email)}
+                        className="bg-success text-black"
+                      >
                         فك الحظر
                       </Button>
                     </>

@@ -19,7 +19,7 @@ export default function LandingPageCustomService() {
   const GetState = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Number-Of-Operations-CustomerService`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Number-Of-Operations-CustomerService`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

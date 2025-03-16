@@ -28,7 +28,7 @@ const SignUpForCompany = () => {
   const handelSignUpForCompany = async (values) => {
     try {
       const data = await axios.post(
-        `https://takhleesak.runasp.net/api/Register-company`,
+        `${process.env.REACT_APP_API_URL}/Register-company`,
         values
       );
 

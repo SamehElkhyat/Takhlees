@@ -19,7 +19,7 @@ const CurrentOrdersForUsers = () => {
   const SendId = async (id) => {
     try {
       const req = await axios.post(
-        `https://user.runasp.net/api/Get-ID`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-ID`,
         { ID: id },
         {
           headers: {
@@ -41,7 +41,7 @@ const CurrentOrdersForUsers = () => {
   const GetOrder = async () => {
     try {
       const res = await axios.get(
-        `https://user.runasp.net/api/Order-Requests`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Order-Requests`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

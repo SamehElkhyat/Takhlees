@@ -36,7 +36,7 @@ export default function BrookersManger() {
     
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Blocked`,
+        `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
@@ -58,7 +58,7 @@ export default function BrookersManger() {
 
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Unblocked`,
+        `${process.env.REACT_APP_API_URL}/Unblocked`,
         {
           Email: email,
         },
@@ -79,7 +79,7 @@ export default function BrookersManger() {
   const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `https://takhleesak.runasp.net/api/Get-Broker`,
+        `${process.env.REACT_APP_API_URL}/Get-Broker`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

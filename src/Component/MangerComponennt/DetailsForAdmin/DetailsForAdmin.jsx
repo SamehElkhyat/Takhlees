@@ -9,7 +9,7 @@ export default function OrderDetails() {
     const HistoryOrders = async () => {
       try {
         const { data } = await axios.get(
-          `https://adminlogs.runasp.net/api/Logs`,
+          `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

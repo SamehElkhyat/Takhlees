@@ -22,64 +22,72 @@ const SignIn = () => {
 
   async function handelesignin(values) {
     setIsloading(true);
+
     try {
       const { data } = await axios.post(
-        "https://takhleesak.runasp.net/api/Login",
+        `${process.env.REACT_APP_API_URL}/Login`,
         {
           Email: values.Email,
           Password: values.Password,
+        },
+        {
+          withCredentials: true,
         }
       );
-      console.log(data.message);
-      
-      if (data.message === "تم تسجيل الدخول بنجاح") {
-        toast(data.data.message);
-        localStorage.setItem("Tokken", data.data.data);
-        localStorage.setItem("Code", data.data.state);
-        const decodedCode = jwtDecode(localStorage.getItem("Tokken"));
-        if (decodedCode.Role == "User") {
-          return (navigate("/LandingPageForUsers"));
-        } else if (decodedCode.Role == "Admin") {
-          return (navigate("/LandingPageAdmin"));
-        } else if (decodedCode.Role == "Company") {
-          return (navigate("/LandingPageForUsers"));
-        } else if (decodedCode.Role == "Account") {
-          return (navigate("/AccountantLandingPage"));
-        } else if (decodedCode.Role == "CustomerService") {
-          return (navigate("/LandingPageCustomeService"));
-        } else if (decodedCode.Role == "Broker") {
-          return (navigate("/BrookersLandingPage"));
-        } else if (decodedCode.Role == "Manager") {
-          return (navigate("/LandingPageManger"));
-        }
-      } else {
-        toast(data.message);
-        setIsloading(false);
 
+      if (data.message == "تم تسجيل الدخول بنجاح") {
+        console.log(data.message);
+
+        toast.success(data.message);
+
+        await navigationToLandingpage();
+      } else {
+        toast.error(data.message);
+        setIsloading(false);
       }
     } catch (error) {
       setIsloading(false);
-
-console.log(error);
+      console.log(error);
     }
   }
 
   const navigationToLandingpage = async () => {
+    setIsloading(false);
+    console.log(process.env);
+
     try {
-      const data = await axios.get("https://user.runasp.net/api/Profile", {
-        withCredentials: true,
-      });
+      const data = await axios.get(
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Profile`,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(data);
     } catch (error) {
-      console.log(error);
+      setIsloading(false);
 
-      toast.error(error.response.data.message);
+      console.log(error);
     }
   };
+      // if (decodedCode.Role == "User") {
+      //   return navigate("/LandingPageForUsers");
+      // } else if (decodedCode.Role == "Admin") {
+      //   return navigate("/LandingPageAdmin");
+      // } else if (decodedCode.Role == "Company") {
+      //   return navigate("/LandingPageForUsers");
+      // } else if (decodedCode.Role == "Account") {
+      //   return navigate("/AccountantLandingPage");
+      // } else if (decodedCode.Role == "CustomerService") {
+      //   return navigate("/LandingPageCustomeService");
+      // } else if (decodedCode.Role == "Broker") {
+      //   return navigate("/BrookersLandingPage");
+      // } else if (decodedCode.Role == "Manager") {
+      //   return navigate("/LandingPageManger");
+      // }
 
   const signOut = async () => {
     try {
-      const data = await axios.get("https://takhleesak.runasp.net/api/Logout", {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}Logout`, {
         withCredentials: true,
       });
       console.log(data);

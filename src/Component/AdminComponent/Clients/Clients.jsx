@@ -36,7 +36,7 @@ export default function Clients() {
   const Block = async (email) => {
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Blocked`,
+        `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
@@ -56,7 +56,7 @@ export default function Clients() {
   const UnBlock = async (email) => {
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Unblocked`,
+        `${process.env.REACT_APP_API_URL}/Unblocked`,
         {
           Email: email,
         },
@@ -75,7 +75,7 @@ export default function Clients() {
   const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `https://takhleesak.runasp.net/api/Get-User`,
+        `${process.env.REACT_APP_API_URL}/Get-User`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

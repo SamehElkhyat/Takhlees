@@ -9,7 +9,7 @@ export default function StatisticsManger() {
   const GetStatics = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Statistics`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Statistics`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
@@ -25,7 +25,7 @@ export default function StatisticsManger() {
   const GetBrookers = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Evaluation-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Evaluation-Broker`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

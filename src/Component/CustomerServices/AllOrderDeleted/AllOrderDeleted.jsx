@@ -37,7 +37,7 @@ export default function AllOrderDeleted() {
   const getAllDeletedOrders = async (BrokerId) => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-Deleted-Orders`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Deleted-Orders`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

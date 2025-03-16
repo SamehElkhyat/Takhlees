@@ -26,7 +26,7 @@ const ResetPassword = () => {
       setIsLoading(true);
       try {
         const { data } = await axios.post(
-          "https://takhleesak.runasp.net/api/Forget-Password",
+          `${process.env.REACT_APP_API_URL}/Forget-Password`,
           {
             Email: values.Email,
           }

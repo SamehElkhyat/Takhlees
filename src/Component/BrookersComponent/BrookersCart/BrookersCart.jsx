@@ -12,7 +12,7 @@ const BrookersCart = () => {
     const InformationAboutOrder = async () => {
       try {
         const { data } = await axios.get(
-          `https://user.runasp.net/api/Get-Count-Accept-Failed-Wait-Orders-Broker`,
+          `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Count-Accept-Failed-Wait-Orders-Broker`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

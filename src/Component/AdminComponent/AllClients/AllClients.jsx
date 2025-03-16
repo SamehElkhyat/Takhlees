@@ -35,7 +35,7 @@ export default function AllClients() {
   const Block = async (email) => {
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Blocked`,
+        `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
@@ -55,7 +55,7 @@ export default function AllClients() {
   const HistoryOrders = async (id) => {
     try {
       const { data } = await axios.post(
-        `https://adminlogs.runasp.net/api/Logs`,
+        `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
         { newOrderId: id },
         {
           headers: {
@@ -69,7 +69,7 @@ export default function AllClients() {
   const UnBlock = async (email) => {
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Unblocked`,
+        `${process.env.REACT_APP_API_URL}/Unblocked`,
         {
           Email: email,
         },
@@ -88,7 +88,7 @@ export default function AllClients() {
   const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-Orders-Admin`,
+        `${process.env.REACT_APP_API_URL}/Get-Orders-Admin`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

@@ -12,7 +12,7 @@ export default function HistoryOfOrders() {
   const HistoryOfAllOrders = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-All-Orders-Brokers`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders-Brokers`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

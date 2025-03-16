@@ -10,7 +10,7 @@ const ConfirmPassword = () => {
   const SendCode = async (values) => {
     try {
       const response = await axios.post(
-        "https://takhleesak.runasp.net/api/Reset-Password",
+       `${process.env.REACT_APP_API_URL}/Reset-Password`,
         {
           Code: values.Code,
           newPassword: values.newPassword,

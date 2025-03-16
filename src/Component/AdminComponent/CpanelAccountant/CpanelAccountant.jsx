@@ -35,7 +35,7 @@ export default function CpanelAccountant() {
   const Block = async (email) => {
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Blocked`,
+        `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
@@ -55,7 +55,7 @@ export default function CpanelAccountant() {
   const UnBlock = async (email) => {
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Unblocked`,
+        `${process.env.REACT_APP_API_URL}/Unblocked`,
         {
           Email: email,
         },
@@ -74,7 +74,7 @@ export default function CpanelAccountant() {
   const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `https://takhleesak.runasp.net/api/Get-Account`,
+        `${process.env.REACT_APP_API_URL}/Get-Account`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

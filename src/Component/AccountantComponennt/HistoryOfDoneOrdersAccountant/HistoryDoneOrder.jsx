@@ -36,7 +36,7 @@ export default function HistoryDoneOrder() {
   const getAllInformationBroker = async (BrokerId) => {
     try {
       const { data } = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Informatiom-From-Broker`,
         {
           BrokerID: BrokerId,
         },
@@ -56,7 +56,7 @@ export default function HistoryDoneOrder() {
   const getAllAcceptedOrders = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-All-Done-Transfer-Orders`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Done-Transfer-Orders`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

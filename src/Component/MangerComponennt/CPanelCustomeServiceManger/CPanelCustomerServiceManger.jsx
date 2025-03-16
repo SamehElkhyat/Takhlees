@@ -35,7 +35,7 @@ export default function CPanelCustomerServiceManger() {
     
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Blocked`,
+        `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
@@ -57,7 +57,7 @@ export default function CPanelCustomerServiceManger() {
 
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Unblocked`,
+        `${process.env.REACT_APP_API_URL}/Unblocked`,
         {
           Email: email,
         },
@@ -78,7 +78,7 @@ export default function CPanelCustomerServiceManger() {
   const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `https://takhleesak.runasp.net/api/Get-CustomerService`,
+        `${process.env.REACT_APP_API_URL}/Get-CustomerService`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

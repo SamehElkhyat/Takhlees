@@ -22,7 +22,7 @@ const LandingPageForUsers = () => {
   const GetState = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Number-Of-Operations-User`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Number-Of-Operations-User`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

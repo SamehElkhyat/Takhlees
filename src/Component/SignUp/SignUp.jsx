@@ -31,7 +31,7 @@ const SignUp = () => {
     
     try {
       const data = await axios.post(
-        `https://takhleesak.runasp.net/api/Register-user`,
+        `${process.env.REACT_APP_API_URL}/Register-user`,
         values
       );
       if (data.data.message === "تم تسجيل حساب الافراد بنجاح") {

@@ -52,7 +52,7 @@ export default function AllOrderTransfers() {
   const getAllInformationBroker = async (BrokerId) => {
     try {
       const { data } = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Informatiom-From-Broker`,
         {
           BrokerID: BrokerId,
         },
@@ -80,7 +80,7 @@ export default function AllOrderTransfers() {
   const ChangeStateNotDone = async (id) => {
     try {
       const request = await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService`,
         {
           statuOrder: "false",
           ID: id,
@@ -115,7 +115,7 @@ export default function AllOrderTransfers() {
 
     try {
       const { data } = await axios.post(
-        `https://user.runasp.net/api/Notes-From-CustomerService`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Notes-From-CustomerService`,
         formData, // إرسال formData مباشرة بدون وضعه داخل كائن
         {
           headers: {
@@ -136,7 +136,7 @@ export default function AllOrderTransfers() {
   const ChangeStateDone = async (values) => {
     try {
       const request = await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService`,
         {
           statuOrder: "true",
           ID: values,
@@ -157,7 +157,7 @@ export default function AllOrderTransfers() {
   const getAllAcceptedOrders = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-All-Transfer-From-Account`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Transfer-From-Account`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

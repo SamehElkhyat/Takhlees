@@ -23,7 +23,7 @@ export default function Permissions() {
     setIsLoading(true);
     try {
       const { data } = await axios.post(
-        `https://takhleesak.runasp.net/api/Change-Roles`,
+        `${process.env.REACT_APP_API_URL}/Change-Roles`,
         {
           email: OrderId,
           roleName: Premetions,
@@ -51,7 +51,7 @@ export default function Permissions() {
     setIsLoading(true);
     try {
       const { data } = await axios.get(
-        `https://takhleesak.runasp.net/api/Get-All-Peaple-Admin`,
+        `${process.env.REACT_APP_API_URL}/Get-All-Peaple-Admin`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

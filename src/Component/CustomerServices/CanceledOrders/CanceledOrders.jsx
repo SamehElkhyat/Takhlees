@@ -36,7 +36,7 @@ export default function CanceledOrders() {
   const getAllInformationBroker = async (BrokerId) => {
     try {
       const { data } = await axios.post(
-        `https://user.runasp.net/api/Get-All-Informatiom-From-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Informatiom-From-Broker`,
         {
           BrokerID: BrokerId,
         },
@@ -57,7 +57,7 @@ export default function CanceledOrders() {
   const sendToBroker = async (id) => {
     try {
       await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService-Broker`,
         {
           ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
@@ -79,7 +79,7 @@ export default function CanceledOrders() {
   const ChangeStateNot = async (id) => {
     try {
       await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService-Broker`,
         {
           ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
@@ -100,7 +100,7 @@ export default function CanceledOrders() {
   const ChangeStatueNot = async (id) => {
     try {
       await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService-Broker`,
         {
           ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
@@ -122,7 +122,7 @@ export default function CanceledOrders() {
   const ChangetoDelete = async (id) => {
     try {
       await axios.post(
-        `https://user.runasp.net/api/Change-Statu-CustomerService-Broker`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Change-Statu-CustomerService-Broker`,
         {
           ID: id,
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
@@ -144,7 +144,7 @@ export default function CanceledOrders() {
   const getCustomers = async () => {
     try {
       const { data } = await axios.get(
-        `https://user.runasp.net/api/Get-All-Refuse-Orders`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Refuse-Orders`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("Tokken")}`,

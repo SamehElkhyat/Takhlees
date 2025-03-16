@@ -18,7 +18,7 @@ export default function UserPayment() {
     
     try {
       const {data} = await axios.post(
-        `https://user.runasp.net/api/Payment`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Payment`,
         { Amount: amount.Amount },
         {
           headers: {
