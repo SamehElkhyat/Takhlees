@@ -14,7 +14,7 @@ const SignUpForCompany = () => {
       .required("البريد الإلكتروني مطلوب"),
     Password: Yup.string()
       .required("تأكيد كلمة المرور مطلوب")
-      .min(8, "و تحتوي علي حروف و ارقام و حروف كبيره و صغيره")
+      .min(8, " تحتوي علي حروف و ارقام و حروف كبيره و صغيره")
       .oneOf([Yup.ref("Confirm")], "كلمات المرور غير متطابقة"),
     fullName: Yup.string().required(" الاسم الكامل مطلوب"),
     Confirm: Yup.string()
