@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const SignUpForCompany = () => {
+  
   const validationSchema = Yup.object({
     Email: Yup.string()
       .email("بريد إلكتروني غير صالح")
