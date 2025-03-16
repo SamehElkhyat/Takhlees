@@ -6,7 +6,6 @@ import axios from "axios";
 import { useFormik } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { Button, Spinner } from "react-bootstrap";
 
 const SignIn = () => {
