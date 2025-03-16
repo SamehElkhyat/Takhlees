@@ -55,6 +55,7 @@ const Dashboard = () => {
     },
     icons: {
       fontSize: "50px",
+      fontSize: "5",
       padding: "20px",
     },
   };
