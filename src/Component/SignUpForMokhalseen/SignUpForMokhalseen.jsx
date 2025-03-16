@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const SignUpForMokhalseen = () => {
   const validationSchema = Yup.object({
     Email: Yup.string()
-      .email("بريد إلكتروني غير صالح")
+      .email("بريد إلكتوني غير صالح")
       .required("البريد الإلكتروني مطلوب"),
     Password: Yup.string()
       .required("تأكيد كلمة المرور مطلوب")
