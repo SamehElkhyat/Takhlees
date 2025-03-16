@@ -27,7 +27,7 @@ const SignIn = () => {
         "https://takhleesak.runasp.net/api/Login",
         {
           Email: values.Email,
-          Password: values.PXassword,
+          Password: values.Password,
         }
       );
       console.log(data.message);
