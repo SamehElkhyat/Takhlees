@@ -3,7 +3,7 @@ import "./SignUpForCompany.css";
 import SignUpBackground from "../SignIn/ships.png";
 import axios from "axios";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import  Yup from "yup";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
