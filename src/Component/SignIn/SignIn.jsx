@@ -35,7 +35,7 @@ const SignIn = () => {
       );
 
       if (data.message == "تم تسجيل الدخول بنجاح") {
-        console.log(data.message);
+        console.log(data);
 
         toast.success(data.message);
         setIsloading(false);
