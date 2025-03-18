@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-  Select,
-  MenuItem,
+
   Table,
   TableHead,
   TableBody,
@@ -23,11 +22,8 @@ export default function blacklistManger() {
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -44,9 +40,7 @@ export default function blacklistManger() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -56,17 +50,17 @@ export default function blacklistManger() {
   };
 
   const GetBlackList = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/Black-List`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-        },
-      }
-    );
-
-    setSelectedOrder(response.data);
-    console.log(response.data);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/Black-List`,
+        {
+          withCredentials: true,
+        }
+      );
+      setSelectedOrder(response.data);
+    } catch (error) {
+      console.log();
+    }
   };
   useEffect(() => {
     GetBlackList();

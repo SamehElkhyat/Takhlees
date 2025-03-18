@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-  Select,
-  MenuItem,
   Table,
   TableHead,
   TableBody,
@@ -39,11 +37,8 @@ export default function CPanelCustomerServiceManger() {
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -62,9 +57,7 @@ export default function CPanelCustomerServiceManger() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -80,9 +73,7 @@ export default function CPanelCustomerServiceManger() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/Get-CustomerService`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setSelectedOrder(data);

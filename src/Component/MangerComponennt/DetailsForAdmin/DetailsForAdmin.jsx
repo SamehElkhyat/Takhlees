@@ -11,13 +11,9 @@ export default function OrderDetails() {
         const { data } = await axios.get(
           `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-            },
+            withCredentials: true,
           }
-        );
-        console.log(data);
-        
+        );        
         setData(data)
       } catch (error) {
         toast.error(error.response.data.message);

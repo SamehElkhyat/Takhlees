@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-  Select,
-  MenuItem,
   Table,
   TableHead,
   TableBody,
@@ -40,11 +38,8 @@ export default function Brookers() {
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -78,8 +73,6 @@ export default function Brookers() {
           withCredentials: true,
         }
       );
-      console.log(data);
-
       setSelectedOrder(data);
     } catch (error) {
       toast.error(error.response.data.message);

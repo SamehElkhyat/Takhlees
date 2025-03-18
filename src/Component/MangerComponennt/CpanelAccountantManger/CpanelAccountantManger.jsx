@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-  Select,
-  MenuItem,
   Table,
   TableHead,
   TableBody,
@@ -18,7 +16,6 @@ export default function CpanelAccountantManger() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
 
-
   const styles = {
     cards1: {
       backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
@@ -26,35 +23,30 @@ export default function CpanelAccountantManger() {
       transition: "all 0.3s ease",
       boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
-  
+
     icons: {
       fontSize: "50px",
       padding: "20px",
-    },}
+    },
+  };
   const Block = async (email) => {
-    
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
-
     } catch (error) {
       console.log(error);
     }
   };
 
   const UnBlock = async (email) => {
-
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/Unblocked`,
@@ -62,14 +54,10 @@ export default function CpanelAccountantManger() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
-
-
     } catch (error) {
       console.log(error);
     }
@@ -80,9 +68,7 @@ export default function CpanelAccountantManger() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/Get-Account`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setSelectedOrder(data);
@@ -93,7 +79,6 @@ export default function CpanelAccountantManger() {
 
   useEffect(() => {
     CustomerService();
-
   }, []);
 
   return (
@@ -126,9 +111,14 @@ export default function CpanelAccountantManger() {
             },
           }}
         >
-            المحاسبين
+          المحاسبين
         </h1>
-        <Col md={12} sm={12} xs={12} className="mb-3 d-flex justify-content-center w-100">
+        <Col
+          md={12}
+          sm={12}
+          xs={12}
+          className="mb-3 d-flex justify-content-center w-100"
+        >
           <Card
             style={styles.cards1}
             onMouseLeave={() => setIshovered1(false)}
@@ -175,7 +165,7 @@ export default function CpanelAccountantManger() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {selectedOrder.map((customer,index) => (
+            {selectedOrder.map((customer, index) => (
               <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.fullName}
@@ -192,7 +182,10 @@ export default function CpanelAccountantManger() {
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.isBlocked ? (
                     <>
-                      <Button onClick={()=>UnBlock(customer.email)} className="bg-success text-black">
+                      <Button
+                        onClick={() => UnBlock(customer.email)}
+                        className="bg-success text-black"
+                      >
                         فك الحظر
                       </Button>
                     </>
@@ -217,4 +210,3 @@ export default function CpanelAccountantManger() {
     </>
   );
 }
-

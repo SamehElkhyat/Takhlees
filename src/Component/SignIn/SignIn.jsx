@@ -21,7 +21,6 @@ const SignIn = () => {
 
   async function handelesignin(values) {
     setIsloading(true);
-
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/Login`,
@@ -35,46 +34,45 @@ const SignIn = () => {
       );
 
       if (data.message == "تم تسجيل الدخول بنجاح") {
-        console.log(data.data);
+        console.log(data.message);
 
         toast.success(data.message);
         setIsloading(false);
+        setInterval(() => {
+          switch (data.data) {
+            case "User":
+            case "Company":
+              return navigate("/LandingPageForUsers");
 
-        switch (data.data) {
-          case "User":
-          case "Company":
-            return navigate("/LandingPageForUsers");
-        
-          case "Admin":
-            return navigate("/LandingPageAdmin");
-        
-          case "Account":
-            return navigate("/AccountantLandingPage");
-        
-          case "CustomerService":
-            return navigate("/LandingPageCustomeService");
-        
-          case "Broker":
-            return navigate("/BrookersLandingPage");
-        
-          case "Manager":
-            return navigate("/LandingPageManger");
-        
-          default:
-            console.warn("Unknown user role:", data.data);
-            return navigate("/"); // إعادة التوجيه إلى الصفحة الرئيسية أو صفحة خطأ
-        }
+            case "Admin":
+              return navigate("/LandingPageAdmin");
+
+            case "Account":
+              return navigate("/AccountantLandingPage");
+
+            case "CustomerService":
+              return navigate("/LandingPageCustomeService");
+
+            case "Broker":
+              return navigate("/BrookersLandingPage");
+
+            case "Manager":
+              return navigate("/LandingPageManger");
+
+            default:
+              console.warn("Unknown user role:", data.data);
+              return navigate("/");
+          }
+        }, 1000);
       } else {
         toast.error(data.message);
         setIsloading(false);
       }
     } catch (error) {
       setIsloading(false);
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   }
-
-
 
   let formik = useFormik({
     initialValues: {
@@ -155,7 +153,6 @@ const SignIn = () => {
                 <button className="signin-button" type="submit">
                   تسجيل الدخول
                 </button>
-
               </>
             )}
             <p>

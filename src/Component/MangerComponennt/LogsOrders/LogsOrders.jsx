@@ -1,9 +1,7 @@
 import { Box, Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Card, Col } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
 
 function LogsOrders() {
   const [selectedOrder, setSelectedOrder] = useState([]);

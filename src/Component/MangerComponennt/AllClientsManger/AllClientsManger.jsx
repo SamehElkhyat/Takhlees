@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-  Select,
-  MenuItem,
   Table,
   TableHead,
   TableBody,
@@ -11,8 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { Toaster } from "react-hot-toast";
-import { Button, Card, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export default function AllClientsManger() {
   const [selectedOrder, setSelectedOrder] = useState([]);
@@ -39,11 +36,8 @@ export default function AllClientsManger() {
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -60,9 +54,7 @@ export default function AllClientsManger() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -76,12 +68,9 @@ export default function AllClientsManger() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Orders-Admin`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
-      console.log(data);
 
       setSelectedOrder(data);
     } catch (error) {

@@ -14,7 +14,6 @@ export default function StatisticsManger() {
           withCredentials: true,
         }
       );
-      console.log(data);
       setStatics(data);
     } catch (error) {
       console.log(error);
@@ -29,7 +28,6 @@ export default function StatisticsManger() {
         }
       );
       setBrookers(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

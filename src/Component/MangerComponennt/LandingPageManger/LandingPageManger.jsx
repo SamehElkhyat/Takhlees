@@ -1,9 +1,7 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { color } from "framer-motion";
 
 export default function LandingPageManger() {
   const [Ishovered1, setIshovered1] = useState(false);
@@ -14,10 +12,6 @@ export default function LandingPageManger() {
   const [Ishovered6, setIshovered6] = useState(false);
   const [Ishovered7, setIshovered7] = useState(false);
   const [Ishovered8, setIshovered8] = useState(false);
-
-  const [Tokken, setTokken] = useState(null);
-  const [DecodedTokken, setDecodedTokken] = useState();
-
   const styles = {
     cards1: {
       color: "black",
@@ -88,18 +82,12 @@ export default function LandingPageManger() {
       boxShadow: Ishovered8 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
     icons: {
-      color:"black",
+      color: "black",
       fontSize: "50px",
       padding: "20px",
     },
   };
 
-  useEffect(() => {
-    setTokken(localStorage.getItem("Tokken"));
-    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(decodedTokken);
-    console.log(decodedTokken.fullName.split(" ")[0]);
-  }, []);
   return (
     <Container className="text-center mt-5">
       <div className="container text-center py-5">
@@ -115,11 +103,7 @@ export default function LandingPageManger() {
           }}
         >
           <span className="text-black d-inline-block p-2">
-            {DecodedTokken?.fullName ? (
-              <>مرحبًا بك!{DecodedTokken.fullName.split(" ")[0]}</>
-            ) : (
-              <></>
-            )}
+         مرحبا بك!
           </span>
         </h1>
       </div>
@@ -217,10 +201,7 @@ export default function LandingPageManger() {
               className="shadow-lg"
             >
               <Card.Body>
-                <i
-                  style={styles.icons}
-                  className="fa-solid fa-user "
-                ></i>
+                <i style={styles.icons} className="fa-solid fa-user "></i>
                 <div className="content">
                   <p>قم باداره العملاء</p>
                 </div>
@@ -248,10 +229,7 @@ export default function LandingPageManger() {
               className="shadow-lg"
             >
               <Card.Body>
-                <i
-                  style={styles.icons}
-                  className="fa-solid fa-chart-line "
-                ></i>
+                <i style={styles.icons} className="fa-solid fa-chart-line "></i>
 
                 <div className="content">
                   <p> عرض تفاصيل واحصائيات الموقع</p>
@@ -280,10 +258,7 @@ export default function LandingPageManger() {
               className="shadow-lg"
             >
               <Card.Body>
-                <i
-                  style={styles.icons}
-                  className="fa-solid fa-ban"
-                ></i>
+                <i style={styles.icons} className="fa-solid fa-ban"></i>
                 <div className="content">
                   <p>قم باداره المحظورين</p>
                 </div>
@@ -299,95 +274,88 @@ export default function LandingPageManger() {
           </Link>
         </Col>
         <Col md={3} sm={6} xs={12} className="mb-3 Col5">
-         <Link
-                  className="text-white text-decoration-none"
-                  to="/CPanelCustomeServiceManger"
-                > 
-                 <Card
-            style={styles.cards5}
-            onMouseEnter={() => setIshovered5(true)}
-            onMouseLeave={() => setIshovered5(false)}
-            className="shadow-lg"
+          <Link
+            className="text-white text-decoration-none"
+            to="/CPanelCustomeServiceManger"
           >
-            <Card.Body>
-              <i
-                style={styles.icons}
-                className="fa-solid fa-users-gear"
-              ></i>
-                   <div className="content">
+            <Card
+              style={styles.cards5}
+              onMouseEnter={() => setIshovered5(true)}
+              onMouseLeave={() => setIshovered5(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <i style={styles.icons} className="fa-solid fa-users-gear"></i>
+                <div className="content">
                   <p>قم باداره خدمه العملاء</p>
                 </div>
-              <Card.Title>خدمه العملاء</Card.Title>
-              <Card.Text>عرض وإدارة خدمه العملاء .</Card.Text>
-              <div className="info d-flex justify-content-end">
+                <Card.Title>خدمه العملاء</Card.Title>
+                <Card.Text>عرض وإدارة خدمه العملاء .</Card.Text>
+                <div className="info d-flex justify-content-end">
                   <Button className="bg-black text-white border-none ">
                     <ArrowRightAltIcon />
                   </Button>
                 </div>
-            </Card.Body>
-          </Card>
-           </Link>
+              </Card.Body>
+            </Card>
+          </Link>
         </Col>
         <Col md={3} sm={6} xs={12} className="mb-3 Col6">
           <Link
-                  className="text-white text-decoration-none"
-                  to="/CpanelAccountantManger"
-                >   
-                
-                <Card
-            style={styles.cards6}
-            onMouseEnter={() => setIshovered6(true)}
-            onMouseLeave={() => setIshovered6(false)}
-            className="shadow-lg"
+            className="text-white text-decoration-none"
+            to="/CpanelAccountantManger"
           >
-            <Card.Body>
-              <i
-                style={styles.icons}
-                className="fa-solid fa-file-invoice"
-              ></i>
-                   <div className="content">
+            <Card
+              style={styles.cards6}
+              onMouseEnter={() => setIshovered6(true)}
+              onMouseLeave={() => setIshovered6(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <i
+                  style={styles.icons}
+                  className="fa-solid fa-file-invoice"
+                ></i>
+                <div className="content">
                   <p>قم باداره المحاسبين</p>
                 </div>
-              <Card.Title>المحاسبين</Card.Title>
-              <Card.Text>عرض وإدارة المحاسبين .</Card.Text>
-              <div className="info d-flex justify-content-end">
+                <Card.Title>المحاسبين</Card.Title>
+                <Card.Text>عرض وإدارة المحاسبين .</Card.Text>
+                <div className="info d-flex justify-content-end">
                   <Button className="bg-black text-white border-none ">
                     <ArrowRightAltIcon />
                   </Button>
                 </div>
-            </Card.Body>
-          </Card> 
-            </Link>
+              </Card.Body>
+            </Card>
+          </Link>
         </Col>
         <Col md={3} sm={6} xs={12} className="mb-3 Col7">
-          <Link
-                  className="text-white text-decoration-none"
-                  to="/LogsOrders"
-                >  
-                <Card
-            style={styles.cards7}
-            onMouseEnter={() => setIshovered7(true)}
-            onMouseLeave={() => setIshovered7(false)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <i
-                style={styles.icons}
-                className="fa-solid fa-file-invoice"
-              ></i>
-                   <div className="content">
+          <Link className="text-white text-decoration-none" to="/LogsOrders">
+            <Card
+              style={styles.cards7}
+              onMouseEnter={() => setIshovered7(true)}
+              onMouseLeave={() => setIshovered7(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <i
+                  style={styles.icons}
+                  className="fa-solid fa-file-invoice"
+                ></i>
+                <div className="content">
                   <p>قم باداره الطلب ومتابحه الحالات التبعه له</p>
                 </div>
-              <Card.Title>متابعه الطلبات</Card.Title>
-              <Card.Text>عرض وإدارة سجل الطلبات .</Card.Text>
-              <div className="info d-flex justify-content-end">
+                <Card.Title>متابعه الطلبات</Card.Title>
+                <Card.Text>عرض وإدارة سجل الطلبات .</Card.Text>
+                <div className="info d-flex justify-content-end">
                   <Button className="bg-black text-white border-none ">
                     <ArrowRightAltIcon />
                   </Button>
                 </div>
-            </Card.Body>
-          </Card>
-           </Link>
+              </Card.Body>
+            </Card>
+          </Link>
         </Col>
       </Row>
     </Container>
