@@ -287,9 +287,7 @@ const BrookersCart = () => {
   const allOrders = async () => {
     try {
       const { data } = await axios.get(`https://user.runasp.net/api/Wallet`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-        },
+        withCredentials: true,
       });
       console.log(data.response);
 

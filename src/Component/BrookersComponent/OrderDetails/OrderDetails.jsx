@@ -22,7 +22,7 @@ export default function OrderDetails() {
         const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
           withCredentials: true,
         });
-        setDecodedTokken(data.role);
+        setDecodedTokken(data.data.role);
       } catch (error) {
 
         console.log(error);

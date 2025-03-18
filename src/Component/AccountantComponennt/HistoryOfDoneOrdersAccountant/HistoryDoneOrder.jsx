@@ -32,6 +32,18 @@ export default function HistoryDoneOrder() {
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
+  const navigationToLandingpage = async () => {
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+        withCredentials: true,
+      });
+      setDecodedTokken(data.data.role);
+    } catch (error) {
+      setIsloading(false);
+
+      console.log(error);
+    }
+  };
 
   const getAllInformationBroker = async (BrokerId) => {
     try {
@@ -41,9 +53,7 @@ export default function HistoryDoneOrder() {
           BrokerID: BrokerId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -58,9 +68,7 @@ export default function HistoryDoneOrder() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Done-Transfer-Orders`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -71,10 +79,7 @@ export default function HistoryDoneOrder() {
   };
 
   useEffect(() => {
-    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
-
-    setDecodedTokken(DecodedToken);
-
+    navigationToLandingpage()
     getAllAcceptedOrders();
   }, []);
 
@@ -129,7 +134,7 @@ export default function HistoryDoneOrder() {
             <TableCell align="center">المبلغ</TableCell>
             {DecodedTokken ? (
               <>
-                {DecodedTokken.Role === "Admin" ? (
+                {DecodedTokken === "Admin" ? (
                   <>
                     <TableCell align="center">المحاسب</TableCell>
                     <TableCell align="center">بريد المحاسب</TableCell>
@@ -161,7 +166,7 @@ export default function HistoryDoneOrder() {
                 <TableCell align="center">{customer.value}</TableCell>
                 {DecodedTokken ? (
                   <>
-                    {DecodedTokken.Role === "Admin" ? (
+                    {DecodedTokken === "Admin" ? (
                       <>
                         <TableCell align="center">
                           {customer.accountName}

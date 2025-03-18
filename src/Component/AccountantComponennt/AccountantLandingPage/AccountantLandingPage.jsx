@@ -7,10 +7,21 @@ import { Link } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const AccountantLandingPage = () => {
-  const [Ishovered1, setIshovered1] = useState(false)
-  const [Ishovered2, setIshovered2] = useState(false)
-  const [DecodedTokken, setDecodedTokken] = useState()
-  const [State, setState] = useState({})
+  const [Ishovered1, setIshovered1] = useState(false);
+  const [Ishovered2, setIshovered2] = useState(false);
+  const [DecodedTokken, setDecodedTokken] = useState();
+  const [State, setState] = useState({});
+
+  const navigationToLandingpage = async () => {
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+        withCredentials: true,
+      });
+      setDecodedTokken(data.data.role);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const GetState = async () => {
     try {
@@ -25,7 +36,6 @@ const AccountantLandingPage = () => {
       setState(data);
 
       console.log(data);
-      
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -52,9 +62,8 @@ const AccountantLandingPage = () => {
     },
   };
   useEffect(() => {
-    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(decodedTokken);
     GetState();
+    navigationToLandingpage();
   }, []);
 
   return (
@@ -184,23 +193,23 @@ const AccountantLandingPage = () => {
         </Col>
 
         <Col md={3} sm={3} xs={12} className="mb-3 Col2">
-        <Link
-                  className="text-white text-decoration-none"
-                  to="/HistoryDoneOrder"
-                >
-          <Card
-            style={styles.cards2}
-            onMouseEnter={() => setIshovered2(true)}
-            onMouseLeave={() => setIshovered2(false)}
-            className="shadow-lg"
+          <Link
+            className="text-white text-decoration-none"
+            to="/HistoryDoneOrder"
           >
-            <Card.Body>
-              <i style={styles.icons} className="fa-solid fa-arrows-spin"></i>
-              <Card.Title>سجل الحوالات المنفذه</Card.Title>
-              <Card.Text>
-                استعرض سجل الحوالات المنفذه وقم باداره بكل سهولة
-              </Card.Text>
-              <div className="position-absolute">
+            <Card
+              style={styles.cards2}
+              onMouseEnter={() => setIshovered2(true)}
+              onMouseLeave={() => setIshovered2(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <i style={styles.icons} className="fa-solid fa-arrows-spin"></i>
+                <Card.Title>سجل الحوالات المنفذه</Card.Title>
+                <Card.Text>
+                  استعرض سجل الحوالات المنفذه وقم باداره بكل سهولة
+                </Card.Text>
+                <div className="position-absolute">
                   <p
                     style={{
                       fontSize: "24px", // حجم الخط كبير وواضح
@@ -221,8 +230,8 @@ const AccountantLandingPage = () => {
                     <ArrowRightAltIcon />
                   </Button>
                 </div>
-            </Card.Body>
-          </Card>
+              </Card.Body>
+            </Card>
           </Link>
         </Col>
       </Row>

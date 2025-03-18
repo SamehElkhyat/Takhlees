@@ -15,9 +15,9 @@ import toast, { Toaster } from "react-hot-toast";
 export default function UserPayment() {
   const SendAmount = async (amount) => {
     console.log(amount);
-    
+
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Payment`,
         { Amount: amount.Amount },
         {
@@ -25,12 +25,10 @@ export default function UserPayment() {
         }
       );
       toast.success("تم الدفع بنجاح");
-      window.location.href =data.approveUrl;
-      
+      window.location.href = data.approveUrl;
     } catch (error) {
       console.log(error);
       toast.error("فشلت العمليه");
-
     }
   };
   let formik = useFormik({
@@ -83,9 +81,9 @@ export default function UserPayment() {
                     sx={{
                       py: 1.5,
                       borderRadius: 4,
-                      width:"50%",
-                      display:"flex",
-                      justifyContent:"center",
+                      width: "50%",
+                      display: "flex",
+                      justifyContent: "center",
                       fontSize: "16px",
                       backgroundColor: "green",
                       "&:hover": { backgroundColor: "white", color: "black" },
@@ -96,7 +94,7 @@ export default function UserPayment() {
                 </Grid>
               </Grid>
             </Form>
-          <Toaster/>
+            <Toaster />
           </CardContent>
         </Card>
       </Box>

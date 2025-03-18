@@ -47,6 +47,20 @@ export default function AcceptedOrderAccountant() {
     setSelectedOrder(null);
   };
 
+  const navigationToLandingpage = async () => {
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+        withCredentials: true,
+      });
+      setDecodedTokken(data.data.role);
+      setorder(data.data.id);
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
+
   const GetFileName = async () => {
     try {
       const { data } = await axios.post(
@@ -55,9 +69,7 @@ export default function AcceptedOrderAccountant() {
           newOrderId: OrderId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -78,10 +90,8 @@ export default function AcceptedOrderAccountant() {
           newOrderId: OrderId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
-          responseType: "blob",
+          withCredentials: true,
+          responseType:"blob",
         }
       );
       setIsLoading(false);
@@ -119,9 +129,7 @@ export default function AcceptedOrderAccountant() {
           BrokerID: BrokerId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -152,9 +160,7 @@ export default function AcceptedOrderAccountant() {
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم تحديث الطلب بنجاح");
@@ -174,9 +180,7 @@ export default function AcceptedOrderAccountant() {
           ID: id,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم تحويل الطلب بنجاح");
@@ -192,9 +196,7 @@ export default function AcceptedOrderAccountant() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}YY/Get-All-Done-Accept-Orders`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
@@ -218,10 +220,7 @@ export default function AcceptedOrderAccountant() {
 
   useEffect(() => {
     getAllAcceptedOrders();
-    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
-    setorder(DecodedToken);
-
-    setDecodedTokken(DecodedToken);
+    navigationToLandingpage()
   }, []);
 
   useEffect(() => {
@@ -276,7 +275,7 @@ export default function AcceptedOrderAccountant() {
             <TableCell align="center">المبلغ</TableCell>
             {DecodedTokken ? (
               <>
-                {DecodedTokken.Role === "Admin" ? (
+                {DecodedTokken === "Admin" ? (
                   <>
                     <TableCell align="center">خدمه العملاء</TableCell>
                     <TableCell align="center">بريد خدمه العملاء</TableCell>
@@ -310,7 +309,7 @@ export default function AcceptedOrderAccountant() {
                 <TableCell align="center">{customer.value}</TableCell>
                 {DecodedTokken ? (
                   <>
-                    {DecodedTokken.Role === "Admin" ? (
+                    {DecodedTokken === "Admin" ? (
                       <>
                         <TableCell align="center">
                           {customer.customerServiceName}
