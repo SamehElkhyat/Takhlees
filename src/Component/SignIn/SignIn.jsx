@@ -35,28 +35,35 @@ const SignIn = () => {
       );
 
       if (data.message == "تم تسجيل الدخول بنجاح") {
-        console.log(data);
+        console.log(data.data);
 
         toast.success(data.message);
         setIsloading(false);
 
-         if (data.data == "User") {
-    return navigate("/LandingPageForUsers");
-  } else if (data.data == "Admin") {
-    return navigate("/LandingPageAdmin");
-  } else if (data.data == "Company") {
-    return navigate("/LandingPageForUsers");
-  } else if (data.data == "Account") {
-    return navigate("/AccountantLandingPage");
-  } else if (data.data == "CustomerService") {
-    return navigate("/LandingPageCustomeService");
-  } else if (data.data == "Broker") {
-    return navigate("/BrookersLandingPage");
-  } else if (data.data == "Manager") {
-    return navigate("/LandingPageManger");
-  }
-
-
+        switch (data.data) {
+          case "User":
+          case "Company":
+            return navigate("/LandingPageForUsers");
+        
+          case "Admin":
+            return navigate("/LandingPageAdmin");
+        
+          case "Account":
+            return navigate("/AccountantLandingPage");
+        
+          case "CustomerService":
+            return navigate("/LandingPageCustomeService");
+        
+          case "Broker":
+            return navigate("/BrookersLandingPage");
+        
+          case "Manager":
+            return navigate("/LandingPageManger");
+        
+          default:
+            console.warn("Unknown user role:", data.data);
+            return navigate("/"); // إعادة التوجيه إلى الصفحة الرئيسية أو صفحة خطأ
+        }
       } else {
         toast.error(data.message);
         setIsloading(false);
@@ -69,11 +76,10 @@ const SignIn = () => {
 
   const navigationToLandingpage = async () => {
     setIsloading(false);
-console.log(process.env.REACT_APP_API_URL);
+    console.log(process.env.REACT_APP_API_URL);
 
     try {
       const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
-  
         withCredentials: true,
       });
       console.log(data);
@@ -83,12 +89,10 @@ console.log(process.env.REACT_APP_API_URL);
       console.log(error);
     }
   };
- 
 
   const signOut = async () => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Logout`,
-      {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Logout`, {
         withCredentials: true,
       });
       console.log(data);
@@ -178,11 +182,19 @@ console.log(process.env.REACT_APP_API_URL);
                 <button className="signin-button" type="submit">
                   تسجيل الدخول
                 </button>
-                <button onClick={()=>signOut()} className="signin-button" type="submit">
+                <button
+                  onClick={() => signOut()}
+                  className="signin-button"
+                  type="submit"
+                >
                   تسجيل الخروج
                 </button>
-                <button onClick={()=>navigationToLandingpage()} className="signin-button" type="submit">
-                   عرض بيانات المستخدم
+                <button
+                  onClick={() => navigationToLandingpage()}
+                  className="signin-button"
+                  type="submit"
+                >
+                  عرض بيانات المستخدم
                 </button>
               </>
             )}
