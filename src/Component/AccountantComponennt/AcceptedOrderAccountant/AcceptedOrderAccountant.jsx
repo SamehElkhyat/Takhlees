@@ -194,7 +194,7 @@ export default function AcceptedOrderAccountant() {
   const getAllAcceptedOrders = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}YY/Get-All-Done-Accept-Orders`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Done-Accept-Orders`,
         {
           withCredentials: true,
         }

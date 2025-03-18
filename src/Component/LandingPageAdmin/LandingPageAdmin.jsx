@@ -13,8 +13,19 @@ export default function LandingPageAdmin() {
   const [Ishovered6, setIshovered6] = useState(false);
   const [Ishovered7, setIshovered7] = useState(false);
   const [Ishovered8, setIshovered8] = useState(false);
-  const [Tokken, setTokken] = useState(null);
   const [DecodedTokken, setDecodedTokken] = useState();
+
+  const navigationToLandingpage = async () => {
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+        withCredentials: true,
+      });
+      setDecodedTokken(data.data.role);
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
   const styles = {
     cards1: {
       color: "black",
@@ -80,35 +91,9 @@ export default function LandingPageAdmin() {
       padding: "20px",
     },
   };
-  const AnimatedName = ({ name }) => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setActiveIndex((prevIndex) => (prevIndex + 1) % name.length);
-      }, 300); // تغيير اللون كل 300 مللي ثانية
-      return () => clearInterval(interval); // تنظيف التايمر عند إزالة المكون
-    }, [name]);
-    return (
-      <h1>
-        {name.split("").map((char, index) => (
-          <span
-            key={index}
-            style={{
-              color: index === activeIndex ? "red" : "#000",
-              transition: "color 0.3s ease",
-            }}
-          >
-            {char}
-          </span>
-        ))}
-      </h1>
-    );
-  };
+
   useEffect(() => {
-    setTokken(localStorage.getItem("Tokken"));
-    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(decodedTokken);
-    console.log(decodedTokken.fullName.split(" ")[0]);
+    navigationToLandingpage()
   }, []);
   return (
     <Container className="text-center  mt-5">
@@ -125,11 +110,7 @@ export default function LandingPageAdmin() {
           }}
         >
           <span className="d-inline-block p-2">
-            {DecodedTokken?.fullName ? (
-              <>مرحباً بك! {DecodedTokken.fullName.split(" ")[0]}</>
-            ) : (
-              <></>
-            )}
+           مرحبا بك
           </span>
         </h1>
       </div>
