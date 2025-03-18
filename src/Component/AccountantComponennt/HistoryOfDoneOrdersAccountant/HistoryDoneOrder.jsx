@@ -8,18 +8,14 @@ import {
   TableRow,
   TableCell,
   Box,
-  TextField,
 } from "@mui/material";
 import { Form, Modal, Button } from "react-bootstrap";
 
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 
 export default function HistoryDoneOrder() {
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
-  const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
-  const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [order, setorder] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
@@ -71,6 +67,7 @@ export default function HistoryDoneOrder() {
           withCredentials: true,
         }
       );
+      console.log(data);
 
       setCustomers(data);
     } catch (error) {

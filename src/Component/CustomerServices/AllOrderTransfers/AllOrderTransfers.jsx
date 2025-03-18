@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Button,
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
   Box,
   TextField,
   Typography,
@@ -49,6 +42,21 @@ export default function AllOrderTransfers() {
     setBar(null);
   };
 
+  const navigationToLandingpage = async () => {
+
+
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+        withCredentials: true,
+      });
+      setorder(data.data.id);
+
+      setDecodedTokken(data.data.role);
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
   const getAllInformationBroker = async (BrokerId) => {
     try {
       const { data } = await axios.post(
@@ -171,10 +179,8 @@ export default function AllOrderTransfers() {
   );
 
   useEffect(() => {
-    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
-    setorder(DecodedToken);
     getAllAcceptedOrders();
-    setDecodedTokken(DecodedToken);
+    navigationToLandingpage()
   }, []);
 
   let formik = useFormik({
@@ -230,7 +236,7 @@ export default function AllOrderTransfers() {
 
               {DecodedTokken ? (
                 <>
-                  {DecodedTokken.Role === "Admin" ? (
+                  {DecodedTokken === "Admin" ? (
                     <>
                       <th>المحاسب</th>
                       <th>بريد المحاسب</th>
@@ -277,7 +283,7 @@ export default function AllOrderTransfers() {
                 </td>
                 {DecodedTokken ? (
                   <>
-                    {DecodedTokken.Role === "Admin" ? (
+                    {DecodedTokken === "Admin" ? (
                       <>
                         <td align="center">{customer.accountName}</td>
                         <td align="center">{customer.accountEmail}</td>

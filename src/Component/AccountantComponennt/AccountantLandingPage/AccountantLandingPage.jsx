@@ -77,11 +77,7 @@ const AccountantLandingPage = () => {
         }}
       >
         <span className="text-black d-inline-block p-2">
-          {DecodedTokken?.fullName ? (
-            <>مرحبًا بك!{DecodedTokken.fullName.split(" ")[0]}</>
-          ) : (
-            <></>
-          )}
+          مرحبًا بك!
         </span>
       </h1>
       <h5

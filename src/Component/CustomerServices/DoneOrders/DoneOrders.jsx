@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Button,
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
   TableCell,
   Box,
   TextField,
@@ -14,12 +8,10 @@ import {
 import axios from "axios";
 import { Modal, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { jwtDecode } from "jwt-decode";
 
 export default function DoneOrders() {
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
-  let [Counter, setCounter] = useState(1);
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [notes, setNotes] = useState({}); // حالة لتخزين الملاحظات لكل طلب
   const [Bar, setBar] = useState(null);
@@ -28,7 +20,6 @@ export default function DoneOrders() {
   const [ImageName, setImageName] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
   const [OrderId, setOrderId] = useState(null);
-  const [DecodedTokken, setDecodedTokken] = useState();
 
   const handleShowBar = (items, orderId) => {
     setOrderId(orderId);
@@ -46,9 +37,7 @@ export default function DoneOrders() {
           newOrderId: OrderId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -68,10 +57,7 @@ export default function DoneOrders() {
           newOrderId: OrderId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
-          responseType: "blob",
+          withCredentials: true,
         }
       );
       setIsLoading(false);
@@ -121,9 +107,7 @@ export default function DoneOrders() {
           BrokerID: BrokerId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
@@ -153,9 +137,7 @@ export default function DoneOrders() {
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -177,9 +159,7 @@ export default function DoneOrders() {
           ID: values,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم تحديث الطلب بنجاح");
@@ -194,9 +174,7 @@ export default function DoneOrders() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Accept-Orders`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -216,8 +194,6 @@ export default function DoneOrders() {
   useEffect(() => {
     GetFileName();
     getAllAcceptedOrders();
-    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(DecodedToken);
   }, [OrderId]);
 
   return (

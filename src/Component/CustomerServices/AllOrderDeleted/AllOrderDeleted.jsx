@@ -1,30 +1,19 @@
 import { useEffect, useState } from "react";
 import {
   Button,
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
   Box,
-  TextField,
 } from "@mui/material";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
-import { jwtDecode } from "jwt-decode";
 
 export default function AllOrderDeleted() {
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [showNoteField2, setShowNoteField2] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
-  const [showNoteField3, setShowNoteField3] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [DecodedTokken, setDecodedTokken] = useState();
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
   const [notes, setNotes] = useState({});
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [order, setorder] = useState({});
 
   const handleShowDetails = (order, BrokerId) => {
     setSelectedOrder(order);
@@ -32,6 +21,18 @@ export default function AllOrderDeleted() {
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
+  };
+  const navigationToLandingpage = async () => {
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+        withCredentials: true,
+      });
+      setDecodedTokken(data.data.role);
+    } catch (error) {
+      setIsloading(false);
+
+      console.log(error);
+    }
   };
 
   const getAllDeletedOrders = async (BrokerId) => {
@@ -68,8 +69,7 @@ export default function AllOrderDeleted() {
   );
   useEffect(() => {
     getAllDeletedOrders();
-    let DecodedToken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(DecodedToken);
+    navigationToLandingpage();
   }, []);
 
   return (
@@ -114,7 +114,7 @@ export default function AllOrderDeleted() {
               <th>الملاحظات</th>
               {DecodedTokken ? (
                 <>
-                  {DecodedTokken.Role === "Admin" ? (
+                  {DecodedTokken === "Admin" ? (
                     <>
                       <th>خدمه العملاء</th>
                       <th>بريد خدمه العملاء</th>
@@ -141,7 +141,7 @@ export default function AllOrderDeleted() {
                 <td>
                   {DecodedTokken ? (
                     <>
-                      {DecodedTokken.Role === "Admin" ? (
+                      {DecodedTokken === "Admin" ? (
                         <>
                           <td>{customer.customerServiceEmail}</td>
                           <td>{customer.customerServiceName}</td>
