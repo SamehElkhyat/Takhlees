@@ -41,9 +41,7 @@ export default function CanceledOrders() {
           BrokerID: BrokerId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
@@ -64,9 +62,7 @@ export default function CanceledOrders() {
           statuOrder: "transfer",
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم تحديث الطلب بنجاح");
@@ -85,9 +81,7 @@ export default function CanceledOrders() {
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم تحديث الطلب بنجاح");
@@ -107,9 +101,7 @@ export default function CanceledOrders() {
           statuOrder: "delete",
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم تحديث الطلب بنجاح");
@@ -129,9 +121,7 @@ export default function CanceledOrders() {
           statuOrder: "send",
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم تحديث الطلب بنجاح");
@@ -146,10 +136,8 @@ export default function CanceledOrders() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Refuse-Orders`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
-        }
+          withCredentials: true,
+        } 
       );
       console.log(data);
 

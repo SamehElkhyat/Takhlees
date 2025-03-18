@@ -35,10 +35,7 @@ const ResetPassword = () => {
         console.log(data.message);
 
         if (data.message == "تم إرسال الرسالة بنجاح") {
-          localStorage.setItem("Tokken", data.state);
-          localStorage.setItem("Code", data.data);
           toast.success(data.message);
-
           setTimeout(() => {
             window.location.href = "/ConfirmPassword";
           }, 1000);

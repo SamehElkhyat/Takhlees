@@ -17,9 +17,7 @@ const ConfirmPassword = () => {
           Confirm: values.Confirm,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 

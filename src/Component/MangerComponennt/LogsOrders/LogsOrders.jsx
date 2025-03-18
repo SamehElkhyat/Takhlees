@@ -12,12 +12,9 @@ function LogsOrders() {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders-For-Admin`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
-        }
+        { withCredentials: true }
       );
+
       console.log(data);
       setSelectedOrder(data);
     } catch (error) {
@@ -29,11 +26,7 @@ function LogsOrders() {
     try {
       const { data } = await axios.post(
         `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
-        }
+        { withCredentials: true }
       );
     } catch (error) {
       console.log(error);
@@ -44,21 +37,15 @@ function LogsOrders() {
     console.log(id);
 
     try {
-      const  data  = await axios.post(
+      const data = await axios.post(
         `${REACT_APP_API_URL_MICROSERVICE3}/Get-ID`,
         { newOrderId: id },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
-        }
+        { withCredentials: true }
       );
       console.log(data);
-      if (data.status ==200) {
-        window.location.href= "/DetailsForAdmin"
-        
+      if (data.status == 200) {
+        window.location.href = "/DetailsForAdmin";
       }
-      
     } catch (error) {
       toast.error(error.response.data.message);
     }

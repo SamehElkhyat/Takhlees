@@ -38,8 +38,9 @@ const SignIn = () => {
         console.log(data.message);
 
         toast.success(data.message);
+        setIsloading(false);
 
-        await navigationToLandingpage();
+
       } else {
         toast.error(data.message);
         setIsloading(false);
@@ -52,15 +53,13 @@ const SignIn = () => {
 
   const navigationToLandingpage = async () => {
     setIsloading(false);
-    console.log(process.env);
+console.log(process.env.REACT_APP_API_URL);
 
     try {
-      const data = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Profile`,
-        {
-          withCredentials: true,
-        }
-      );
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+  
+        withCredentials: true,
+      });
       console.log(data);
     } catch (error) {
       setIsloading(false);
@@ -68,25 +67,26 @@ const SignIn = () => {
       console.log(error);
     }
   };
-      // if (decodedCode.Role == "User") {
-      //   return navigate("/LandingPageForUsers");
-      // } else if (decodedCode.Role == "Admin") {
-      //   return navigate("/LandingPageAdmin");
-      // } else if (decodedCode.Role == "Company") {
-      //   return navigate("/LandingPageForUsers");
-      // } else if (decodedCode.Role == "Account") {
-      //   return navigate("/AccountantLandingPage");
-      // } else if (decodedCode.Role == "CustomerService") {
-      //   return navigate("/LandingPageCustomeService");
-      // } else if (decodedCode.Role == "Broker") {
-      //   return navigate("/BrookersLandingPage");
-      // } else if (decodedCode.Role == "Manager") {
-      //   return navigate("/LandingPageManger");
-      // }
+  // if (decodedCode.Role == "User") {
+  //   return navigate("/LandingPageForUsers");
+  // } else if (decodedCode.Role == "Admin") {
+  //   return navigate("/LandingPageAdmin");
+  // } else if (decodedCode.Role == "Company") {
+  //   return navigate("/LandingPageForUsers");
+  // } else if (decodedCode.Role == "Account") {
+  //   return navigate("/AccountantLandingPage");
+  // } else if (decodedCode.Role == "CustomerService") {
+  //   return navigate("/LandingPageCustomeService");
+  // } else if (decodedCode.Role == "Broker") {
+  //   return navigate("/BrookersLandingPage");
+  // } else if (decodedCode.Role == "Manager") {
+  //   return navigate("/LandingPageManger");
+  // }
 
   const signOut = async () => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_API_URL}Logout`, {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Logout`,
+      {
         withCredentials: true,
       });
       console.log(data);
@@ -175,6 +175,12 @@ const SignIn = () => {
               <>
                 <button className="signin-button" type="submit">
                   تسجيل الدخول
+                </button>
+                <button onClick={()=>signOut()} className="signin-button" type="submit">
+                  تسجيل الخروج
+                </button>
+                <button onClick={()=>navigationToLandingpage()} className="signin-button" type="submit">
+                   عرض بيانات المستخدم
                 </button>
               </>
             )}

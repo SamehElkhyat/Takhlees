@@ -57,9 +57,7 @@ export default function AllOrderTransfers() {
           BrokerID: BrokerId,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -87,9 +85,7 @@ export default function AllOrderTransfers() {
           Notes: notes[id] || "", // إرسال الملاحظات إن وجدت
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم ارسال الملاحظات");
@@ -120,8 +116,10 @@ export default function AllOrderTransfers() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
           },
+        },
+        {
+          withCredentials: true,
         }
       );
       setIsLoading(false);
@@ -142,9 +140,7 @@ export default function AllOrderTransfers() {
           ID: values,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       alert("تم ارسال الملاحظات");
@@ -159,9 +155,7 @@ export default function AllOrderTransfers() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Transfer-From-Account`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setCustomers(data);
@@ -226,71 +220,20 @@ export default function AllOrderTransfers() {
         <table className="table table-bordered text-center shadow-sm">
           <thead className="bg-white border">
             <tr>
-            <th >رقم الطلب</th>
-            <th >موقع الطلب</th>
-            <th >الملاحظات</th>
-            <th >اضافه مرفقات</th>
+              <th>رقم الطلب</th>
+              <th>موقع الطلب</th>
+              <th>الملاحظات</th>
+              <th>اضافه مرفقات</th>
 
-            <th >الاسم</th>
-            <th >نوع الطلب</th>
+              <th>الاسم</th>
+              <th>نوع الطلب</th>
 
-            {DecodedTokken ? (
-              <>
-                {DecodedTokken.Role === "Admin" ? (
-                  <>
-                    <th >المحاسب</th>
-                    <th >بريد المحاسب</th>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </>
-            ) : (
-              <></>
-            )}
-
-            <th >البريد الالكتروني</th>
-            <th >التاريخ</th>
-            <th >تفاصيل المخلص</th>
-            <th >الحاله</th>
-            </tr>
-          </thead>
-          <tbody>
-          {sortedCustomers.map((customer) => (
-            <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.id}
-              </td>{" "}
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.location}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.notes}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowBar(customer.notes, customer.id)}
-                >
-                  اضافه ملفات
-                </Button>
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.fullName}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.typeOrder}
-              </td>
               {DecodedTokken ? (
                 <>
                   {DecodedTokken.Role === "Admin" ? (
                     <>
-                      <td align="center">
-                        {customer.accountName}
-                      </td>
-                      <td align="center">
-                        {customer.accountEmail}
-                      </td>
+                      <th>المحاسب</th>
+                      <th>بريد المحاسب</th>
                     </>
                   ) : (
                     <></>
@@ -299,192 +242,244 @@ export default function AllOrderTransfers() {
               ) : (
                 <></>
               )}
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.email}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.date}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order, customer.brokerID)}
-                >
-                  عرض التفاصيل
-                </Button>
-              </td>
-              {showNoteField[customer.id] && (
-                <Box mt={1}>
-                  <TextField
-                    label="اكتب ملاحظة"
-                    variant="outlined"
-                    fullWidth
-                    value={notes[customer.id] || ""}
-                    onChange={(e) =>
-                      handleNoteChange(customer.id, e.target.value)
-                    }
-                    sx={{ marginBottom: "10px" }}
-                  />
-                  <Button
-                    onClick={() => ChangeStateNotDone(customer.id)}
-                    className="bg-danger text-white"
-                  >
-                    إرسال الملاحظة
-                  </Button>
-                </Box>
-              )}
-              <td
-                sx={{ backgroundColor: "#f0f0f0" }}
-                className="p-3"
-                align="center"
-              >
-                <Button
-                  onClick={() => toggleNoteField(customer.id)}
-                  className="m-1 bg-danger text-white"
-                >
-                  تحويل الي المخلص
-                </Button>
-                <Button
-                  onClick={() => ChangeStateDone(customer.id)}
-                  className="m-1 bg-success text-white"
-                >
-                  تحويل الي المحاسب{" "}
-                </Button>
-              </td>
+
+              <th>البريد الالكتروني</th>
+              <th>التاريخ</th>
+              <th>تفاصيل المخلص</th>
+              <th>الحاله</th>
             </tr>
-          ))}
-
-          <Modal
-            className="text-end"
-            show={selectedOrder !== null}
-            onHide={handleCloseDetails}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>تفاصيل الطلب</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {selectedOrder && (
-                <>
-                  <p>
-                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
-                  </p>
-                  <p>
-                    <strong>الاسم:</strong> {selectedOrder.fullName}
-                  </p>
-                  <p>
-                    <strong>رقم الهويه:</strong> {selectedOrder.identity}
-                  </p>
-                  <p>
-                    <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
-                  </p>
-                  <p>
-                    <strong>رخصه المخلص:</strong> {selectedOrder.license}
-                  </p>
-                  <p>
-                    <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
-                  </p>
-                </>
-              )}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseDetails}>
-                إغلاق
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          <Modal
-            className="text-end"
-            show={Bar !== null}
-            onHide={handleCloseBar}
-          >
-            <Modal.Header
-              closeButton
-              className="bg-primary text-white text-center"
-              style={{ borderRadius: "8px 8px 0 0", padding: "15px" }}
-            >
-              <Modal.Title className="w-100 fs-5">تقديم الملاحظات</Modal.Title>
-            </Modal.Header>
-            <Modal.Body
-              className="p-4 bg-light"
-              style={{ borderRadius: "0 0 8px 8px" }}
-            >
-              <Box
-                sx={{
-                  maxWidth: 400,
-                  mx: "auto",
-                  p: 3,
-                  boxShadow: 4,
-                  borderRadius: 3,
-                  backgroundColor: "white",
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  gutterBottom
-                  className="text-primary fw-bold text-center"
-                >
-                  إضافة ملاحظات وملف
-                </Typography>
-                <Form onSubmit={formik.handleSubmit}>
-                  <Form.Group className="mt-4 text-center" controlId="Notes">
-                    <Form.Label className="fw-bold text-secondary">
-                      ملاحظات الطلب
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="أدخل ملاحظاتك هنا..."
-                      name="Notes"
-                      value={formik.values.Notes}
-                      onChange={formik.handleChange}
-                      className="shadow-sm border-primary"
+          </thead>
+          <tbody>
+            {sortedCustomers.map((customer) => (
+              <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.id}
+                </td>{" "}
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.location}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.notes}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowBar(customer.notes, customer.id)}
+                  >
+                    اضافه ملفات
+                  </Button>
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.fullName}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.typeOrder}
+                </td>
+                {DecodedTokken ? (
+                  <>
+                    {DecodedTokken.Role === "Admin" ? (
+                      <>
+                        <td align="center">{customer.accountName}</td>
+                        <td align="center">{customer.accountEmail}</td>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.email}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.date}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowDetails(order, customer.brokerID)}
+                  >
+                    عرض التفاصيل
+                  </Button>
+                </td>
+                {showNoteField[customer.id] && (
+                  <Box mt={1}>
+                    <TextField
+                      label="اكتب ملاحظة"
+                      variant="outlined"
+                      fullWidth
+                      value={notes[customer.id] || ""}
+                      onChange={(e) =>
+                        handleNoteChange(customer.id, e.target.value)
+                      }
+                      sx={{ marginBottom: "10px" }}
                     />
-                  </Form.Group>
-                  <Form.Group controlId="formData" className="mt-4 text-center">
-                    <Form.Label className="fw-bold text-secondary">
-                      الإبانه
-                    </Form.Label>
-                    <InputGroup className="shadow-sm border-primary">
-                      <FormControl
-                        type="file"
-                        multiple
-                        onChange={handleFileChange}
-                        className="p-2"
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                  {IsLoading ? (
                     <Button
-                      className="w-100 mt-4 d-flex justify-content-center align-items-center  text-black border-0 shadow-sm"
-                      disabled
+                      onClick={() => ChangeStateNotDone(customer.id)}
+                      className="bg-danger text-white"
                     >
-                      <i
-                        className="fa-solid fa-gear fa-spin"
-                        style={{ fontSize: "30px" }}
-                      ></i>
+                      إرسال الملاحظة
                     </Button>
-                  ) : (
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      className="w-100 mt-4 d-flex justify-content-center align-items-center fw-bold shadow-sm"
-                    >
-                      إرسال الملاحظات
-                    </Button>
-                  )}
-                </Form>
-              </Box>
-            </Modal.Body>
-            <Modal.Footer className="bg-light d-flex justify-content-center">
-              <Button
-                variant="secondary"
-                onClick={handleCloseBar}
-                className="fw-bold shadow-sm px-4"
+                  </Box>
+                )}
+                <td
+                  sx={{ backgroundColor: "#f0f0f0" }}
+                  className="p-3"
+                  align="center"
+                >
+                  <Button
+                    onClick={() => toggleNoteField(customer.id)}
+                    className="m-1 bg-danger text-white"
+                  >
+                    تحويل الي المخلص
+                  </Button>
+                  <Button
+                    onClick={() => ChangeStateDone(customer.id)}
+                    className="m-1 bg-success text-white"
+                  >
+                    تحويل الي المحاسب{" "}
+                  </Button>
+                </td>
+              </tr>
+            ))}
+
+            <Modal
+              className="text-end"
+              show={selectedOrder !== null}
+              onHide={handleCloseDetails}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>تفاصيل الطلب</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {selectedOrder && (
+                  <>
+                    <p>
+                      {selectedOrder.email} <strong>:البريد الإكتروني</strong>
+                    </p>
+                    <p>
+                      <strong>الاسم:</strong> {selectedOrder.fullName}
+                    </p>
+                    <p>
+                      <strong>رقم الهويه:</strong> {selectedOrder.identity}
+                    </p>
+                    <p>
+                      <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
+                    </p>
+                    <p>
+                      <strong>رخصه المخلص:</strong> {selectedOrder.license}
+                    </p>
+                    <p>
+                      <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
+                    </p>
+                  </>
+                )}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseDetails}>
+                  إغلاق
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
+            <Modal
+              className="text-end"
+              show={Bar !== null}
+              onHide={handleCloseBar}
+            >
+              <Modal.Header
+                closeButton
+                className="bg-primary text-white text-center"
+                style={{ borderRadius: "8px 8px 0 0", padding: "15px" }}
               >
-                إغلاق
-              </Button>
-            </Modal.Footer>
-          </Modal>
+                <Modal.Title className="w-100 fs-5">
+                  تقديم الملاحظات
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body
+                className="p-4 bg-light"
+                style={{ borderRadius: "0 0 8px 8px" }}
+              >
+                <Box
+                  sx={{
+                    maxWidth: 400,
+                    mx: "auto",
+                    p: 3,
+                    boxShadow: 4,
+                    borderRadius: 3,
+                    backgroundColor: "white",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    className="text-primary fw-bold text-center"
+                  >
+                    إضافة ملاحظات وملف
+                  </Typography>
+                  <Form onSubmit={formik.handleSubmit}>
+                    <Form.Group className="mt-4 text-center" controlId="Notes">
+                      <Form.Label className="fw-bold text-secondary">
+                        ملاحظات الطلب
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="أدخل ملاحظاتك هنا..."
+                        name="Notes"
+                        value={formik.values.Notes}
+                        onChange={formik.handleChange}
+                        className="shadow-sm border-primary"
+                      />
+                    </Form.Group>
+                    <Form.Group
+                      controlId="formData"
+                      className="mt-4 text-center"
+                    >
+                      <Form.Label className="fw-bold text-secondary">
+                        الإبانه
+                      </Form.Label>
+                      <InputGroup className="shadow-sm border-primary">
+                        <FormControl
+                          type="file"
+                          multiple
+                          onChange={handleFileChange}
+                          className="p-2"
+                        />
+                      </InputGroup>
+                    </Form.Group>
+                    {IsLoading ? (
+                      <Button
+                        className="w-100 mt-4 d-flex justify-content-center align-items-center  text-black border-0 shadow-sm"
+                        disabled
+                      >
+                        <i
+                          className="fa-solid fa-gear fa-spin"
+                          style={{ fontSize: "30px" }}
+                        ></i>
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="primary"
+                        type="submit"
+                        className="w-100 mt-4 d-flex justify-content-center align-items-center fw-bold shadow-sm"
+                      >
+                        إرسال الملاحظات
+                      </Button>
+                    )}
+                  </Form>
+                </Box>
+              </Modal.Body>
+              <Modal.Footer className="bg-light d-flex justify-content-center">
+                <Button
+                  variant="secondary"
+                  onClick={handleCloseBar}
+                  className="fw-bold shadow-sm px-4"
+                >
+                  إغلاق
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </tbody>
         </table>
       </div>

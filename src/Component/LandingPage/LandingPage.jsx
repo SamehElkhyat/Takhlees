@@ -7,6 +7,8 @@ import TeamSection from "../TeamSection/TeamSection.jsx";
 import ClientsSection from "../ClientsSection/ClientsSection.jsx";
 
 const LandingPage = () => {
+
+  
   return <>
 
 <header className="landing-header">
