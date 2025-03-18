@@ -40,6 +40,22 @@ const SignIn = () => {
         toast.success(data.message);
         setIsloading(false);
 
+         if (data.data == "User") {
+    return navigate("/LandingPageForUsers");
+  } else if (data.data == "Admin") {
+    return navigate("/LandingPageAdmin");
+  } else if (data.data == "Company") {
+    return navigate("/LandingPageForUsers");
+  } else if (data.data == "Account") {
+    return navigate("/AccountantLandingPage");
+  } else if (data.data == "CustomerService") {
+    return navigate("/LandingPageCustomeService");
+  } else if (data.data == "Broker") {
+    return navigate("/BrookersLandingPage");
+  } else if (data.data == "Manager") {
+    return navigate("/LandingPageManger");
+  }
+
 
       } else {
         toast.error(data.message);
@@ -67,21 +83,7 @@ console.log(process.env.REACT_APP_API_URL);
       console.log(error);
     }
   };
-  // if (decodedCode.Role == "User") {
-  //   return navigate("/LandingPageForUsers");
-  // } else if (decodedCode.Role == "Admin") {
-  //   return navigate("/LandingPageAdmin");
-  // } else if (decodedCode.Role == "Company") {
-  //   return navigate("/LandingPageForUsers");
-  // } else if (decodedCode.Role == "Account") {
-  //   return navigate("/AccountantLandingPage");
-  // } else if (decodedCode.Role == "CustomerService") {
-  //   return navigate("/LandingPageCustomeService");
-  // } else if (decodedCode.Role == "Broker") {
-  //   return navigate("/BrookersLandingPage");
-  // } else if (decodedCode.Role == "Manager") {
-  //   return navigate("/LandingPageManger");
-  // }
+ 
 
   const signOut = async () => {
     try {
