@@ -15,8 +15,6 @@ const LandingPageForUsers = () => {
   const [Ishovered4, setIshovered4] = useState(false);
   const [Ishovered5, setIshovered5] = useState(false);
   const [Ishovered6, setIshovered6] = useState(false);
-
-  const [DecodedTokken, setDecodedTokken] = useState();
   const [State, setState] = useState({});
 
   const GetState = async () => {
@@ -91,8 +89,7 @@ const LandingPageForUsers = () => {
     },
   };
   useEffect(() => {
-    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(decodedTokken);
+
     GetState();
   }, []);
 
@@ -104,17 +101,13 @@ const LandingPageForUsers = () => {
     style={{
       backgroundImage: "linear-gradient(60deg, #89CFF0,rgb(185, 210, 172),rgb(217, 209, 217))",
       display: "inline-block",
-      borderRadius:"25px", 
+      borderRadius:"25px",
       textShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
       transition: "transform 0.3s ease-in-out",
     }}
   >
-    <span className="text-black d-inline-block p-2">
-      {DecodedTokken?.fullName ? (
-     <>مرحبًا بك!{DecodedTokken.fullName.split(" ")[0]}</>
-      ) : (
-       <></> 
-      )}
+    <span className="text-black d-inline-block p-2">   
+      مرحبًا بك
     </span>
   </h1>
 </div>
