@@ -9,7 +9,6 @@ const Dashboard = () => {
   const [Ishovered2, setIshovered2] = useState(false);
   const [Ishovered3, setIshovered3] = useState(false);
   const [Ishovered4, setIshovered4] = useState(false);
-  const [DecodedTokken, setDecodedTokken] = useState();
   const [State, setState] = useState({});
 
   const GetState = async () => {
@@ -17,9 +16,7 @@ const Dashboard = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Number-Of-Operations-Broker`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
@@ -61,8 +58,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     GetState();
-       const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-        setDecodedTokken(decodedTokken);
+
   }, []);
 
   return (
@@ -79,11 +75,7 @@ const Dashboard = () => {
     }}
   >
     <span className="text-black d-inline-block p-2">
-      {DecodedTokken?.fullName ? (
-     <>مرحبًا بك!{DecodedTokken.fullName.split(" ")[0]}</>
-      ) : (
-       <></> 
-      )}
+     مرحبًا بك!
     </span>
   </h1>
 </div>

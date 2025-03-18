@@ -4,9 +4,9 @@ import { useFormik } from "formik";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
 import {
   Button,
   Form,
@@ -35,22 +35,17 @@ export default function CurrentOffers() {
   const [Step1, setStep1] = useState(false);
   const [Step2, setStep2] = useState(false);
 
-
-
-
-
-const steps = [
-  'Select master blaster campaign settings',
-  'Create an ad group',
-  'Create an ad',
-];
+  const steps = [
+    "Select master blaster campaign settings",
+    "Create an ad group",
+    "Create an ad",
+  ];
   const handleShowDetails = (order) => {
     setSelectedOrder(order);
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
   };
-
 
   const handleShowBar = (items, orderdid) => {
     setOrderId(orderdid);
@@ -69,9 +64,7 @@ const steps = [
           statuOrder: "true",
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -91,9 +84,7 @@ const steps = [
           statuOrder: "false",
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       toast("تم الالغاء");
@@ -107,9 +98,7 @@ const steps = [
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Order-Requests`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
@@ -120,64 +109,58 @@ const steps = [
   };
   const GetTrackingstep1 = async () => {
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Trace-Order-Broker`,
         {
           newOrderId: selectedOrder,
-          step1: 'step1',
+          step1: "step1",
           step2: null,
           step3: null,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
-      setStep1(true)      
+      setStep1(true);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
   const GetTrackingstep2 = async () => {
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Trace-Order-Broker`,
         {
           newOrderId: selectedOrder,
-          step1: 'step1',
-          step2: 'step2',
+          step1: "step1",
+          step2: "step2",
           step3: null,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
-      setStep2(true)      
+      setStep2(true);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
   const GetTrackingstep3 = async () => {
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Trace-Order-Broker`,
         {
           newOrderId: selectedOrder,
-          step1: 'step1',
-          step2: 'step2',
-          step3: 'step3',
+          step1: "step1",
+          step2: "step2",
+          step3: "step3",
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
-      
+
       setTracking(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -189,9 +172,7 @@ const steps = [
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Current-Offers`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -208,9 +189,7 @@ const steps = [
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Order-Transfer-From-CustomerService`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
@@ -242,12 +221,9 @@ const steps = [
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Notes-From-CustomerService`,
-        formData, // إرسال formData مباشرة بدون وضعه داخل كائن
+        formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setIsLoading(false);
@@ -273,8 +249,6 @@ const steps = [
     getValue();
     const t = moment();
     setDate(new Date().toLocaleString());
-    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(decodedTokken);
   }, []);
 
   return (
@@ -833,34 +807,53 @@ const steps = [
               </Button>
             </Modal.Footer>
           </Modal>
-          <Modal className="text-end" show={selectedOrder !== null} onHide={handleCloseDetails}>
-  <Modal.Header closeButton>
-    <Modal.Title>تفاصيل الطلب</Modal.Title>
-  </Modal.Header>
-  <Modal.Body className="d-flex flex-column align-items-center gap-3">
-    <Button variant="warning" className="w-100 py-2" onClick={GetTrackingstep1}>
-      تم إخراج الطلب من الأرضيات
-    </Button>
+          <Modal
+            className="text-end"
+            show={selectedOrder !== null}
+            onHide={handleCloseDetails}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>تفاصيل الطلب</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="d-flex flex-column align-items-center gap-3">
+              <Button
+                variant="warning"
+                className="w-100 py-2"
+                onClick={GetTrackingstep1}
+              >
+                تم إخراج الطلب من الأرضيات
+              </Button>
 
-    {Step1 && (
-      <Button variant="info" className="w-100 py-2" onClick={GetTrackingstep2}>
-        الطلب تحت الفحص
-      </Button>
-    )}
+              {Step1 && (
+                <Button
+                  variant="info"
+                  className="w-100 py-2"
+                  onClick={GetTrackingstep2}
+                >
+                  الطلب تحت الفحص
+                </Button>
+              )}
 
-    {Step2 && (
-      <Button variant="success" className="w-100 py-2" onClick={GetTrackingstep3}>
-        تم إنهاء الطلب
-      </Button>
-    )}
-  </Modal.Body>
-  <Modal.Footer className="d-flex justify-content-center">
-    <Button variant="secondary" className="px-4 py-2" onClick={handleCloseDetails}>
-      إغلاق
-    </Button>
-  </Modal.Footer>
-</Modal>
-
+              {Step2 && (
+                <Button
+                  variant="success"
+                  className="w-100 py-2"
+                  onClick={GetTrackingstep3}
+                >
+                  تم إنهاء الطلب
+                </Button>
+              )}
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button
+                variant="secondary"
+                className="px-4 py-2"
+                onClick={handleCloseDetails}
+              >
+                إغلاق
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Table>
         <Toaster />
       </div>

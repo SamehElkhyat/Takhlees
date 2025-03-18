@@ -34,9 +34,7 @@ export default function OrderDetailsForUser() {
           Id: index,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
           responseType: "blob",
         }
       );
@@ -71,10 +69,10 @@ export default function OrderDetailsForUser() {
       const data = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-all-Values`,
 
+        
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
+          
         }
       );
       if (JSON.stringify(data.data) !== JSON.stringify(allOrders)) {
@@ -94,11 +92,10 @@ export default function OrderDetailsForUser() {
           Value: value,
           BrokerID: BrokerId,
           ID: NewId[0],
-        },
+        }
+        ,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -117,10 +114,9 @@ export default function OrderDetailsForUser() {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Details`,
+        
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 

@@ -22,9 +22,7 @@ const CurrentOrdersForUsers = () => {
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-ID`,
         { ID: id },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       if (req.status == 200) {
@@ -43,9 +41,7 @@ const CurrentOrdersForUsers = () => {
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Order-Requests`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(res);

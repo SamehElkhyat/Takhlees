@@ -21,9 +21,7 @@ export default function UserPayment() {
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Payment`,
         { Amount: amount.Amount },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       toast.success("تم الدفع بنجاح");

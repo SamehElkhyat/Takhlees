@@ -74,34 +74,7 @@ const SignIn = () => {
     }
   }
 
-  const navigationToLandingpage = async () => {
-    setIsloading(false);
-    console.log(process.env.REACT_APP_API_URL);
 
-    try {
-      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
-        withCredentials: true,
-      });
-      console.log(data);
-    } catch (error) {
-      setIsloading(false);
-
-      console.log(error);
-    }
-  };
-
-  const signOut = async () => {
-    try {
-      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Logout`, {
-        withCredentials: true,
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-
-      toast.error(error.response.data.message);
-    }
-  };
 
   let formik = useFormik({
     initialValues: {
@@ -182,20 +155,7 @@ const SignIn = () => {
                 <button className="signin-button" type="submit">
                   تسجيل الدخول
                 </button>
-                <button
-                  onClick={() => signOut()}
-                  className="signin-button"
-                  type="submit"
-                >
-                  تسجيل الخروج
-                </button>
-                <button
-                  onClick={() => navigationToLandingpage()}
-                  className="signin-button"
-                  type="submit"
-                >
-                  عرض بيانات المستخدم
-                </button>
+
               </>
             )}
             <p>

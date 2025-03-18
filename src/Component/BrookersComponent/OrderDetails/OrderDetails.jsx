@@ -14,6 +14,21 @@ export default function OrderDetails() {
   const [IsLoading, setIsLoading] = useState(false);
   const [DecodedTokken, setDecodedTokken] = useState();
 
+
+   const navigationToLandingpage = async () => {
+      console.log(process.env.REACT_APP_API_URL);
+  
+      try {
+        const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+          withCredentials: true,
+        });
+        setDecodedTokken(data.role);
+      } catch (error) {
+
+        console.log(error);
+      }
+    };
+
   const FilesName = {
     commerce: [
       "السجل التجاري",
@@ -39,10 +54,7 @@ export default function OrderDetails() {
           Id: index,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
-          responseType: "blob", // تحديد نوع الاستجابة كـ Blob
+          withCredentials: true,
         }
       );
 
@@ -83,11 +95,8 @@ export default function OrderDetails() {
           value: cost,
           newOrderId: orderValue,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -106,11 +115,8 @@ export default function OrderDetails() {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-all-Values`,
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -128,9 +134,7 @@ export default function OrderDetails() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Details`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -147,8 +151,7 @@ export default function OrderDetails() {
   useEffect(() => {
     getValue();
     getOrders();
-    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(decodedTokken);
+
   }, []);
 
   useEffect(() => {
@@ -260,7 +263,7 @@ export default function OrderDetails() {
                               </>
                             )}
 
-<tr>
+                            <tr>
                               <th>عدد القطع</th>
                               <td>{data.number}</td>
                             </tr>
@@ -299,8 +302,6 @@ export default function OrderDetails() {
                                 </tr>
                               </>
                             )}
-
-            
                           </tbody>
                         </table>
                       </div>
@@ -464,7 +465,7 @@ export default function OrderDetails() {
 
                 {DecodedTokken ? (
                   <>
-                    {DecodedTokken.Role === "Admin" ? (
+                    {DecodedTokken === "Admin" ? (
                       <></>
                     ) : (
                       <>

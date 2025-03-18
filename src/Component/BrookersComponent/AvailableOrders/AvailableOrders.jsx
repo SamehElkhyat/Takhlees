@@ -15,11 +15,8 @@ export default function AvailableOrders() {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders`,
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);
@@ -39,9 +36,7 @@ export default function AvailableOrders() {
           `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-ID`,
           { ID: id },
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-            },
+            withCredentials: true,
           }
         );
         if (req.status == 200) {

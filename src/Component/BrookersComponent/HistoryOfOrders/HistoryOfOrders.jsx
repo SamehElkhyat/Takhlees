@@ -14,9 +14,7 @@ export default function HistoryOfOrders() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders-Brokers`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       if (JSON.stringify(data) !== JSON.stringify(order)) {

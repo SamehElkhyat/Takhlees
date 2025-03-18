@@ -14,10 +14,9 @@ const Portfolio = () => {
       try {
         const { data } = await axios.get(
           `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Count-Accept-Failed-Wait-Orders-Broker`,
+
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-            },
+            withCredentials: true,
           }
         );
         setInfoOrders(data);
@@ -141,29 +140,29 @@ const Portfolio = () => {
           </div>
           {/* MONEY FELLOWS */}
           <h3
-          style={{
-            fontSize: "2rem",
-            fontWeight: "700",
-            color: "#2c3e50",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-            borderBottom: "3px solid #3498db",
-            paddingBottom: "10px",
-            margin: "0 auto 2rem auto",
-            borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
-            padding: "10px",
-            border: "1px solid #3498db",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-            },
-            "&:active": {
-              transform: "scale(0.95)",
+            style={{
+              fontSize: "2rem",
+              fontWeight: "700",
+              color: "#2c3e50",
+              textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+              borderBottom: "3px solid #3498db",
+              paddingBottom: "10px",
+              margin: "0 auto 2rem auto",
+              borderRadius: "10px",
+              backgroundColor: "#f0f0f0",
+              padding: "10px",
+              border: "1px solid #3498db",
               boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            },
-          }}
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "scale(1.05)",
+                boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+              },
+              "&:active": {
+                transform: "scale(0.95)",
+                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+              },
+            }}
             className="mb-4 text-center"
           >
             التحويلات
@@ -279,18 +278,20 @@ const Portfolio = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     );
   }
   const allOrders = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_API_URL_MICROSERVICE2}/Wallet`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-        },
-      });
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Wallet`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
+          },
+        }
+      );
       setOrders(data);
       console.log();
     } catch (error) {
@@ -311,29 +312,29 @@ const Portfolio = () => {
   return (
     <div className="container mt-5">
       <h3
-          style={{
-            fontSize: "2rem",
-            fontWeight: "700",
-            color: "#2c3e50",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-            borderBottom: "3px solid #3498db",
-            paddingBottom: "10px",
-            margin: "0 auto 2rem auto",
-            borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
-            padding: "10px",
-            border: "1px solid #3498db",
+        style={{
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "#2c3e50",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#f0f0f0",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-            },
-            "&:active": {
-              transform: "scale(0.95)",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            },
-          }}
+          },
+        }}
         className="mb-4 text-center"
       >
         عدد الطلبات

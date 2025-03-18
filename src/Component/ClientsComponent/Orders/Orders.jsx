@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 const PendingOrders = () => {
   const [orders, setOrder] = useState([]);
@@ -15,9 +16,7 @@ const PendingOrders = () => {
           `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-ID`,
           { ID: id },
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-            },
+            withCredentials: true,
           }
         );
         if (req.status == 200) {
@@ -34,11 +33,8 @@ const PendingOrders = () => {
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Orders`,
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 

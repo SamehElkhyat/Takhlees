@@ -12,11 +12,8 @@ const DoneOrdersForUser = () => {
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Accept-Orders-Users`,
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(res.data);

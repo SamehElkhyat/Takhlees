@@ -14,9 +14,7 @@ const BrookersCart = () => {
         const { data } = await axios.get(
           `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Count-Accept-Failed-Wait-Orders-Broker`,
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-            },
+            withCredentials: true,
           }
         );
         setInfoOrders(data);

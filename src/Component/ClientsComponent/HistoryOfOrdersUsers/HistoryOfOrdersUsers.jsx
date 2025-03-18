@@ -12,9 +12,7 @@ export default function HistoryOfOrdersUsers() {
       const {data} = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders-Brokers`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 

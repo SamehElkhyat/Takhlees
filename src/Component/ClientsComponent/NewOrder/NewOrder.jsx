@@ -22,6 +22,19 @@ const NewOrderForm = () => {
     setShowInputs(e.target.value);
   };
 
+ const navigationToLandingpage = async () => {
+    try {
+      const {data} = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+        withCredentials: true,
+      });
+      setDecodedTokken(data.role);
+      console.log(data);
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handelCloseInput = (e) => {
     setShowInputs(e.target.value);
   };
@@ -148,10 +161,7 @@ const NewOrderForm = () => {
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/New-Order`,
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -160,10 +170,10 @@ const NewOrderForm = () => {
       setIsLoading(false);
 
       setTimeout(() => {
-        if (DecodedTokken.Role === "Admin") {
-          window.location.href = "/availableOrders";
+        if (DecodedTokken === "Admin") {
+          window.location.href="/availableOrders";
         } else {
-          window.location.href = "/Orders";
+          window.location.href="/Orders";
         }
       }, 1000);
     } catch (error) {
@@ -251,8 +261,7 @@ const NewOrderForm = () => {
   };
 
   useEffect(() => {
-    const decodedTokken = jwtDecode(localStorage.getItem("Tokken"));
-    setDecodedTokken(decodedTokken);
+    navigationToLandingpage()
   }, []);
 
   return (
