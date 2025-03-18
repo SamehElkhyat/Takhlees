@@ -1,18 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
-import { Button, Card, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export default function AllClients() {
   const [selectedOrder, setSelectedOrder] = useState([]);
@@ -39,11 +29,8 @@ export default function AllClients() {
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -58,9 +45,7 @@ export default function AllClients() {
         `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
         { newOrderId: id },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
     } catch (error) {}
@@ -74,9 +59,7 @@ export default function AllClients() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -90,9 +73,7 @@ export default function AllClients() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/Get-Orders-Admin`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 
@@ -103,9 +84,8 @@ export default function AllClients() {
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem("Tokken")
-  );
-    
+    console.log(localStorage.getItem("Tokken"));
+
     CustomerService();
   }, []);
 
@@ -142,96 +122,91 @@ export default function AllClients() {
           تفاصيل العملاء
         </h1>
 
-
-
         <div className="table-responsive mt-3">
-      <table className="table table-bordered text-center shadow-sm">
-        <thead className="bg-white border">
-          <tr>
-            <th >الاسم</th>
-              <th >البريد الالكتروني</th>
-              <th >موقع الطلب</th>
-              <th >نوع الطلب</th>
-              <th >المخلص</th>
-              <th >البريد الخاص بالمخلص</th>
-              <th >حظر</th>
-              <th >الحاله</th>
-              <th >سجل الطلبات</th>
-
-          </tr>
-        </thead>
-        <tbody>
-
-        {selectedOrder.map((customer, index) => (
-            <tr key={index} className="bg-light">
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
-                </td>
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
-                </td>
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.location}
-                </td>
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.typeOrder}
-                </td>
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.brokerName == null ? (
-                    <>لايوجد مخلص الان</>
-                  ) : (
-                    <>{customer.brokerName}</>
-                  )}
-                </td>
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.brokerEmail == null ? (
-                    <>لايوجد مخلص الان</>
-                  ) : (
-                    <>{customer.brokerEmail}</>
-                  )}
-                </td>
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.isBlocked ? (
-                    <>
-                      <Button
-                        onClick={() => UnBlock(customer.email)}
-                        className="bg-success text-black"
-                      >
-                        فك الحظر
-                      </Button>
-                    </>
-                  ) : (
-                    <>
+          <table className="table table-bordered text-center shadow-sm">
+            <thead className="bg-white border">
+              <tr>
+                <th>الاسم</th>
+                <th>البريد الالكتروني</th>
+                <th>موقع الطلب</th>
+                <th>نوع الطلب</th>
+                <th>المخلص</th>
+                <th>البريد الخاص بالمخلص</th>
+                <th>حظر</th>
+                <th>الحاله</th>
+                <th>سجل الطلبات</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedOrder.map((customer, index) => (
+                <tr key={index} className="bg-light">
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.fullName}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.email}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.location}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.typeOrder}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.brokerName == null ? (
+                      <>لايوجد مخلص الان</>
+                    ) : (
+                      <>{customer.brokerName}</>
+                    )}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.brokerEmail == null ? (
+                      <>لايوجد مخلص الان</>
+                    ) : (
+                      <>{customer.brokerEmail}</>
+                    )}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.isBlocked ? (
+                      <>
+                        <Button
+                          onClick={() => UnBlock(customer.email)}
+                          className="bg-success text-black"
+                        >
+                          فك الحظر
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        {" "}
+                        <Button
+                          onClick={() => Block(customer.email)}
+                          className="bg-danger text-black"
+                        >
+                          حظر
+                        </Button>
+                      </>
+                    )}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    <Button className="btn bg-success">
                       {" "}
-                      <Button
-                        onClick={() => Block(customer.email)}
-                        className="bg-danger text-black"
-                      >
-                        حظر
-                      </Button>
-                    </>
-                  )}
-                </td>
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  <Button className="btn bg-success">
-                    {" "}
-                    {customer.statuOrder}
-                  </Button>
-                </td>{" "}
-                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  <Button
-                    onClick={() => HistoryOrders(customer.id)}
-                    className="btn bg-success"
-                  >
-                    عرض سجل الطلب
-                  </Button>
-                </td>
+                      {customer.statuOrder}
+                    </Button>
+                  </td>{" "}
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    <Button
+                      onClick={() => HistoryOrders(customer.id)}
+                      className="btn bg-success"
+                    >
+                      عرض سجل الطلب
+                    </Button>
+                  </td>
                 </tr>
-            ))}
-    
-        </tbody>
-      </table>
-    </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <Toaster />
       </Box>
     </>
