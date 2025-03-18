@@ -55,6 +55,7 @@ export default function OrderDetails() {
         },
         {
           withCredentials: true,
+          responseType: "blob",
         }
       );
 
@@ -149,6 +150,7 @@ export default function OrderDetails() {
     setcost(value.target.value);
   };
   useEffect(() => {
+    navigationToLandingpage()
     getValue();
     getOrders();
 

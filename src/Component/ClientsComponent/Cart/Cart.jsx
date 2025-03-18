@@ -14,7 +14,6 @@ const Portfolio = () => {
       try {
         const { data } = await axios.get(
           `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Count-Accept-Failed-Wait-Orders-Broker`,
-
           {
             withCredentials: true,
           }
@@ -287,9 +286,7 @@ const Portfolio = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Wallet`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setOrders(data);

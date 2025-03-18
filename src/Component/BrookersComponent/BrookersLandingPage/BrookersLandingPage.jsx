@@ -10,6 +10,21 @@ const Dashboard = () => {
   const [Ishovered3, setIshovered3] = useState(false);
   const [Ishovered4, setIshovered4] = useState(false);
   const [State, setState] = useState({});
+  const [DecodedTokken, setDecodedTokken] = useState()
+
+    const navigationToLandingpage = async () => {    
+        try {
+          const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
+            withCredentials: true,
+          });
+          console.log(data.data.role);
+          
+          setDecodedTokken(data.data.role);
+        } catch (error) {
+  
+          console.log(error);
+        }
+      };
 
   const GetState = async () => {
     try {
@@ -58,7 +73,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     GetState();
-
+    navigationToLandingpage()
   }, []);
 
   return (
@@ -192,7 +207,7 @@ const Dashboard = () => {
           </Card>
         </Col>
 {DecodedTokken ? <>
-  {DecodedTokken.Role === "Broker" ?  <>
+  {DecodedTokken === 'Broker' ?  <>
 
 <Col md={3} sm={6} xs={12}>
         <Card
