@@ -1,45 +1,28 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
-import { Button } from "react-bootstrap";
-
 export default function Blacklist() {
   const [selectedOrder, setSelectedOrder] = useState([]);
 
   const Block = async (email) => {
-    
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/Blocked`,
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       GetBlackList();
-
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
 
   const UnBlock = async (email) => {
-
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/Unblocked`,
@@ -47,43 +30,31 @@ export default function Blacklist() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       GetBlackList();
-
-
     } catch (error) {
       toast.error(error.response.data.message);
-
     }
   };
 
   const GetBlackList = async () => {
-
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/Black-List`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
-    
+
       setSelectedOrder(response.data);
     } catch (error) {
       toast.error(error.response.data.message);
-      
-
     }
- 
   };
   useEffect(() => {
     GetBlackList();
-
   }, []);
 
   return (
@@ -116,50 +87,50 @@ export default function Blacklist() {
             },
           }}
         >
-            المحظورين
+          المحظورين
         </h1>
 
         <div className="table-responsive mt-3">
-      <table className="table table-bordered text-center shadow-sm">
-        <thead className="bg-white border">
-          <tr>
-            <th>الاسم</th>
-            <th>البريد الالكتروني</th>
-            <th>رقم الهوية</th>
-            <th>الهاتف</th>
-            <th>حظر</th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedOrder.map((customer, index) => (
-            <tr key={index} className="bg-light">
-              <td>{customer.fullName}</td>
-              <td>{customer.email}</td>
-              <td>{customer.identity}</td>
-              <td>{customer.phoneNumber}</td>
-              <td>
-                {customer.isBlocked ? (
-                  <button
-                    onClick={() => UnBlock(customer.email)}
-                    className="btn btn-success text-black"
-                  >
-                    فك الحظر
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => Block(customer.email)}
-                    className="btn btn-danger text-black"
-                  >
-                    حظر
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
- 
+          <table className="table table-bordered text-center shadow-sm">
+            <thead className="bg-white border">
+              <tr>
+                <th>الاسم</th>
+                <th>البريد الالكتروني</th>
+                <th>رقم الهوية</th>
+                <th>الهاتف</th>
+                <th>حظر</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedOrder.map((customer, index) => (
+                <tr key={index} className="bg-light">
+                  <td>{customer.fullName}</td>
+                  <td>{customer.email}</td>
+                  <td>{customer.identity}</td>
+                  <td>{customer.phoneNumber}</td>
+                  <td>
+                    {customer.isBlocked ? (
+                      <button
+                        onClick={() => UnBlock(customer.email)}
+                        className="btn btn-success text-black"
+                      >
+                        فك الحظر
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => Block(customer.email)}
+                        className="btn btn-danger text-black"
+                      >
+                        حظر
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
         <Toaster />
       </Box>
     </>

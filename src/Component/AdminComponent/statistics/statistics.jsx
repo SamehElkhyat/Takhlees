@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
+import { Card, Col, Container, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function statistics() {
   const [Statics, setStatics] = useState({});
@@ -55,9 +54,7 @@ export default function statistics() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Statistics`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setStatics(data);
@@ -70,9 +67,7 @@ export default function statistics() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Evaluation-Broker`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setBrookers(data);

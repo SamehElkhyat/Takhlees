@@ -82,10 +82,7 @@ export default function AllClients() {
       toast.error(error.response.data.message);
     }
   };
-
   useEffect(() => {
-    console.log(localStorage.getItem("Tokken"));
-
     CustomerService();
   }, []);
 

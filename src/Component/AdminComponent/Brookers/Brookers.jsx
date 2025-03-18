@@ -61,9 +61,7 @@ export default function Brookers() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -77,9 +75,7 @@ export default function Brookers() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/Get-Broker`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       console.log(data);

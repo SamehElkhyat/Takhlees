@@ -40,11 +40,8 @@ export default function Clients() {
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -61,9 +58,7 @@ export default function Clients() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -77,9 +72,7 @@ export default function Clients() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/Get-User`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setSelectedOrder(data);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Table, Form, Card, Modal, Button, Spinner } from "react-bootstrap";
+import { Table, Form, Card, Modal, Button } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 export default function Permissions() {
   const [users, setUsers] = useState([]);
@@ -29,9 +29,7 @@ export default function Permissions() {
           roleName: Premetions,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       toast(data.message);
@@ -53,9 +51,7 @@ export default function Permissions() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/Get-All-Peaple-Admin`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
 

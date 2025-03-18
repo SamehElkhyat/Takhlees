@@ -39,11 +39,8 @@ export default function CpanelAccountant() {
         {
           Email: email,
         },
-
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -60,9 +57,7 @@ export default function CpanelAccountant() {
           Email: email,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       CustomerService();
@@ -76,9 +71,7 @@ export default function CpanelAccountant() {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL}/Get-Account`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("Tokken")}`,
-          },
+          withCredentials: true,
         }
       );
       setSelectedOrder(data);
@@ -125,48 +118,39 @@ export default function CpanelAccountant() {
         </h1>
 
         <div className=" d-flex justify-content-center">
-
-        <Col
-          md={3}
-          sm={3}
-          xs={3}
-          className="Col1 mb-3 "
-        >
+          <Col md={3} sm={3} xs={3} className="Col1 mb-3 ">
             <Link
-                className="text-white text-decoration-none"
-                to="/AccountantLandingPage"
+              className="text-white text-decoration-none"
+              to="/AccountantLandingPage"
+            >
+              <Card
+                style={styles.cards1}
+                onMouseLeave={() => setIshovered1(false)}
+                onMouseEnter={() => setIshovered1(true)}
+                className="shadow-lg"
               >
-          <Card
-            style={styles.cards1}
-            onMouseLeave={() => setIshovered1(false)}
-            onMouseEnter={() => setIshovered1(true)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <i
-                className="fa-solid fa-tty text-success"
-                style={styles.icons}
-              ></i>
-                   <div className="content">
-                  <p>قم باداره المحاسبين</p>
-                </div>
-
-              <Card.Title>تفاصيل المحاسبين</Card.Title>
-              <Card.Text>الذهاب الي المحاسبين.</Card.Text>
-            
-                الذهاب إلى جميع تفاصيل المحاسبين
-              <div className="info d-flex justify-content-end">
-                <Button className="bg-black text-white border-none ">
-                  <ArrowRightAltIcon />
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-          </Link>
-
-        </Col>
+                <Card.Body>
+                  <i
+                    className="fa-solid fa-tty text-success"
+                    style={styles.icons}
+                  ></i>
+                  <div className="content">
+                    <p>قم باداره المحاسبين</p>
+                  </div>
+                  <Card.Title>تفاصيل المحاسبين</Card.Title>
+                  <Card.Text>الذهاب الي المحاسبين.</Card.Text>
+                  الذهاب إلى جميع تفاصيل المحاسبين
+                  <div className="info d-flex justify-content-end">
+                    <Button className="bg-black text-white border-none ">
+                      <ArrowRightAltIcon />
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Link>
+          </Col>
         </div>
-    
+
         <div className="table-responsive mt-3">
           <table className="table table-bordered text-center shadow-sm">
             <thead className="bg-white border">

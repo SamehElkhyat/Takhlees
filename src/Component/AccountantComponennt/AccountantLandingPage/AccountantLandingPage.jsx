@@ -1,8 +1,7 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
