@@ -33,10 +33,11 @@ const SignUp = () => {
       const data = await axios.post(
         `${process.env.REACT_APP_API_URL}/Register-user`,
         values
-      );
+      );      
       if (data.data.message === "تم تسجيل حساب الافراد بنجاح") {
         toast(data.data.message);
-        window.location.href = "/SignIn";
+        localStorage.setItem("Role",data.data.state)
+        window.location.href = "/ActiveEmail";
       } else {
         toast(data.data.message);
       }

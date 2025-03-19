@@ -5,29 +5,42 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ships from "../ships.png";
 import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-const ConfirmPassword = () => {
+const ActiveEmail = () => {
+  const [Token, setToken] = useState(null);
+  const navigate = useNavigate();
+
   const SendCode = async (values) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/Reset-Password`,
+        `${process.env.REACT_APP_API_URL}/VerifyCode`,
         {
           Code: values.Code,
-          newPassword: values.newPassword,
-          Confirm: values.Confirm,
+          typeOfGenerate: Token,
         },
         {
           withCredentials: true,
         }
       );
-
-      console.log(response);
-
       toast.success(response.data.message);
 
-      if (response.data.message == "تم إعادة تعيين كلمة المرور بنجاح") {
+      if (response.data.message == "تم تأكيد الكود بنجاح") {
         setTimeout(() => {
-          window.location.href = "/SignIn";
+          switch (Token) {
+            case "VerifyUserEmail":
+              return navigate("/LandingPageForUsers");
+
+            case "VerifyCompanyEmail":
+              return navigate("/LandingPageForUsers");
+
+            case "VerifyBrokerEmail":
+              return navigate("/BrookersLandingPage");
+
+            default:
+              console.warn("Unknown user role:", data.data);
+              return navigate("/");
+          }
         }, 1000);
       }
     } catch (error) {
@@ -35,15 +48,15 @@ const ConfirmPassword = () => {
     }
   };
 
-
   const formik = useFormik({
     initialValues: {
       Code: "",
-      newPassword: "",
-      Confirm: "",
     },
     onSubmit: SendCode,
   });
+  useEffect(() => {
+    setToken(localStorage.getItem("Role"));
+  }, []);
 
   return (
     <>
@@ -52,7 +65,7 @@ const ConfirmPassword = () => {
 
       <div className="reset-password-container">
         <div className="reset-password-form">
-          <h2>رمز التحقق</h2>
+          <h2>تفعيل الحساب</h2>
 
           <form onSubmit={formik.handleSubmit} noValidate>
             <div className="form-group">
@@ -69,36 +82,6 @@ const ConfirmPassword = () => {
                 <div className="text-danger">{formik.errors.Code}</div>
               )}
             </div>
-            <div className="form-group">
-              <input
-                className="text-white"
-                value={formik.values.newPassword}
-                type="password"
-                name="newPassword"
-                placeholder="كلمه المرور الجديده"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.newPassword && formik.errors.newPassword && (
-                <div className="text-danger">{formik.errors.newPassword}</div>
-              )}
-            </div>
-
-            <div className="form-group">
-              <input
-                className="text-white"
-                value={formik.values.Confirm}
-                type="password"
-                name="Confirm"
-                placeholder="تأكيد كلمه المرور"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.Confirm && formik.errors.Confirm && (
-                <div className="text-danger">{formik.errors.Confirm}</div>
-              )}
-            </div>
-
             <button type="submit" className="reset-btn">
               تأكيد الكود
             </button>
@@ -109,4 +92,4 @@ const ConfirmPassword = () => {
   );
 };
 
-export default ConfirmPassword;
+export default ActiveEmail;

@@ -26,9 +26,12 @@ const NavBar = () => {
       const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
         withCredentials: true,
       });
-      setToken(data.data);
+      if (JSON.stringify(data.data) !== JSON.stringify(Token)) {
+        return setToken(data.data);
+
+      }
     } catch (error) {
-      setIsloading(false);
+      (false);
 
       console.log(error);
     }
@@ -55,7 +58,7 @@ const NavBar = () => {
   };
   useEffect(() => {
     navigationToLandingpage();
-  }, []);
+  }, [Token]);
   return (
     <>
       <Drawer

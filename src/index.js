@@ -62,6 +62,7 @@ import LogsOrders from "./Component/MangerComponennt/LogsOrders/LogsOrders.jsx";
 import Tracking from "./Component/ClientsComponent/Tracking/Tracking.jsx";
 import UserPayment from "./Component/ClientsComponent/UserPayment/UserPayment.jsx";
 import Settings from "./Component/ControlPanel/Settings.jsx";
+import ActiveEmail from "./Component/ResetPassword/ActiveEmail/ActiveEmail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -127,6 +128,8 @@ const router = createBrowserRouter([
 
       //*USER//
       { path: "Tracking", element: <Tracking /> },
+      { path: "ActiveEmail", element: <ActiveEmail /> },
+
       { path: "UserPayment", element: <UserPayment /> },
       { path: "Cart", element: <Cart /> },
       { path: "NewOrder", element: <NewOrderForm /> },

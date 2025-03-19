@@ -123,7 +123,6 @@ export default function OrderDetails() {
 
       if (JSON.stringify(data) !== JSON.stringify(allOrders)) {
         setallOrders(data);
-        getValue();
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -158,7 +157,7 @@ export default function OrderDetails() {
 
   useEffect(() => {
     mathmatecis();
-  }, [Rating]);
+  }, []);
   return (
     <>
       <div className="container mt-5">
