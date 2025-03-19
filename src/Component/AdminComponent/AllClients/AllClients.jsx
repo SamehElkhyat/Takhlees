@@ -71,7 +71,7 @@ export default function AllClients() {
   const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL}/Get-Orders-Admin`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Orders-Admin`,
         {
           withCredentials: true,
         }
