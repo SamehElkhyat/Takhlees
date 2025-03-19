@@ -9,7 +9,7 @@ export default function OrderDetails() {
     const HistoryOrders = async () => {
       try {
         const { data } = await axios.get(
-          `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
+          `${process.env.REACT_APP_API_URL_MICROSERVICE3}/Logs`,
           {
             withCredentials: true,
           }
