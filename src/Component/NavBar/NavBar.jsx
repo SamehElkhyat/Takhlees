@@ -158,10 +158,7 @@ const NavBar = () => {
                       <ListItemButton>
                         <ListItemText
                           onClick={() => {
-                            localStorage.removeItem("Tokken");
-                            toast("تم تسجيل الخروج بنجاح");
-                            setApiToken(false);
-                            window.location.href = "/SignIn";
+                            SignOut()
                           }}
                           primary={"تسجيل الخروج"}
                         />

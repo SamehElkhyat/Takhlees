@@ -31,21 +31,19 @@ function LogsOrders() {
     }
   };
 
-  const GetId = async (id) => {
-    console.log(id);
-
+  const GetId = async (id) => {    
     try {
       const data = await axios.post(
-        `${REACT_APP_API_URL_MICROSERVICE3}/Get-ID`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE3}/Get-ID`,
         { newOrderId: id },
         { withCredentials: true }
       );
-      console.log(data);
-      if (data.status == 200) {
         window.location.href = "/DetailsForAdmin";
-      }
+      
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
+      
+      // toast.error(error.response.data.message);
     }
   };
   useEffect(() => {
