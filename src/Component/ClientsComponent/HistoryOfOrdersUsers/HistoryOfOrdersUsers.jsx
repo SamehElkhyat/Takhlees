@@ -20,7 +20,6 @@ export default function HistoryOfOrdersUsers() {
         setorder(data);
       }
 
-      console.log(data);
       
     } catch (error) {
       toast.error(error.response.data.message);

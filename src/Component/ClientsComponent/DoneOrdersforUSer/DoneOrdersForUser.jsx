@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const DoneOrdersForUser = () => {
   const [orders, setOrder] = useState([]);
@@ -16,7 +17,6 @@ const DoneOrdersForUser = () => {
           withCredentials: true,
         }
       );
-      console.log(res.data);
       
       
       setOrder(res.data);

@@ -48,6 +48,23 @@ export default function Brookers() {
     }
   };
 
+  const GetId = async (id) => {
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_API_URL}/Get-ID`,
+        {
+          ID: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      window.location.href = "/ProfileUsers";
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   const UnBlock = async (email) => {
     try {
       const { data } = await axios.post(
@@ -166,7 +183,11 @@ export default function Brookers() {
             </TableHead>
             <TableBody>
               {selectedOrder.map((customer, index) => (
-                <TableRow className="bg-light" key={index}>
+                <TableRow
+                  onClick={() => GetId(customer.id)}
+                  className="bg-light"
+                  key={index}
+                >
                   <TableCell className="text-center align-middle">
                     {customer.fullName}
                   </TableCell>

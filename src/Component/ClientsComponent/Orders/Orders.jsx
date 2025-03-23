@@ -26,7 +26,6 @@ const PendingOrders = () => {
         toast.error(error.response.data.message);
       }
     }
-
   };
 
   const GetOrder = async () => {
@@ -38,8 +37,6 @@ const PendingOrders = () => {
         }
       );
 
-      console.log(res.data);
-      
       setOrder(res.data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -56,32 +53,35 @@ const PendingOrders = () => {
   }, []);
   return (
     <div className="container mt-5">
-      <h3 
-          style={{
-            fontSize: "2rem",
-            fontWeight: "700",
-            color: "#2c3e50",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-            borderBottom: "3px solid #3498db",
-            paddingBottom: "10px",
-            width: "fit-content",
-            margin: "0 auto 2rem auto",
-            borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
-            padding: "10px",
-            border: "1px solid #3498db",
+      <h3
+        style={{
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "#2c3e50",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          width: "fit-content",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#f0f0f0",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-            },
-            "&:active": {
-              transform: "scale(0.95)",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            },
-          }}
-      className="text-center">الطلبات القائمة</h3>
+          },
+        }}
+        className="text-center"
+      >
+        الطلبات القائمة
+      </h3>
       <Form className="mb-3">
         <Form.Control
           type="text"
@@ -103,31 +103,29 @@ const PendingOrders = () => {
           </tr>
         </thead>
         <tbody>
-
           {!orders.length == 0 ? (
             <>
-              {   orders.filter((order)=>
-            {
-              return searchTerm === "" || order.id.includes(searchTerm)
-
-            }).map((order) => (
-                <tr
-                className="text-center"
-                  key={counter++}
-                  onClick={() => {
-                    handleChangeId(order.id);
-                  }}
-                >
-                  <td>{order.id}</td>
-                  <td>{order.location}</td>
-                  <td>{order.typeOrder}</td>
-                  <td>{order.statuOrder}</td>
-                </tr>
-              ))}
+              {orders
+                .filter((order) => {
+                  return searchTerm === "" || order.id.includes(searchTerm);
+                })
+                .map((order) => (
+                  <tr
+                    className="text-center"
+                    key={counter++}
+                    onClick={() => {
+                      handleChangeId(order.id);
+                    }}
+                  >
+                    <td>{order.id}</td>
+                    <td>{order.location}</td>
+                    <td>{order.typeOrder}</td>
+                    <td>{order.statuOrder}</td>
+                  </tr>
+                ))}
             </>
           ) : (
-            <>
-            </>
+            <></>
           )}
         </tbody>
       </Table>

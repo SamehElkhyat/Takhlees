@@ -1,7 +1,8 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import axios from "axios";
 
 export default function LandingPageManger() {
   const [Ishovered1, setIshovered1] = useState(false);
@@ -12,6 +13,23 @@ export default function LandingPageManger() {
   const [Ishovered6, setIshovered6] = useState(false);
   const [Ishovered7, setIshovered7] = useState(false);
   const [Ishovered8, setIshovered8] = useState(false);
+  const [Allprimessions, setAllprimessions] = useState([]);
+
+  const GetPermissionsUser = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/Get-Permissions-User`,
+        {
+          withCredentials: true,
+        }
+      );
+      setAllprimessions(data);
+      
+    } catch (error) {
+      
+    }
+  };
+
   const styles = {
     cards1: {
       color: "black",
@@ -87,6 +105,9 @@ export default function LandingPageManger() {
       padding: "20px",
     },
   };
+  useEffect(() => {
+    GetPermissionsUser();
+  }, []);
 
   return (
     <Container className="text-center mt-5">
@@ -102,9 +123,7 @@ export default function LandingPageManger() {
             transition: "transform 0.3s ease-in-out",
           }}
         >
-          <span className="text-black d-inline-block p-2">
-         مرحبا بك!
-          </span>
+          <span className="text-black d-inline-block p-2">مرحبا بك!</span>
         </h1>
       </div>
       <h5
@@ -164,199 +183,242 @@ export default function LandingPageManger() {
         اختر ما تريد القيام به:
       </h5>
       <Row className="justify-content-center">
-        <Col md={3} sm={6} xs={12} className="mb-3 Col1">
-          <Link
-            className="text-white text-decoration-none"
-            to="/BrookersManger"
-          >
-            <Card
-              style={styles.cards1}
-              onMouseLeave={() => setIshovered1(false)}
-              onMouseEnter={() => setIshovered1(true)}
-              className="shadow-lg"
-            >
-              <Card.Body>
-                <i className="fa-solid fa-tty" style={styles.icons}></i>
-                <div className="content">
-                  <p>قم باداره المخلصين</p>
-                </div>
-                <Card.Text>عرض وإدارة المخلصين .</Card.Text>
+        {Allprimessions.map((item) => (
+          <>
+            {item.type == "CustomerService" ? (
+              <>
+                <Col md={3} sm={6} xs={12} className="mb-3 Col5">
+                  <Link
+                    className="text-white text-decoration-none"
+                    to="/CPanelCustomeServiceManger"
+                  >
+                    <Card
+                      style={styles.cards5}
+                      onMouseEnter={() => setIshovered5(true)}
+                      onMouseLeave={() => setIshovered5(false)}
+                      className="shadow-lg"
+                    >
+                      <Card.Body>
+                        <i
+                          style={styles.icons}
+                          className="fa-solid fa-users-gear"
+                        ></i>
+                        <div className="content">
+                          <p>قم باداره خدمه العملاء</p>
+                        </div>
+                        <Card.Title>خدمه العملاء</Card.Title>
+                        <Card.Text>عرض وإدارة خدمه العملاء .</Card.Text>
+                        <div className="info d-flex justify-content-end">
+                          <Button className="bg-black text-white border-none ">
+                            <ArrowRightAltIcon />
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
+              </>
+            ) : item.type == "Statestics" ? (
+              <>
+                <Col md={3} sm={6} xs={12} className="mb-3 Col3">
+                  <Link
+                    className="text-white text-decoration-none"
+                    to="/statisticsManger"
+                  >
+                    <Card
+                      style={styles.cards3}
+                      onMouseEnter={() => setIshovered3(true)}
+                      onMouseLeave={() => setIshovered3(false)}
+                      className="shadow-lg"
+                    >
+                      <Card.Body>
+                        <i
+                          style={styles.icons}
+                          className="fa-solid fa-chart-line "
+                        ></i>
 
-                <Card.Title>المخلصين</Card.Title>
-                <div className="info d-flex justify-content-end">
-                  <Button className="bg-black text-white border-none ">
-                    <ArrowRightAltIcon />
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3 Col2">
-          <Link className="text-white text-decoration-none" to="/ClientsManger">
-            <Card
-              style={styles.cards2}
-              onMouseEnter={() => setIshovered2(true)}
-              onMouseLeave={() => setIshovered2(false)}
-              className="shadow-lg"
-            >
-              <Card.Body>
-                <i style={styles.icons} className="fa-solid fa-user "></i>
-                <div className="content">
-                  <p>قم باداره العملاء</p>
-                </div>
-                <Card.Title>العملاء</Card.Title>
-                <Card.Text>عرض وإدارة العملاء .</Card.Text>
+                        <div className="content">
+                          <p> عرض تفاصيل واحصائيات الموقع</p>
+                        </div>
+                        <Card.Title>الاحصائيات </Card.Title>
+                        <Card.Text>عرض أحصائيات الموقع .</Card.Text>
+                        <div className="info d-flex justify-content-end">
+                          <Button className="bg-black text-white border-none ">
+                            <ArrowRightAltIcon />
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
+              </>
+            ) : item.type == "Clients" ? (
+              <>
+                <Col md={3} sm={6} xs={12} className="mb-3 Col2">
+                  <Link
+                    className="text-white text-decoration-none"
+                    to="/ClientsManger"
+                  >
+                    <Card
+                      style={styles.cards2}
+                      onMouseEnter={() => setIshovered2(true)}
+                      onMouseLeave={() => setIshovered2(false)}
+                      className="shadow-lg"
+                    >
+                      <Card.Body>
+                        <i
+                          style={styles.icons}
+                          className="fa-solid fa-user "
+                        ></i>
+                        <div className="content">
+                          <p>قم باداره العملاء</p>
+                        </div>
+                        <Card.Title>العملاء</Card.Title>
+                        <Card.Text>عرض وإدارة العملاء .</Card.Text>
 
-                <div className="info d-flex justify-content-end">
-                  <Button className="bg-black text-white border-none ">
-                    <ArrowRightAltIcon />
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3 Col3">
-          <Link
-            className="text-white text-decoration-none"
-            to="/statisticsManger"
-          >
-            <Card
-              style={styles.cards3}
-              onMouseEnter={() => setIshovered3(true)}
-              onMouseLeave={() => setIshovered3(false)}
-              className="shadow-lg"
-            >
-              <Card.Body>
-                <i style={styles.icons} className="fa-solid fa-chart-line "></i>
+                        <div className="info d-flex justify-content-end">
+                          <Button className="bg-black text-white border-none ">
+                            <ArrowRightAltIcon />
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
+              </>
+            ) : item.type == "BlackList" ? (
+              <>
+                <Col md={3} sm={6} xs={12} className="mb-3 Col4">
+                  <Link
+                    className="text-white text-decoration-none"
+                    to="/blacklistManger"
+                  >
+                    {" "}
+                    <Card
+                      style={styles.cards4}
+                      onMouseEnter={() => setIshovered4(true)}
+                      onMouseLeave={() => setIshovered4(false)}
+                      className="shadow-lg"
+                    >
+                      <Card.Body>
+                        <i style={styles.icons} className="fa-solid fa-ban"></i>
+                        <div className="content">
+                          <p>قم باداره المحظورين</p>
+                        </div>
+                        <Card.Title>المحظورين</Card.Title>
+                        <Card.Text>عرض وإدارة المحظورين .</Card.Text>
+                        <div className="info d-flex justify-content-end">
+                          <Button className="bg-black text-white border-none ">
+                            <ArrowRightAltIcon />
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
+              </>
+            ) : item.type == "Tracing" ? (
+              <>
+                <Col md={3} sm={6} xs={12} className="mb-3 Col7">
+                  <Link
+                    className="text-white text-decoration-none"
+                    to="/LogsOrders"
+                  >
+                    <Card
+                      style={styles.cards7}
+                      onMouseEnter={() => setIshovered7(true)}
+                      onMouseLeave={() => setIshovered7(false)}
+                      className="shadow-lg"
+                    >
+                      <Card.Body>
+                        <i
+                          style={styles.icons}
+                          className="fa-solid fa-file-invoice"
+                        ></i>
+                        <div className="content">
+                          <p>قم باداره الطلب ومتابحه الحالات التبعه له</p>
+                        </div>
+                        <Card.Title>متابعه الطلبات</Card.Title>
+                        <Card.Text>عرض وإدارة سجل الطلبات .</Card.Text>
+                        <div className="info d-flex justify-content-end">
+                          <Button className="bg-black text-white border-none ">
+                            <ArrowRightAltIcon />
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
+              </>
+            ) : item.type == "accountant" ? (
+              <>
+                <Col md={3} sm={6} xs={12} className="mb-3 Col6">
+                  <Link
+                    className="text-white text-decoration-none"
+                    to="/CpanelAccountantManger"
+                  >
+                    <Card
+                      style={styles.cards6}
+                      onMouseEnter={() => setIshovered6(true)}
+                      onMouseLeave={() => setIshovered6(false)}
+                      className="shadow-lg"
+                    >
+                      <Card.Body>
+                        <i
+                          style={styles.icons}
+                          className="fa-solid fa-file-invoice"
+                        ></i>
+                        <div className="content">
+                          <p>قم باداره المحاسبين</p>
+                        </div>
+                        <Card.Title>المحاسبين</Card.Title>
+                        <Card.Text>عرض وإدارة المحاسبين .</Card.Text>
+                        <div className="info d-flex justify-content-end">
+                          <Button className="bg-black text-white border-none ">
+                            <ArrowRightAltIcon />
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
+              </>
+            ) : item.type == "Broker" ? (
+              <>
+                <Col md={3} sm={6} xs={12} className="mb-3 Col1">
+                  <Link
+                    className="text-white text-decoration-none"
+                    to="/BrookersManger"
+                  >
+                    <Card
+                      style={styles.cards1}
+                      onMouseLeave={() => setIshovered1(false)}
+                      onMouseEnter={() => setIshovered1(true)}
+                      className="shadow-lg"
+                    >
+                      <Card.Body>
+                        <i className="fa-solid fa-tty" style={styles.icons}></i>
+                        <div className="content">
+                          <p>قم باداره المخلصين</p>
+                        </div>
+                        <Card.Text>عرض وإدارة المخلصين .</Card.Text>
 
-                <div className="content">
-                  <p> عرض تفاصيل واحصائيات الموقع</p>
-                </div>
-                <Card.Title>الاحصائيات </Card.Title>
-                <Card.Text>عرض أحصائيات الموقع .</Card.Text>
-                <div className="info d-flex justify-content-end">
-                  <Button className="bg-black text-white border-none ">
-                    <ArrowRightAltIcon />
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3 Col4">
-          <Link
-            className="text-white text-decoration-none"
-            to="/blacklistManger"
-          >
-            {" "}
-            <Card
-              style={styles.cards4}
-              onMouseEnter={() => setIshovered4(true)}
-              onMouseLeave={() => setIshovered4(false)}
-              className="shadow-lg"
-            >
-              <Card.Body>
-                <i style={styles.icons} className="fa-solid fa-ban"></i>
-                <div className="content">
-                  <p>قم باداره المحظورين</p>
-                </div>
-                <Card.Title>المحظورين</Card.Title>
-                <Card.Text>عرض وإدارة المحظورين .</Card.Text>
-                <div className="info d-flex justify-content-end">
-                  <Button className="bg-black text-white border-none ">
-                    <ArrowRightAltIcon />
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3 Col5">
-          <Link
-            className="text-white text-decoration-none"
-            to="/CPanelCustomeServiceManger"
-          >
-            <Card
-              style={styles.cards5}
-              onMouseEnter={() => setIshovered5(true)}
-              onMouseLeave={() => setIshovered5(false)}
-              className="shadow-lg"
-            >
-              <Card.Body>
-                <i style={styles.icons} className="fa-solid fa-users-gear"></i>
-                <div className="content">
-                  <p>قم باداره خدمه العملاء</p>
-                </div>
-                <Card.Title>خدمه العملاء</Card.Title>
-                <Card.Text>عرض وإدارة خدمه العملاء .</Card.Text>
-                <div className="info d-flex justify-content-end">
-                  <Button className="bg-black text-white border-none ">
-                    <ArrowRightAltIcon />
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3 Col6">
-          <Link
-            className="text-white text-decoration-none"
-            to="/CpanelAccountantManger"
-          >
-            <Card
-              style={styles.cards6}
-              onMouseEnter={() => setIshovered6(true)}
-              onMouseLeave={() => setIshovered6(false)}
-              className="shadow-lg"
-            >
-              <Card.Body>
-                <i
-                  style={styles.icons}
-                  className="fa-solid fa-file-invoice"
-                ></i>
-                <div className="content">
-                  <p>قم باداره المحاسبين</p>
-                </div>
-                <Card.Title>المحاسبين</Card.Title>
-                <Card.Text>عرض وإدارة المحاسبين .</Card.Text>
-                <div className="info d-flex justify-content-end">
-                  <Button className="bg-black text-white border-none ">
-                    <ArrowRightAltIcon />
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
-        <Col md={3} sm={6} xs={12} className="mb-3 Col7">
-          <Link className="text-white text-decoration-none" to="/LogsOrders">
-            <Card
-              style={styles.cards7}
-              onMouseEnter={() => setIshovered7(true)}
-              onMouseLeave={() => setIshovered7(false)}
-              className="shadow-lg"
-            >
-              <Card.Body>
-                <i
-                  style={styles.icons}
-                  className="fa-solid fa-file-invoice"
-                ></i>
-                <div className="content">
-                  <p>قم باداره الطلب ومتابحه الحالات التبعه له</p>
-                </div>
-                <Card.Title>متابعه الطلبات</Card.Title>
-                <Card.Text>عرض وإدارة سجل الطلبات .</Card.Text>
-                <div className="info d-flex justify-content-end">
-                  <Button className="bg-black text-white border-none ">
-                    <ArrowRightAltIcon />
-                  </Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Link>
-        </Col>
+                        <Card.Title>المخلصين</Card.Title>
+                        <div className="info d-flex justify-content-end">
+                          <Button className="bg-black text-white border-none ">
+                            <ArrowRightAltIcon />
+                          </Button>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Link>
+                </Col>
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        ))}
       </Row>
     </Container>
   );

@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Box,
-  TextField,
-} from "@mui/material";
+import { Button, Box, TextField } from "@mui/material";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 export default function CanceledOrders() {
   const [showNoteField, setShowNoteField] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [showNoteField2, setShowNoteField2] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
   const [showNoteField3, setShowNoteField3] = useState({}); // حالة لإظهار حقل الإدخال عند الحاجة
-
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState("newest");
   const [notes, setNotes] = useState({});
@@ -37,7 +33,6 @@ export default function CanceledOrders() {
           withCredentials: true,
         }
       );
-      console.log(data);
 
       setSelectedOrder(data);
     } catch (error) {
@@ -123,16 +118,14 @@ export default function CanceledOrders() {
       toast.error(error.response.data.message);
     }
   };
-
   const getCustomers = async () => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Refuse-Orders`,
         {
           withCredentials: true,
-        } 
+        }
       );
-      console.log(data);
 
       setCustomers(data);
     } catch (error) {
@@ -191,7 +184,6 @@ export default function CanceledOrders() {
       >
         الطلبات الملغاه
       </h1>
-
 
       <div className="table-responsive mt-3">
         <table className="table table-bordered text-center shadow-sm">

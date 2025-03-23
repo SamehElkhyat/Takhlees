@@ -19,10 +19,7 @@ function Tracking() {
         }
       );
 
-    
-      
       if (JSON.stringify(data) == JSON.stringify(tracing)) {
-        console.log("done");
       } else {
         settracing(data);
       }

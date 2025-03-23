@@ -63,6 +63,7 @@ import Tracking from "./Component/ClientsComponent/Tracking/Tracking.jsx";
 import UserPayment from "./Component/ClientsComponent/UserPayment/UserPayment.jsx";
 import Settings from "./Component/ControlPanel/Settings.jsx";
 import ActiveEmail from "./Component/ResetPassword/ActiveEmail/ActiveEmail.jsx";
+import ProfileUsers from "./Component/AdminComponent/ProfileUsers/ProfileUsers.jsx";
 
 const router = createBrowserRouter([
   {
@@ -152,6 +153,8 @@ const router = createBrowserRouter([
       { path: "brookers", element: <Brookers /> },
       { path: "AllClients", element: <AllClients /> },
       { path: "LandingPageAdmin", element: <LandingPageAdmin /> },
+      { path: "ProfileUsers", element: <ProfileUsers /> },
+
       //*//
 
 

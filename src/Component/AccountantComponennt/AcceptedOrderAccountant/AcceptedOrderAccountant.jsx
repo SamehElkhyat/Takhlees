@@ -57,7 +57,6 @@ export default function AcceptedOrderAccountant() {
 
     } catch (error) {
 
-      console.log(error);
     }
   };
 
@@ -199,7 +198,6 @@ export default function AcceptedOrderAccountant() {
           withCredentials: true,
         }
       );
-      console.log(data);
 
       if (JSON.stringify(data) !== JSON.stringify(customers)) {
         setCustomers(data);
@@ -212,7 +210,6 @@ export default function AcceptedOrderAccountant() {
 
   useEffect(() => {
     if (OrderId == null) {
-      console.log("waiting");
     } else {
       GetFileName();
     }

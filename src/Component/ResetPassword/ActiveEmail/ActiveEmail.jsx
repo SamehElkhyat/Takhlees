@@ -6,12 +6,16 @@ import { toast } from "react-toastify";
 import ships from "../ships.png";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { Tty } from "@mui/icons-material";
 
 const ActiveEmail = () => {
   const [Token, setToken] = useState(null);
   const navigate = useNavigate();
 
   const SendCode = async (values) => {
+ 
+     
+    
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/VerifyCode`,
@@ -24,8 +28,9 @@ const ActiveEmail = () => {
         }
       );
       toast.success(response.data.message);
+      
 
-      if (response.data.message == "تم تأكيد الكود بنجاح") {
+      if (response.status == 200) {
         setTimeout(() => {
           switch (Token) {
             case "VerifyUserEmail":

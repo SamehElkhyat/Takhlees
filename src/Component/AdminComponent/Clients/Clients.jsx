@@ -49,6 +49,23 @@ export default function Clients() {
       toast.error(error.response.data.message);
     }
   };
+    const GetId = async (id) => {
+      try {
+        const data = await axios.post(
+          `${process.env.REACT_APP_API_URL}/Get-ID`,
+          {
+            ID: id,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        window.location.href = "/ProfileUsers";
+      } catch (error) {
+        
+        toast.error(error.response.data.message);
+      }
+    };
 
   const UnBlock = async (email) => {
     try {
@@ -75,6 +92,7 @@ export default function Clients() {
           withCredentials: true,
         }
       );
+      
       setSelectedOrder(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -161,7 +179,7 @@ export default function Clients() {
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr key={index} className="bg-light">
+                <tr onClick={()=>GetId(customer.id)} key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>

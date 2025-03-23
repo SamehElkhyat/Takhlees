@@ -31,16 +31,16 @@ function Settings() {
 
   const GetProfileItems = async () => {
     try {
-      const {data} = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
-        withCredentials: true,
-      });
-      console.log(data);
-      
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/Profile`,
+        {
+          withCredentials: true,
+        }
+      );
+
       setDecodedTokken(data);
     } catch (error) {
       setIsloading(false);
-
-      console.log(error);
     }
   };
   // فتح القائمة

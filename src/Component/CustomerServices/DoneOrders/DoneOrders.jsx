@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  TableCell,
-  Box,
-  TextField,
-} from "@mui/material";
+import { Button, TableCell, Box, TextField } from "@mui/material";
 import axios from "axios";
 import { Modal, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
@@ -20,6 +15,7 @@ export default function DoneOrders() {
   const [ImageName, setImageName] = useState({});
   const [IsLoading, setIsLoading] = useState(false);
   const [OrderId, setOrderId] = useState(null);
+  const [NotesID, setNotesID] = useState();
 
   const handleShowBar = (items, orderId) => {
     setOrderId(orderId);
@@ -90,13 +86,26 @@ export default function DoneOrders() {
   ///files |||||||///////////
 
   const handleShowDetails = (order, BrokerId) => {
-    console.log(order, BrokerId);
-
     setSelectedOrder(order);
     getAllInformationBroker(BrokerId);
   };
   const handleCloseDetails = () => {
     setSelectedOrder(null);
+  };
+  const DeleteNotes = async () => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Delete-Notes-For-Admin`,
+        {
+          ID: OrderId,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   const getAllInformationBroker = async (BrokerId) => {
@@ -110,7 +119,6 @@ export default function DoneOrders() {
           withCredentials: true,
         }
       );
-      console.log(data);
 
       setSelectedOrder(data);
     } catch (error) {
@@ -143,8 +151,6 @@ export default function DoneOrders() {
 
       alert("تم تحديث الطلب بنجاح");
       getAllAcceptedOrders();
-
-      console.log(request);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -179,7 +185,6 @@ export default function DoneOrders() {
       );
 
       setCustomers(data);
-      console.log(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -228,7 +233,6 @@ export default function DoneOrders() {
         الطلبات المنفذه
       </h1>
 
-
       <div className="table-responsive mt-3">
         <table className="table table-bordered text-center shadow-sm">
           <thead className="bg-white border">
@@ -246,224 +250,240 @@ export default function DoneOrders() {
             </tr>
           </thead>
           <tbody>
-          {sortedCustomers.map((customer, index) => (
-            <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.id}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.location}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.fullName}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.notes === "" ? (
-                  <>لا يوجد ملاحظات</>
-                ) : (
-                  <>{customer.notes}</>
-                )}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.typeOrder}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.email}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                {customer.date}
-              </td>
-              <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowDetails(order, customer.brokerID)}
-                >
-                  عرض التفاصيل
-                </Button>
-              </td>
-              <td align="center">
-                <Button
-                  className="bg-primary text-white p-2"
-                  onClick={() => handleShowBar(index, customer.id)}
-                >
-                  عرض تفاصيل الملاحظات
-                </Button>
-              </td>
-
-              {showNoteField[customer.id] && (
-                <Box mt={1}>
-                  <TextField
-                    label="اكتب ملاحظة"
-                    variant="outlined"
-                    fullWidth
-                    value={notes[customer.id] || ""}
-                    onChange={(e) =>
-                      handleNoteChange(customer.id, e.target.value)
-                    }
-                    sx={{ marginBottom: "10px" }}
-                  />
+            {sortedCustomers.map((customer, index) => (
+              <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.id}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.location}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.fullName}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.notes === "" ? (
+                    <>لا يوجد ملاحظات</>
+                  ) : (
+                    <>{customer.notes}</>
+                  )}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.typeOrder}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.email}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                  {customer.date}
+                </td>
+                <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   <Button
-                    onClick={() => ChangeStateNotDone(customer.id)}
-                    className="bg-danger text-white"
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowDetails(order, customer.id)}
                   >
-                    إرسال الملاحظة
+                    عرض التفاصيل
                   </Button>
-                </Box>
-              )}
+                </td>
+                <td align="center">
+                  <Button
+                    className="bg-primary text-white p-2"
+                    onClick={() => handleShowBar(index, customer.id)}
+                  >
+                    عرض تفاصيل الملاحظات
+                  </Button>
+                </td>
 
-              <TableCell
-                sx={{ backgroundColor: "#f0f0f0" }}
-                className="p-3"
-                align="center"
-              >
-                <Button
-                  onClick={() => toggleNoteField(customer.id)}
-                  className="m-1 bg-danger text-white"
-                >
-                  لم يتم التنفيذ
-                </Button>
-                <Button
-                  onClick={() => ChangeStateDone(customer.id)}
-                  className="m-1 bg-success text-white"
-                >
-                  تم التنفيذ
-                </Button>
-              </TableCell>
-            </tr>
-          ))}
-
-<Modal
-            className="text-end"
-            show={selectedOrder !== null}
-            onHide={handleCloseDetails}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title className="text-center w-100">
-                تفاصيل المخلص
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {selectedOrder && (
-                <>
-                  <p>
-                    {selectedOrder.email} <strong>:البريد الإكتروني</strong>
-                  </p>
-                  <p>
-                    <strong>الاسم:</strong> {selectedOrder.fullName}
-                  </p>
-                  <p>
-                    <strong>رقم الهويه:</strong> {selectedOrder.identity}
-                  </p>
-                  <p>
-                    <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
-                  </p>
-                  <p>
-                    <strong>رخصه المخلص:</strong> {selectedOrder.license}
-                  </p>
-                  <p>
-                    <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
-                  </p>
-                </>
-              )}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseDetails}>
-                إغلاق
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          <Modal
-            className="text-center"
-            show={Bar !== null}
-            onHide={handleCloseBar}
-          >
-            {/* رأس المودال مع تصميم مميز */}
-            <Modal.Header
-              closeButton
-              className="bg-light rounded-top shadow-sm text-center"
-            >
-              <Modal.Title className="fs-3 fw-bold text-primary d-block w-100">
-                تفاصيل ملاحظات
-                <small className="d-block text-muted fs-6">
-                  إدارة الملاحظات والملفات
-                </small>
-              </Modal.Title>
-            </Modal.Header>
-
-            {/* جسم المودال مع تنسيق أفضل */}
-            <Modal.Body className="p-4 bg-light rounded-bottom text-center">
-              {/* عرض تفاصيل الملاحظات */}
-              <div className="mb-4">
-                <h5 className="text-success fw-bold">الملاحظات</h5>
-
-                <p className="text-muted fs-6">{ImageName.notes}</p>
-              </div>
-
-              {/* قسم التحميل مع زر مميز */}
-              <div className="d-inline-block">
-                <h5 className="text-success mb-3">
-                  <span style={{ color: "red", margin: "10px" }}>
-                    {ImageName.fileName == null ? (
-                      <>لا يوجد ملف </>
-                    ) : (
-                      <>{ImageName.fileName}</>
-                    )}
-                  </span>
-                </h5>
-                {ImageName.fileName == null ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                      className="me-2"
+                {showNoteField[customer.id] && (
+                  <Box mt={1}>
+                    <TextField
+                      label="اكتب ملاحظة"
+                      variant="outlined"
+                      fullWidth
+                      value={notes[customer.id] || ""}
+                      onChange={(e) =>
+                        handleNoteChange(customer.id, e.target.value)
+                      }
+                      sx={{ marginBottom: "10px" }}
                     />
-                    انتظر قليلا لعرض الملف
-                  </>
-                ) : (
-                  <>
-                    {" "}
                     <Button
-                      variant="success"
-                      onClick={() => DownloadFilesApi()}
-                      disabled={IsLoading}
-                      className="px-4 py-2 rounded-pill shadow"
+                      onClick={() => ChangeStateNotDone(customer.id)}
+                      className="bg-danger text-white"
                     >
-                      {IsLoading ? (
-                        <>
-                          <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                            className="me-2"
-                          />
-                          جارٍ التحميل...
-                        </>
-                      ) : (
-                        "تحميل"
-                      )}
+                      إرسال الملاحظة
                     </Button>
+                  </Box>
+                )}
+
+                <TableCell
+                  sx={{ backgroundColor: "#f0f0f0" }}
+                  className="p-3"
+                  align="center"
+                >
+                  <Button
+                    onClick={() => toggleNoteField(customer.id)}
+                    className="m-1 bg-danger text-white"
+                  >
+                    لم يتم التنفيذ
+                  </Button>
+                  <Button
+                    onClick={() => ChangeStateDone(customer.id)}
+                    className="m-1 bg-success text-white"
+                  >
+                    تم التنفيذ
+                  </Button>
+                </TableCell>
+              </tr>
+            ))}
+
+            <Modal
+              className="text-end"
+              show={selectedOrder !== null}
+              onHide={handleCloseDetails}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title className="text-center w-100">
+                  تفاصيل المخلص
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {selectedOrder && (
+                  <>
+                    <p>
+                      {selectedOrder.email} <strong>:البريد الإكتروني</strong>
+                    </p>
+                    <p>
+                      <strong>الاسم:</strong> {selectedOrder.fullName}
+                    </p>
+                    <p>
+                      <strong>رقم الهويه:</strong> {selectedOrder.identity}
+                    </p>
+                    <p>
+                      <strong>رقم الهاتف:</strong> {selectedOrder.phoneNumber}
+                    </p>
+                    <p>
+                      <strong>رخصه المخلص:</strong> {selectedOrder.license}
+                    </p>
+                    <p>
+                      <strong>الرقم الضريبي:</strong> {selectedOrder.taxRecord}
+                    </p>
                   </>
                 )}
-              </div>
-            </Modal.Body>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseDetails}>
+                  إغلاق
+                </Button>
+              </Modal.Footer>
+            </Modal>
 
-            {/* قدم المودال مع زر إغلاق مميز */}
-            <Modal.Footer className="bg-light border-0 text-center">
-              <Button
-                variant="danger"
-                onClick={handleCloseBar}
-                className="px-4 py-2 rounded-pill shadow"
+            <Modal
+              className="text-center"
+              show={Bar !== null}
+              onHide={handleCloseBar}
+            >
+              {/* رأس المودال مع تصميم مميز */}
+              <Modal.Header
+                closeButton
+                className="bg-light rounded-top shadow-sm text-center"
               >
-                إغلاق
-              </Button>
-            </Modal.Footer>
-          </Modal>
+                <Modal.Title className="fs-3 fw-bold text-primary d-block w-100">
+                  تفاصيل ملاحظات
+                  <small className="d-block text-muted fs-6">
+                    إدارة الملاحظات والملفات
+                  </small>
+                </Modal.Title>
+              </Modal.Header>
+
+              {/* جسم المودال مع تنسيق أفضل */}
+              <Modal.Body className="p-4 bg-light rounded-bottom text-center">
+                {/* عرض تفاصيل الملاحظات */}
+                <div className="mb-4">
+                  <h5 className="text-success fw-bold">الملاحظات</h5>
+
+                  {ImageName.fileName == null ? (
+                    <>
+                      {" "}
+                      <p className="text-muted fs-6">لا توجد ملاحظات</p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-muted fs-6">{ImageName.notes}</p>
+
+                      <Button
+                        onClick={() => DeleteNotes()}
+                        className="btn bg-danger text-white"
+                      >
+                        حذف الملاحظات
+                      </Button>
+                    </>
+                  )}
+                </div>
+
+                {/* قسم التحميل مع زر مميز */}
+                <div className="d-inline-block">
+                  <h5 className="text-success mb-3">
+                    <span style={{ color: "red", margin: "10px" }}>
+                      {ImageName.fileName == null ? (
+                        <>لا يوجد ملف </>
+                      ) : (
+                        <>{ImageName.fileName}</>
+                      )}
+                    </span>
+                  </h5>
+                  {ImageName.fileName == null ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-2"
+                      />
+                      انتظر قليلا لعرض الملف
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <Button
+                        variant="success"
+                        onClick={() => DownloadFilesApi()}
+                        disabled={IsLoading}
+                        className="px-4 py-2 rounded-pill shadow"
+                      >
+                        {IsLoading ? (
+                          <>
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                              className="me-2"
+                            />
+                            جارٍ التحميل...
+                          </>
+                        ) : (
+                          "تحميل"
+                        )}
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </Modal.Body>
+
+              {/* قدم المودال مع زر إغلاق مميز */}
+              <Modal.Footer className="bg-light border-0 text-center">
+                <Button
+                  variant="danger"
+                  onClick={handleCloseBar}
+                  className="px-4 py-2 rounded-pill shadow"
+                >
+                  إغلاق
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </tbody>
         </table>
       </div>

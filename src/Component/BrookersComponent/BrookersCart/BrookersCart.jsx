@@ -289,11 +289,9 @@ const BrookersCart = () => {
       const { data } = await axios.get(`https://user.runasp.net/api/Wallet`, {
         withCredentials: true,
       });
-      console.log(data.response);
 
       setOrders(data);
     } catch (error) {
-      console.log(error.response.data.message);
     }
   };
 

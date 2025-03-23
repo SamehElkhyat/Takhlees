@@ -22,17 +22,16 @@ const NewOrderForm = () => {
     setShowInputs(e.target.value);
   };
 
- const navigationToLandingpage = async () => {
+  const navigationToLandingpage = async () => {
     try {
-      const {data} = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/Profile`,
+        {
+          withCredentials: true,
+        }
+      );
       setDecodedTokken(data.role);
-      console.log(data);
-      
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handelCloseInput = (e) => {
@@ -171,9 +170,9 @@ const NewOrderForm = () => {
 
       setTimeout(() => {
         if (DecodedTokken === "Admin") {
-          window.location.href="/availableOrders";
+          window.location.href = "/availableOrders";
         } else {
-          window.location.href="/Orders";
+          window.location.href = "/Orders";
         }
       }, 1000);
     } catch (error) {
@@ -261,51 +260,46 @@ const NewOrderForm = () => {
   };
 
   useEffect(() => {
-    navigationToLandingpage()
+    navigationToLandingpage();
   }, []);
 
   return (
-    <div
-      className="container text-center d-flex flex-column gap-3 mt-5"
-    >
+    <div className="container text-center d-flex flex-column gap-3 mt-5">
       <Toaster
         className="bg-dark position-absolute"
         position="top-center"
         reverseOrder={false}
       />
 
-      <Form 
-            id="New-Order-form"
-
-  onSubmit={formik.handleSubmit}>
-          <h3
-        style={{
-          fontSize: "30px",
-          fontWeight: "700",
-          color: "#2c3e50",
-          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-          borderBottom: "3px solidrgb(255, 255, 255)",
-          paddingBottom: "10px",
-          width: "fit-content",
-          margin: "0 auto 2rem auto",
-          borderRadius: "10px",
-          backgroundColor: "#f0f0f0",
-          padding: "10px",
-          border: "1px solid green",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-          transition: "all 0.3s ease",
-          "&:hover": {
-            transform: "scale(1.05)",
-            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-          },
-          "&:active": {
-            transform: "scale(0.95)",
+      <Form id="New-Order-form" onSubmit={formik.handleSubmit}>
+        <h3
+          style={{
+            fontSize: "30px",
+            fontWeight: "700",
+            color: "#2c3e50",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+            borderBottom: "3px solidrgb(255, 255, 255)",
+            paddingBottom: "10px",
+            width: "fit-content",
+            margin: "0 auto 2rem auto",
+            borderRadius: "10px",
+            backgroundColor: "#f0f0f0",
+            padding: "10px",
+            border: "1px solid green",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-          },
-        }}
-      >
-        طلب جديد
-      </h3>
+            transition: "all 0.3s ease",
+            "&:hover": {
+              transform: "scale(1.05)",
+              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+            },
+            "&:active": {
+              transform: "scale(0.95)",
+              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            },
+          }}
+        >
+          طلب جديد
+        </h3>
         {/* موقع الطلب */}
         <Form.Group controlId="location">
           <Form.Label>موقع الطلب</Form.Label>
@@ -654,7 +648,7 @@ const NewOrderForm = () => {
 
         <Form.Group controlId="orderFiles" className="mt-4">
           <Form.Label className="fw-semibold text-secondary">
-             البوليصة
+            البوليصة
           </Form.Label>
           <InputGroup className="border rounded-3 shadow-sm bg-white overflow-hidden">
             <FormControl

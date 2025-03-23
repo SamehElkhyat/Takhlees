@@ -21,7 +21,6 @@ export default function LandingPageCustomService() {
         }
       );
       setState(data);
-      console.log(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }

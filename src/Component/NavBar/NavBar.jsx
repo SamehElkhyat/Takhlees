@@ -33,7 +33,7 @@ const NavBar = () => {
     } catch (error) {
       (false);
 
-      console.log(error);
+      
     }
   };
 
@@ -45,7 +45,7 @@ const NavBar = () => {
       window.location.href = "/SignIn";
     } catch (error) {
 
-      console.log(error);
+      
     }
   };
 

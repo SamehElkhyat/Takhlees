@@ -16,32 +16,31 @@ const SignUp = () => {
       .required("تأكيد كلمة المرور مطلوب")
       .min(8, "و تحتوي علي حروف و ارقام و حروف كبيره و صغيره")
       .oneOf([Yup.ref("Confirm")], "كلمات المرور غير متطابقة"),
-    fullName: Yup.string()
-      .required(" الاسم الكامل مطلوب"),
+    fullName: Yup.string().required(" الاسم الكامل مطلوب"),
     Confirm: Yup.string()
       .required("تأكيد كلمة المرور مطلوب")
       .oneOf([Yup.ref("Password")], "كلمات المرور غير متطابقة"),
-    Identity: Yup.string()
-      .required("رقم الهويه مطلوب"),
-    phoneNumber: Yup.string()
-      .required("رقم الهاتف مطلوب"),
+    Identity: Yup.string().required("رقم الهويه مطلوب"),
+    phoneNumber: Yup.string().required("رقم الهاتف مطلوب"),
   });
 
   const handelSignUp = async (values) => {
-    
     try {
       const data = await axios.post(
         `${process.env.REACT_APP_API_URL}/Register-user`,
-        values
-      );      
+        values,
+        {
+          withCredentials: true,
+        }
+      );
       if (data.data.message === "تم تسجيل حساب الافراد بنجاح") {
         toast(data.data.message);
-        localStorage.setItem("Role",data.data.state)
+        localStorage.setItem("Role", data.data.data);        
         window.location.href = "/ActiveEmail";
       } else {
         toast(data.data.message);
       }
-    } catch (error) {      
+    } catch (error) {
       toast.error(error.response.data.message);
     }
   };
@@ -82,9 +81,9 @@ const SignUp = () => {
                 name="fullName"
                 required
               />
-                 {formik.touched.fullName && formik.errors.fullName && (
-              <div className="error-message">{formik.errors.fullName}</div>
-            )}
+              {formik.touched.fullName && formik.errors.fullName && (
+                <div className="error-message">{formik.errors.fullName}</div>
+              )}
 
               <hr />
               <input
@@ -96,9 +95,9 @@ const SignUp = () => {
                 name="Email"
                 required
               />
-                 {formik.touched.Email && formik.errors.Email && (
-              <div className="error-message">{formik.errors.Email}</div>
-            )}
+              {formik.touched.Email && formik.errors.Email && (
+                <div className="error-message">{formik.errors.Email}</div>
+              )}
 
               <hr />
               <input
@@ -111,8 +110,8 @@ const SignUp = () => {
                 required
               />
               {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-              <div className="error-message">{formik.errors.phoneNumber}</div>
-            )}
+                <div className="error-message">{formik.errors.phoneNumber}</div>
+              )}
             </div>
 
             <div className="SignUp-form-group col-md-6">
@@ -127,8 +126,8 @@ const SignUp = () => {
                 required
               />
               {formik.touched.Password && formik.errors.Password && (
-              <div className="error-message">{formik.errors.Password}</div>
-            )}
+                <div className="error-message">{formik.errors.Password}</div>
+              )}
 
               <hr />
               <input
@@ -141,8 +140,8 @@ const SignUp = () => {
                 required
               />
               {formik.touched.Confirm && formik.errors.Confirm && (
-              <div className="error-message">{formik.errors.Confirm}</div>
-            )}
+                <div className="error-message">{formik.errors.Confirm}</div>
+              )}
 
               <hr />
               <input
@@ -155,8 +154,8 @@ const SignUp = () => {
                 required
               />
               {formik.touched.Identity && formik.errors.Identity && (
-              <div className="error-message">{formik.errors.Identity}</div>
-            )}
+                <div className="error-message">{formik.errors.Identity}</div>
+              )}
             </div>
           </div>
 

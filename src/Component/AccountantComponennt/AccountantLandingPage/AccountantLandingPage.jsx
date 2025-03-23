@@ -18,7 +18,6 @@ const AccountantLandingPage = () => {
       });
       setDecodedTokken(data.data.role);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -32,7 +31,6 @@ const AccountantLandingPage = () => {
       );
       setState(data);
 
-      console.log(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }

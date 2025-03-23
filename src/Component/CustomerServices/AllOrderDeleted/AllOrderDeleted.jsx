@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Box,
-} from "@mui/material";
+import { Button, Box } from "@mui/material";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
 
@@ -30,8 +27,6 @@ export default function AllOrderDeleted() {
       setDecodedTokken(data.data.role);
     } catch (error) {
       setIsloading(false);
-
-      console.log(error);
     }
   };
 
@@ -43,7 +38,6 @@ export default function AllOrderDeleted() {
           withCredentials: true,
         }
       );
-      console.log(data);
 
       setCustomers(data);
     } catch (error) {

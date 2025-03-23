@@ -28,7 +28,6 @@ const CurrentOrdersForUsers = () => {
       if (req.status == 200) {
          window.location.href = "/Tracking";
       } else if (req.status == 400) {
-        console.log("حدث خطأ في عرض البايانات");
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -44,7 +43,6 @@ const CurrentOrdersForUsers = () => {
           withCredentials: true,
         }
       );
-      console.log(res);
 
       setOrder(res.data);
     } catch (error) {

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-
   Table,
   TableHead,
   TableBody,
@@ -9,11 +8,10 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Button } from "react-bootstrap";
 
 export default function blacklistManger() {
-  
   const [selectedOrder, setSelectedOrder] = useState([]);
 
   const Block = async (email) => {
@@ -29,7 +27,6 @@ export default function blacklistManger() {
       );
       CustomerService();
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -46,7 +43,24 @@ export default function blacklistManger() {
       );
       CustomerService();
     } catch (error) {
-      console.log(error);
+    }
+  };
+
+  const GetId = async (id) => {
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_API_URL}/Get-ID`,
+        {
+          ID: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      window.location.href = "/ProfileUsers";
+    } catch (error) {
+
+      toast.error(error.response.data.message);
     }
   };
 
@@ -60,7 +74,6 @@ export default function blacklistManger() {
       );
       setSelectedOrder(response.data);
     } catch (error) {
-      console.log();
     }
   };
   useEffect(() => {
@@ -69,20 +82,22 @@ export default function blacklistManger() {
 
   return (
     <>
+
+
       <Box width="100%" textAlign="center" p={4}>
         <h1
           className="text-xl font-bold mb-4"
           style={{
             fontSize: "2rem",
             fontWeight: "700",
-            color: "#2c3e50",
+            color: "white",
             textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
             borderBottom: "3px solid #3498db",
             paddingBottom: "10px",
             width: "fit-content",
             margin: "0 auto 2rem auto",
             borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "#4A6785",
             padding: "10px",
             border: "1px solid #3498db",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -100,42 +115,37 @@ export default function blacklistManger() {
           المحظورين
         </h1>
 
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">رقم الهويه</TableCell>
-              <TableCell align="center">الهاتف</TableCell>
-              <TableCell align="center">حظر</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedOrder.map((customer, index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+        <div className="table-responsive mt-3">
+          <table className="table table-bordered text-center shadow-sm">
+            <thead className="bg-white border">
+              <tr>
+                <th>الاسم</th>
+                <th>البريد الالكتروني</th>
+                <th>رقم الهويه</th>
+                <th>الهاتف</th>
+                <th>حظر</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedOrder.map((customer, index) => (
+                <tr
+                  onClick={() => GetId(customer.id)}
+                  key={index}
+                  className="bg-light"
+                >
+                  <td >
                   {customer.fullName}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td >
                   {customer.email}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td >
                   {customer.identity}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td >
                   {customer.phoneNumber}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td >
                   {customer.isBlocked ? (
                     <>
                       <Button
@@ -156,12 +166,12 @@ export default function blacklistManger() {
                       </Button>
                     </>
                   )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Toaster />
+                </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Box>
     </>
   );

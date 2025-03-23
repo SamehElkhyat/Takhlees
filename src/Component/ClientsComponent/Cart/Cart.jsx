@@ -19,7 +19,6 @@ const Portfolio = () => {
           }
         );
         setInfoOrders(data);
-        console.log(data);
       } catch (error) {
         toast.error(error.response.data.message);
       }
@@ -290,9 +289,7 @@ const Portfolio = () => {
         }
       );
       setOrders(data);
-      console.log();
     } catch (error) {
-      console.log(error.response.data.message);
     }
   };
 

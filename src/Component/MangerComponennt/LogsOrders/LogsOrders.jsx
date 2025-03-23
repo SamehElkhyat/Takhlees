@@ -13,10 +13,10 @@ function LogsOrders() {
         { withCredentials: true }
       );
 
-      console.log(data);
+      
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
+      
     }
   };
 
@@ -27,7 +27,7 @@ function LogsOrders() {
         { withCredentials: true }
       );
     } catch (error) {
-      console.log(error);
+      
     }
   };
 
@@ -41,7 +41,7 @@ function LogsOrders() {
         window.location.href = "/DetailsForAdmin";
       
     } catch (error) {
-      console.log(error);
+      
       
       // toast.error(error.response.data.message);
     }

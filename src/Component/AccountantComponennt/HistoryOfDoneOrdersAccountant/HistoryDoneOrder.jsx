@@ -37,7 +37,6 @@ export default function HistoryDoneOrder() {
     } catch (error) {
       setIsloading(false);
 
-      console.log(error);
     }
   };
 
@@ -67,7 +66,6 @@ export default function HistoryDoneOrder() {
           withCredentials: true,
         }
       );
-      console.log(data);
 
       setCustomers(data);
     } catch (error) {

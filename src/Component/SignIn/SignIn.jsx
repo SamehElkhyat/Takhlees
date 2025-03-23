@@ -34,8 +34,6 @@ const SignIn = () => {
       );
 
       if (data.message == "تم تسجيل الدخول بنجاح") {
-        console.log(data.message);
-
         toast.success(data.message);
         setIsloading(false);
         setInterval(() => {

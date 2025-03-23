@@ -21,10 +21,7 @@ export default function LandingPageAdmin() {
         withCredentials: true,
       });
       setDecodedTokken(data.data.role);
-    } catch (error) {
-
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const styles = {
     cards1: {
@@ -93,7 +90,7 @@ export default function LandingPageAdmin() {
   };
 
   useEffect(() => {
-    navigationToLandingpage()
+    navigationToLandingpage();
   }, []);
   return (
     <Container className="text-center  mt-5">
@@ -109,9 +106,7 @@ export default function LandingPageAdmin() {
             transition: "transform 0.3s ease-in-out",
           }}
         >
-          <span className="d-inline-block p-2">
-           مرحبا بك
-          </span>
+          <span className="d-inline-block p-2">مرحبا بك</span>
         </h1>
       </div>
       <h5

@@ -8,7 +8,7 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Button } from "react-bootstrap";
 
 export default function AllClientsManger() {
@@ -29,6 +29,25 @@ export default function AllClientsManger() {
     },
   };
 
+
+  const GetId = async (id) => {
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_API_URL}/Get-ID`,
+        {
+          ID: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      window.location.href = "/ProfileUsers";
+    } catch (error) {
+
+      toast.error(error.response.data.message);
+    }
+  };
+
   const Block = async (email) => {
     try {
       const { data } = await axios.post(
@@ -42,7 +61,6 @@ export default function AllClientsManger() {
       );
       CustomerService();
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -59,7 +77,6 @@ export default function AllClientsManger() {
       );
       CustomerService();
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -74,7 +91,6 @@ export default function AllClientsManger() {
 
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -84,91 +100,79 @@ export default function AllClientsManger() {
 
   return (
     <>
-      <Box width="100%" textAlign="center" p={4}>
-        <h1
-          className="text-xl font-bold mb-4"
-          style={{
-            fontSize: "2rem",
-            fontWeight: "700",
-            color: "#2c3e50",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-            borderBottom: "3px solid #3498db",
-            paddingBottom: "10px",
-            width: "fit-content",
-            margin: "0 auto 2rem auto",
-            borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
-            padding: "10px",
-            border: "1px solid #3498db",
+    <Box width="100%" textAlign="center" p={4}>
+
+    <h1
+        className="text-xl font-bold mb-4"
+        style={{
+          fontSize: "2rem",
+          fontWeight: "700",
+          color: "white",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+          borderBottom: "3px solid #3498db",
+          paddingBottom: "10px",
+          width: "fit-content",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#4A6785",
+          padding: "10px",
+          border: "1px solid #3498db",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0 0 20px rgba(0,0,0,0.2)",
+          },
+          "&:active": {
+            transform: "scale(0.95)",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-              boxShadow: "0 0 20px rgba(0,0,0,0.2)",
-            },
-            "&:active": {
-              transform: "scale(0.95)",
-              boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            },
-          }}
-        >
-          تفاصيل العملاء
-        </h1>
+          },
+        }}
+      >
+        تفاصيل العملاء
+      </h1>
 
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">موقع الطلب</TableCell>
-              <TableCell align="center">نوع الطلب</TableCell>
-              <TableCell align="center">المخلص</TableCell>
-              <TableCell align="center">البريد الخاص بالمخلص</TableCell>
-              <TableCell align="center">حظر</TableCell>
-              <TableCell align="center">الحاله</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      <div className="table-responsive mt-3">
+        <table className="table table-bordered text-center shadow-sm">
+          <thead className="bg-white border">
+            <tr>
+              <th align="center">الاسم</th>
+              <th align="center">البريد الالكتروني</th>
+              <th align="center">موقع الطلب</th>
+              <th align="center">نوع الطلب</th>
+              <th align="center">المخلص</th>
+              <th align="center">البريد الخاص بالمخلص</th>
+              <th align="center">حظر</th>
+              <th align="center">الحاله</th>
+            </tr>
+          </thead>
+          <tbody>
             {selectedOrder.map((customer, index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.location}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.typeOrder}
-                </TableCell>
+              <tr
+                onClick={() => GetId(customer.id)}
+                key={index}
+                className="bg-light"
+              >
+                <td align="center">{customer.fullName}</td>
+                <td align="center">{customer.email}</td>
+                <td align="center">{customer.location}</td>
+                <td align="center">{customer.typeOrder}</td>
 
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                <td align="center">
                   {customer.brokerName == null ? (
                     <>لايوجد مخلص الان</>
                   ) : (
                     <>{customer.brokerName}</>
                   )}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td align="center">
                   {customer.brokerEmail == null ? (
                     <>لايوجد مخلص الان</>
                   ) : (
                     <>{customer.brokerEmail}</>
                   )}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td align="center">
                   {customer.isBlocked ? (
                     <>
                       <Button
@@ -189,19 +193,43 @@ export default function AllClientsManger() {
                       </Button>
                     </>
                   )}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                </td>
+                <td align="center">
                   <Button className="btn bg-success">
                     {" "}
                     {customer.statuOrder}
                   </Button>
-                </TableCell>
-              </TableRow>
+                </td>
+
+                <td>{customer.fullName}</td>
+                <td>{customer.email}</td>
+                <td>{customer.identity}</td>
+                <td>{customer.phoneNumber}</td>
+                <td>
+                  {customer.isBlocked ? (
+                    <button
+                      onClick={() => UnBlock(customer.email)}
+                      className="btn btn-success text-black"
+                    >
+                      فك الحظر
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => Block(customer.email)}
+                      className="btn btn-danger text-black"
+                    >
+                      حظر
+                    </button>
+                  )}
+                </td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-        <Toaster />
-      </Box>
+          </tbody>
+        </table>
+      </div>
+
+    </Box>
+   
     </>
   );
 }

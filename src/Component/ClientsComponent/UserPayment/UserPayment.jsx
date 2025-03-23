@@ -14,8 +14,6 @@ import { Form } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 export default function UserPayment() {
   const SendAmount = async (amount) => {
-    console.log(amount);
-
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Payment`,
@@ -27,7 +25,6 @@ export default function UserPayment() {
       toast.success("تم الدفع بنجاح");
       window.location.href = data.approveUrl;
     } catch (error) {
-      console.log(error);
       toast.error("فشلت العمليه");
     }
   };

@@ -16,7 +16,6 @@ export default function OrderDetails() {
 
 
    const navigationToLandingpage = async () => {
-      console.log(process.env.REACT_APP_API_URL);
   
       try {
         const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
@@ -25,7 +24,6 @@ export default function OrderDetails() {
         setDecodedTokken(data.data.role);
       } catch (error) {
 
-        console.log(error);
       }
     };
 
@@ -87,7 +85,6 @@ export default function OrderDetails() {
   };
 
   const SendValue = async (cost, orderValue) => {
-    console.log(orderValue);
 
     try {
       const { data } = await axios.post(
@@ -109,7 +106,6 @@ export default function OrderDetails() {
   };
 
   const mathmatecis = () => {
-    console.log(Rating);
   };
 
   const getValue = async () => {
@@ -139,7 +135,6 @@ export default function OrderDetails() {
       );
 
       setdata(data);
-      console.log(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }

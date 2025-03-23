@@ -21,8 +21,6 @@ const ResetPassword = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
-
       setIsLoading(true);
       try {
         const { data } = await axios.post(
@@ -31,8 +29,6 @@ const ResetPassword = () => {
             Email: values.Email,
           }
         );
-
-        console.log(data.message);
 
         if (data.message == "تم إرسال الرسالة بنجاح") {
           toast.success(data.message);

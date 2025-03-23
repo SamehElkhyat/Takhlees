@@ -24,6 +24,24 @@ export default function CPanelCustomerService() {
       padding: "20px",
     },
   };
+
+    const GetId = async (id) => {
+      try {
+        const data = await axios.post(
+          `${process.env.REACT_APP_API_URL}/Get-ID`,
+          {
+            ID: id,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        window.location.href = "/ProfileUsers";
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+
   const Block = async (email) => {
     try {
       const { data } = await axios.post(
@@ -159,7 +177,7 @@ export default function CPanelCustomerService() {
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr key={index} className="bg-light">
+                <tr onClick={()=>GetId(customer.id)} key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>

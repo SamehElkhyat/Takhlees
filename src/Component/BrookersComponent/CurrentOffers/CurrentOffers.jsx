@@ -101,7 +101,6 @@ export default function CurrentOffers() {
           withCredentials: true,
         }
       );
-      console.log(data);
       setOrders2(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -159,8 +158,6 @@ export default function CurrentOffers() {
           withCredentials: true,
         }
       );
-      console.log(data);
-
       setTracking(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -175,9 +172,6 @@ export default function CurrentOffers() {
           withCredentials: true,
         }
       );
-
-      console.log(data);
-
       setOrders(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -192,17 +186,12 @@ export default function CurrentOffers() {
           withCredentials: true,
         }
       );
-      console.log(data);
-
       setCustomersOrders(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   };
 
-  const handleOrderClick = (id) => {
-    console.log(id);
-  };
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -229,7 +218,6 @@ export default function CurrentOffers() {
       setIsLoading(false);
       toast.success("تم تقديم الملاحظات بنجاح");
       setBar(null);
-      console.log("نجاح:", data);
     } catch (error) {
       toast.error(error.response.data.message);
       setIsLoading(false);
@@ -349,7 +337,7 @@ export default function CurrentOffers() {
                 return searchTerm === "" || order.id.includes(searchTerm);
               })
               .map((order) => (
-                <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
+                <tr key={order.id}>
                   <td>{order.date}</td>
                   <td>{order.location}</td>
                   <td>{order.id}</td>
@@ -467,7 +455,6 @@ export default function CurrentOffers() {
                   .map((order) => (
                     <tr
                       key={order.id}
-                      onClick={() => handleOrderClick(order.id)}
                     >
                       <td>{order.date}</td>
                       <td>{order.location}</td>
@@ -633,7 +620,7 @@ export default function CurrentOffers() {
                 {CustomersOrders.filter((order) => {
                   return searchTerm3 === "" || order.id.includes(searchTerm3);
                 }).map((order) => (
-                  <tr key={order.id} onClick={() => handleOrderClick(order.id)}>
+                  <tr key={order.id} >
                     <td>{order.date}</td>
                     <td>
                       {order.notes == null ? (

@@ -16,7 +16,7 @@ export default function StatisticsManger() {
       );
       setStatics(data);
     } catch (error) {
-      console.log(error);
+      
     }
   };
   const GetBrookers = async () => {
@@ -29,7 +29,7 @@ export default function StatisticsManger() {
       );
       setBrookers(data);
     } catch (error) {
-      console.log(error);
+      
     }
   };
   useEffect(() => {

@@ -1,15 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Box,
-} from "@mui/material";
-import { Toaster } from "react-hot-toast";
-import { Button, Card, Col } from "react-bootstrap";
+import { Box } from "@mui/material";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function ClientsManger() {
@@ -18,7 +11,8 @@ export default function ClientsManger() {
 
   const styles = {
     cards1: {
-      backgroundColor: Ishovered1 ? "#1ea9e2" : "white",
+      color: "black",
+      backgroundColor: "#B3D4FF",
       transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
@@ -28,6 +22,24 @@ export default function ClientsManger() {
       fontSize: "50px",
       padding: "20px",
     },
+  };
+  const GetId = async (id) => {
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_API_URL}/Get-ID`,
+        {
+          ID: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      window.location.href = "/ProfileUsers";
+    } catch (error) {
+      
+
+      toast.error(error.response.data.message);
+    }
   };
 
   const Block = async (email) => {
@@ -43,7 +55,6 @@ export default function ClientsManger() {
       );
       CustomerService();
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -60,7 +71,6 @@ export default function ClientsManger() {
       );
       CustomerService();
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -74,7 +84,6 @@ export default function ClientsManger() {
       );
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -84,20 +93,56 @@ export default function ClientsManger() {
 
   return (
     <>
-      <Box width="100%" textAlign="center" p={4}>
+      <Box className="justify-content-center" width="100%" textAlign="center" p={4}>
+      
+      <Row className="justify-content-center">
+      <Col md={3} sm={6} xs={12} className="Col1 mb-3 ">
+          <Link
+            className="text-white text-decoration-none"
+            to="/AllClientsManger"
+          >
+            <Card
+              style={styles.cards1}
+              onMouseLeave={() => setIshovered1(false)}
+              onMouseEnter={() => setIshovered1(true)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <i
+                  className=" fa-solid fa-tty text-black"
+                  style={styles.icons}
+                ></i>
+
+                <div className="content">
+                  <p>قم باداره العملاء</p>
+                </div>
+
+                <Card.Title>تفاصيل العملاء</Card.Title>
+                <Card.Text>الذهاب الي العملاء.</Card.Text>
+                <div className="info d-flex justify-content-end">
+                  <Button className="bg-black text-white border-none ">
+                    <ArrowRightAltIcon />
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Link>
+        </Col>
+      </Row>
+    
         <h1
           className="text-xl font-bold mb-4"
           style={{
             fontSize: "2rem",
             fontWeight: "700",
-            color: "#2c3e50",
+            color: "white",
             textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
             borderBottom: "3px solid #3498db",
             paddingBottom: "10px",
             width: "fit-content",
             margin: "0 auto 2rem auto",
             borderRadius: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "#4A6785",
             padding: "10px",
             border: "1px solid #3498db",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
@@ -114,100 +159,64 @@ export default function ClientsManger() {
         >
           العملاء
         </h1>
-        <Col
-          md={12}
-          sm={6}
-          xs={12}
-          className="mb-3 d-flex justify-content-center w-100"
-        >
-          <Card
-            style={styles.cards1}
-            onMouseLeave={() => setIshovered1(false)}
-            onMouseEnter={() => setIshovered1(true)}
-            className="shadow-lg"
-          >
-            <Card.Body>
-              <i
-                className="fa-solid fa-tty text-success"
-                style={styles.icons}
-              ></i>
 
-              <Card.Title>تفاصيل العملاء</Card.Title>
-              <Card.Text>الذهاب الي العملاء.</Card.Text>
-              <Button variant="success">
-                <Link
-                  className="text-white text-decoration-none"
-                  to="/AllClients"
+        <div className="table-responsive mt-3">
+          <table className="table table-bordered text-center shadow-sm">
+            <thead className="bg-white border">
+              <tr>
+                <th align="center">الاسم</th>
+                <th align="center">البريد الالكتروني</th>
+                <th align="center">رقم الهويه</th>
+                <th align="center">الهاتف</th>
+                <th align="center">حظر</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedOrder.map((customer, index) => (
+                <tr
+                  onClick={() => GetId(customer.id)}
+                  key={index}
+                  className="bg-light"
                 >
-                  الذهاب إلى جميع تفاصيل العملاء
-                </Link>
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Table style={{ marginTop: "20px", width: "100%" }}>
-          <TableHead
-            sx={{
-              backgroundColor: "white",
-              borderTop: "1px solid #e0e0e0",
-              borderBottom: "1px solid #e0e0e0",
-              borderLeft: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              borderRight: "1px solid #e0e0e0",
-              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <TableRow>
-              <TableCell align="center">الاسم</TableCell>
-              <TableCell align="center">البريد الالكتروني</TableCell>
-              <TableCell align="center">رقم الهويه</TableCell>
-              <TableCell align="center">الهاتف</TableCell>
-              <TableCell align="center">حظر</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedOrder.map((customer, index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.fullName}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.email}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.identity}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.phoneNumber}
-                </TableCell>
-                <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
-                  {customer.isBlocked ? (
-                    <>
-                      <Button
-                        onClick={() => UnBlock(customer.email)}
-                        className="bg-success text-black"
-                      >
-                        فك الحظر
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <Button
-                        onClick={() => Block(customer.email)}
-                        className="bg-danger text-black"
-                      >
-                        حظر
-                      </Button>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Toaster />
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.fullName}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.email}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.identity}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.phoneNumber}
+                  </td>
+                  <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
+                    {customer.isBlocked ? (
+                      <>
+                        <Button
+                          onClick={() => UnBlock(customer.email)}
+                          className="bg-success text-black"
+                        >
+                          فك الحظر
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        {" "}
+                        <Button
+                          onClick={() => Block(customer.email)}
+                          className="bg-danger text-black"
+                        >
+                          حظر
+                        </Button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Box>
     </>
   );

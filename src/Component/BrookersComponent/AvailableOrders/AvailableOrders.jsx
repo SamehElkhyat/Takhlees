@@ -19,7 +19,6 @@ export default function AvailableOrders() {
           withCredentials: true,
         }
       );
-      console.log(data);
 
       setData(data);
     } catch (error) {
@@ -29,7 +28,6 @@ export default function AvailableOrders() {
 
   const SendId = async () => {
     if (id == 0) {
-      console.log("error");
     } else {
       try {
         const req = await axios.post(

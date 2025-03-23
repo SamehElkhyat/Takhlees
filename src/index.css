@@ -15,12 +15,24 @@ code {
 .input-group:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
 }
-
 #Row-Landing-User {
   font-family: cairo;
-
 }
-
+#ToggleButtonValue{
+  background-color: #00982b;
+  margin: 10px;
+  color:white;
+  transition: all .1s ease-in-out;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+#ToggleButtonValue:hover{
+  background-color: #b90000;
+  margin: 10px;
+  color:white;
+  scale: .9;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
 /* تحسين تصميم البطاقة */
 .card {
   border-radius: 12px;
@@ -28,11 +40,9 @@ code {
   background-color: #ffffff;
   padding: 20px;
 }
-
 /* تنسيق العنوان الرئيسي */
 .card-header {
   background-color: #2c3e50 !important;
-  /* لون هادئ */
   color: #ffffff !important;
   font-size: 24px;
   font-weight: bold;
@@ -40,26 +50,22 @@ code {
   padding: 15px;
   border-radius: 12px 12px 0 0;
 }
-
 /* تحسين الجداول */
 .table {
   background-color: #f8f9fa;
   border-radius: 10px;
   overflow: hidden;
 }
-
 .table th {
   background-color: #3498db;
   color: #ffffff;
   text-align: center;
 }
-
 .table td {
   text-align: center;
   padding: 10px;
   font-size: 16px;
 }
-
 /* تحسين زر "تقديم العرض" */
 .button-custom {
   background-color: #27ae60 !important;

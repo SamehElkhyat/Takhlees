@@ -1,15 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -32,6 +23,23 @@ export default function CpanelAccountant() {
       padding: "20px",
     },
   };
+  const GetId = async (id) => {
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_API_URL}/Get-ID`,
+        {
+          ID: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      window.location.href = "/ProfileUsers";
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   const Block = async (email) => {
     try {
       const { data } = await axios.post(
@@ -164,7 +172,11 @@ export default function CpanelAccountant() {
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr key={index} className="bg-light">
+                <tr
+                  onClick={() => GetId(customer.id)}
+                  key={index}
+                  className="bg-light"
+                >
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>

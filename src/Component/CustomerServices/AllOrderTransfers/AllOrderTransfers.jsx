@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Box,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Box, TextField, Typography } from "@mui/material";
 import { Form, FormControl, InputGroup, Modal } from "react-bootstrap";
 
 import axios from "axios";
@@ -43,8 +38,6 @@ export default function AllOrderTransfers() {
   };
 
   const navigationToLandingpage = async () => {
-
-
     try {
       const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
         withCredentials: true,
@@ -52,10 +45,7 @@ export default function AllOrderTransfers() {
       setorder(data.data.id);
 
       setDecodedTokken(data.data.role);
-    } catch (error) {
-
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const getAllInformationBroker = async (BrokerId) => {
     try {
@@ -180,7 +170,7 @@ export default function AllOrderTransfers() {
 
   useEffect(() => {
     getAllAcceptedOrders();
-    navigationToLandingpage()
+    navigationToLandingpage();
   }, []);
 
   let formik = useFormik({

@@ -9,7 +9,7 @@ import {
   TableCell,
   Box,
 } from "@mui/material";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -31,6 +31,24 @@ export default function BrookersManger() {
       padding: "20px",
     },}
 
+
+    const GetId = async (id) => {
+      try {
+        const data = await axios.post(
+          `${process.env.REACT_APP_API_URL}/Get-ID`,
+          {
+            ID: id,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        window.location.href = "/ProfileUsers";
+      } catch (error) {  
+        toast.error(error.response.data.message);
+      }
+    };
+
   const Block = async (email) => {
     
     try {
@@ -46,7 +64,6 @@ export default function BrookersManger() {
       CustomerService();
 
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -66,7 +83,6 @@ export default function BrookersManger() {
 
 
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -77,12 +93,9 @@ export default function BrookersManger() {
         {
           withCredentials: true,
         }
-      );
-      console.log(data);
-      
+      );      
       setSelectedOrder(data);
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -176,7 +189,7 @@ export default function BrookersManger() {
           </TableHead>
           <TableBody>
             {selectedOrder.map((customer,index) => (
-              <TableRow sx={{ backgroundColor: "#f0f0f0" }} key={index}>
+              <TableRow onClick={()=>GetId(customer.id)} sx={{ backgroundColor: "#f0f0f0" }} key={index}>
                 <TableCell sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.fullName}
                 </TableCell>
