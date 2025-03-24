@@ -17,18 +17,26 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
+import axios from "axios";
 function Settings() {
   const [open, setOpen] = useState(true);
   const [Secton1, setSection1] = useState("empty");
   const [anchorEl, setAnchorEl] = useState(null);
-  const [DecodedTokken, setDecodedTokken] = useState();
+  const [DecodedTokken, setDecodedTokken] = useState({});
 
   const user = {
     avatar: "https://via.placeholder.com/150",
   };
 
+  const SignOut = async () => {
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Logout`, {
+        withCredentials: true,
+      });
+      window.location.href = "/SignIn";
+    } catch (error) {}
+  };
   const GetProfileItems = async () => {
     try {
       const { data } = await axios.get(
@@ -37,10 +45,9 @@ function Settings() {
           withCredentials: true,
         }
       );
-
       setDecodedTokken(data);
     } catch (error) {
-      setIsloading(false);
+      console.log(error);
     }
   };
   // فتح القائمة
@@ -56,7 +63,9 @@ function Settings() {
   const handleclick = () => {
     setOpen(!open);
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    GetProfileItems();
+  }, []);
   return (
     <>
       <div className="d-flex">
@@ -149,13 +158,13 @@ function Settings() {
                       {DecodedTokken.fullName}
                     </Typography>
                     <Typography variant="body1" sx={{ opacity: 0.9, mt: 1 }}>
-                      {DecodedTokken.Email} :البريد الإلكتروني
+                      {DecodedTokken.email} :البريد الإلكتروني
                     </Typography>
                     <Typography variant="body2" sx={{ opacity: 0.8, mt: 1 }}>
-                      {DecodedTokken.ID} :رقم المعرف
+                      {DecodedTokken.id} :رقم المعرف
                     </Typography>
                     <Typography variant="body2" sx={{ opacity: 0.8, mt: 1 }}>
-                      {DecodedTokken.Role} :المهنه
+                      {DecodedTokken.role} :المهنه
                     </Typography>
                     <Typography variant="body2" sx={{ opacity: 0.8, mt: 1 }}>
                       {DecodedTokken.phoneNumber} :الهاتف
@@ -183,7 +192,7 @@ function Settings() {
                         تعديل الملف
                       </Button>
                       <Button
-                        onClick={() => localStorage.removeItem("Tokken")}
+                        onClick={() => SignOut()}
                         variant="outlined"
                         startIcon={<LogoutIcon />}
                         sx={{
