@@ -36,32 +36,7 @@ const SignIn = () => {
       if (data.message == "تم تسجيل الدخول بنجاح") {
         toast.success(data.message);
         setIsloading(false);
-        setInterval(() => {
-          switch (data.data) {
-            case "User":
-            case "Company":
-              return navigate("/LandingPageForUsers");
-
-            case "Admin":
-              return navigate("/LandingPageAdmin");
-
-            case "Account":
-              return navigate("/AccountantLandingPage");
-
-            case "CustomerService":
-              return navigate("/LandingPageCustomeService");
-
-            case "Broker":
-              return navigate("/BrookersLandingPage");
-
-            case "Manager":
-              return navigate("/LandingPageManger");
-
-            default:
-              console.warn("Unknown user role:", data.data);
-              return navigate("/");
-          }
-        }, 1000);
+        navigate("/ActiveEmail")
       } else {
         toast.error(data.message);
         setIsloading(false);

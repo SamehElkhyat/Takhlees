@@ -1,46 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
-import { toast } from "react-toastify";
 import ships from "../ships.png";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Tty } from "@mui/icons-material";
-
 const ActiveEmail = () => {
   const [Token, setToken] = useState(null);
   const navigate = useNavigate();
 
   const SendCode = async (values) => {
- 
-     
-    
+    console.log(values);
+
     try {
-      const response = await axios.post(
+      const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/VerifyCode`,
         {
           Code: values.Code,
-          typeOfGenerate: Token,
+          typeOfGenerate: "VerifyLogin",
         },
         {
           withCredentials: true,
         }
       );
-      toast.success(response.data.message);
-      
-
-      if (response.status == 200) {
-        setTimeout(() => {
-          switch (Token) {
-            case "VerifyUserEmail":
+      toast.success(data.message);
+      if (data.message == "تم تأكيد الكود بنجاح") {
+        setInterval(() => {
+          switch (data.data) {
+            case "User":
+            case "Company":
               return navigate("/LandingPageForUsers");
+            case "Admin":
+              return navigate("/LandingPageAdmin");
 
-            case "VerifyCompanyEmail":
-              return navigate("/LandingPageForUsers");
+            case "Account":
+              return navigate("/AccountantLandingPage");
 
-            case "VerifyBrokerEmail":
+            case "CustomerService":
+              return navigate("/LandingPageCustomeService");
+
+            case "Broker":
               return navigate("/BrookersLandingPage");
+
+            case "Manager":
+              return navigate("/LandingPageManger");
 
             default:
               console.warn("Unknown user role:", data.data);
@@ -93,6 +95,7 @@ const ActiveEmail = () => {
           </form>
         </div>
       </div>
+      <Toaster />
     </>
   );
 };

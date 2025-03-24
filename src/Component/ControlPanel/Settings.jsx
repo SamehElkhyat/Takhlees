@@ -19,6 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useEffect } from "react";
 import axios from "axios";
+
 function Settings() {
   const [open, setOpen] = useState(true);
   const [Secton1, setSection1] = useState("empty");
