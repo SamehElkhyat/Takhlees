@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function CpanelAccountant() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
+  const navigate = useNavigate();
 
   const styles = {
     cards1: {
@@ -23,23 +24,6 @@ export default function CpanelAccountant() {
       padding: "20px",
     },
   };
-  const GetId = async (id) => {
-    try {
-      const data = await axios.post(
-        `${process.env.REACT_APP_API_URL}/Get-ID`,
-        {
-          ID: id,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      window.location.href = "/ProfileUsers";
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
   const Block = async (email) => {
     try {
       const { data } = await axios.post(
@@ -173,7 +157,7 @@ export default function CpanelAccountant() {
             <tbody>
               {selectedOrder.map((customer, index) => (
                 <tr
-                  onClick={() => GetId(customer.id)}
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
                   key={index}
                   className="bg-light"
                 >

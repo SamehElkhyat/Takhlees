@@ -33,6 +33,10 @@ code {
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
+#Button-Block-groupe{
+
+  z-index: 999999999999;
+}
 /* تحسين تصميم البطاقة */
 .card {
   border-radius: 12px;

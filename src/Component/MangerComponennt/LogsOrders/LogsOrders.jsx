@@ -41,10 +41,7 @@ function LogsOrders() {
         window.location.href = "/DetailsForAdmin";
       
     } catch (error) {
-      
-      
-      // toast.error(error.response.data.message);
-    }
+      }
   };
   useEffect(() => {
     AllOrders();

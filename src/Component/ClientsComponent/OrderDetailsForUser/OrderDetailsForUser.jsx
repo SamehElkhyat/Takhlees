@@ -2,12 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export default function OrderDetailsForUser() {
   const [data, setdata] = useState([]);
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
   const [error, seterror] = useState(null);
+  let params = useParams();
 
   const FilesName = {
     commerce: [
@@ -67,12 +69,10 @@ export default function OrderDetailsForUser() {
   const SendValue = async () => {
     try {
       const data = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-all-Values`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-all-Values/${params.id}`,
 
-        
         {
           withCredentials: true,
-          
         }
       );
       if (JSON.stringify(data.data) !== JSON.stringify(allOrders)) {
@@ -92,8 +92,7 @@ export default function OrderDetailsForUser() {
           Value: value,
           BrokerID: BrokerId,
           ID: NewId[0],
-        }
-        ,
+        },
         {
           withCredentials: true,
         }
@@ -113,13 +112,12 @@ export default function OrderDetailsForUser() {
   const getOrders = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Details`,
-        
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Details/${params.id}`,
+
         {
           withCredentials: true,
         }
       );
-
 
       setdata(data);
     } catch (error) {
@@ -177,7 +175,7 @@ export default function OrderDetailsForUser() {
                               <></>
                             ) : (
                               <>
-                                 <h5 className="text-black pt-3 ">
+                                <h5 className="text-black pt-3 ">
                                   معلومات النقل
                                 </h5>
                                 <tr>
@@ -280,11 +278,11 @@ export default function OrderDetailsForUser() {
                                   }}
                                   onMouseEnter={(e) => {
                                     e.target.style.transform =
-                                      "scale(1.2) rotate(-10deg)"; 
+                                      "scale(1.2) rotate(-10deg)";
                                   }}
                                   onMouseLeave={(e) => {
                                     e.target.style.transform =
-                                      "scale(1) rotate(0deg)"; 
+                                      "scale(1) rotate(0deg)";
                                   }}
                                 ></i>
                               </th>
@@ -298,7 +296,7 @@ export default function OrderDetailsForUser() {
               </>
             )}
 
-            {NewAllfile.length > 3 && ( 
+            {NewAllfile.length > 3 && (
               <tr>
                 <td colSpan="3">
                   <button
@@ -311,7 +309,7 @@ export default function OrderDetailsForUser() {
                       cursor: "pointer",
                     }}
                   >
-                     إضافة ملف إضافي
+                    إضافة ملف إضافي
                   </button>
                 </td>
               </tr>

@@ -112,133 +112,129 @@ export default function statistics() {
           إحصائيات النظام
         </h2>
         <Container className="text-center mt-5">
-
-        <Row className="justify-content-center">
-          <Col md={3} sm={6} xs={12} className="mb-3 Col1">
-            <Link className="text-white text-decoration-none">
-              <Card
-                style={styles.cards1}
-                onMouseLeave={() => setIshovered1(false)}
-                onMouseEnter={() => setIshovered1(true)}
-                className="shadow-lg"
-              >
-                <Card.Body>
-                  <i style={styles.icons} className="fas fa-users"></i>
-
-                  <Card.Title>إجمالي العملاء</Card.Title>
-                  <Card.Text>الذهاب الي المخلصين.</Card.Text>
-                  <p
-                    style={{
-                      fontSize: "24px", // حجم الخط كبير وواضح
-                      fontWeight: "900", // خط قوي جدًا
-                      color: "red", // اللون الأسود
-                      textAlign: "center", // محاذاة في المنتصف (اختياري)
-                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
-                    }}
-                  >
-                    عميل {Statics.countAllUsers}
-                  </p>
-                </Card.Body>
-              </Card>
-            </Link>
-          </Col>
-
-          <Col md={3} sm={6} xs={12} className="mb-3 Col2">
-            <Link className="text-white text-decoration-none" >
-              <Card
-                style={styles.cards2}
-                onMouseEnter={() => setIshovered2(true)}
-                onMouseLeave={() => setIshovered2(false)}
-                className="shadow-lg"
-              >
-                <div className="content">
-                  <p>قم بإداره العملاء</p>
-                </div>
-                <Card.Body>
-                  <i style={styles.icons} className="fas fa-clipboard-list"></i>
-                  <Card.Title>الطلبات النشطه</Card.Title>
-                  <Card.Text>في طور المعالجه</Card.Text>
-                  <p
-                    style={{
-                      fontSize: "24px", // حجم الخط كبير وواضح
-                      fontWeight: "900", // خط قوي جدًا
-                      color: "red", // اللون الأسود
-                      textAlign: "center", // محاذاة في المنتصف (اختياري)
-                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
-                    }}
-                  >
-                    عميل {Statics.countActiveOrders}
-                  </p>
-                </Card.Body>
-              </Card>
-            </Link>
-          </Col>
-          <Col md={3} sm={6} xs={12} className="mb-3 Col5">
-            <Link className="text-white text-decoration-none">
-              <Card
-                style={styles.cards3}
-                onMouseEnter={() => setIshovered3(true)}
-                onMouseLeave={() => setIshovered3(false)}
-                className="shadow-lg"
-              >
-                <div className="content">
-                  <p>عرض إحصائيات الموقع بالكامل</p>
-                </div>
-                <Card.Body>
-                  <i style={styles.icons} className="fas fa-check-circle"></i>
-                  <Card.Title>الطلبات المكتمله</Card.Title>
-                  <Card.Text>هذا العام</Card.Text>
-                  <p
-                    style={{
-                      fontSize: "24px", // حجم الخط كبير وواضح
-                      fontWeight: "900", // خط قوي جدًا
-                      color: "red", // اللون الأسود
-                      textAlign: "center", // محاذاة في المنتصف (اختياري)
-                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
-                    }}
-                  >
-                    {Statics.countDoneOrders}
-                  </p>
-                </Card.Body>
-              </Card>
-            </Link>
-          </Col>
-
-          <Col md={3} sm={6} xs={12} className="mb-3 Col6">
-            <Link className="text-white text-decoration-none">
-              <Card
-                style={styles.cards4}
-                onMouseEnter={() => setIshovered4(true)}
-                onMouseLeave={() => setIshovered4(false)}
-                className="shadow-lg"
-              >
-                <div className="content">
-                  <p>عرض وإداره المحظوريين</p>
-                </div>
-                <Card.Body>
-                  <i style={styles.icons} className="fas fa-dollar-sign"></i>
-                  <Card.Title>الايرادات</Card.Title>
-                  <p
-                    style={{
-                      fontSize: "24px", // حجم الخط كبير وواضح
-                      fontWeight: "900", // خط قوي جدًا
-                      color: "red", // اللون الأسود
-                      textAlign: "center", // محاذاة في المنتصف (اختياري)
-                      letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
-                    }}
-                  >
-                    {Statics.exports}
-                    <Card.Text>ريال سعودي</Card.Text>
-
-                  </p>
-                </Card.Body>
-              </Card>
-            </Link>
-          </Col>
-        </Row>
+          <Row className="justify-content-center">
+            <Col md={3} sm={6} xs={12} className="mb-3 Col1">
+              <Link className="text-white text-decoration-none">
+                <Card
+                  style={styles.cards1}
+                  onMouseLeave={() => setIshovered1(false)}
+                  onMouseEnter={() => setIshovered1(true)}
+                  className="shadow-lg"
+                >
+                  <Card.Body>
+                    <i style={styles.icons} className="fas fa-users"></i>
+                    <Card.Title>إجمالي العملاء</Card.Title>
+                    <Card.Text>الذهاب الي المخلصين.</Card.Text>
+                    <p
+                      style={{
+                        fontSize: "24px", // حجم الخط كبير وواضح
+                        fontWeight: "900", // خط قوي جدًا
+                        color: "red", // اللون الأسود
+                        textAlign: "center", // محاذاة في المنتصف (اختياري)
+                        letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                      }}
+                    >
+                      عميل {Statics.countAllUsers}
+                    </p>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
+            <Col md={3} sm={6} xs={12} className="mb-3 Col2">
+              <Link className="text-white text-decoration-none">
+                <Card
+                  style={styles.cards2}
+                  onMouseEnter={() => setIshovered2(true)}
+                  onMouseLeave={() => setIshovered2(false)}
+                  className="shadow-lg"
+                >
+                  <div className="content">
+                    <p>قم بإداره العملاء</p>
+                  </div>
+                  <Card.Body>
+                    <i
+                      style={styles.icons}
+                      className="fas fa-clipboard-list"
+                    ></i>
+                    <Card.Title>الطلبات النشطه</Card.Title>
+                    <Card.Text>في طور المعالجه</Card.Text>
+                    <p
+                      style={{
+                        fontSize: "24px", // حجم الخط كبير وواضح
+                        fontWeight: "900", // خط قوي جدًا
+                        color: "red", // اللون الأسود
+                        textAlign: "center", // محاذاة في المنتصف (اختياري)
+                        letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                      }}
+                    >
+                      عميل {Statics.countActiveOrders}
+                    </p>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
+            <Col md={3} sm={6} xs={12} className="mb-3 Col5">
+              <Link className="text-white text-decoration-none">
+                <Card
+                  style={styles.cards3}
+                  onMouseEnter={() => setIshovered3(true)}
+                  onMouseLeave={() => setIshovered3(false)}
+                  className="shadow-lg"
+                >
+                  <div className="content">
+                    <p>عرض إحصائيات الموقع بالكامل</p>
+                  </div>
+                  <Card.Body>
+                    <i style={styles.icons} className="fas fa-check-circle"></i>
+                    <Card.Title>الطلبات المكتمله</Card.Title>
+                    <Card.Text>هذا العام</Card.Text>
+                    <p
+                      style={{
+                        fontSize: "24px", // حجم الخط كبير وواضح
+                        fontWeight: "900", // خط قوي جدًا
+                        color: "red", // اللون الأسود
+                        textAlign: "center", // محاذاة في المنتصف (اختياري)
+                        letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                      }}
+                    >
+                      {Statics.countDoneOrders}
+                    </p>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
+            <Col md={3} sm={6} xs={12} className="mb-3 Col6">
+              <Link className="text-white text-decoration-none">
+                <Card
+                  style={styles.cards4}
+                  onMouseEnter={() => setIshovered4(true)}
+                  onMouseLeave={() => setIshovered4(false)}
+                  className="shadow-lg"
+                >
+                  <div className="content">
+                    <p>عرض وإداره المحظوريين</p>
+                  </div>
+                  <Card.Body>
+                    <i style={styles.icons} className="fas fa-dollar-sign"></i>
+                    <Card.Title>الايرادات</Card.Title>
+                    <p
+                      style={{
+                        fontSize: "24px", // حجم الخط كبير وواضح
+                        fontWeight: "900", // خط قوي جدًا
+                        color: "red", // اللون الأسود
+                        textAlign: "center", // محاذاة في المنتصف (اختياري)
+                        letterSpacing: "1px", // توسيع بسيط بين الحروف لمظهر أوضح
+                      }}
+                    >
+                      {Statics.exports}
+                      <Card.Text>ريال سعودي</Card.Text>
+                    </p>
+                  </Card.Body>
+                </Card>
+              </Link>
+            </Col>
+          </Row>
         </Container>
-
-
         <div className="row mt-5">
           <div className="col-md-12">
             <div className="card border-0 shadow-sm">
@@ -286,7 +282,6 @@ export default function statistics() {
                       <tr className="w-100 text-center" key={index}>
                         <td>{item.fullName}</td>
                         <td>{item.email}</td>
-
                         <td>
                           {
                             <td>
@@ -354,7 +349,6 @@ export default function statistics() {
                             </td>
                           }
                         </td>
-
                         <td>{item.count}</td>
                       </tr>
                     ))}

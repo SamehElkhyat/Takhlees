@@ -1,14 +1,14 @@
 import * as React from "react";
 import { ToggleButton } from "@mui/material";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Table, Form, Card, Modal, Button } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Permissions() {
   const [users, setUsers] = useState([]);
   const [premisionsarr, setPremisionsarr] = useState([]);
-
   const [Bar, setBar] = useState(null);
   const [OrderId, setOrderId] = useState(null);
   const [Premetions, setPremetions] = useState(null);
@@ -21,7 +21,6 @@ export default function Permissions() {
     Tracing: false,
     BlackList: false,
   });
-
   const MangerPrimetions = [];
 
   const handleToggle = (e) => {
@@ -43,35 +42,22 @@ export default function Permissions() {
     MangerPrimetions.push(e.target.value);
   };
 
-  const Premissions = async () => {
-
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL}/Get-Permissions`,
-        {
-          withCredentials: true,
-        }
-      );
-      setPremisionsarr(data);
-
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+  const GetId = (index, OrderId) => {
+    setOrderId(OrderId);
+    setBar(index);
+    Premissions(OrderId);
   };
 
-  const GetId = async (index, OrderId) => {
+  const Premissions = async (id) => {
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/Get-ID`,
-        { ID: OrderId },
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL}/Get-Permissions/${id}`,
         {
           withCredentials: true,
         }
       );
-      setOrderId(OrderId);
-      setBar(index);
-      await Premissions();
 
+      setPremisionsarr(data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -100,7 +86,6 @@ export default function Permissions() {
   };
 
   const DeletePremetions = async (value) => {
-
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/Delete-Permissions`,
@@ -230,7 +215,6 @@ export default function Permissions() {
               <Modal.Title className="fs-3 fw-bold text-success w-100 text-center d-flex justify-content-center align-items-center">
                 تخصيص صلاحيات المدير
               </Modal.Title>
-
               <ToggleButton
                 value="accountant"
                 selected={selectedPermissions.accountant}
@@ -280,7 +264,6 @@ export default function Permissions() {
               >
                 تأكيد لتخصيص صلاحيات المدير
               </Button>
-
               <Modal.Title className="fs-3 fw-bold text-success w-100 text-center d-flex justify-content-center align-items-center">
                 تخصيصات المدير
               </Modal.Title>

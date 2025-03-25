@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function CPanelCustomerServiceManger() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
+  const navigate = useNavigate();
 
   const styles = {
     cards1: {
@@ -21,23 +22,6 @@ export default function CPanelCustomerServiceManger() {
       fontSize: "50px",
       padding: "20px",
     },
-  };
-  const GetId = async (id) => {
-    try {
-      const data = await axios.post(
-        `${process.env.REACT_APP_API_URL}/Get-ID`,
-        {
-          ID: id,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      window.location.href = "/ProfileUsers";
-    } catch (error) {
-
-      toast.error(error.response.data.message);
-    }
   };
   const Block = async (email) => {
     try {
@@ -176,7 +160,7 @@ export default function CPanelCustomerServiceManger() {
             <tbody>
               {selectedOrder.map((customer, index) => (
                 <tr
-                  onClick={() => GetId(customer.id)}
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
                   key={index}
                   className="bg-light"
                 >

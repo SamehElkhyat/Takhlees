@@ -10,12 +10,13 @@ import {
 } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function Brookers() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
+  const navigate = useNavigate();
 
   const styles = {
     cards1: {
@@ -48,22 +49,6 @@ export default function Brookers() {
     }
   };
 
-  const GetId = async (id) => {
-    try {
-      const data = await axios.post(
-        `${process.env.REACT_APP_API_URL}/Get-ID`,
-        {
-          ID: id,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      window.location.href = "/ProfileUsers";
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
 
   const UnBlock = async (email) => {
     try {
@@ -184,7 +169,7 @@ export default function Brookers() {
             <TableBody>
               {selectedOrder.map((customer, index) => (
                 <TableRow
-                  onClick={() => GetId(customer.id)}
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
                   className="bg-light"
                   key={index}
                 >

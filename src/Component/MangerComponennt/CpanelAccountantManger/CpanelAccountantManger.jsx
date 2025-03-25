@@ -15,7 +15,7 @@ export default function CpanelAccountantManger() {
     cards1: {
       color: "black",
       backgroundColor: "#B3D4FF",
-            transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
+      transform: Ishovered1 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered1 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
@@ -38,8 +38,7 @@ export default function CpanelAccountantManger() {
         }
       );
       CustomerService();
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const UnBlock = async (email) => {
@@ -54,28 +53,8 @@ export default function CpanelAccountantManger() {
         }
       );
       CustomerService();
-    } catch (error) {
-    }
+    } catch (error) {}
   };
-
-      const GetId = async (id) => {
-        try {
-          const data = await axios.post(
-            `${process.env.REACT_APP_API_URL}/Get-ID`,
-            {
-              ID: id,
-            },
-            {
-              withCredentials: true,
-            }
-          );
-          window.location.href = "/ProfileUsers";
-        } catch (error) {
-          
-    
-          toast.error(error.response.data.message);
-        }
-      };
 
   const CustomerService = async () => {
     try {
@@ -86,8 +65,7 @@ export default function CpanelAccountantManger() {
         }
       );
       setSelectedOrder(data);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -125,11 +103,11 @@ export default function CpanelAccountantManger() {
 
                   <Card.Title>تفاصيل المحاسبين</Card.Title>
                   <Card.Text>الذهاب الي المحاسبين.</Card.Text>
-                    <div className="info d-flex justify-content-end">
-                      <Button className="bg-black text-white border-none ">
-                        <ArrowRightAltIcon />
-                      </Button>
-                    </div>
+                  <div className="info d-flex justify-content-end">
+                    <Button className="bg-black text-white border-none ">
+                      <ArrowRightAltIcon />
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </Link>
@@ -180,7 +158,7 @@ export default function CpanelAccountantManger() {
             <tbody>
               {selectedOrder.map((customer, index) => (
                 <tr
-                  onClick={() => GetId(customer.id)}
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
                   key={index}
                   className="bg-light"
                 >

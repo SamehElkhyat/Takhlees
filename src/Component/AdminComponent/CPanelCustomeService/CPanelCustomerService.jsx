@@ -5,12 +5,13 @@ import {
 } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function CPanelCustomerService() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
+  const navigate = useNavigate();
 
   const styles = {
     cards1: {
@@ -177,7 +178,7 @@ export default function CPanelCustomerService() {
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr onClick={()=>GetId(customer.id)} key={index} className="bg-light">
+                <tr onClick={()=>navigate(`/ProfileUsers/${customer.id}`)} key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>

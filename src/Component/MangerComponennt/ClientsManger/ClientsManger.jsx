@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ClientsManger() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
+  const navigate = useNavigate();
 
   const styles = {
     cards1: {
@@ -174,7 +175,7 @@ export default function ClientsManger() {
             <tbody>
               {selectedOrder.map((customer, index) => (
                 <tr
-                  onClick={() => GetId(customer.id)}
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
                   key={index}
                   className="bg-light"
                 >

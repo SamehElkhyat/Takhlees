@@ -1,31 +1,16 @@
 import { Button } from "@mui/material";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export default function OrderDetails() {
   const [data, setdata] = useState([]);
   const [cost, setcost] = useState();
   const [allOrders, setallOrders] = useState([]);
   const [error, seterror] = useState([]);
-  const [Rating, setRating] = useState();
-  const [IsLoading, setIsLoading] = useState(false);
-  const [DecodedTokken, setDecodedTokken] = useState();
-
-
-   const navigationToLandingpage = async () => {
-  
-      try {
-        const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
-          withCredentials: true,
-        });
-        setDecodedTokken(data.data.role);
-      } catch (error) {
-
-      }
-    };
+  let params = useParams();
 
   const FilesName = {
     commerce: [
@@ -85,7 +70,6 @@ export default function OrderDetails() {
   };
 
   const SendValue = async (cost, orderValue) => {
-
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Apply-Order`,
@@ -105,13 +89,12 @@ export default function OrderDetails() {
     }
   };
 
-  const mathmatecis = () => {
-  };
+  const mathmatecis = () => {};
 
   const getValue = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-all-Values`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-all-Values/${params.id}`,
         {
           withCredentials: true,
         }
@@ -128,7 +111,7 @@ export default function OrderDetails() {
   const getOrders = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Details`,
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-Details/${params.id}`,
         {
           withCredentials: true,
         }
@@ -144,15 +127,10 @@ export default function OrderDetails() {
     setcost(value.target.value);
   };
   useEffect(() => {
-    navigationToLandingpage()
     getValue();
     getOrders();
-
   }, []);
 
-  useEffect(() => {
-    mathmatecis();
-  }, []);
   return (
     <>
       <div className="container mt-5">
@@ -382,7 +360,7 @@ export default function OrderDetails() {
                       <>
                         {allOrders.map((item, i) => (
                           <>
-                            <tr className="text-center">
+                            <tr key={i} className="text-center">
                               <td>{item.brokerID}</td>
                               <td>
                                 <span className="text-warning">
@@ -459,39 +437,27 @@ export default function OrderDetails() {
                   </tbody>
                 </Table>
 
-                {DecodedTokken ? (
-                  <>
-                    {DecodedTokken === "Admin" ? (
-                      <></>
-                    ) : (
-                      <>
-                        <div className="mt-4">
-                          <h5 className="text-black mb-3">تقديم عرض جديد</h5>
-                          <div className="input-group mb-3">
-                            <input
-                              onChange={(e) => handleChange(e)}
-                              type="number"
-                              className="form-control"
-                              placeholder="ادخل سعر العرض بالريال"
-                              aria-label="سعر العرض"
-                            />
-                            <Button
-                              onClick={() => {
-                                SendValue(cost, NewId[0]);
-                              }}
-                              variant="contained"
-                            >
-                              {" "}
-                              تقديم العرض
-                            </Button>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <></>
-                )}
+                <div className="mt-4">
+                  <h5 className="text-black mb-3">تقديم عرض جديد</h5>
+                  <div className="input-group mb-3">
+                    <input
+                      onChange={(e) => handleChange(e)}
+                      type="number"
+                      className="form-control"
+                      placeholder="ادخل سعر العرض بالريال"
+                      aria-label="سعر العرض"
+                    />
+                    <Button
+                      onClick={() => {
+                        SendValue(cost, NewId[0]);
+                      }}
+                      variant="contained"
+                    >
+                      {" "}
+                      تقديم العرض
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

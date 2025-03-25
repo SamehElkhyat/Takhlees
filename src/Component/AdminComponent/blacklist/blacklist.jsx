@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 export default function Blacklist() {
   const [selectedOrder, setSelectedOrder] = useState([]);
+  const navigate = useNavigate();
 
   const Block = async (email) => {
     try {
@@ -18,24 +20,6 @@ export default function Blacklist() {
       );
       GetBlackList();
     } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  const GetId = async (id) => {
-    try {
-      const data = await axios.post(
-        `${process.env.REACT_APP_API_URL}/Get-ID`,
-        {
-          ID: id,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      window.location.href = "/ProfileUsers";
-    } catch (error) {
-
       toast.error(error.response.data.message);
     }
   };
@@ -122,7 +106,7 @@ export default function Blacklist() {
             <tbody>
               {selectedOrder.map((customer, index) => (
                 <tr
-                  onClick={() => GetId(customer.id)}
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
                   key={index}
                   className="bg-light"
                 >

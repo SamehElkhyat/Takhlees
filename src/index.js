@@ -120,7 +120,7 @@ const router = createBrowserRouter([
 
       //Brooker //
       { path: "historyOfOrders", element: <HistoryOfOrders /> },
-      { path: "orderDetails", element: <OrderDetails /> },
+      { path: "orderDetails/:id", element: <OrderDetails /> },
       { path: "brookersLandingPage", element: <BrookersLandingPage /> },
       { path: "availableOrders", element: <AvailableOrders /> },
       { path: "brookersCart", element: <BrookersCart /> },
@@ -136,24 +136,26 @@ const router = createBrowserRouter([
       { path: "NewOrder", element: <NewOrderForm /> },
       { path: "LandingPageForUsers", element: <LandingPageForUsers /> },
       { path: "Orders", element: <PendingOrders /> },
-      { path: "OrderDetailsForUser", element: <OrderDetailsForUser /> },
+      { path: "OrderDetailsForUser/:id", element: <OrderDetailsForUser /> },
       { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
       { path: "DoneOrdersForUser", element: <DoneOrdersForUser /> },
       { path: "HistoryOfOrdersUsers", element: <HistoryOfOrdersUsers /> },
       //*//
 
       //* Admin//
-      { path: "DetailsForAdmin", element: <DetailsForAdmin /> },
+      { path: "DetailsForAdmin/:id", element: <DetailsForAdmin /> },
       { path: "CPanelCustomerService", element: <CPanelCustomerService /> },
       { path: "CpanelAccountant", element: <CpanelAccountant /> },
+      { path: "permissions/:id", element: <Permissions /> },
       { path: "permissions", element: <Permissions /> },
+
       { path: "statistics", element: <Statistics /> },
       { path: "Clients", element: <Clients /> },
       { path: "blackList", element: <Blacklist /> },
       { path: "brookers", element: <Brookers /> },
       { path: "AllClients", element: <AllClients /> },
       { path: "LandingPageAdmin", element: <LandingPageAdmin /> },
-      { path: "ProfileUsers", element: <ProfileUsers /> },
+      { path: "ProfileUsers/:id", element: <ProfileUsers /> },
 
       //*//
 

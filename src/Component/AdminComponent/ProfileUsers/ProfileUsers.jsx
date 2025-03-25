@@ -10,23 +10,26 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function ProfileUsers() {
-    const user = {
-        avatar: "https://via.placeholder.com/150",
-      };
+  let params = useParams();
 
-    const [DATA, setDATA] = useState({})
+  const user = {
+    avatar: "https://via.placeholder.com/150",
+  };
+
+  const [DATA, setDATA] = useState({});
   const GetProfile = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL}/Profile-Show-Admin`,
+        `${process.env.REACT_APP_API_URL}/Profile-Show-Admin/${params.id}`,
         {
           withCredentials: true,
         }
       );
-      
+
       setDATA(data);
     } catch (error) {
       toast.error(error.response.data.message);

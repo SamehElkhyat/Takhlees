@@ -12,12 +12,13 @@ import {
 } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 export default function Clients() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const [Ishovered1, setIshovered1] = useState(false);
+  const navigate = useNavigate();
 
   const styles = {
     cards1: {
@@ -49,23 +50,6 @@ export default function Clients() {
       toast.error(error.response.data.message);
     }
   };
-    const GetId = async (id) => {
-      try {
-        const data = await axios.post(
-          `${process.env.REACT_APP_API_URL}/Get-ID`,
-          {
-            ID: id,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        window.location.href = "/ProfileUsers";
-      } catch (error) {
-        
-        toast.error(error.response.data.message);
-      }
-    };
 
   const UnBlock = async (email) => {
     try {
@@ -92,7 +76,7 @@ export default function Clients() {
           withCredentials: true,
         }
       );
-      
+
       setSelectedOrder(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -175,11 +159,13 @@ export default function Clients() {
                 <th>رقم الهوية</th>
                 <th>الهاتف</th>
                 <th>حظر</th>
+                <th>تفاصيل المستخدم</th>
+
               </tr>
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr onClick={()=>GetId(customer.id)} key={index} className="bg-light">
+                <tr key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>
@@ -187,6 +173,7 @@ export default function Clients() {
                   <td>
                     {customer.isBlocked ? (
                       <button
+                        id="Button-Block-groupe"
                         onClick={() => UnBlock(customer.email)}
                         className="btn btn-success text-black"
                       >
@@ -194,12 +181,22 @@ export default function Clients() {
                       </button>
                     ) : (
                       <button
+                        id="Button-Block-groupe"
                         onClick={() => Block(customer.email)}
-                        className="btn btn-danger text-black"
+                        className="btn z-index-9999 btn-danger text-black"
                       >
                         حظر
                       </button>
                     )}
+                  </td>
+                  <td>
+                    {" "}
+                    <button
+                      onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
+                      className="btn btn-primary text-white"
+                    >
+                      تفاصيل المستخدم
+                    </button>
                   </td>
                 </tr>
               ))}

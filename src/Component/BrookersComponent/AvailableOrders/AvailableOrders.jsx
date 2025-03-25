@@ -4,12 +4,15 @@ import { useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function AvailableOrders() {
   const [date, setDate] = useState(null);
   const [data, setData] = useState(null);
   const [id, setid] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const GetOrder = async () => {
     try {
@@ -26,28 +29,9 @@ export default function AvailableOrders() {
     }
   };
 
-  const SendId = async () => {
-    if (id == 0) {
-    } else {
-      try {
-        const req = await axios.post(
-          `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-ID`,
-          { ID: id },
-          {
-            withCredentials: true,
-          }
-        );
-        if (req.status == 200) {
-          window.location.href = "/OrderDetails";
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    }
-  };
+
   useEffect(() => {
     const t = moment();
-    SendId();
     GetOrder();
     setDate(t.format("MMM Do YYYY | h:mm"));
   }, [id]);
@@ -121,7 +105,7 @@ export default function AvailableOrders() {
                     return searchTerm === "" || order.id.includes(searchTerm);
                   })
                   .map((order) => (
-                    <tr key={order.id} onClick={() => setid(order.id)}>
+                    <tr key={order.id} onClick={() => navigate(`/orderDetails/${order.id}`)}>
                       <td>{order.date}</td>
                       <td>{order.location}</td>
                       <td>{order.id}</td>

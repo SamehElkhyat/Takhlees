@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 export default function OrderDetails() {
 
   const [Data, setData] = useState([])
+  let params = useParams();
+
     const HistoryOrders = async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_API_URL_MICROSERVICE3}/Logs`,
+          `${process.env.REACT_APP_API_URL_MICROSERVICE3}/Logs/${params.id}`,
           {
             withCredentials: true,
           }
