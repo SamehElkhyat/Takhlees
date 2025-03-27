@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./NavBar.css";
 import Logo from "../NavBar/LOGO-H.png";
-import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -13,28 +12,25 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import toast from "react-hot-toast";
 import axios from "axios";
+import { eventEmitter } from "../eventEmitter";
 const NavBar = () => {
   const [Token, setToken] = useState(null);
   const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+  const navigate = useNavigate();
+
   const navigationToLandingpage = async () => {
     try {
       const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
         withCredentials: true,
       });
-      if (JSON.stringify(data.data) !== JSON.stringify(Token)) {
-        return setToken(data.data);
+           setToken(data.data);
 
-      }
-    } catch (error) {
-      (false);
-
-      
-    }
+ 
+    } catch (error) {}
   };
 
   const SignOut = async () => {
@@ -42,11 +38,10 @@ const NavBar = () => {
       const data = await axios.get(`${process.env.REACT_APP_API_URL}/Logout`, {
         withCredentials: true,
       });
-      window.location.href = "/SignIn";
-    } catch (error) {
-
-      
-    }
+      navigationToLandingpage();
+      setToken(null);
+      navigate("/SignIn");
+    } catch (error) {}
   };
 
   let DrawerListEdit = () => {
@@ -57,12 +52,19 @@ const NavBar = () => {
     };
   };
   useEffect(() => {
-    navigationToLandingpage();
-  }, [Token]);
+    navigationToLandingpage()
+      // الاستماع للحدث
+      eventEmitter.on("dataUpdated", navigationToLandingpage);
+  
+      // تنظيف الحدث عند إزالة الكومبوننت
+      return () => {
+        eventEmitter.off("dataUpdated", navigationToLandingpage);
+      };
+    }, []);
   return (
     <>
       <Drawer
-        className="position-absolute z-index-9999999999990011111111111111111"
+        className="position-absolute z-index-99999999999"
         open={open}
         onClose={toggleDrawer(false)}
       >
@@ -161,7 +163,7 @@ const NavBar = () => {
                       <ListItemButton>
                         <ListItemText
                           onClick={() => {
-                            SignOut()
+                            SignOut();
                           }}
                           primary={"تسجيل الخروج"}
                         />
@@ -193,7 +195,7 @@ const NavBar = () => {
                       <ListItemButton>
                         <ListItemText
                           onClick={() => {
-                            SignOut()
+                            SignOut();
                           }}
                           primary={"تسجيل الخروج"}
                         />

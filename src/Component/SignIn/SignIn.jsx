@@ -34,9 +34,11 @@ const SignIn = () => {
       );
 
       if (data.message == "تم تسجيل الدخول بنجاح") {
+        
         toast.success(data.message);
+
         setIsloading(false);
-        navigate("/ActiveEmail")
+        navigate("/ActiveEmail");
       } else {
         toast.error(data.message);
         setIsloading(false);

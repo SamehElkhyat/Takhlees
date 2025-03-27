@@ -4,6 +4,9 @@ import axios from "axios";
 import ships from "../ships.png";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { eventEmitter } from "../../eventEmitter";
+
+
 const ActiveEmail = () => {
   const [Token, setToken] = useState(null);
   const navigate = useNavigate();
@@ -24,7 +27,8 @@ const ActiveEmail = () => {
       );
       toast.success(data.message);
       if (data.message == "تم تأكيد الكود بنجاح") {
-        setInterval(() => {
+        eventEmitter.emit("dataUpdated")
+                setInterval(() => {
           switch (data.data) {
             case "User":
             case "Company":
