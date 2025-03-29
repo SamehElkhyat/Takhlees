@@ -38,7 +38,7 @@ const SignIn = () => {
         toast.success(data.message);
 
         setIsloading(false);
-        navigate("/ActiveEmail");
+        window.location.href = "/ActiveEmail";
       } else {
         toast.error(data.message);
         setIsloading(false);

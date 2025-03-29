@@ -20,6 +20,8 @@ const NavBar = () => {
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+  const [userLink, setUserLink] = useState(null);
+
   const navigate = useNavigate();
 
   const navigationToLandingpage = async () => {
@@ -27,9 +29,36 @@ const NavBar = () => {
       const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
         withCredentials: true,
       });
-           setToken(data.data);
+      setToken(data.data);
+      let link;
 
- 
+      switch (data.data.role) {
+        case "User":
+          link = "/LandingPageForUsers";
+          break;
+        case "Admin":
+          link = "/LandingPageAdmin";
+          break;
+        case "Company":
+          link = "/LandingPageForUsers";
+          break;
+        case "Account":
+          link = "/AccountantLandingPage";
+          break;
+        case "CustomerService":
+          link = "/LandingPageCustomeService";
+          break;
+        case "Broker":
+          link = "/BrookersLandingPage";
+          break;
+        case "Manager":
+          link = "/LandingPageManger";
+          break;
+        default:
+          link = null;
+      }
+
+      setUserLink(link);
     } catch (error) {}
   };
 
@@ -52,15 +81,14 @@ const NavBar = () => {
     };
   };
   useEffect(() => {
-    navigationToLandingpage()
-      // الاستماع للحدث
-      eventEmitter.on("dataUpdated", navigationToLandingpage);
-  
-      // تنظيف الحدث عند إزالة الكومبوننت
-      return () => {
-        eventEmitter.off("dataUpdated", navigationToLandingpage);
-      };
-    }, []);
+    navigationToLandingpage();
+    // الاستماع للحدث
+    eventEmitter.on("dataUpdated", navigationToLandingpage);
+    // تنظيف الحدث عند إزالة الكومبوننت
+    return () => {
+      eventEmitter.off("dataUpdated", navigationToLandingpage);
+    };
+  }, []);
   return (
     <>
       <Drawer
@@ -220,7 +248,7 @@ const NavBar = () => {
 
           {Token == null ? (
             <>
-              {" "}
+              {console.log(Token)}
               <div className="Items-NavBar">
                 <ul className="nav-menu">
                   <li className="nav-item">
@@ -247,57 +275,10 @@ const NavBar = () => {
               </Button>
 
               <li className="nav-item d-flex flex-row align-items-center justify-content-start">
-                {Token.role === "User" ? (
-                  <Link to="/LandingPageForUsers" className="nav-link">
-                    {Token.fullName}
-                    <i className="m-2 fa-solid fa-toolbox"></i>
-                  </Link>
-                ) : Token.role === "Admin" ? (
-                  <>
-                    <Link to="/LandingPageAdmin" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.role === "Company" ? (
-                  <>
-                    <Link to="/LandingPageForUsers" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.role === "Account" ? (
-                  <>
-                    {" "}
-                    <Link to="/AccountantLandingPage" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.role === "CustomerService" ? (
-                  <>
-                    <Link to="/LandingPageCustomeService" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.role === "Broker" ? (
-                  <>
-                    <Link to="/BrookersLandingPage" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : Token.role === "Manager" ? (
-                  <>
-                    <Link to="/LandingPageManger" className="nav-link">
-                      {Token.fullName}
-                      <i className="m-2 fa-solid fa-toolbox"></i>
-                    </Link>
-                  </>
-                ) : (
-                  <></>
-                )}
+                <Link to={userLink} className="nav-link">
+                  {Token.fullName}
+                  <i className="m-2 fa-solid fa-toolbox"></i>
+                </Link>
               </li>
             </>
           )}

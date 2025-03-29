@@ -6,14 +6,11 @@ import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { eventEmitter } from "../../eventEmitter";
 
-
 const ActiveEmail = () => {
   const [Token, setToken] = useState(null);
   const navigate = useNavigate();
 
   const SendCode = async (values) => {
-    console.log(values);
-
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/VerifyCode`,
@@ -27,26 +24,26 @@ const ActiveEmail = () => {
       );
       toast.success(data.message);
       if (data.message == "تم تأكيد الكود بنجاح") {
-        eventEmitter.emit("dataUpdated")
-                setInterval(() => {
+        eventEmitter.emit("dataUpdated");
+        setInterval(() => {
           switch (data.data) {
             case "User":
             case "Company":
-              return navigate("/LandingPageForUsers");
+              return (window.location.href = "/LandingPageForUsers");
             case "Admin":
-              return navigate("/LandingPageAdmin");
+              return (window.location.href = "/LandingPageAdmin");
 
             case "Account":
-              return navigate("/AccountantLandingPage");
+              return (window.location.href = "/AccountantLandingPage");
 
             case "CustomerService":
-              return navigate("/LandingPageCustomeService");
+              return (window.location.href = "/LandingPageCustomeService");
 
             case "Broker":
-              return navigate("/BrookersLandingPage");
+              return (window.location.href = "/BrookersLandingPage");
 
             case "Manager":
-              return navigate("/LandingPageManger");
+              return (window.location.href = "/LandingPageManger");
 
             default:
               console.warn("Unknown user role:", data.data);
