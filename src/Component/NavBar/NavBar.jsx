@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./NavBar.css";
 import Logo from "../NavBar/LOGO-H.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -14,12 +14,15 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { eventEmitter } from "../eventEmitter";
+
 const NavBar = () => {
   const [Token, setToken] = useState(null);
   const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
+  const location = useLocation();
+
   const [userLink, setUserLink] = useState(null);
 
   const navigate = useNavigate();
@@ -29,36 +32,44 @@ const NavBar = () => {
       const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
         withCredentials: true,
       });
-      setToken(data.data);
-      let link;
 
-      switch (data.data.role) {
-        case "User":
-          link = "/LandingPageForUsers";
-          break;
-        case "Admin":
-          link = "/LandingPageAdmin";
-          break;
-        case "Company":
-          link = "/LandingPageForUsers";
-          break;
-        case "Account":
-          link = "/AccountantLandingPage";
-          break;
-        case "CustomerService":
-          link = "/LandingPageCustomeService";
-          break;
-        case "Broker":
-          link = "/BrookersLandingPage";
-          break;
-        case "Manager":
-          link = "/LandingPageManger";
-          break;
-        default:
-          link = null;
+      if (
+        location.pathname == "/ActiveEmail" ||
+        location.pathname == "/SignIn"
+      ) {
+        setToken(null);
+      } else {
+        setToken(data.data);
+        let link;
+
+        switch (data.data.role) {
+          case "User":
+            link = "/LandingPageForUsers";
+            break;
+          case "Admin":
+            link = "/LandingPageAdmin";
+            break;
+          case "Company":
+            link = "/LandingPageForUsers";
+            break;
+          case "Account":
+            link = "/AccountantLandingPage";
+            break;
+          case "CustomerService":
+            link = "/LandingPageCustomeService";
+            break;
+          case "Broker":
+            link = "/BrookersLandingPage";
+            break;
+          case "Manager":
+            link = "/LandingPageManger";
+            break;
+          default:
+            link = null;
+        }
+
+        setUserLink(link);
       }
-
-      setUserLink(link);
     } catch (error) {}
   };
 

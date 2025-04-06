@@ -159,13 +159,15 @@ export default function Clients() {
                 <th>رقم الهوية</th>
                 <th>الهاتف</th>
                 <th>حظر</th>
-                <th>تفاصيل المستخدم</th>
-
               </tr>
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr key={index} className="bg-light">
+                <tr
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
+                  key={index}
+                  className="bg-light"
+                >
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>
@@ -188,15 +190,6 @@ export default function Clients() {
                         حظر
                       </button>
                     )}
-                  </td>
-                  <td>
-                    {" "}
-                    <button
-                      onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
-                      className="btn btn-primary text-white"
-                    >
-                      تفاصيل المستخدم
-                    </button>
                   </td>
                 </tr>
               ))}
