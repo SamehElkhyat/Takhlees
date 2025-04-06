@@ -13,6 +13,11 @@ export default function LandingPageAdmin() {
   const [Ishovered6, setIshovered6] = useState(false);
   const [Ishovered7, setIshovered7] = useState(false);
   const [Ishovered8, setIshovered8] = useState(false);
+  const [Ishovered9, setIshovered9] = useState(false);
+  const [Ishovered10, setIshovered10] = useState(false);
+  const [Ishovered11, setIshovered11] = useState(false);
+  const [Ishovered12, setIshovered12] = useState(false);
+
   const [DecodedTokken, setDecodedTokken] = useState();
 
   const navigationToLandingpage = async () => {
@@ -78,10 +83,38 @@ export default function LandingPageAdmin() {
     },
     cards8: {
       borderRadius: "12px",
-      backgroundColor: "#FAFAF8",
+      backgroundColor: "#B3D4FF",
       transform: Ishovered8 ? "scale(1.1)" : "scale(1)",
       transition: "all 0.3s ease",
       boxShadow: Ishovered8 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards9: {
+      borderRadius: "12px",
+      backgroundColor: "#F5E6CC",
+      transform: Ishovered9 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered9 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards10: {
+      borderRadius: "12px",
+      backgroundColor: "#CDEDE6",
+      transform: Ishovered10 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered10 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards11: {
+      borderRadius: "12px",
+      backgroundColor: "#EAEBCB",
+      transform: Ishovered11 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered11 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
+    },
+    cards12: {
+      borderRadius: "12px",
+      backgroundColor: "#F5E6CC",
+      transform: Ishovered12 ? "scale(1.1)" : "scale(1)",
+      transition: "all 0.3s ease",
+      boxShadow: Ishovered12 ? "0px 4px 10px rgba(0, 0, 0, 0.2)" : "none",
     },
     icons: {
       fontSize: "50px",
@@ -366,6 +399,114 @@ export default function LandingPageAdmin() {
                 ></i>
                 <Card.Title>متابعه الطلبات</Card.Title>
                 <Card.Text>عرض وإدارة سجل الطلبات .</Card.Text>
+                <div className="info d-flex justify-content-end">
+                  <Button className="bg-black text-white border-none ">
+                    <ArrowRightAltIcon />
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Link>
+        </Col>
+        <Col md={3} sm={6} xs={12} className="mb-3 Col9">
+          <Link className="text-white text-decoration-none" to="/Mangers">
+            <Card
+              style={styles.cards9}
+              onMouseEnter={() => setIshovered9(true)}
+              onMouseLeave={() => setIshovered9(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <div className="content">
+                  <p> المديريين</p>
+                </div>
+                <i
+                  style={styles.icons}
+                  className="fa-solid fa-person-walking-arrow-right"
+                ></i>
+                <Card.Title>إداره المديرين </Card.Title>
+                <Card.Text>عرض وإدارة المديرين .</Card.Text>
+                <div className="info d-flex justify-content-end">
+                  <Button className="bg-black text-white border-none ">
+                    <ArrowRightAltIcon />
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Link>
+        </Col>
+        <Col md={3} sm={6} xs={12} className="mb-3 Col10">
+          <Link className="text-white text-decoration-none" to="/FormResponse">
+            <Card
+              style={styles.cards10}
+              onMouseEnter={() => setIshovered10(true)}
+              onMouseLeave={() => setIshovered10(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <div className="content">
+                  <p> الشكاوي والاقتراحات</p>
+                </div>
+                <i
+                  style={styles.icons}
+                  className="fa-solid fa-bug"
+                ></i>
+                <Card.Title>عرض الشكاوي </Card.Title>
+                <Card.Text>عرض وإدارة الشكاوي .</Card.Text>
+                <div className="info d-flex justify-content-end">
+                  <Button className="bg-black text-white border-none ">
+                    <ArrowRightAltIcon />
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Link>
+        </Col>
+        <Col md={3} sm={6} xs={12} className="mb-3 Col11">
+          <Link className="text-white text-decoration-none" to="/ExpiredOrders">
+            <Card
+              style={styles.cards11}
+              onMouseEnter={() => setIshovered11(true)}
+              onMouseLeave={() => setIshovered11(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <div className="content">
+                  <p>الطلبات المنتهيه</p>
+                </div>
+                <i
+                  style={styles.icons}
+                  className="fa-solid fa-person-walking-arrow-right"
+                ></i>
+                <Card.Title>إداره الطلبات المنتهيه</Card.Title>
+                <Card.Text>عرض وإدارة الطلبات المنتهيه .</Card.Text>
+                <div className="info d-flex justify-content-end">
+                  <Button className="bg-black text-white border-none ">
+                    <ArrowRightAltIcon />
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Link>
+        </Col>
+        <Col md={3} sm={6} xs={12} className="mb-3 Col12">
+          <Link className="text-white text-decoration-none" to="/Mangers">
+            <Card
+              style={styles.cards12}
+              onMouseEnter={() => setIshovered12(true)}
+              onMouseLeave={() => setIshovered12(false)}
+              className="shadow-lg"
+            >
+              <Card.Body>
+                <div className="content">
+                  <p> المديريين</p>
+                </div>
+                <i
+                  style={styles.icons}
+                  className="fa-solid fa-person-walking-arrow-right"
+                ></i>
+                <Card.Title>إداره المديرين </Card.Title>
+                <Card.Text>عرض وإدارة المديرين .</Card.Text>
                 <div className="info d-flex justify-content-end">
                   <Button className="bg-black text-white border-none ">
                     <ArrowRightAltIcon />

@@ -1,41 +1,66 @@
-import { Box, Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-function LogsOrders() {
+export default function FormResopnse() {
   const [selectedOrder, setSelectedOrder] = useState([]);
-  let navigate =useNavigate()
+  const navigate = useNavigate();
 
-  const AllOrders = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders-For-Admin`,
-        { withCredentials: true }
-      );
-
-      
-      setSelectedOrder(data);
-    } catch (error) {
-      
-    }
-  };
-
-  const HistoryOrders = async () => {
+  const Block = async (email) => {
     try {
       const { data } = await axios.post(
-        `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
-        { withCredentials: true }
+        `${process.env.REACT_APP_API_URL}/Blocked`,
+        {
+          Email: email,
+        },
+        {
+          withCredentials: true,
+        }
       );
+      CustomerService();
     } catch (error) {
-      
+      toast.error(error.response.data.message);
     }
   };
 
+  const UnBlock = async (email) => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL}/Unblocked`,
+        {
+          Email: email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      CustomerService();
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const CustomerService = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_URL_MICROSERVICE4}/Get-Form`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      
+
+      setSelectedOrder(data);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   useEffect(() => {
-    AllOrders();
+    CustomerService();
   }, []);
 
   return (
@@ -68,35 +93,30 @@ function LogsOrders() {
             },
           }}
         >
-          الطلبات
+          الشكاوي
         </h1>
 
         <div className="table-responsive mt-3">
           <table className="table table-bordered text-center shadow-sm">
             <thead className="bg-white border">
               <tr>
-                <th>رقم الطلب</th>
-                <th>موقع الطلب</th>
-                <th>التاريخ</th>
-                <th>الحاله</th>
-                <th>سجل الطلب</th>
+                <th>الاسم</th>
+                <th>البريد الالكتروني</th>
+                <th>الهاتف</th>
+                <th>الرساله</th>
               </tr>
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr key={index} className="bg-light">
-                  <td>{customer.id}</td>
-                  <td>{customer.location}</td>
-                  <td>{customer.date}</td>
-                  <td>{customer.statuOrder}</td>
-                  <td className="bg-success text-white">
-                    <Button
-                      className="text-white"
-                      onClick={() => navigate(`/DetailsForAdmin/${customer.id}`)}
-                    >
-                      عرض سجل الطلب
-                    </Button>
-                  </td>
+                <tr
+                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
+                  key={index}
+                  className="bg-light"
+                >
+                  <td>{customer.fullName}</td>
+                  <td>{customer.email}</td>
+                  <td>{customer.phoneNumber}</td>
+                  <td>{customer.message}</td>
                 </tr>
               ))}
             </tbody>
@@ -108,5 +128,3 @@ function LogsOrders() {
     </>
   );
 }
-
-export default LogsOrders;

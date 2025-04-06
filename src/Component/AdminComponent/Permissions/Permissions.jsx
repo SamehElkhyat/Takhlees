@@ -4,7 +4,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, Form, Card, Modal, Button } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 export default function Permissions() {
   const [users, setUsers] = useState([]);
@@ -13,6 +12,7 @@ export default function Permissions() {
   const [OrderId, setOrderId] = useState(null);
   const [Premetions, setPremetions] = useState(null);
   const [IsLoading, setIsLoading] = useState(false);
+
   const [selectedPermissions, setSelectedPermissions] = useState({
     accountant: false,
     CustomerService: false,
@@ -56,7 +56,6 @@ export default function Permissions() {
           withCredentials: true,
         }
       );
-
       setPremisionsarr(data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -85,9 +84,11 @@ export default function Permissions() {
     }
   };
 
+
   const DeletePremetions = async (value) => {
+
     try {
-      const { data } = await axios.post(
+      const data = await axios.post(
         `${process.env.REACT_APP_API_URL}/Delete-Permissions`,
         {
           ID: OrderId,
@@ -98,6 +99,7 @@ export default function Permissions() {
         }
       );
       toast(data.message);
+      setPremisionsarr(data.data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -244,6 +246,13 @@ export default function Permissions() {
                 اداره العملاء
               </ToggleButton>
               <ToggleButton
+                value="Manger"
+                selected={selectedPermissions.Clients}
+                onChange={(e) => handleToggle(e)}
+              >
+                اداره المديرين
+              </ToggleButton>
+              <ToggleButton
                 value="Tracing"
                 selected={selectedPermissions.Tracing}
                 onChange={(e) => handleToggle(e)}
@@ -269,9 +278,10 @@ export default function Permissions() {
               </Modal.Title>
               {premisionsarr.map((item) => (
                 <>
-                  {item.type == "CustomerService" ? (
+                  {item == "CustomerService" ? (
                     <>
                       <ToggleButton
+                        onClick={(e) => DeletePremetions(e)}
                         className="position-relative"
                         id="ToggleButtonValue"
                         value="CustomerService"
@@ -280,9 +290,10 @@ export default function Permissions() {
                         اداره خدمه العملاء
                       </ToggleButton>
                     </>
-                  ) : item.type == "Statestics" ? (
+                  ) : item == "Statestics" ? (
                     <>
                       <ToggleButton
+                        onClick={(e) => DeletePremetions(e)}
                         className="position-relative"
                         id="ToggleButtonValue"
                         value="Statestics"
@@ -291,9 +302,22 @@ export default function Permissions() {
                         الاطلاع علي الاحصائيات
                       </ToggleButton>
                     </>
-                  ) : item.type == "Clients" ? (
+                  ) : item == "accountant" ? (
                     <>
                       <ToggleButton
+                        onClick={(e) => DeletePremetions(e)}
+                        className="position-relative"
+                        id="ToggleButtonValue"
+                        value="accountant"
+                        selected={selectedPermissions.Statestics}
+                      >
+                        إداره المحاسبين
+                      </ToggleButton>
+                    </>
+                  ) : item == "Clients" ? (
+                    <>
+                      <ToggleButton
+                        onClick={(e) => DeletePremetions(e)}
                         className="position-relative"
                         id="ToggleButtonValue"
                         value="Clients"
@@ -302,9 +326,10 @@ export default function Permissions() {
                         اداره العملاء
                       </ToggleButton>
                     </>
-                  ) : item.type == "BlackList" ? (
+                  ) : item == "BlackList" ? (
                     <>
                       <ToggleButton
+                        onClick={(e) => DeletePremetions(e)}
                         className="position-relative"
                         id="ToggleButtonValue"
                         value="BlackList"
@@ -313,7 +338,7 @@ export default function Permissions() {
                         الاطلاع علي المحظورين
                       </ToggleButton>
                     </>
-                  ) : item.type == "Tracing" ? (
+                  ) : item == "Tracing" ? (
                     <>
                       <ToggleButton
                         onClick={(e) => DeletePremetions(e)}
@@ -323,6 +348,18 @@ export default function Permissions() {
                         selected={selectedPermissions.Tracing}
                       >
                         متابعه الطلبات
+                      </ToggleButton>
+                    </>
+                  ) : item == "Manger" ? (
+                    <>
+                      <ToggleButton
+                        onClick={(e) => DeletePremetions(e)}
+                        className="position-relative"
+                        id="ToggleButtonValue"
+                        value="Manger"
+                        selected={selectedPermissions.Manger}
+                      >
+                        إداره المديرين 
                       </ToggleButton>
                     </>
                   ) : (

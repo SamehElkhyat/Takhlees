@@ -1,41 +1,29 @@
-import { Box, Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-function LogsOrders() {
+export default function ExpiredOrders() {
   const [selectedOrder, setSelectedOrder] = useState([]);
-  let navigate =useNavigate()
+  const navigate = useNavigate();
 
-  const AllOrders = async () => {
+  const CustomerService = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Get-All-Orders-For-Admin`,
-        { withCredentials: true }
+        `${process.env.REACT_APP_API_URL_MICROSERVICE2}/Orders-Expired-Date`,
+        {
+          withCredentials: true,
+        }
       );
-
-      
       setSelectedOrder(data);
     } catch (error) {
-      
+      toast.error(error.response.data.message);
     }
   };
-
-  const HistoryOrders = async () => {
-    try {
-      const { data } = await axios.post(
-        `${REACT_APP_API_URL_MICROSERVICE3}/Logs`,
-        { withCredentials: true }
-      );
-    } catch (error) {
-      
-    }
-  };
-
 
   useEffect(() => {
-    AllOrders();
+    CustomerService();
   }, []);
 
   return (
@@ -68,35 +56,29 @@ function LogsOrders() {
             },
           }}
         >
-          الطلبات
+          الطلبات المنتهيه
         </h1>
 
         <div className="table-responsive mt-3">
           <table className="table table-bordered text-center shadow-sm">
             <thead className="bg-white border">
               <tr>
-                <th>رقم الطلب</th>
-                <th>موقع الطلب</th>
-                <th>التاريخ</th>
-                <th>الحاله</th>
-                <th>سجل الطلب</th>
+                <th>الرقم المعرف</th>
+                <th>الوقت</th>
+                <th>العنوان</th>
               </tr>
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr key={index} className="bg-light">
+                <tr
+                  // onClick={() => navigate(`/OrderDetailsForUser/${customer.id}`)}
+                  key={index}
+                  className="bg-light"
+                >
                   <td>{customer.id}</td>
-                  <td>{customer.location}</td>
                   <td>{customer.date}</td>
-                  <td>{customer.statuOrder}</td>
-                  <td className="bg-success text-white">
-                    <Button
-                      className="text-white"
-                      onClick={() => navigate(`/DetailsForAdmin/${customer.id}`)}
-                    >
-                      عرض سجل الطلب
-                    </Button>
-                  </td>
+                  <td>{customer.location}</td>
+
                 </tr>
               ))}
             </tbody>
@@ -108,5 +90,3 @@ function LogsOrders() {
     </>
   );
 }
-
-export default LogsOrders;

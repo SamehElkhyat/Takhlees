@@ -188,9 +188,12 @@ const NavBar = () => {
                       </Link>
                     </ListItem>
                     <ListItem key={"text7"} disablePadding>
-                      <ListItemButton>
+                      <Link to='/ContactForm'>
+                        <ListItemButton>
                         <ListItemText primary={"التواصل معنا"} />
                       </ListItemButton>
+                      </Link>
+                    
                     </ListItem>
                     <ListItem key={"text8"} disablePadding>
                       <ListItemButton>
@@ -220,10 +223,13 @@ const NavBar = () => {
                         </ListItemButton>
                       </Link>
                     </ListItem>
-                    <ListItem key={"text2"} disablePadding>
-                      <ListItemButton>
+                    <ListItem key={"text7"} disablePadding>
+                      <Link to='/ContactForm'>
+                        <ListItemButton>
                         <ListItemText primary={"التواصل معنا"} />
                       </ListItemButton>
+                      </Link>
+                    
                     </ListItem>
                     <ListItem key={"text3"} disablePadding>
                       <ListItemButton>
