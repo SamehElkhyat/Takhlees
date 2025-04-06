@@ -93,7 +93,7 @@ export default function FormResopnse() {
             },
           }}
         >
-          الشكاوي
+           الشكاوي والاقتراحات
         </h1>
 
         <div className="table-responsive mt-3">
@@ -109,7 +109,6 @@ export default function FormResopnse() {
             <tbody>
               {selectedOrder.map((customer, index) => (
                 <tr
-                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
                   key={index}
                   className="bg-light"
                 >
