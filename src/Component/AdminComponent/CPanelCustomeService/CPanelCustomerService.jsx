@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Card, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,22 +24,22 @@ export default function CPanelCustomerService() {
     },
   };
 
-    const GetId = async (id) => {
-      try {
-        const data = await axios.post(
-          `${process.env.REACT_APP_API_URL}/Get-ID`,
-          {
-            ID: id,
-          },
-          {
-            withCredentials: true,
-          }
-        );
-        window.location.href = "/ProfileUsers";
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    };
+  const GetId = async (id) => {
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_API_URL}/Get-ID`,
+        {
+          ID: id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      window.location.href = "/ProfileUsers";
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   const Block = async (email) => {
     try {
@@ -128,11 +126,7 @@ export default function CPanelCustomerService() {
           خدمه العملاء
         </h5>
 
-        <div
-          className="
-   d-flex justify-content-center
-   "
-        >
+        <div className="d-flex justify-content-center">
           <Col md={3} sm={12} xs={12} className="Col1 mb-3">
             <Link
               className="text-white text-decoration-none"
@@ -173,16 +167,27 @@ export default function CPanelCustomerService() {
                 <th>البريد الالكتروني</th>
                 <th>رقم الهوية</th>
                 <th>الهاتف</th>
+                <th>عرض الملف الشخصي</th>
+
                 <th>حظر</th>
               </tr>
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr onClick={()=>navigate(`/ProfileUsers/${customer.id}`)} key={index} className="bg-light">
+                <tr key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>
                   <td>{customer.phoneNumber}</td>
+                  <td>
+                    <Button
+                      onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
+                      className="btn btn-primary text-white"
+                    >
+                      عرض الملف الشخصي
+                    </Button>
+                  </td>
+
                   <td>
                     {customer.isBlocked ? (
                       <button

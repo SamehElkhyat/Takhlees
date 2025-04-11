@@ -34,7 +34,6 @@ const SignIn = () => {
       );
 
       if (data.message == "تم تسجيل الدخول بنجاح") {
-        
         toast.success(data.message);
 
         setIsloading(false);
@@ -60,15 +59,13 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="background-img-frame"></div>
       <img className="Signin-Background" src={SignInBackground} alt="" />
-      <div className="dad-SignIn-Frame w-100 h-100">
-        <div className="SignIn-Frame"></div>
-      </div>
+
 
       <div className="sign-in-container">
-        <h2>تسجيل الدخول</h2>
-        <form onSubmit={formik.handleSubmit} noValidate>
+        <form className="form-container" onSubmit={formik.handleSubmit} noValidate>
+        <h2 className="form-container-h2">تسجيل الدخول</h2>
+
           <div className="form-group-company">
             <hr />
             <input
@@ -109,7 +106,6 @@ const SignIn = () => {
             {Isloading == true ? (
               <>
                 <Button
-                  variant=""
                   className="bg-black d-flex text-white justify-content-end"
                 >
                   <Spinner

@@ -49,7 +49,6 @@ export default function Brookers() {
     }
   };
 
-
   const UnBlock = async (email) => {
     try {
       const { data } = await axios.post(
@@ -163,16 +162,14 @@ export default function Brookers() {
                   رقم الهوية
                 </TableCell>
                 <TableCell className="text-center fw-bold">الهاتف</TableCell>
+                <TableCell className="text-center fw-bold">الملف الشخصي</TableCell>
+
                 <TableCell className="text-center fw-bold">الإجراء</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {selectedOrder.map((customer, index) => (
-                <TableRow
-                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
-                  className="bg-light"
-                  key={index}
-                >
+                <TableRow className="bg-light" key={index}>
                   <TableCell className="text-center align-middle">
                     {customer.fullName}
                   </TableCell>
@@ -184,6 +181,14 @@ export default function Brookers() {
                   </TableCell>
                   <TableCell className="text-center align-middle">
                     {customer.phoneNumber}
+                  </TableCell>
+                  <TableCell className="text-center align-middle">
+                    <Button
+                      onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
+                      className="btn btn-primary text-white"
+                    >
+                      عرض الملف الشخصي
+                    </Button>
                   </TableCell>
                   <TableCell className="text-center align-middle">
                     {customer.isBlocked ? (

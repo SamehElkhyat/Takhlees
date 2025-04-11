@@ -5,6 +5,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./index.css";
+import { store } from "./Component/Redux/Store/Store.js";
+import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Component/Layout/Layout";
 import LandingPage from "./Component/LandingPage/LandingPage";
@@ -68,6 +70,7 @@ import Mangers from "./Component/AdminComponent/Manegers/Mangers.jsx";
 import FormResopnse from "./Component/AdminComponent/FormResponse/FormResponse.jsx";
 import ExpiredOrders from "./Component/AdminComponent/ExpiredOrders/ExpiredOrders.jsx";
 import ContactForm from "./Component/Form/Form.jsx";
+import ActiveAccount from "./Component/AdminComponent/ActiveAccount/ActiveAccount.jsx";
 
 const router = createBrowserRouter([
   {
@@ -84,14 +87,14 @@ const router = createBrowserRouter([
       { path: "BrookersManger", element: <BrookersManger /> },
       { path: "ClientsManger", element: <ClientsManger /> },
       { path: "CpanelAccountantManger", element: <CpanelAccountantManger /> },
-      { path: "CPanelCustomeServiceManger", element: <CPanelCustomerServiceManger />},
+      {
+        path: "CPanelCustomeServiceManger",
+        element: <CPanelCustomerServiceManger />,
+      },
       { path: "LandingPageManger", element: <LandingPageManger /> },
       { path: "StatisticsManger", element: <StatisticsManger /> },
       { path: "Tables", element: <CustomTable /> },
       { path: "LogsOrders", element: <LogsOrders /> },
-
-      // //
-
       // make Account//
       { path: "SignIn", element: <SignIn /> },
       { path: "SignUp", element: <SignUp /> },
@@ -102,15 +105,10 @@ const router = createBrowserRouter([
       { path: "mokhalseen", element: <Mokhalseen /> },
       { path: "IntorSignUp", element: <IntorSignUp /> },
       { path: "IntorSignIn", element: <IntorSignIn /> },
-      // //
-
       // Accountant //
       { path: "AccountantLandingPage", element: <AccountantLandingPage /> },
       { path: "AcceptedOrderAccountant", element: <AcceptedOrderAccountant /> },
       { path: "HistoryDoneOrder", element: <HistoryDoneOrder /> },
-
-      // //
-
       // CustomeServices//
       { path: "DoneOrders", element: <DoneOrders /> },
       { path: "canceledOrders", element: <CanceledOrders /> },
@@ -120,8 +118,6 @@ const router = createBrowserRouter([
         path: "LandingPageCustomeService",
         element: <LandingPageCustomeService />,
       },
-      // //
-
       //Brooker //
       { path: "historyOfOrders", element: <HistoryOfOrders /> },
       { path: "orderDetails/:id", element: <OrderDetails /> },
@@ -129,10 +125,8 @@ const router = createBrowserRouter([
       { path: "availableOrders", element: <AvailableOrders /> },
       { path: "brookersCart", element: <BrookersCart /> },
       { path: "currentOffers", element: <CurrentOffers /> },
-      // //
       //*USER//
       { path: "ContactForm", element: <ContactForm /> },
-
       { path: "Tracking", element: <Tracking /> },
       { path: "ActiveEmail", element: <ActiveEmail /> },
       { path: "UserPayment", element: <UserPayment /> },
@@ -144,9 +138,8 @@ const router = createBrowserRouter([
       { path: "CurrentOrdersForUsers", element: <CurrentOrdersForUsers /> },
       { path: "DoneOrdersForUser", element: <DoneOrdersForUser /> },
       { path: "HistoryOfOrdersUsers", element: <HistoryOfOrdersUsers /> },
-      //*//
-
       //* Admin//
+      { path: "ActiveAccount", element: <ActiveAccount /> },
       { path: "DetailsForAdmin/:id", element: <DetailsForAdmin /> },
       { path: "CPanelCustomerService", element: <CPanelCustomerService /> },
       { path: "CpanelAccountant", element: <CpanelAccountant /> },
@@ -162,19 +155,18 @@ const router = createBrowserRouter([
       { path: "AllClients", element: <AllClients /> },
       { path: "LandingPageAdmin", element: <LandingPageAdmin /> },
       { path: "ProfileUsers/:id", element: <ProfileUsers /> },
-
+      //* cpanel//
+      { path: "Settings", element: <Settings /> },
       //*//
-
-
-
-            //* cpanel//
-            { path: "Settings", element: <Settings /> },
-            
-            //*//
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(<RouterProvider router={router} />);
+root.render(
+<Provider store={store}>
+
+<RouterProvider router={router} />
+    </Provider>
+);

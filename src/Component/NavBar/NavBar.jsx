@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import "./NavBar.css";
 import Logo from "../NavBar/LOGO-H.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -13,10 +14,15 @@ import {
   ListItemText,
 } from "@mui/material";
 import axios from "axios";
+import { GetDataApi } from "../Redux/Features/Slice/GetDataApiReducer";
 import { eventEmitter } from "../eventEmitter";
 
 const NavBar = () => {
-  const [Token, setToken] = useState(null);
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const [userProfile, setuserProfile] = useState(null);
   const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -25,52 +31,38 @@ const NavBar = () => {
 
   const [userLink, setUserLink] = useState(null);
 
-  const navigate = useNavigate();
-
   const navigationToLandingpage = async () => {
-    try {
-      const data = await axios.get(`${process.env.REACT_APP_API_URL}/Profile`, {
-        withCredentials: true,
-      });
-
-      if (
-        location.pathname == "/ActiveEmail" ||
-        location.pathname == "/SignIn"
-      ) {
-        setToken(null);
-      } else {
-        setToken(data.data);
-        let link;
-
-        switch (data.data.role) {
-          case "User":
-            link = "/LandingPageForUsers";
-            break;
-          case "Admin":
-            link = "/LandingPageAdmin";
-            break;
-          case "Company":
-            link = "/LandingPageForUsers";
-            break;
-          case "Account":
-            link = "/AccountantLandingPage";
-            break;
-          case "CustomerService":
-            link = "/LandingPageCustomeService";
-            break;
-          case "Broker":
-            link = "/BrookersLandingPage";
-            break;
-          case "Manager":
-            link = "/LandingPageManger";
-            break;
-          default:
-            link = null;
-        }
-
-        setUserLink(link);
+    let { payload } = await dispatch(GetDataApi());
+    setuserProfile(payload);
+    let link;
+    if (payload !== undefined) {
+      switch (payload.role) {
+        case "User":
+          link = "/LandingPageForUsers";
+          break;
+        case "Admin":
+          link = "/LandingPageAdmin";
+          break;
+        case "Company":
+          link = "/LandingPageForUsers";
+          break;
+        case "Account":
+          link = "/AccountantLandingPage";
+          break;
+        case "CustomerService":
+          link = "/LandingPageCustomeService";
+          break;
+        case "Broker":
+          link = "/BrookersLandingPage";
+          break;
+        case "Manager":
+          link = "/LandingPageManger";
+          break;
+        default:
+          link = null;
       }
-    } catch (error) {}
+      setUserLink(link);
+    }
   };
 
   const SignOut = async () => {
@@ -79,7 +71,7 @@ const NavBar = () => {
         withCredentials: true,
       });
       navigationToLandingpage();
-      setToken(null);
+      setuserProfile(null);
       navigate("/SignIn");
     } catch (error) {}
   };
@@ -137,9 +129,9 @@ const NavBar = () => {
           }}
           role="presentation"
         >
-          {Token !== null ? (
+          {userProfile !== null ? (
             <>
-              {Token?.role === "Admin" ? (
+              {userProfile?.role === "Admin" ? (
                 <>
                   <List>
                     <ListItem key={"text1"} disablePadding>
@@ -188,12 +180,11 @@ const NavBar = () => {
                       </Link>
                     </ListItem>
                     <ListItem key={"text7"} disablePadding>
-                      <Link to='/ContactForm'>
+                      <Link to="/ContactForm">
                         <ListItemButton>
-                        <ListItemText primary={"التواصل معنا"} />
-                      </ListItemButton>
+                          <ListItemText primary={"التواصل معنا"} />
+                        </ListItemButton>
                       </Link>
-                    
                     </ListItem>
                     <ListItem key={"text8"} disablePadding>
                       <ListItemButton>
@@ -224,12 +215,11 @@ const NavBar = () => {
                       </Link>
                     </ListItem>
                     <ListItem key={"text7"} disablePadding>
-                      <Link to='/ContactForm'>
+                      <Link to="/ContactForm">
                         <ListItemButton>
-                        <ListItemText primary={"التواصل معنا"} />
-                      </ListItemButton>
+                          <ListItemText primary={"التواصل معنا"} />
+                        </ListItemButton>
                       </Link>
-                    
                     </ListItem>
                     <ListItem key={"text3"} disablePadding>
                       <ListItemButton>
@@ -263,9 +253,8 @@ const NavBar = () => {
             <img src={Logo} alt="Company Logo" />
           </div>
 
-          {Token == null ? (
+          {userProfile == null ? (
             <>
-              {console.log(Token)}
               <div className="Items-NavBar">
                 <ul className="nav-menu">
                   <li className="nav-item">
@@ -293,7 +282,7 @@ const NavBar = () => {
 
               <li className="nav-item d-flex flex-row align-items-center justify-content-start">
                 <Link to={userLink} className="nav-link">
-                  {Token.fullName}
+                  {userProfile.fullName}
                   <i className="m-2 fa-solid fa-toolbox"></i>
                 </Link>
               </li>

@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-export default function Mangers() {
+export default function ActiveAccount() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const navigate = useNavigate();
 

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 export default function Blacklist() {
   const [selectedOrder, setSelectedOrder] = useState([]);
   const navigate = useNavigate();
@@ -100,20 +101,27 @@ export default function Blacklist() {
                 <th>البريد الالكتروني</th>
                 <th>رقم الهوية</th>
                 <th>الهاتف</th>
+                <th>الملف الشخصي</th>
+
                 <th>حظر</th>
               </tr>
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr
-                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
-                  key={index}
-                  className="bg-light"
-                >
+                <tr key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>
                   <td>{customer.phoneNumber}</td>
+                  <td>
+                    <Button
+                      onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
+                      className="btn btn-primary text-white"
+                    >
+                      عرض الملف الشخصي
+                    </Button>
+                  </td>
+
                   <td>
                     {customer.isBlocked ? (
                       <button

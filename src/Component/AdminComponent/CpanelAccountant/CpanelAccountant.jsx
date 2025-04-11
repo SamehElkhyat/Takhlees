@@ -151,20 +151,26 @@ export default function CpanelAccountant() {
                 <th>البريد الالكتروني</th>
                 <th>رقم الهوية</th>
                 <th>الهاتف</th>
+                <th>عرض الملف الشخصي</th>
                 <th>حظر</th>
               </tr>
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr
-                  onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
-                  key={index}
-                  className="bg-light"
-                >
+                <tr key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.identity}</td>
                   <td>{customer.phoneNumber}</td>
+                  <td>
+                    <Button
+                      onClick={() => navigate(`/ProfileUsers/${customer.id}`)}
+                      className="btn btn-primary text-white"
+                    >
+                      عرض الملف الشخصي
+                    </Button>
+                  </td>
+
                   <td>
                     {customer.isBlocked ? (
                       <button

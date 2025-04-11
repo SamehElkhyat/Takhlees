@@ -15,28 +15,33 @@ code {
 .input-group:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
 }
+
 #Row-Landing-User {
   font-family: cairo;
 }
-#ToggleButtonValue{
+
+#ToggleButtonValue {
   background-color: #00982b;
   margin: 10px;
-  color:white;
+  color: white;
   transition: all .1s ease-in-out;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-#ToggleButtonValue:hover{
+
+#ToggleButtonValue:hover {
   background-color: #b90000;
   margin: 10px;
-  color:white;
+  color: white;
   scale: .9;
   border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-#Button-Block-groupe{
+
+#Button-Block-groupe {
 
   z-index: 999999999999;
 }
+
 /* تحسين تصميم البطاقة */
 .card {
   border-radius: 12px;
@@ -44,6 +49,7 @@ code {
   background-color: #ffffff;
   padding: 20px;
 }
+
 /* تنسيق العنوان الرئيسي */
 .card-header {
   background-color: #2c3e50 !important;
@@ -54,22 +60,26 @@ code {
   padding: 15px;
   border-radius: 12px 12px 0 0;
 }
+
 /* تحسين الجداول */
 .table {
   background-color: #f8f9fa;
   border-radius: 10px;
   overflow: hidden;
 }
+
 .table th {
   background-color: #3498db;
   color: #ffffff;
   text-align: center;
 }
+
 .table td {
   text-align: center;
   padding: 10px;
   font-size: 16px;
 }
+
 /* تحسين زر "تقديم العرض" */
 .button-custom {
   background-color: #27ae60 !important;
@@ -139,6 +149,15 @@ i.fa-download:hover {
   z-index: var(--DrawerList);
 }
 
+.sign-in-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+}
+
 .Signin-Background {
   height: 100vh;
   position: absolute;
@@ -150,48 +169,39 @@ i.fa-download:hover {
   object-fit: cover;
 }
 
+.form-container {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 20px;
+  width: 40% !important;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  right: 0;
+}
+
 .dad-SignIn-Frame {
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: var(--DrawerList);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: end !important;
+  justify-content: end !important;
 }
 
 .SignIn-Frame {
   position: absolute;
   width: 50%;
   height: 80%;
-  background-color: #ffffff4b;
   border-radius: 50px;
 }
 
-.sign-in-container {
-  padding: 2rem;
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  z-index: var(--DrawerList);
-}
-
-.sign-in-container h2 {
-  color: #020346 !important;
+.form-container-h2 {
+  color: rgb(248, 248, 248) !important;
   font-weight: 900 !important;
-  font-size: 50px;
-}
-
-.sign-in-container form {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  font-size: 50px !important;
 }
 
 .signin-form {
@@ -202,6 +212,28 @@ i.fa-download:hover {
   max-width: 400px;
 }
 
+.sign-in-container form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-group .signin-button {
+  width: 90% !important;
+  padding: 10px;
+  margin: 10px;
+  background-color: #000000;
+  color: white;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+}
 
 .button-group {
   width: 100%;
@@ -228,18 +260,15 @@ i.fa-download:hover {
 }
 
 .button-group .signin-button {
-  width: 10%;
-  padding: 1px;
-  margin: 10px;
-  background-color: #000000;
+  width: 40% !important;
+  padding: 12px;
+  background-color: #28a745 !important;
   color: white;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+  margin-top: 10px;
 }
 
 .button-group .register-button {
@@ -260,7 +289,7 @@ i.fa-download:hover {
 
 .signin-title {
   margin-bottom: 2rem;
-  color: #03045e;
+  color: white !important;
   font-size: 6.8rem;
 }
 
@@ -273,45 +302,53 @@ i.fa-download:hover {
   margin-bottom: 0.5rem;
   color: black;
 }
+
 .form-group-company input {
   direction: rtl;
-  width: 100%;
-  padding: 0.8rem;
+  width: 100% !important;
+  padding: 14.8px;
   border-radius: 4px;
   border: none;
   font-size: 1rem;
-  background-color: #ffffffb1 !important;
+  background-color: #ffffff !important;
 }
+
 ::placeholder {
   position: absolute;
   right: 10;
   color: black;
 }
+
 .form-group-company input:focus {
   outline: none;
-  border-color: #4a90e2;
+  border-color: #000000;
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
+
 /*Buttons*^*^*^*^**^*******Buttons**************/
 .signin-button:hover {
   background-color: #ffffff;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
 }
+
 .signin-button:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
+
 .register-button:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
+
 .signin-button:disabled {
   background-color: #ffffff;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
+
 .signin-button {
   width: 30% !important;
   height: 50px;
@@ -326,91 +363,195 @@ i.fa-download:hover {
   letter-spacing: 0.5px;
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
+
 .signin-button:hover {
   background-color: #ffffff;
   color: #000000;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
 }
+
 .signin-button:active {
   transform: translateY(0);
   box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
+
 .signin-button:disabled {
   background-color: #93c5fd;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
+
 /*Forget Password********************/
 .forgot-password {
   margin-top: 1rem;
 }
+
 .error-message {
   color: #dc3545;
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
+
 .forgot-password a {
   color: #4a90e2;
   text-decoration: none;
 }
+
 .forgot-password a:hover {
   text-decoration: underline;
 }
+
+.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+  color: rgb(14, 180, 14) !important;
+}
+
+
+
+#payment-Formations {
+  border-radius: 10px;
+  text-align: center;
+  background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+}
+
+#payment-Formation {
+  text-align: center;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+}
+
+#Settings-List {
+
+  background-color: #ffffff;
+  border: solid;
+  border-width: 0.0px;
+  border-color: gray;
+  height: 100vh;
+  width: 20% !important;
+  min-width: 20%;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+
+}
+
+#Settings-List-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 3px;
+  margin-top: 20px;
+  box-shadow: 0 1px 6px rgba(37, 99, 235, 0.3);
+  border-radius: 15px;
+  transition: all .3s ease-in-out;
+  text-align: center;
+}
+
+#Settings-List-button:hover {
+  background-color: green;
+  color: white;
+  scale: .9;
+
+}
+
+
+@media screen and (min-width: 1200px) {
+  #Settings-List {
+    width: 50% !important;
+  }
+}
+
+/* الأجهزة اللوحية (عرض بين 768px و 1199px) */
+@media screen and (max-width: 1199px) and (min-width: 768px) {
+  #Settings-List {
+    width: 30% !important;
+  }
+}
+
+/* الهواتف المحمولة (أقل من 768px) */
+@media screen and (max-width: 767px) {
+  #Settings-List {
+    width: 40% !important;
+  }
+}
+
+
+/**/
 .info {
   opacity: 0;
   transition: all .3s ease-in-out;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col1:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col2:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col3:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col4:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col5:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col6:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col7:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col8:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col9:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col10:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col11:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 .Col12:hover .info {
   opacity: 1;
   transform: scale(1.05);
 }
+
 /*// //*/
 .Col1 {
   position: relative;
@@ -418,9 +559,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col1:hover {
   transform: scale(1.05);
 }
+
 .Col1 .content {
   position: absolute;
   bottom: 0;
@@ -435,9 +578,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col1:hover .content {
   opacity: 1;
 }
+
 /*// //*/
 .Col2 {
   position: relative;
@@ -445,9 +590,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col2:hover {
   transform: scale(1.05);
 }
+
 .Col2 .content {
   position: absolute;
   bottom: 0;
@@ -462,9 +609,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col2:hover .content {
   opacity: 1;
 }
+
 /*// //*/
 .Col3 {
   position: relative;
@@ -472,9 +621,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col3:hover {
   transform: scale(1.05);
 }
+
 .Col3 .content {
   position: absolute;
   bottom: 0;
@@ -489,9 +640,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col3:hover .content {
   opacity: 1;
 }
+
 /*// //*/
 .Col4 {
   position: relative;
@@ -499,9 +652,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col4:hover {
   transform: scale(1.05);
 }
+
 .Col4 .content {
   position: absolute;
   bottom: 0;
@@ -516,9 +671,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col4:hover .content {
   opacity: 1;
 }
+
 /*// //*/
 .Col5 {
   position: relative;
@@ -526,9 +683,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col5:hover {
   transform: scale(1.05);
 }
+
 .Col5 .content {
   position: absolute;
   bottom: 0;
@@ -543,9 +702,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col5:hover .content {
   opacity: 1;
 }
+
 /*// //*/
 .Col6 {
   position: relative;
@@ -553,9 +714,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col6:hover {
   transform: scale(1.05);
 }
+
 .Col6 .content {
   position: absolute;
   bottom: 0;
@@ -570,9 +733,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col6:hover .content {
   opacity: 1;
 }
+
 /* */
 .Col7 {
   position: relative;
@@ -580,9 +745,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col7:hover {
   transform: scale(1.05);
 }
+
 .Col7 .content {
   position: absolute;
   bottom: 0;
@@ -597,9 +764,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col7:hover .content {
   opacity: 1;
 }
+
 /**/
 .Col8 {
   position: relative;
@@ -607,9 +776,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col8:hover {
   transform: scale(1.05);
 }
+
 .Col8 .content {
   position: absolute;
   bottom: 0;
@@ -624,9 +795,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col8:hover .content {
   opacity: 1;
 }
+
 /**/
 .Col9 {
   position: relative;
@@ -634,9 +807,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col9:hover {
   transform: scale(1.05);
 }
+
 .Col9 .content {
   position: absolute;
   bottom: 0;
@@ -651,9 +826,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col9:hover .content {
   opacity: 1;
 }
+
 /**/
 .Col10 {
   position: relative;
@@ -661,9 +838,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col10:hover {
   transform: scale(1.05);
 }
+
 .Col10 .content {
   position: absolute;
   bottom: 0;
@@ -678,9 +857,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col10:hover .content {
   opacity: 1;
 }
+
 /**/
 .Col11 {
   position: relative;
@@ -688,9 +869,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col11:hover {
   transform: scale(1.05);
 }
+
 .Col11 .content {
   position: absolute;
   bottom: 0;
@@ -705,9 +888,11 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col11:hover .content {
   opacity: 1;
 }
+
 /**/
 .Col12 {
   position: relative;
@@ -715,9 +900,11 @@ i.fa-download:hover {
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
 }
+
 .Col12:hover {
   transform: scale(1.05);
 }
+
 .Col12 .content {
   position: absolute;
   bottom: 0;
@@ -732,87 +919,9 @@ i.fa-download:hover {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
 .Col12:hover .content {
   opacity: 1;
 }
+
 /**/
-
-.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
-  color: rgb(14, 180, 14) !important;
-}
-
-
-
-#payment-Formations{
-  border-radius: 10px;
-  text-align: center;
-  background-color: #000000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 50%;
-}
-
-#payment-Formation{
-  text-align: center;
-  border-radius: 10px;
-  text-align: center;
-  background-color: #000000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 50%;
-}
-#Settings-List{
-
-  background-color: #ffffff;
-  border: solid;
-  border-width: 0.0px;
-  border-color: gray;
-  height: 100vh;
-  width: 20% !important;
-  min-width: 20%;
-  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
-
-}
-
-#Settings-List-button{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 3px;
-  margin-top: 20px;
-  box-shadow: 0 1px 6px rgba(37, 99, 235, 0.3);
-border-radius: 15px;
-transition: all .3s ease-in-out;
-text-align: center;
-}
-
-#Settings-List-button:hover{
-  background-color:green;
-  color: white;
-  scale: .9;
-
-}
-
-
-@media screen and (min-width: 1200px) {
-  #Settings-List{
-    width: 50% !important;
-  }
-}
-
-/* الأجهزة اللوحية (عرض بين 768px و 1199px) */
-@media screen and (max-width: 1199px) and (min-width: 768px) {
-  #Settings-List{
-    width: 30% !important;
-  }
-}
-
-/* الهواتف المحمولة (أقل من 768px) */
-@media screen and (max-width: 767px) {
-  #Settings-List{
-    width: 40% !important;
-  }
-}

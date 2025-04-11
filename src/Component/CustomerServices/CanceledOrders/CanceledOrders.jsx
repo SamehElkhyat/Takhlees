@@ -202,6 +202,8 @@ export default function CanceledOrders() {
           <tbody>
             {sortedCustomers.map((customer) => (
               <tr sx={{ backgroundColor: "#f0f0f0" }} key={customer.id}>
+                {console.log(customer)
+                }
                 <td sx={{ backgroundColor: "#f0f0f0" }} align="center">
                   {customer.id}
                 </td>

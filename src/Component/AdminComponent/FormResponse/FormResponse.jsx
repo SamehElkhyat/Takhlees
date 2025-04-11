@@ -51,7 +51,6 @@ export default function FormResopnse() {
         }
       );
       console.log(data);
-      
 
       setSelectedOrder(data);
     } catch (error) {
@@ -93,7 +92,7 @@ export default function FormResopnse() {
             },
           }}
         >
-           الشكاوي والاقتراحات
+          الشكاوي والاقتراحات
         </h1>
 
         <div className="table-responsive mt-3">
@@ -108,10 +107,7 @@ export default function FormResopnse() {
             </thead>
             <tbody>
               {selectedOrder.map((customer, index) => (
-                <tr
-                  key={index}
-                  className="bg-light"
-                >
+                <tr key={index} className="bg-light">
                   <td>{customer.fullName}</td>
                   <td>{customer.email}</td>
                   <td>{customer.phoneNumber}</td>
@@ -121,7 +117,6 @@ export default function FormResopnse() {
             </tbody>
           </table>
         </div>
-
         <Toaster />
       </Box>
     </>
